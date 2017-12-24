@@ -12,7 +12,7 @@ from .codes import CodesController
 
 validate_submit = functools.partial(
     validate_form,
-    types={'name': str, 'clientReference': int, 'providerReference': int, 'cryptomoduleId': int, 'expireDate': str},
+    types={'name': str, 'clientReference': int, 'cryptomoduleId': int, 'expireDate': str},
     pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}
 )
 
@@ -64,9 +64,8 @@ class TokenController(ModelRestController):
 
     @json
     @validate_form(
-        whitelist=['name', 'clientReference', 'providerReference', 'cryptomoduleId', 'expireDate'],
-        requires=['name', 'clientReference', 'cryptomoduleId'],
-        types={'cryptomoduleId': int}
+        exact=['name', 'clientReference', 'cryptomoduleId', 'expireDate'],
+        types={'cryptomoduleId': int, 'expireDate': float}
     )
     @Token.expose
     @commit

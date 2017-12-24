@@ -11,7 +11,6 @@ class CodesController(RestController):
 
     @action
     @prevent_form
-    @commit
     def verify(self, code):
 
         if not self.token.cryptomodule:
@@ -34,11 +33,9 @@ class CodesController(RestController):
 
         if is_valid is True:
             self.token.consecutive_tries = 0
-            if self.token.cryptomodule.counter_type == 'counter':
-                self.token.counter += 1
-            return
-
-        # Code is not verified
-        self.token.consecutive_tries += 1
-        DBSession.commit()
-        raise HttpBadRequest('Invalid Code')
+            DBSession.commit()
+        else:
+            # Code is not verified
+            self.token.consecutive_tries += 1
+            DBSession.commit()
+            raise HttpBadRequest('Invalid Code')

@@ -46,7 +46,6 @@ def insert_tokens():
     mockup_token2.name = 'name2'
     mockup_token2.client_reference = 1
     mockup_token2.expire_date = '2049-12-07T18:14:39'
-    mockup_token2.counter = 0
     mockup_token2.seed = \
         b'\xaa\xaa\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
         b'\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xac\xcc'
@@ -56,10 +55,8 @@ def insert_tokens():
 
     mockup_token3 = Token()
     mockup_token3.name = 'name3'
-    mockup_token3.provider_reference = 2
     mockup_token3.client_reference = 1
     mockup_token3.expire_date = '2029-12-07T18:14:39'
-    mockup_token3.counter = 0
     mockup_token3.seed = \
         b'\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xad\xa2\x19\xebf\x1f\xf8\xa3\x9f\x98\xb0j\xb0\xb3_V\xaa' \
         b'\xa7\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\x88\x88\x88\x88X\x88\x88\x88\x88\x88\x88\x88'

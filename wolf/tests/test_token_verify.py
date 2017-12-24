@@ -4,7 +4,7 @@ from nanohttp import settings
 from restfulpy.orm import DBSession
 
 from wolf.models import Token, OathCryptomodule
-from wolf.tests.helpers import WebTestCase, As, TimeMonkeyPatch, TokenCounterMonkeyPatch
+from wolf.tests.helpers import WebTestCase, As, TimeMonkeyPatch
 
 
 class VerifyTokenTestCase(WebTestCase):
@@ -22,7 +22,6 @@ class VerifyTokenTestCase(WebTestCase):
     def mockup(cls):
         mockup_token1 = Token()
         mockup_token1.name = 'name1'
-        mockup_token1.provider_reference = 1
         mockup_token1.client_reference = 1
         mockup_token1.expire_date = '2059-12-07T18:14:39'
         mockup_token1.seed = \
@@ -31,13 +30,6 @@ class VerifyTokenTestCase(WebTestCase):
         mockup_token1.is_active = True
 
         mockup_cryptomodule1 = OathCryptomodule()
-        mockup_cryptomodule1.provider_reference = 1
-        mockup_cryptomodule1.hash_algorithm = 'SHA-1'
-        mockup_cryptomodule1.counter_type = 'time'
-        mockup_cryptomodule1.time_interval = 60
-        mockup_cryptomodule1.one_time_password_length = 4
-        mockup_cryptomodule1.challenge_response_length = 6
-        mockup_cryptomodule1.is_active = True
         mockup_token1.cryptomodule = mockup_cryptomodule1
 
         DBSession.add(mockup_token1)
