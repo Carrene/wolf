@@ -29,6 +29,19 @@ class AddDeviceTestCase(WebTestCase):
 
         self.assertEqual(result['referenceId'], 111)
         self.assertEqual(len(base64.decodebytes(result['secret'].encode())), 32)
+        first_secret = result['secret']
+
+        # Registering the same device again
+        result, ___ = self.request(
+            As.device_manager, 'REGISTER', self.url,
+            params=[
+                FormParameter('referenceId', '111', type_=int),
+                FormParameter('clientFactor', 'client-phone'),
+                FormParameter('deviceFactor', 'device-uid'),
+            ]
+        )
+
+        self.assertNotEqual(result['secret'], first_secret)
 
 
 if __name__ == '__main__':  # pragma: no cover

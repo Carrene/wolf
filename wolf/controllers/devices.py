@@ -10,6 +10,7 @@ from restfulpy.validation import validate_form
 from wolf import cryptoutil
 from wolf.models import Device
 
+
 challenge_pattern = r'^[a-zA-Z0-9]{5,25}$'
 
 
@@ -22,11 +23,13 @@ class DeviceController(ModelRestController):
     @Device.expose
     @commit
     def register(self):
-
         reference_id = context.form['referenceId']
+        device = Device.query.filter(Device.reference_id == reference_id).one_or_none()
 
-        if Device.query.filter(Device.reference_id == reference_id).one_or_none():
-            raise HttpConflict('This referenceId is already exists.', 'repetitious-ref-id')
+        if device is None:
+            device = Device()
+            DBSession.add(device)
+            device.reference_id = reference_id
 
         secret_key = hashlib.pbkdf2_hmac(
             'sha256',
@@ -35,10 +38,5 @@ class DeviceController(ModelRestController):
             100000,
             dklen=32
         )
-
-        device = Device()
         device.secret = secret_key
-        device.reference_id = reference_id
-
-        DBSession.add(device)
         return device
