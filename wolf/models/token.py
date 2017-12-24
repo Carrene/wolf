@@ -178,5 +178,5 @@ class Token(ActivationMixin, ModifiedMixin, PaginationMixin, FilteringMixin, Ord
         algorithm = 'totp' if self.cryptomodule.counter_type == 'time' else 'hotp'
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         expire_date = self.expire_date.strftime('%y%m%d')
-        token_string = f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}'
+        token_string = f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}'.upper()
         return f'mt://oath/{algorithm}/{token_string}{totp_checksum(token_string.encode())}'

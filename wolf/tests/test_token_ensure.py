@@ -67,8 +67,8 @@ class EnsureTokenTestCase(WebTestCase):
 
             self.assertEqual(
                 token,
-                'mt://oath/totp/DummyTokenName468e16b1772442c701a2f0c468e1f722ec53b78112f9b1ad7c46425a2eae3371043a3434'
-                '2c84a7cafcf82298a12f3440011712164061'
+                'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EAE3371043A343'
+                '42C84A7CAFCF82298A12F3440011712165311'
             )
 
             # Ensure the same token again
@@ -87,8 +87,8 @@ class EnsureTokenTestCase(WebTestCase):
 
             self.assertEqual(
                 token,
-                'mt://oath/totp/DummyTokenName468e16b1772442c701a2f0c468e1f722ec53b78112f9b1ad7c46425a2eae3371043a3434'
-                '2c84a7cafcf82298a12f3440011712164061'
+                'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EAE3371043A343'
+                '42C84A7CAFCF82298A12F3440011712165311'
             )
 
     def test_invalid_cryptomodule_id(self):
