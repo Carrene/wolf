@@ -1,8 +1,6 @@
 import hashlib
 
-from nanohttp import json
-from nanohttp.contexts import context
-from nanohttp.exceptions import HttpConflict
+from nanohttp import json, context
 from restfulpy.controllers import ModelRestController
 from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form

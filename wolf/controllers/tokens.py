@@ -1,12 +1,13 @@
 import functools
 
-from nanohttp import json, action, context, HttpNotFound, HttpConflict, settings
+from nanohttp import json, context, HttpNotFound
 from restfulpy.controllers import ModelRestController
 from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form
 
-from wolf.models import Token, Device
-from wolf.excpetions import DeviceNotFoundError
+from ..models import Token, Device
+from ..excpetions import DeviceNotFoundError
+from .codes import CodesController
 
 
 validate_submit = functools.partial(
@@ -19,57 +20,20 @@ validate_submit = functools.partial(
 class TokenController(ModelRestController):
     __model__ = Token
 
-    @action
-    # FIXME: Set pattern for challenge
-    @validate_form(whitelist=['code', 'challenge'], requires=['code'], types={'code': str})
-    @commit
-    def verify(self, token_id: int, inner_resource: str):
+    def __call__(self, *remaining_paths):
+        if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
+            token = self._ensure_token(remaining_paths[0])
+            return CodesController(token)(*remaining_paths[2:])
+        return super().__call__(*remaining_paths)
+
+    def _ensure_token(self, token_id):
         token = Token.query.filter(Token.id == token_id).one_or_none()
         if not token:
             raise HttpNotFound()
+        return token
 
-        if inner_resource == 'codes':
-            if not token.cryptomodule:
-                raise HttpNotFound('Token does not have cryptomodule.', 'cryptomodule-not-exists')
-            if not token.is_active:
-                raise HttpConflict('Token has been deactivated', 'token-deactivated')
-            if token.is_locked:
-                raise HttpConflict('You reached the consecutive tries limit', 'token-blocked')
-            if token.is_expired:
-                raise HttpConflict('Token has been expired', 'token-expired')
-
-            code = context.form['code']
-            challenge = context.form.get('challenge', None)
-            window = settings.oath.window
-            if challenge:
-                try:
-                    is_valid, ___ = token.create_challenge_response_algorithm().verify(code, challenge, window)
-                except ValueError:
-                    is_valid = False
-            else:
-                try:
-                    is_valid, ___ = token.create_one_time_password_algorithm().verify(code, window)
-                except ValueError:
-                    is_valid = False
-
-            if is_valid is True:
-                token.consecutive_tries = 0
-                if token.cryptomodule.counter_type == 'counter':
-                    token.counter += 1
-                return
-            else:
-                token.consecutive_tries += 1
-
-            # We should commit the DBSession in order to prevent rollback of consecutive_tries value.
-            DBSession.commit()
-
-            raise HttpConflict('Not verified.', 'not-verified')
-
-        raise HttpNotFound()
-
-    def __ensure_device(self):
+    def _ensure_device(self):
         client_reference = int(context.form['clientReference'])
-        name = context.form['name']
 
         # Checking the device
         device = Device.query.filter(Device.reference_id == client_reference).one_or_none()
@@ -78,7 +42,7 @@ class TokenController(ModelRestController):
             raise DeviceNotFoundError()
         return device
 
-    def __ensure_token(self):
+    def _find_or_create_token(self):
         name = context.form['name']
         client_reference = int(context.form['clientReference'])
         cryptomodule_id = int(context.form['cryptomoduleId'])
@@ -108,8 +72,8 @@ class TokenController(ModelRestController):
     @commit
     def ensure(self):
         # TODO: type validation
-        token = self.__ensure_token()
-        device = self.__ensure_device()
+        device = self._ensure_device()
+        token = self._find_or_create_token()
         DBSession.flush()
         result = token.to_dict()
         result['provisioning'] = token.provision(device.secret)
