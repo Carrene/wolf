@@ -2,10 +2,10 @@ import hashlib
 
 from nanohttp import json
 from nanohttp.contexts import context
-from nanohttp.exceptions import HttpNotFound, HttpConflict
+from nanohttp.exceptions import HttpConflict
 from restfulpy.controllers import ModelRestController
 from restfulpy.orm import commit, DBSession
-from restfulpy.validation import validate_form, prevent_form
+from restfulpy.validation import validate_form
 
 from wolf import cryptoutil
 from wolf.models import Device
@@ -16,6 +16,7 @@ challenge_pattern = r'^[a-zA-Z0-9]{5,25}$'
 class DeviceController(ModelRestController):
     __model__ = Device
 
+    # FIXME Rename it to register
     @json
     @validate_form(exact=['referenceId', 'clientFactor', 'deviceFactor'], types={'referenceId': int})
     @Device.expose
@@ -40,16 +41,4 @@ class DeviceController(ModelRestController):
         device.reference_id = reference_id
 
         DBSession.add(device)
-        return device
-
-    @json
-    @prevent_form
-    @Device.expose
-    @commit
-    def remove(self, device_reference_id: int):
-        device = Device.query.filter(Device.reference_id == device_reference_id).one_or_none()
-        # FIXME: cascade
-        if not device:
-            raise HttpNotFound()
-        DBSession.delete(device)
         return device

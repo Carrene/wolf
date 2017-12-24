@@ -1,6 +1,5 @@
 from os.path import join, dirname
 
-from nanohttp import settings, context
 from restfulpy import Application as BaseApplication
 
 from wolf import mockup, basedata
