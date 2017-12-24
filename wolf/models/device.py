@@ -1,10 +1,10 @@
 import base64
 
 from sqlalchemy import Integer, Binary
-from restfulpy.orm import DeclarativeBase, TimestampMixin, Field
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, Field
 
 
-class Device(DeclarativeBase, TimestampMixin):
+class Device(ModifiedMixin, DeclarativeBase):
     __tablename__ = 'device'
 
     id = Field(Integer, primary_key=True, protected=True)

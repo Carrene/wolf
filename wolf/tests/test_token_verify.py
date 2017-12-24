@@ -3,7 +3,7 @@ import unittest
 from nanohttp import settings
 from restfulpy.orm import DBSession
 
-from wolf.models import Token, OathCryptomodule
+from wolf.models import Token, Cryptomodule
 from wolf.tests.helpers import WebTestCase, As, TimeMonkeyPatch
 
 
@@ -29,7 +29,7 @@ class VerifyTokenTestCase(WebTestCase):
             b'\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xaaz'
         mockup_token1.is_active = True
 
-        mockup_cryptomodule1 = OathCryptomodule()
+        mockup_cryptomodule1 = Cryptomodule()
         mockup_token1.cryptomodule = mockup_cryptomodule1
 
         DBSession.add(mockup_token1)

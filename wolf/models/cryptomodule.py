@@ -6,24 +6,10 @@ from sqlalchemy.orm import validates
 from oathpy import OCRASuite
 
 
-class Cryptomodule(AutoActivationMixin, ModifiedMixin, PaginationMixin, FilteringMixin, OrderingMixin, DeclarativeBase):
+class Cryptomodule(DeclarativeBase):
     __tablename__ = 'cryptomodule'
 
     id = Field(Integer, primary_key=True)
-
-    type = Field(Unicode(50))
-
-    __mapper_args__ = {
-        'polymorphic_on': type,
-        'polymorphic_identity': __tablename__
-    }
-
-
-class OathCryptomodule(Cryptomodule):
-    __mapper_args__ = {
-        'polymorphic_identity': 'oath',
-    }
-
     hash_algorithm = Field(
         Enum('SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', name='cryptomodule_hash_algorithm'), default='SHA-1'
     )

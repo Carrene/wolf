@@ -16,9 +16,6 @@ class CodesController(RestController):
         if not self.token.cryptomodule:
             raise HttpNotFound('Token does not have cryptomodule.', 'cryptomodule-not-exists')
 
-        if not self.token.is_active:
-            raise HttpConflict('Token has been deactivated', 'token-deactivated')
-
         if self.token.is_locked:
             raise HttpConflict('You reached the consecutive tries limit', 'token-blocked')
 

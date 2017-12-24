@@ -4,7 +4,7 @@ from nanohttp import settings
 from restfulpy.orm import DBSession
 from restfulpy.testing.documentation import FormParameter
 
-from wolf.models import OathCryptomodule, Token, Device
+from wolf.models import Cryptomodule, Token, Device
 from wolf.tests.helpers import WebTestCase, As, RandomMonkeyPatch
 
 
@@ -14,19 +14,8 @@ class EnsureTokenTestCase(WebTestCase):
 
     @classmethod
     def mockup(cls):
-        mockup_cryptomodule = OathCryptomodule()
+        mockup_cryptomodule = Cryptomodule()
         DBSession.add(mockup_cryptomodule)
-
-        deactivated_token = Token()
-        deactivated_token.name = 'DeactivatedToken'
-        deactivated_token.client_reference = 122451075
-        deactivated_token.expire_date = '2099-12-07T18:14:39.558891'
-        deactivated_token.seed = \
-            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
-            b'\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xaaz'
-        deactivated_token.is_active = False
-        deactivated_token.cryptomodule = mockup_cryptomodule
-        DBSession.add(deactivated_token)
 
         locked_token = Token()
         locked_token.name = 'LockedToken'
@@ -206,32 +195,6 @@ class EnsureTokenTestCase(WebTestCase):
                 {
                     'message': 'Token is locked',
                     'description': 'The max try limitation is exceeded.'
-                }
-            )
-
-    def test_deactivated_token(self):
-        # Creating a fresh token to lock it
-        with RandomMonkeyPatch(
-            b'F\x6e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ):
-
-            # Ensure the same token again
-            error, ___ = self.request(
-                As.provider, 'ENSURE', self.url,
-                params=[
-                    FormParameter('clientReference', 122451075, type_=int),
-                    FormParameter('name', 'DeactivatedToken'),
-                    FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
-                ],
-                expected_status=463
-            )
-
-            self.assertDictEqual(
-                error,
-                {
-                    'message': 'Token is deactivated',
-                    'description': 'Requested token is already deactivated.'
                 }
             )
 

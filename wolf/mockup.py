@@ -1,6 +1,6 @@
 from restfulpy.orm import DBSession
 
-from wolf.models import Device, Token, OathCryptomodule
+from wolf.models import Device, Token, Cryptomodule
 
 
 def insert_devices():
@@ -23,10 +23,10 @@ def insert_devices():
 
 
 def insert_tokens():
-    mockup_cryptomodule1 = OathCryptomodule()
+    mockup_cryptomodule1 = Cryptomodule()
     mockup_cryptomodule1.one_time_password_length = 6
 
-    mockup_cryptomodule2 = OathCryptomodule()
+    mockup_cryptomodule2 = Cryptomodule()
     mockup_cryptomodule2.one_time_password_length = 6
 
     DBSession.add(mockup_cryptomodule1)

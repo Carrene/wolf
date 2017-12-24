@@ -3,25 +3,23 @@ import time
 from random import randrange
 import binascii
 
+from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum, split_seed
 from nanohttp import settings, HttpConflict
-from restfulpy.orm import DeclarativeBase, OrderingMixin, FilteringMixin, PaginationMixin, ModifiedMixin, \
-    ActivationMixin, Field
+from restfulpy.orm import DeclarativeBase, OrderingMixin, FilteringMixin, PaginationMixin, ModifiedMixin, Field
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from wolf import cryptoutil
-from oathpy import MacBasedOneTimePassword, TimeBasedOneTimePassword, MacBasedChallengeResponse, \
-    TimeBasedChallengeResponse, OCRASuite, totp_checksum, split_seed
-from wolf.excpetions import LockedTokenError, DeactivatedTokenError
+from wolf.excpetions import LockedTokenError
 
 
 class DuplicateSeedError(Exception):
     pass
 
 
-class Token(ActivationMixin, ModifiedMixin, PaginationMixin, FilteringMixin, OrderingMixin, DeclarativeBase):
+class Token(ModifiedMixin, DeclarativeBase):
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
@@ -150,8 +148,6 @@ class Token(ActivationMixin, ModifiedMixin, PaginationMixin, FilteringMixin, Ord
         )
 
     def provision(self, secret):
-        if not self.is_active:
-            raise DeactivatedTokenError()
         if self.is_locked:
             raise LockedTokenError()
         encrypted_seed = cryptoutil.aes_encrypt(split_seed(self.seed, self.cryptomodule.hash_algorithm), secret)
