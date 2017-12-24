@@ -19,7 +19,7 @@ class EnsureTokenTestCase(WebTestCase):
 
         locked_token = Token()
         locked_token.name = 'LockedToken'
-        locked_token.client_reference = 122451075
+        locked_token.client_reference = 989122451075
         locked_token.expire_date = '2099-12-07T18:14:39.558891'
         locked_token.seed = \
             b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
@@ -30,7 +30,7 @@ class EnsureTokenTestCase(WebTestCase):
         DBSession.add(locked_token)
 
         mockup_device = Device()
-        mockup_device.reference_id = 122451075
+        mockup_device.reference_id = 989122451075
         mockup_device.secret = b'\xa1(\x05\xe1\x05\xb9\xc8c\xfb\x89\x87|\xf7"\xf0\xc4h\xe1$=\x81\xc8k\x17rD,p\x1a\xcfT!'
         DBSession.add(mockup_device)
 
@@ -44,7 +44,7 @@ class EnsureTokenTestCase(WebTestCase):
             result, ___ = self.request(
                 As.provider, 'ENSURE', self.url,
                 params=[
-                    FormParameter('clientReference', 122451075, type_=int),
+                    FormParameter('clientReference', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
                     FormParameter('expireDate', '1513434403', type_='date'),
@@ -64,7 +64,7 @@ class EnsureTokenTestCase(WebTestCase):
             result, ___ = self.request(
                 As.provider, 'ENSURE', self.url,
                 params=[
-                    FormParameter('clientReference', 122451075, type_=int),
+                    FormParameter('clientReference', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
                     FormParameter('expireDate', '1513434403', type_='date'),
@@ -88,7 +88,7 @@ class EnsureTokenTestCase(WebTestCase):
             error, ___ = self.request(
                 As.provider, 'ENSURE', self.url,
                 params=[
-                    FormParameter('clientReference', 122451075, type_=int),
+                    FormParameter('clientReference', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', 'InvalidCryptomoduleId', type_=int),
                     FormParameter('expireDate', '1513434403', type_='date'),
@@ -111,7 +111,7 @@ class EnsureTokenTestCase(WebTestCase):
             error, ___ = self.request(
                 As.provider, 'ENSURE', self.url,
                 params=[
-                    FormParameter('clientReference', 122451075, type_=int),
+                    FormParameter('clientReference', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', 0, type_=int),
                     FormParameter('expireDate', '1513434403', type_='date'),
@@ -136,7 +136,7 @@ class EnsureTokenTestCase(WebTestCase):
             error, ___ = self.request(
                 As.provider, 'ENSURE', self.url,
                 params=[
-                    FormParameter('clientReference', 122451075, type_=int),
+                    FormParameter('clientReference', 989122451075, type_=int),
                     FormParameter('name', ''),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
                     FormParameter('expireDate', '1513434403', type_='date'),
@@ -158,7 +158,7 @@ class EnsureTokenTestCase(WebTestCase):
             error, ___ = self.request(
                 As.provider, 'ENSURE', self.url,
                 params=[
-                    FormParameter('clientReference', 122451075, type_=int),
+                    FormParameter('clientReference', 989122451075, type_=int),
                     FormParameter('name', f'MoreThan50Chars{"x" * 36}'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
                     FormParameter('expireDate', '1513434403', type_='date'),
@@ -182,7 +182,7 @@ class EnsureTokenTestCase(WebTestCase):
             error, ___ = self.request(
                 As.provider, 'ENSURE', self.url,
                 params=[
-                    FormParameter('clientReference', 122451075, type_=int),
+                    FormParameter('clientReference', 989122451075, type_=int),
                     FormParameter('name', 'LockedToken'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
                     FormParameter('expireDate', '1513434403', type_='date'),

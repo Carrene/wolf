@@ -26,13 +26,15 @@ class TokenController(ModelRestController):
             return CodesController(token)(*remaining_paths[2:])
         return super().__call__(*remaining_paths)
 
-    def _ensure_token(self, token_id):
+    @staticmethod
+    def _ensure_token(token_id):
         token = Token.query.filter(Token.id == token_id).one_or_none()
         if not token:
             raise HttpNotFound()
         return token
 
-    def _ensure_device(self):
+    @staticmethod
+    def _ensure_device():
         client_reference = int(context.form['clientReference'])
 
         # Checking the device
@@ -42,7 +44,8 @@ class TokenController(ModelRestController):
             raise DeviceNotFoundError()
         return device
 
-    def _find_or_create_token(self):
+    @staticmethod
+    def _find_or_create_token():
         name = context.form['name']
         client_reference = int(context.form['clientReference'])
         cryptomodule_id = int(context.form['cryptomoduleId'])

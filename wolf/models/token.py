@@ -5,8 +5,8 @@ import binascii
 
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum, split_seed
 from nanohttp import settings, HttpConflict
-from restfulpy.orm import DeclarativeBase, OrderingMixin, FilteringMixin, PaginationMixin, ModifiedMixin, Field
-from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, and_
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, Field
+from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, and_, BigInteger
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
@@ -25,7 +25,7 @@ class Token(ModifiedMixin, DeclarativeBase):
     id = Field(Integer, primary_key=True)
     name = Field(Unicode(50), min_length=1)
 
-    client_reference = Field(Integer, index=True)
+    client_reference = Field(BigInteger, index=True)
 
     # The final seed is the concat of seed_head and seed_body. Why?! Because we want to make sure the final seed is
     # always unique. The smallest required seed length is for SHA-1 (20 bytes), so if we make it unique, we can
