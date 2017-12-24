@@ -13,7 +13,7 @@ class AddDeviceTestCase(WebTestCase):
     def test_add_device(self):
 
         result, ___ = self.request(
-            As.device_manager, 'ADD', self.url,
+            As.device_manager, 'REGISTER', self.url,
             params=[
                 FormParameter('referenceId', '111', type_=int),
                 FormParameter('clientFactor', 'client-phone'),

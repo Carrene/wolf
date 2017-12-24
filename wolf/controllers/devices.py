@@ -21,7 +21,7 @@ class DeviceController(ModelRestController):
     @validate_form(exact=['referenceId', 'clientFactor', 'deviceFactor'], types={'referenceId': int})
     @Device.expose
     @commit
-    def add(self):
+    def register(self):
 
         reference_id = context.form['referenceId']
 
