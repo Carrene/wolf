@@ -1,0 +1,37 @@
+env:
+  global:
+    - COMMIT_AUTHOR_EMAIL: vahid.mardani@gmail.com
+    - ENCRYPTION_LABEL: cf486c0232ac
+
+dist: trusty
+sudo: false
+language: python
+
+python: "3.6"
+
+branches:
+  only:
+  - master
+  - hotfix
+  - develop
+  - /^v.*beta.*$/
+  - /^v.*alpha.*$/
+
+addons:
+  apt:
+    sources:
+      - precise-pgdg-9.5
+    packages:
+      - postgresql-9.5
+      - postgresql-contrib-9.5
+      - libpq-dev
+  postgresql: 9.5
+
+services:
+  - redis-server
+
+install: ./scripts/travis-install.sh
+script: coverage run --source wolf $(which nosetests)
+after_success:
+  - coveralls
+  - if [[ $TRAVIS_BRANCH == 'master' ]]; then ./scripts/travis-upload-wiki.sh ; fi
