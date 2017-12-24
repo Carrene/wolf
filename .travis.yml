@@ -1,21 +1,13 @@
 env:
   global:
     - COMMIT_AUTHOR_EMAIL: vahid.mardani@gmail.com
-    - ENCRYPTION_LABEL: cf486c0232ac
+    - ENCRYPTION_LABEL: bb0c1e99bc0c
 
-dist: trusty
-sudo: false
 language: python
 
-python: "3.6"
+dist: trusty
 
-branches:
-  only:
-  - master
-  - hotfix
-  - develop
-  - /^v.*beta.*$/
-  - /^v.*alpha.*$/
+python: "3.6"
 
 addons:
   apt:
