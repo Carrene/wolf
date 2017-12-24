@@ -10,14 +10,14 @@ from wolf.tests.helpers import WebTestCase, As
 class AddDeviceTestCase(WebTestCase):
     url = '/apiv1/devices'
 
-    def test_add_device(self):
-
+    def test_register_device(self):
+        udid = '2b6f0cc904d137be2e1730235f5664094b831186'
+        phone = 989122451075
         result, ___ = self.request(
             As.device_manager, 'REGISTER', self.url,
             params=[
-                FormParameter('phone', '111', type_=int),
-                FormParameter('clientFactor', 'client-phone'),
-                FormParameter('deviceFactor', 'device-uid'),
+                FormParameter('phone', phone),
+                FormParameter('udid', udid),
             ]
         )
 
@@ -27,7 +27,7 @@ class AddDeviceTestCase(WebTestCase):
 
         self.assertNotIn('id', result)
 
-        self.assertEqual(result['phone'], 111)
+        self.assertEqual(result['phone'], phone)
         self.assertEqual(len(base64.decodebytes(result['secret'].encode())), 32)
         first_secret = result['secret']
 
@@ -35,9 +35,8 @@ class AddDeviceTestCase(WebTestCase):
         result, ___ = self.request(
             As.device_manager, 'REGISTER', self.url,
             params=[
-                FormParameter('phone', '111', type_=int),
-                FormParameter('clientFactor', 'client-phone'),
-                FormParameter('deviceFactor', 'device-uid'),
+                FormParameter('phone', phone, type_=int),
+                FormParameter('udid', udid),
             ]
         )
 

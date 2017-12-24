@@ -17,11 +17,12 @@ class DeviceController(ModelRestController):
 
     # FIXME Rename it to register
     @json
-    @validate_form(exact=['phone', 'clientFactor', 'deviceFactor'], types={'phone': int})
+    @validate_form(exact=['phone', 'udid'], types={'phone': int})
     @Device.expose
     @commit
     def register(self):
         phone = context.form['phone']
+        udid = context.form['udid']
         device = Device.query.filter(Device.phone == phone).one_or_none()
 
         if device is None:
@@ -31,7 +32,7 @@ class DeviceController(ModelRestController):
 
         secret_key = hashlib.pbkdf2_hmac(
             'sha256',
-            context.form['clientFactor'].encode() + context.form['deviceFactor'].encode(),
+            str(phone).encode() + udid.encode(),
             cryptoutil.random(32),
             100000,
             dklen=32
