@@ -11,14 +11,14 @@ Stable branches
 
 ### master
 
-[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=6JxyZ78qpumpVZhiZLPN&branch=master)](https://travis-ci.com/Carrene/wolf)
-[![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?t=zx6oIX)](https://coveralls.io/github/Carrene/wolf)
+[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=eprq9y92Aqggf5smZccy&branch=master)](https://travis-ci.com/Carrene/wolf)
+[![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?branch=master&t=FNpdQh)](https://coveralls.io/github/Carrene/wolf?branch=master)
 
 
 ### develop
 
-[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=6JxyZ78qpumpVZhiZLPN&branch=develop)](https://travis-ci.com/Carrene/wolf)
-[![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?branch=develop&t=zx6oIX)](https://coveralls.io/github/Carrene/wolf)
+[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=eprq9y92Aqggf5smZccy&branch=develop)](https://travis-ci.com/Carrene/wolf)
+[![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?branch=develop&t=FNpdQh)](https://coveralls.io/github/Carrene/wolf?branch=develop)
 
 Setting up development Environment on Linux
 ----------------------------------
