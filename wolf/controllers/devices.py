@@ -17,17 +17,17 @@ class DeviceController(ModelRestController):
 
     # FIXME Rename it to register
     @json
-    @validate_form(exact=['referenceId', 'clientFactor', 'deviceFactor'], types={'referenceId': int})
+    @validate_form(exact=['phone', 'clientFactor', 'deviceFactor'], types={'phone': int})
     @Device.expose
     @commit
     def register(self):
-        reference_id = context.form['referenceId']
-        device = Device.query.filter(Device.reference_id == reference_id).one_or_none()
+        phone = context.form['phone']
+        device = Device.query.filter(Device.phone == phone).one_or_none()
 
         if device is None:
             device = Device()
             DBSession.add(device)
-            device.reference_id = reference_id
+            device.phone = phone
 
         secret_key = hashlib.pbkdf2_hmac(
             'sha256',

@@ -12,7 +12,7 @@ from .codes import CodesController
 
 validate_submit = functools.partial(
     validate_form,
-    types={'name': str, 'clientReference': int, 'cryptomoduleId': int, 'expireDate': str},
+    types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
     pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}
 )
 
@@ -35,10 +35,10 @@ class TokenController(ModelRestController):
 
     @staticmethod
     def _ensure_device():
-        client_reference = int(context.form['clientReference'])
+        phone = int(context.form['phone'])
 
         # Checking the device
-        device = Device.query.filter(Device.reference_id == client_reference).one_or_none()
+        device = Device.query.filter(Device.phone == phone).one_or_none()
         # Adding a device also
         if device is None:
             raise DeviceNotFoundError()
@@ -47,13 +47,13 @@ class TokenController(ModelRestController):
     @staticmethod
     def _find_or_create_token():
         name = context.form['name']
-        client_reference = int(context.form['clientReference'])
+        phone = int(context.form['phone'])
         cryptomodule_id = int(context.form['cryptomoduleId'])
 
         token = Token.query.filter(
             Token.name == name,
             Token.cryptomodule_id == cryptomodule_id,
-            Token.client_reference == client_reference
+            Token.phone == phone
         ).one_or_none()
 
         if token is None:
@@ -67,7 +67,7 @@ class TokenController(ModelRestController):
 
     @json
     @validate_form(
-        exact=['name', 'clientReference', 'cryptomoduleId', 'expireDate'],
+        exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
         types={'cryptomoduleId': int, 'expireDate': float}
     )
     @Token.expose

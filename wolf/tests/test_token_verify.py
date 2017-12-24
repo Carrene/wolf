@@ -22,7 +22,7 @@ class VerifyTokenTestCase(WebTestCase):
     def mockup(cls):
         mockup_token1 = Token()
         mockup_token1.name = 'name1'
-        mockup_token1.client_reference = 1
+        mockup_token1.phone = 1
         mockup_token1.expire_date = '2059-12-07T18:14:39'
         mockup_token1.seed = \
             b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \

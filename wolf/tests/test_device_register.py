@@ -15,19 +15,19 @@ class AddDeviceTestCase(WebTestCase):
         result, ___ = self.request(
             As.device_manager, 'REGISTER', self.url,
             params=[
-                FormParameter('referenceId', '111', type_=int),
+                FormParameter('phone', '111', type_=int),
                 FormParameter('clientFactor', 'client-phone'),
                 FormParameter('deviceFactor', 'device-uid'),
             ]
         )
 
-        self.assertIn('referenceId', result)
+        self.assertIn('phone', result)
         self.assertIn('secret', result)
         self.assertIn('createdAt', result)
 
         self.assertNotIn('id', result)
 
-        self.assertEqual(result['referenceId'], 111)
+        self.assertEqual(result['phone'], 111)
         self.assertEqual(len(base64.decodebytes(result['secret'].encode())), 32)
         first_secret = result['secret']
 
@@ -35,7 +35,7 @@ class AddDeviceTestCase(WebTestCase):
         result, ___ = self.request(
             As.device_manager, 'REGISTER', self.url,
             params=[
-                FormParameter('referenceId', '111', type_=int),
+                FormParameter('phone', '111', type_=int),
                 FormParameter('clientFactor', 'client-phone'),
                 FormParameter('deviceFactor', 'device-uid'),
             ]

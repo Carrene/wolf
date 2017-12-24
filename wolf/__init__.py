@@ -2,7 +2,7 @@ from os.path import join, dirname
 
 from restfulpy import Application as BaseApplication
 
-from wolf import mockup, basedata
+from wolf import basedata
 from wolf.controllers.root import Root
 
 __version__ = '0.12.1-b.4'
@@ -39,10 +39,6 @@ class Application(BaseApplication):
     # noinspection PyArgumentList
     def insert_basedata(self):
         basedata.insert()
-
-    # noinspection PyArgumentList
-    def insert_mockup(self):
-        mockup.insert()
 
 
 wolf = Application()

@@ -25,7 +25,7 @@ class Token(ModifiedMixin, DeclarativeBase):
     id = Field(Integer, primary_key=True)
     name = Field(Unicode(50), min_length=1)
 
-    client_reference = Field(BigInteger, index=True)
+    phone = Field(BigInteger, index=True)
 
     # The final seed is the concat of seed_head and seed_body. Why?! Because we want to make sure the final seed is
     # always unique. The smallest required seed length is for SHA-1 (20 bytes), so if we make it unique, we can
@@ -46,8 +46,8 @@ class Token(ModifiedMixin, DeclarativeBase):
 
     __table_args__ = (
         UniqueConstraint(
-            name, client_reference, cryptomodule_id,
-            name='uix_name_client_reference_cryptomodule_id'
+            name, phone, cryptomodule_id,
+            name='uix_name_phone_cryptomodule_id'
         ),
     )
 
