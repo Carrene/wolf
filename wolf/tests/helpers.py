@@ -4,8 +4,31 @@ import uuid
 from nanohttp import settings
 from restfulpy.principal import JwtPrincipal
 from restfulpy.testing import ModelRestCrudTestCase
+from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
 
-from wolf import wolf, cryptoutil
+from wolf import wolf, cryptoutil, Application as Wolf
+
+
+class DocumentaryMiddleware(FileDocumentaryMiddleware):
+    def __init__(self, application):
+        directory = settings.documentary.source_directory
+        super().__init__(application, directory)
+
+
+class DocumentaryTestCase(RestfulpyApplicationTestCase):
+    documentary_middleware_factory = DocumentaryMiddleware
+
+    @classmethod
+    def application_factory(cls):
+        app = Wolf()
+        app.configure(force=True)
+        return app
+
+    def call_as_device_manager(self, *args, **kwargs):
+        return super().call(*args, role='DeviceManager', **kwargs)
+
+    def call_as_bank(self, *args, **kwargs):
+        return super().call(*args, role='Bank', **kwargs)
 
 
 class WebTestCase(ModelRestCrudTestCase):
@@ -15,10 +38,6 @@ class WebTestCase(ModelRestCrudTestCase):
     def configure_app(cls):
         super().configure_app()
         settings.merge('''
-            db: 
-              administrative_url: postgresql://postgres:postgres@localhost/postgres
-              test_url: postgresql://postgres:postgres@localhost/wolf_test
-
             logging:
               handlers:
                 console:
