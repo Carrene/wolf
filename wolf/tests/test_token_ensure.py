@@ -65,6 +65,7 @@ class EnsureTokenTestCase(DocumentaryTestCase):
 
             result = response.json
             self.assertIn('provisioning', result)
+            self.assertEqual('2021-02-16', result['expireDate'])
             token = result['provisioning']
 
             self.assertEqual(
