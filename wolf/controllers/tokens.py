@@ -1,12 +1,12 @@
 import functools
 
-from nanohttp import json, context, HttpNotFound
+from nanohttp import json, context, HttpNotFound, HttpBadRequest
 from restfulpy.controllers import ModelRestController
 from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form
 
-from ..models import Token, Device
-from ..excpetions import DeviceNotFoundError
+from ..models import Token, Device, Cryptomodule
+from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError
 from .codes import CodesController
 
 
@@ -31,7 +31,16 @@ class TokenController(ModelRestController):
         token = Token.query.filter(Token.id == token_id).one_or_none()
         if not token:
             raise HttpNotFound()
+
         return token
+
+    @staticmethod
+    def _validate_token(token):
+        if token.is_expired:
+            raise ExpiredTokenError()
+
+        if token.is_locked:
+            raise LockedTokenError()
 
     @staticmethod
     def _ensure_device():
@@ -47,8 +56,11 @@ class TokenController(ModelRestController):
     @staticmethod
     def _find_or_create_token():
         name = context.form['name']
-        phone = int(context.form['phone'])
-        cryptomodule_id = int(context.form['cryptomoduleId'])
+        phone = context.form['phone']
+        cryptomodule_id = context.form['cryptomoduleId']
+
+        if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
+            raise HttpBadRequest(info='Invalid cryptomodule id.')
 
         token = Token.query.filter(
             Token.name == name,
@@ -63,12 +75,13 @@ class TokenController(ModelRestController):
             token.is_active = True
             token.initialize_seed(DBSession)
             DBSession.add(token)
+        DBSession.flush()
         return token
 
     @json
     @validate_form(
         exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
-        types={'cryptomoduleId': int, 'expireDate': float}
+        types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
     )
     @Token.expose
     @commit
@@ -76,6 +89,7 @@ class TokenController(ModelRestController):
         # TODO: type validation
         device = self._ensure_device()
         token = self._find_or_create_token()
+        self._validate_token(token)
         DBSession.flush()
         result = token.to_dict()
         result['provisioning'] = token.provision(device.secret)

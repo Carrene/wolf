@@ -92,7 +92,7 @@ class VerifyTokenTestCase(WebTestCase):
                 As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.valid_otp_token1_time1}',
             )
 
-        future_time = 9999999999999999
+        future_time = 99999999999
         with TimeMonkeyPatch(future_time):
 
             self.request(

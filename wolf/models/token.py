@@ -1,18 +1,17 @@
-import datetime
 import time
-from random import randrange
 import binascii
+from random import randrange
+from datetime import date
 
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum, split_seed
 from nanohttp import settings, HttpConflict
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, Field
-from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, and_, BigInteger
+from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from wolf import cryptoutil
-from wolf.excpetions import LockedTokenError
 
 
 class DuplicateSeedError(Exception):
@@ -63,23 +62,25 @@ class Token(ModifiedMixin, DeclarativeBase):
         self._seed_head = seed[:20]
         self._seed_body = seed[20:]
 
-    @hybrid_property
+    # @hybrid_property
+    @property
     def is_locked(self):
         return self.consecutive_tries >= settings.token.max_consecutive_tries
 
     # noinspection PyUnresolvedReferences
-    @is_locked.expression
-    def is_locked(self):
-        return self.consecutive_tries >= settings.token.max_consecutive_tries
+    # @is_locked.expression
+    # def is_locked(self):
+    #     return self.consecutive_tries >= settings.token.max_consecutive_tries
 
-    @hybrid_property
+    # @hybrid_property
+    @property
     def is_expired(self):
-        return (self.expire_date is not None) and (time.mktime(self.expire_date.timetuple()) <= time.time())
+        return self.expire_date <= date.today()
 
-    # noinspection PyUnresolvedReferences
-    @is_expired.expression
-    def is_expired(self):
-        return and_(self.expire_date.isnot(None), self.expire_date <= datetime.datetime.now())
+    # # noinspection PyUnresolvedReferences
+    # @is_expired.expression
+    # def is_expired(self):
+    #     return self.expire_date <= date.today()
 
     def initialize_seed(self, session):
         current_seed_head = self._seed_head
@@ -148,8 +149,6 @@ class Token(ModifiedMixin, DeclarativeBase):
         )
 
     def provision(self, secret):
-        if self.is_locked:
-            raise LockedTokenError()
         encrypted_seed = cryptoutil.aes_encrypt(split_seed(self.seed, self.cryptomodule.hash_algorithm), secret)
         hexstring_seed = binascii.hexlify(encrypted_seed).decode()
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
