@@ -47,7 +47,7 @@ class EnsureTokenTestCase(WebTestCase):
                     FormParameter('phone', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
+                    FormParameter('expireDate', 1513434403, type_=int),
                 ]
             )
 
@@ -67,7 +67,7 @@ class EnsureTokenTestCase(WebTestCase):
                     FormParameter('phone', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
+                    FormParameter('expireDate', 1513434403, type_=int),
                 ]
             )
 
@@ -91,7 +91,7 @@ class EnsureTokenTestCase(WebTestCase):
                     FormParameter('phone', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', 'InvalidCryptomoduleId', type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
+                    FormParameter('expireDate', 1513434403, type_=int),
                 ],
                 expected_status=400
             )
@@ -114,7 +114,7 @@ class EnsureTokenTestCase(WebTestCase):
                     FormParameter('phone', 989122451075, type_=int),
                     FormParameter('name', 'DummyTokenName'),
                     FormParameter('cryptomoduleId', 0, type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
+                    FormParameter('expireDate', 1513434403, type_=int),
                 ],
                 expected_status=400
             )
@@ -139,7 +139,7 @@ class EnsureTokenTestCase(WebTestCase):
                     FormParameter('phone', 989122451075, type_=int),
                     FormParameter('name', ''),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
+                    FormParameter('expireDate', 1513434403, type_=int),
                 ],
                 expected_status=400
             )
@@ -161,7 +161,7 @@ class EnsureTokenTestCase(WebTestCase):
                     FormParameter('phone', 989122451075, type_=int),
                     FormParameter('name', f'MoreThan50Chars{"x" * 36}'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
+                    FormParameter('expireDate', 1513434403, type_=int),
                 ],
                 expected_status=400
             )
@@ -185,7 +185,7 @@ class EnsureTokenTestCase(WebTestCase):
                     FormParameter('phone', 989122451075, type_=int),
                     FormParameter('name', 'LockedToken'),
                     FormParameter('cryptomoduleId', self.mockup_cryptomodule_id, type_=int),
-                    FormParameter('expireDate', '1513434403', type_='date'),
+                    FormParameter('expireDate', 1513434403, type_=int),
                 ],
                 expected_status=462
             )
