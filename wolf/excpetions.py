@@ -1,12 +1,12 @@
 from nanohttp import HttpStatus
 
 
+class ExpiredTokenError(HttpStatus):
+    status_code, status_text, info = 461, 'Token is expired', 'The requested token is expired.'
+
+
 class LockedTokenError(HttpStatus):
     status_code, status_text, info = 462, 'Token is locked', 'The max try limitation is exceeded.'
-
-
-class DeactivatedTokenError(HttpStatus):
-    status_code, status_text, info = 463, 'Token is deactivated', 'Requested token is already deactivated.'
 
 
 class DeviceNotFoundError(HttpStatus):

@@ -1,34 +1,16 @@
-from restfulpy.orm import Field, ModifiedMixin, PaginationMixin, DeclarativeBase, AutoActivationMixin, FilteringMixin, \
-    OrderingMixin
-from sqlalchemy import Integer, Enum, Unicode
+from restfulpy.orm import Field, DeclarativeBase
+from sqlalchemy import Integer, Enum
 from sqlalchemy.orm import validates
-
 from oathpy import OCRASuite
 
 
-class Cryptomodule(AutoActivationMixin, ModifiedMixin, PaginationMixin, FilteringMixin, OrderingMixin, DeclarativeBase):
+class Cryptomodule(DeclarativeBase):
     __tablename__ = 'cryptomodule'
 
     id = Field(Integer, primary_key=True)
-    provider_reference = Field(Integer, index=True, default=0)
-
-    type = Field(Unicode(50))
-
-    __mapper_args__ = {
-        'polymorphic_on': type,
-        'polymorphic_identity': __tablename__
-    }
-
-
-class OathCryptomodule(Cryptomodule):
-    __mapper_args__ = {
-        'polymorphic_identity': 'oath',
-    }
-
     hash_algorithm = Field(
         Enum('SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', name='cryptomodule_hash_algorithm'), default='SHA-1'
     )
-    counter_type = Field(Enum('time', 'counter', name='cryptomodule_counter_type'), default='time')
     time_interval = Field(Integer, default=60)
     one_time_password_length = Field(Integer, default=4)
     challenge_response_length = Field(Integer, default=6)
@@ -72,10 +54,10 @@ class OathCryptomodule(Cryptomodule):
     @property
     def ocra_suite(self):
         return (OCRASuite(
-            counter_type=self.counter_type,
+            counter_type='time',
             length=self.challenge_response_length,
             hash_algorithm=self.hash_algorithm,
-            time_interval=self.time_interval if self.counter_type == 'time' else None,
+            time_interval=self.time_interval,
         ))
 
     def to_dict(self):

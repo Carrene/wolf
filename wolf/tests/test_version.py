@@ -3,12 +3,11 @@ import unittest
 from wolf.tests.helpers import As, WebTestCase
 
 
-class RootTestCase(WebTestCase):
+class VersionTestCase(WebTestCase):
     url = '/apiv1/version'
 
-    def test_root(self):
+    def test_version(self):
         result, ___ = self.request(As.everyone, 'GET', self.url)
-
         self.assertIn('version', result)
 
 

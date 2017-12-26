@@ -1,17 +1,18 @@
 import functools
 
-from nanohttp import json, action, context, HttpNotFound, HttpConflict, settings
+from nanohttp import json, context, HttpNotFound, HttpBadRequest
 from restfulpy.controllers import ModelRestController
 from restfulpy.orm import commit, DBSession
-from restfulpy.validation import validate_form, prevent_form
+from restfulpy.validation import validate_form
 
-from wolf.models import Token, Device
-from wolf.excpetions import DeviceNotFoundError
+from ..models import Token, Device, Cryptomodule
+from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError
+from .codes import CodesController
 
 
 validate_submit = functools.partial(
     validate_form,
-    types={'name': str, 'clientReference': int, 'providerReference': int, 'cryptomoduleId': int, 'expireDate': str},
+    types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
     pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}
 )
 
@@ -19,231 +20,52 @@ validate_submit = functools.partial(
 class TokenController(ModelRestController):
     __model__ = Token
 
-    @json
-    @validate_form(whitelist=['clientReference', 'providerReference', 'take', 'skip'])
-    @Token.expose
-    def get(self, token_id: int = None):
-        if token_id:
-            token = Token.query.filter(Token.id == token_id).one_or_none()
-            if not token:
-                raise HttpNotFound()
-            return token
-        return Token.query
+    def __call__(self, *remaining_paths):
+        if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
+            token = self._ensure_token(remaining_paths[0])
+            return CodesController(token)(*remaining_paths[2:])
+        return super().__call__(*remaining_paths)
 
-    @json
-    @validate_submit(
-        whitelist=['name', 'clientReference', 'providerReference', 'cryptomoduleId', 'expireDate'],
-        reqires=['name', 'clientReference', 'providerReference']
-    )
-    @Token.expose
-    @commit
-    def generate(self):
-        token = Token()
-        token.update_from_request()
-        token.is_active = True
-        token.initialize_seed(DBSession)
-        DBSession.add(token)
+    @staticmethod
+    def _ensure_token(token_id):
+        token = Token.query.filter(Token.id == token_id).one_or_none()
+        if not token:
+            raise HttpNotFound()
+
         return token
 
-    @json
-    @prevent_form
-    @Token.expose
-    @commit
-    def activate(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        token.is_active = True
-        return token
+    @staticmethod
+    def _validate_token(token):
+        if token.is_expired:
+            raise ExpiredTokenError()
 
-    @json
-    @prevent_form
-    @Token.expose
-    @commit
-    def deactivate(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        token.is_active = False
-        return token
+        if token.is_locked:
+            raise LockedTokenError()
 
-    @json
-    @prevent_form
-    @Token.expose
-    @commit
-    def remove(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        result = token.to_dict()
-        DBSession.delete(token)
-        return result
-
-    @json
-    @validate_submit(exact=['name'])
-    @Token.expose
-    @commit
-    def rename(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        token.name = context.form['name']
-        return token
-
-    @json
-    @validate_submit(exact=['expireDate'])
-    @Token.expose
-    @commit
-    def extend(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        token.expire_date = context.form['expireDate']
-        return token
-
-    @json
-    @prevent_form
-    @Token.expose
-    @commit
-    def reseed(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        token.initialize_seed(DBSession)
-        return token
-
-    @json
-    @prevent_form
-    @Token.expose
-    @commit
-    def reset(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        token.counter = 0
-        return token
-
-    @json
-    @prevent_form
-    @Token.expose
-    @commit
-    def unlock(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-        token.consecutive_tries = 0
-        return token
-
-    @json
-    @validate_form(
-        exact=['deviceReferenceId']
-    )
-    def provision(self, token_id: int):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound('Token not found.', 'token-not-found')
-        if not token.cryptomodule:
-            raise HttpNotFound('Token does not have cryptomodule.', 'cryptomodule-not-exists')
-
-        device = Device.query.filter(Device.reference_id == context.form['deviceReferenceId']).one_or_none()
-        if not device:
-            raise HttpNotFound('Device not found.', 'device-not-found')
-
-        result = token.to_dict()
-        result['provisioning'] = token.provision(device.secret)
-        return result
-
-    @action
-    # FIXME: Set pattern for challenge
-    @validate_form(whitelist=['code', 'challenge'], requires=['code'], types={'code': str})
-    @commit
-    def verify(self, token_id: int, inner_resource: str):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-
-        if inner_resource == 'codes':
-            if not token.cryptomodule:
-                raise HttpNotFound('Token does not have cryptomodule.', 'cryptomodule-not-exists')
-            if not token.is_active:
-                raise HttpConflict('Token has been deactivated', 'token-deactivated')
-            if token.is_locked:
-                raise HttpConflict('You reached the consecutive tries limit', 'token-blocked')
-            if token.is_expired:
-                raise HttpConflict('Token has been expired', 'token-expired')
-
-            code = context.form['code']
-            challenge = context.form.get('challenge', None)
-            window = settings.oath.window
-            if challenge:
-                try:
-                    is_valid, ___ = token.create_challenge_response_algorithm().verify(code, challenge, window)
-                except ValueError:
-                    is_valid = False
-            else:
-                try:
-                    is_valid, ___ = token.create_one_time_password_algorithm().verify(code, window)
-                except ValueError:
-                    is_valid = False
-
-            if is_valid is True:
-                token.consecutive_tries = 0
-                if token.cryptomodule.counter_type == 'counter':
-                    token.counter += 1
-                return
-            else:
-                token.consecutive_tries += 1
-
-            # We should commit the DBSession in order to prevent rollback of consecutive_tries value.
-            DBSession.commit()
-
-            raise HttpConflict('Not verified.', 'not-verified')
-
-        raise HttpNotFound()
-
-    @json
-    # FIXME: Set pattern for challenge
-    @validate_form(whitelist=['challenge'])
-    def obtain(self, token_id: int, inner_resource: str):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-
-        if inner_resource == 'codes':
-            if not token.cryptomodule:
-                raise HttpNotFound('Token does not have cryptomodule.', 'cryptomodule-not-exists')
-
-            challenge = context.form.get('challenge', None)
-
-            if challenge:
-                code = token.create_challenge_response_algorithm().generate(challenge)
-            else:
-                code = token.create_one_time_password_algorithm().generate()
-
-            return dict(code=code)
-
-        raise HttpNotFound()
-
-    def __ensure_device(self):
-        client_reference = int(context.form['clientReference'])
-        name = context.form['name']
+    @staticmethod
+    def _ensure_device():
+        phone = int(context.form['phone'])
 
         # Checking the device
-        device = Device.query.filter(Device.reference_id == client_reference).one_or_none()
+        device = Device.query.filter(Device.phone == phone).one_or_none()
         # Adding a device also
         if device is None:
             raise DeviceNotFoundError()
         return device
 
-    def __ensure_token(self):
+    @staticmethod
+    def _find_or_create_token():
         name = context.form['name']
-        client_reference = int(context.form['clientReference'])
-        cryptomodule_id = int(context.form['cryptomoduleId'])
+        phone = context.form['phone']
+        cryptomodule_id = context.form['cryptomoduleId']
+
+        if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
+            raise HttpBadRequest(info='Invalid cryptomodule id.')
 
         token = Token.query.filter(
             Token.name == name,
             Token.cryptomodule_id == cryptomodule_id,
-            Token.client_reference == client_reference
+            Token.phone == phone
         ).one_or_none()
 
         if token is None:
@@ -253,20 +75,21 @@ class TokenController(ModelRestController):
             token.is_active = True
             token.initialize_seed(DBSession)
             DBSession.add(token)
+        DBSession.flush()
         return token
 
     @json
     @validate_form(
-        whitelist=['name', 'clientReference', 'providerReference', 'cryptomoduleId', 'expireDate'],
-        requires=['name', 'clientReference', 'cryptomoduleId'],
-        types={'cryptomoduleId': int}
+        exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
+        types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
     )
     @Token.expose
     @commit
     def ensure(self):
         # TODO: type validation
-        token = self.__ensure_token()
-        device = self.__ensure_device()
+        device = self._ensure_device()
+        token = self._find_or_create_token()
+        self._validate_token(token)
         DBSession.flush()
         result = token.to_dict()
         result['provisioning'] = token.provision(device.secret)

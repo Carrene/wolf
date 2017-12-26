@@ -4,9 +4,31 @@ import uuid
 from nanohttp import settings
 from restfulpy.principal import JwtPrincipal
 from restfulpy.testing import ModelRestCrudTestCase
+from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
 
-from wolf import wolf, cryptoutil
-from wolf.models import Token
+from wolf import wolf, cryptoutil, Application as Wolf
+
+
+class DocumentaryMiddleware(FileDocumentaryMiddleware):
+    def __init__(self, application):
+        directory = settings.documentary.source_directory
+        super().__init__(application, directory)
+
+
+class DocumentaryTestCase(RestfulpyApplicationTestCase):
+    documentary_middleware_factory = DocumentaryMiddleware
+
+    @classmethod
+    def application_factory(cls):
+        app = Wolf()
+        app.configure(force=True)
+        return app
+
+    def call_as_device_manager(self, *args, **kwargs):
+        return super().call(*args, role='DeviceManager', **kwargs)
+
+    def call_as_bank(self, *args, **kwargs):
+        return super().call(*args, role='Bank', **kwargs)
 
 
 class WebTestCase(ModelRestCrudTestCase):
@@ -16,21 +38,11 @@ class WebTestCase(ModelRestCrudTestCase):
     def configure_app(cls):
         super().configure_app()
         settings.merge('''
-            db: 
-              administrative_url: postgresql://postgres:postgres@localhost/postgres
-              test_url: postgresql://postgres:postgres@localhost/wolf_test
-
             logging:
               handlers:
                 console:
                   level: warning
         ''')
-
-    def login_as_device_manager(self):
-        self.wsgi_app.jwt_token = self.create_jwt_principal('device_manager').dump().decode()
-
-    def login_as_provider(self):
-        self.wsgi_app.jwt_token = self.create_jwt_principal('provider').dump().decode()
 
     @classmethod
     def create_jwt_principal(cls, role):
@@ -84,35 +96,3 @@ class TimeMonkeyPatch:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         time.time = self.real_time
-
-
-class TokenCounterMonkeyPatch:
-    """
-    For faking token counter
-    """
-
-    def __init__(self, session, token_id, fake_counter):
-        self.session = session
-        self.token_id = token_id
-        self.fake_counter = fake_counter
-
-    def _fetch_token(self):
-        return self.session.query(Token).filter(Token.id == self.token_id).one_or_none()
-
-    def __enter__(self):
-        token = self._fetch_token()
-        self.real_counter = token.counter
-        token.counter = self.fake_counter
-        self.session.commit()
-        return self
-
-    def set_fake_counter(self, fake_counter):
-        self.fake_counter = fake_counter
-        token = self._fetch_token()
-        token.counter = fake_counter
-        self.session.commit()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        token = self._fetch_token()
-        token.counter = self.real_counter
-        self.session.commit()

@@ -1,15 +1,15 @@
 import base64
 
-from sqlalchemy import Integer, Binary
-from restfulpy.orm import DeclarativeBase, TimestampMixin, Field
+from sqlalchemy import Integer, Binary, BigInteger
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, Field
 
 
-class Device(DeclarativeBase, TimestampMixin):
+class Device(ModifiedMixin, DeclarativeBase):
     __tablename__ = 'device'
 
     id = Field(Integer, primary_key=True, protected=True)
 
-    reference_id = Field(Integer, unique=True, index=True)
+    phone = Field(BigInteger, unique=True, index=True)
     secret = Field('secret', Binary(32))
 
     def prepare_for_export(self, column, value):
