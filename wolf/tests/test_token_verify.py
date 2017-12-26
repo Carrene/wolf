@@ -97,10 +97,7 @@ class VerifyTokenTestCase(WebTestCase):
 
             self.request(
                 As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.valid_otp_token1_time1}',
-                expected_status=409,
-                expected_headers={
-                    'x-reason': 'token-expired'
-                }
+                expected_status=461,
             )
 
 
