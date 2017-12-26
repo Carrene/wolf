@@ -1,7 +1,9 @@
 
-from nanohttp import action, HttpNotFound, HttpConflict, settings, RestController, HttpBadRequest
-from restfulpy.orm import commit, DBSession
+from nanohttp import action, settings, RestController, HttpBadRequest
+from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
+
+from ..excpetions import ExpiredTokenError, LockedTokenError
 
 
 class CodesController(RestController):
@@ -13,14 +15,11 @@ class CodesController(RestController):
     @prevent_form
     def verify(self, code):
 
-        if not self.token.cryptomodule:
-            raise HttpNotFound('Token does not have cryptomodule.', 'cryptomodule-not-exists')
-
         if self.token.is_locked:
-            raise HttpConflict('You reached the consecutive tries limit', 'token-blocked')
+            raise LockedTokenError()
 
         if self.token.is_expired:
-            raise HttpConflict('Token has been expired', 'token-expired')
+            raise ExpiredTokenError()
 
         window = settings.oath.window
         try:
