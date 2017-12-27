@@ -1,5 +1,6 @@
 import time
 import uuid
+from collections import namedtuple
 
 from nanohttp import settings
 from restfulpy.principal import JwtPrincipal
@@ -96,3 +97,6 @@ class TimeMonkeyPatch:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         time.time = self.real_time
+
+
+roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceManager')
