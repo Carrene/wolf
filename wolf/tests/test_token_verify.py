@@ -4,19 +4,19 @@ from nanohttp import settings
 from restfulpy.orm import DBSession
 
 from wolf.models import Token, Cryptomodule
-from wolf.tests.helpers import WebTestCase, As, TimeMonkeyPatch
+from wolf.tests.helpers import TimeMonkeyPatch, DocumentaryTestCase
 
 
-class VerifyTokenTestCase(WebTestCase):
-    url = '/apiv1/tokens'
+class VerifyTokenTestCase(DocumentaryTestCase):
 
     @classmethod
-    def configure_app(cls):
-        super().configure_app()
+    def application_factory(cls):
+        app = super().application_factory()
         settings.merge('''
             oath:
               window: 10
         ''')
+        return app
 
     @classmethod
     def mockup(cls):
@@ -55,49 +55,60 @@ class VerifyTokenTestCase(WebTestCase):
 
         with TimeMonkeyPatch(self.fake_time1):
 
-            self.request(
-                As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.valid_otp_token1_time1}',
+            self.call_as_bank(
+                'Verifying time based OTP',
+                'VERIFY',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
             )
 
-            self.request(
-                As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.invalid_otp_token1_time1}',
-                expected_status=400
+            self.call_as_bank(
+                'Trying to verify an invalid code',
+                'VERIFY',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.invalid_otp_token1_time1}',
+                status=400,
             )
 
         # Test on another time
         with TimeMonkeyPatch(self.fake_time2):
-
-            self.request(
-                As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.valid_otp_token1_time2}',
+            self.call_as_bank(
+                'SKIP: Verifying time base OTP',
+                'VERIFY',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time2}',
             )
 
-            self.request(
-                As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.invalid_otp_token1_time2}',
-                expected_status=400
+            self.call(
+                'SKIP: Trying to verify an invalid code',
+                'VERIFY',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.invalid_otp_token1_time2}',
+                status=400,
             )
 
         # Invalid time
         with TimeMonkeyPatch(self.invalid_fake_time):
-            self.request(
-                As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.valid_otp_token1_time2}',
-                expected_status=400
+            self.call(
+                'Verifying in invalid time',
+                'VERIFY',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time2}',
+                status=400,
             )
 
     def test_verify_token_expiration(self):
         mockup_token_id = self.mockup_token1_id
 
         with TimeMonkeyPatch(self.fake_time1):
-
-            self.request(
-                As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.valid_otp_token1_time1}',
+            self.call(
+                'SKIP: ensure the code is valid',
+                'VERIFY',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time1}',
             )
 
         future_time = 99999999999
         with TimeMonkeyPatch(future_time):
-
-            self.request(
-                As.provider, 'VERIFY', f'{self.url}/{mockup_token_id}/codes/{self.valid_otp_token1_time1}',
-                expected_status=461,
+            self.call(
+                'When time expired',
+                'VERIFY',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time1}',
+                status=461
             )
 
 

@@ -1,14 +1,13 @@
 import unittest
 
-from wolf.tests.helpers import As, WebTestCase
+from wolf.tests.helpers import DocumentaryTestCase
 
 
-class VersionTestCase(WebTestCase):
-    url = '/apiv1/version'
+class VersionTestCase(DocumentaryTestCase):
 
     def test_version(self):
-        result, ___ = self.request(As.everyone, 'GET', self.url)
-        self.assertIn('version', result)
+        response = self.call('Obtaining the backend version', 'GET', '/apiv1/version')
+        self.assertIn('version', response.json)
 
 
 if __name__ == '__main__':  # pragma: no cover
