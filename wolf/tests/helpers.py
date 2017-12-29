@@ -7,6 +7,9 @@ from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicatio
 from wolf import cryptoutil, Application as Wolf
 
 
+roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceManager')
+
+
 class DocumentaryMiddleware(FileDocumentaryMiddleware):
     def __init__(self, application):
         directory = settings.documentary.source_directory
@@ -23,10 +26,10 @@ class DocumentaryTestCase(RestfulpyApplicationTestCase):
         return app
 
     def call_as_device_manager(self, *args, **kwargs):
-        return super().call(*args, role='DeviceManager', **kwargs)
+        return super().call(*args, role=roles.device_manager, **kwargs)
 
     def call_as_bank(self, *args, **kwargs):
-        return super().call(*args, role='Bank', **kwargs)
+        return super().call(*args, role=roles.provider, **kwargs)
 
 
 class RandomMonkeyPatch:
@@ -66,6 +69,3 @@ class TimeMonkeyPatch:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         time.time = self.real_time
-
-
-roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceManager')
