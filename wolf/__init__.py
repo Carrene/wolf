@@ -5,7 +5,7 @@ from restfulpy import Application as BaseApplication
 from wolf import basedata
 from wolf.controllers.root import Root
 
-__version__ = '0.13.0-dev.5'
+__version__ = '0.14.0-dev.6'
 
 
 class Application(BaseApplication):
