@@ -1,6 +1,7 @@
 import os
 
 from Crypto.Cipher import AES
+from nanohttp import settings
 
 
 def random(size):
@@ -20,3 +21,21 @@ def aes_encrypt(content, secret):
     cipher = AES.new(secret, AES.MODE_CBC, iv)
     content = pad(content, block_size=AES.block_size)
     return iv + cipher.encrypt(content)
+
+
+class ISO0PinBlock:
+    """
+    http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
+
+    """
+    def __init__(self):
+        psk = settings.pinblock.psk
+        self.pan = int('0000' + psk[-13:-1], 16)
+
+    def encode(self, data):
+        pin = int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
+        return '%0.16x' % (pin ^ self.pan)
+
+    def decode(self, encoded):
+        block = '%0.16x' % (self.pan ^ int(encoded, 16))
+        return block[2:2+int(block[:2])]

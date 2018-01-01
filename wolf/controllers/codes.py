@@ -1,9 +1,15 @@
+import functools
 
 from nanohttp import action, settings, RestController, HttpBadRequest
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
+from pymlconf.proxy import ObjectProxy
 
 from ..excpetions import ExpiredTokenError, LockedTokenError
+from ..cryptoutil import ISO0PinBlock
+
+
+pinblock = ObjectProxy(ISO0PinBlock)
 
 
 class CodesController(RestController):
@@ -23,7 +29,7 @@ class CodesController(RestController):
 
         window = settings.oath.window
         try:
-            is_valid, ___ = self.token.create_one_time_password_algorithm().verify(code, window)
+            is_valid, ___ = self.token.create_one_time_password_algorithm().verify(pinblock.decode(code), window)
         except ValueError:
             is_valid = False
 

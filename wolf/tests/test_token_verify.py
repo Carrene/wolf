@@ -4,6 +4,7 @@ from nanohttp import settings
 from restfulpy.orm import DBSession
 
 from wolf.models import Token, Cryptomodule
+from wolf.cryptoutil import ISO0PinBlock
 from wolf.tests.helpers import TimeMonkeyPatch, DocumentaryTestCase
 
 
@@ -20,6 +21,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
 
     @classmethod
     def mockup(cls):
+        cls.pinblock = ISO0PinBlock()
         mockup_token1 = Token()
         mockup_token1.name = 'name1'
         mockup_token1.phone = 1
@@ -40,13 +42,13 @@ class VerifyTokenTestCase(DocumentaryTestCase):
 
         cls.fake_time1 = 10001000
         cls.challenge1 = 'testchallenge-1'
-        cls.valid_otp_token1_time1 = '7110'
-        cls.invalid_otp_token1_time1 = '123456'
+        cls.valid_otp_token1_time1 = cls.pinblock.encode('7110')
+        cls.invalid_otp_token1_time1 = cls.pinblock.encode('123456')
 
         cls.fake_time2 = 199919998
         cls.challenge2 = 'testchallenge-2'
-        cls.valid_otp_token1_time2 = '1251'
-        cls.invalid_otp_token1_time2 = '123456'
+        cls.valid_otp_token1_time2 = cls.pinblock.encode('1251')
+        cls.invalid_otp_token1_time2 = cls.pinblock.encode('123456')
 
         cls.invalid_fake_time = 123456
 
@@ -73,13 +75,13 @@ class VerifyTokenTestCase(DocumentaryTestCase):
             self.call_as_bank(
                 'SKIP: Verifying time base OTP',
                 'VERIFY',
-                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time2}',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time2}',
             )
 
             self.call(
                 'SKIP: Trying to verify an invalid code',
                 'VERIFY',
-                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.invalid_otp_token1_time2}',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.invalid_otp_token1_time2}',
                 status=400,
             )
 
@@ -88,7 +90,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
             self.call(
                 'Verifying in invalid time',
                 'VERIFY',
-                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time2}',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time2}',
                 status=400,
             )
 
@@ -99,7 +101,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
             self.call(
                 'SKIP: ensure the code is valid',
                 'VERIFY',
-                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time1}',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
             )
 
         future_time = 99999999999
@@ -107,7 +109,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
             self.call(
                 'When time expired',
                 'VERIFY',
-                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/{self.valid_otp_token1_time1}',
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
                 status=461
             )
 

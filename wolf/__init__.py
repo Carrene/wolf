@@ -25,6 +25,9 @@ class Application(BaseApplication):
       
     oath:
       window: 2
+      
+    pinblock:
+      psk: 0123456789ABCDEF
 
     """
 
