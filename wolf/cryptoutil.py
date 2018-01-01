@@ -1,27 +1,6 @@
 import os
-import hashlib
 
 from Crypto.Cipher import AES
-
-
-hashlib_map = {
-    'SHA-1': hashlib.sha1,
-    'SHA-256': hashlib.sha256,
-    'SHA-384': hashlib.sha384,
-    'SHA-512': hashlib.sha512
-}
-
-
-hash_algorithm_sizes = {
-    'SHA-1': 20,
-    'SHA-256': 32,
-    'SHA-384': 48,
-    'SHA-512': 64,
-}
-
-
-def hash_algorithm_to_hashlib(hash_algorithm):
-    return hashlib_map[hash_algorithm]
 
 
 def random(size):

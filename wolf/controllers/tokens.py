@@ -73,7 +73,7 @@ class TokenController(ModelRestController):
             token = Token()
             token.update_from_request()
             token.is_active = True
-            token.initialize_seed(DBSession)
+            token.initialize_seed()
             DBSession.add(token)
         DBSession.flush()
         return token

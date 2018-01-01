@@ -3,12 +3,11 @@ import binascii
 from random import randrange
 from datetime import date
 
-from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum, split_seed
+from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum
 from nanohttp import settings, HttpConflict
-from restfulpy.orm import DeclarativeBase, ModifiedMixin, Field
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, Field, DBSession
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from wolf import cryptoutil
@@ -23,14 +22,8 @@ class Token(ModifiedMixin, DeclarativeBase):
 
     id = Field(Integer, primary_key=True)
     name = Field(Unicode(50), min_length=1)
-
     phone = Field(BigInteger, index=True)
-
-    # The final seed is the concat of seed_head and seed_body. Why?! Because we want to make sure the final seed is
-    # always unique. The smallest required seed length is for SHA-1 (20 bytes), so if we make it unique, we can
-    # make sure the seed is unique with any hash type.
-    _seed_head = Field('seed_head', Binary(20), unique=True, protected=True)
-    _seed_body = Field('seed_body', Binary(44), protected=True)
+    seed = Field(Binary(20), unique=True, protected=True)
 
     # Cryptomodule
     cryptomodule_id = Field(Integer, ForeignKey('cryptomodule.id'), protected=True)
@@ -50,50 +43,28 @@ class Token(ModifiedMixin, DeclarativeBase):
         ),
     )
 
-    @property
-    def seed(self):
-        return self._seed_head + self._seed_body
-
-    @seed.setter
-    def seed(self, seed):
-        if len(seed) != 64:
-            raise ValueError('Invalid length')
-
-        self._seed_head = seed[:20]
-        self._seed_body = seed[20:]
-
     # @hybrid_property
     @property
     def is_locked(self):
         return self.consecutive_tries >= settings.token.max_consecutive_tries
-
-    # noinspection PyUnresolvedReferences
-    # @is_locked.expression
-    # def is_locked(self):
-    #     return self.consecutive_tries >= settings.token.max_consecutive_tries
 
     # @hybrid_property
     @property
     def is_expired(self):
         return self.expire_date <= date.today()
 
-    # # noinspection PyUnresolvedReferences
-    # @is_expired.expression
-    # def is_expired(self):
-    #     return self.expire_date <= date.today()
-
-    def initialize_seed(self, session):
-        current_seed_head = self._seed_head
+    def initialize_seed(self, session=DBSession):
+        current_seed = self.seed
 
         for i in range(settings.token.seed.max_random_try):
             try:
-                new_seed_head = cryptoutil.random(20)
+                new_seed = cryptoutil.random(20)
 
                 # Check whether it has changed or not
-                if current_seed_head == new_seed_head:
+                if current_seed == new_seed:
                     raise DuplicateSeedError()
 
-                self._seed_head = new_seed_head
+                self.seed = new_seed
 
                 # Check whether it is unique or not
                 try:
@@ -103,8 +74,7 @@ class Token(ModifiedMixin, DeclarativeBase):
                     session.rollback()
                     raise DuplicateSeedError()
 
-                # Everything is OK, choose a seed_body and leave
-                self._seed_body = cryptoutil.random(44)
+                # Everything is OK, terminating
                 return
 
             except DuplicateSeedError:
@@ -113,7 +83,7 @@ class Token(ModifiedMixin, DeclarativeBase):
                     time.sleep(sleep_millis / 1000)
 
         # Oh my god, this is impossible !!!
-        self._seed_head = current_seed_head
+        self.seed = current_seed
         raise HttpConflict(info='We could not initialize token for you!', reason='token-initialization-error')
 
     @property
@@ -122,9 +92,9 @@ class Token(ModifiedMixin, DeclarativeBase):
             return None
 
         return str(OCRASuite(
-            counter_type='time',
-            length=self.cryptomodule.challenge_response_length,
-            hash_algorithm=self.cryptomodule.hash_algorithm,
+            'time',
+            self.cryptomodule.challenge_response_length,
+            'SHA-1',
             time_interval=self.cryptomodule.time_interval
         ))
 
@@ -136,7 +106,7 @@ class Token(ModifiedMixin, DeclarativeBase):
 
     def create_one_time_password_algorithm(self):
         return TimeBasedOneTimePassword(
-            self.cryptomodule.hash_algorithm,
+            'SHA-1',
             self.seed,
             self.cryptomodule.one_time_password_length,
             self.cryptomodule.time_interval,
@@ -149,7 +119,7 @@ class Token(ModifiedMixin, DeclarativeBase):
         )
 
     def provision(self, secret):
-        encrypted_seed = cryptoutil.aes_encrypt(split_seed(self.seed, self.cryptomodule.hash_algorithm), secret)
+        encrypted_seed = cryptoutil.aes_encrypt(self.seed, secret)
         hexstring_seed = binascii.hexlify(encrypted_seed).decode()
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         expire_date = self.expire_date.strftime('%y%m%d')

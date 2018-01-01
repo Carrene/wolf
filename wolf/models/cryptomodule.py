@@ -1,5 +1,5 @@
 from restfulpy.orm import Field, DeclarativeBase
-from sqlalchemy import Integer, Enum
+from sqlalchemy import Integer
 from sqlalchemy.orm import validates
 from oathpy import OCRASuite
 
@@ -8,9 +8,6 @@ class Cryptomodule(DeclarativeBase):
     __tablename__ = 'cryptomodule'
 
     id = Field(Integer, primary_key=True)
-    hash_algorithm = Field(
-        Enum('SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', name='cryptomodule_hash_algorithm'), default='SHA-1'
-    )
     time_interval = Field(Integer, default=60)
     one_time_password_length = Field(Integer, default=4)
     challenge_response_length = Field(Integer, default=6)
@@ -45,18 +42,12 @@ class Cryptomodule(DeclarativeBase):
             raise ValueError('Length should be between 4 and 10')
         return new_value
 
-    @validates('hash_algorithm')
-    def validate_hash_algorithm(self, key, new_value):
-        if new_value not in ['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512']:
-            raise ValueError('This hash type does not supported')
-        return new_value
-
     @property
     def ocra_suite(self):
         return (OCRASuite(
-            counter_type='time',
-            length=self.challenge_response_length,
-            hash_algorithm=self.hash_algorithm,
+            'time',
+            self.challenge_response_length,
+            'SHA-1',
             time_interval=self.time_interval,
         ))
 
