@@ -1,3 +1,4 @@
+#! /usr/bin/env python3.6
 
 
 # http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
@@ -16,6 +17,8 @@ class ISO0PinBlock:
 
 if __name__ == '__main__':
     alg = ISO0PinBlock('1700191111116685')
-    enc = alg.encode('123456')
+    code = '123456'
+    enc = alg.encode(code)
+    print('CLR:', code)
     print('ENC:', enc)
     print('DEC:', alg.decode(enc))
