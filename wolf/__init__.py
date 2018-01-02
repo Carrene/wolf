@@ -2,10 +2,12 @@ from os.path import join, dirname
 
 from restfulpy import Application as BaseApplication
 
-from wolf import basedata
-from wolf.controllers.root import Root
+from . import basedata
+from .controllers.root import Root
+from .cli import PinBlockLauncher
 
-__version__ = '0.15.1-dev.7'
+
+__version__ = '0.16.0-dev.8'
 
 
 class Application(BaseApplication):
@@ -42,6 +44,13 @@ class Application(BaseApplication):
     # noinspection PyArgumentList
     def insert_basedata(self):
         basedata.insert()
+
+    # noinspection PyMethodMayBeStatic
+    def register_cli_launchers(self, subparsers):
+        """
+        This is a template method
+        """
+        PinBlockLauncher.register(subparsers)
 
 
 wolf = Application()
