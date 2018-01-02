@@ -28,8 +28,8 @@ class ISO0PinBlock:
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
 
     """
-    def __init__(self):
-        psk = settings.pinblock.psk
+    def __init__(self, psk=None):
+        psk = psk or settings.pinblock.psk
         self.pan = int('0000' + psk[-13:-1], 16)
 
     def encode(self, data):

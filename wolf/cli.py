@@ -23,13 +23,14 @@ class PinBlockEncodeLauncher(Launcher):
     def create_parser(cls, subparsers):
         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
+        parser.add_argument('-k', '--key', help='The psk to extract pan from it.')
         return parser
 
     def launch(self):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(ISO0PinBlock().encode(code))
+        print(ISO0PinBlock(self.args.key).encode(code))
 
 
 class PinBlockDecodeLauncher(Launcher):
@@ -38,10 +39,11 @@ class PinBlockDecodeLauncher(Launcher):
     def create_parser(cls, subparsers):
         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')
         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
+        parser.add_argument('-k', '--key', help='The psk to extract pan from it.')
         return parser
 
     def launch(self):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(ISO0PinBlock().decode(code))
+        print(ISO0PinBlock(self.args.key).decode(code))
