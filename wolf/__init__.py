@@ -29,7 +29,6 @@ class Application(BaseApplication):
       window: 2
       
     pinblock:
-      pan: 0123456789ABCDEF
       key: 1234567890ABCDEF1234567890ABCDEF
 
     """

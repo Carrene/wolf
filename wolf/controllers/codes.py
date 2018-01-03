@@ -1,15 +1,10 @@
-import functools
 
 from nanohttp import action, settings, RestController, HttpBadRequest
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
-from pymlconf.proxy import ObjectProxy
 
 from ..excpetions import ExpiredTokenError, LockedTokenError
 from ..cryptoutil import EncryptedISOPinBlock
-
-
-pinblock = ObjectProxy(EncryptedISOPinBlock)
 
 
 class CodesController(RestController):
@@ -28,6 +23,7 @@ class CodesController(RestController):
             raise ExpiredTokenError()
 
         window = settings.oath.window
+        pinblock = EncryptedISOPinBlock(self.token.id)
         try:
             is_valid, ___ = self.token.create_one_time_password_algorithm().verify(pinblock.decode(code), window)
         except ValueError:

@@ -2,7 +2,7 @@ import sys
 
 from restfulpy.cli import Launcher, RequireSubCommand
 
-from .cryptoutil import PlainISO0PinBlock
+from .cryptoutil import EncryptedISOPinBlock
 
 
 # noinspection PyAbstractClass
@@ -23,14 +23,15 @@ class PinBlockEncodeLauncher(Launcher):
     def create_parser(cls, subparsers):
         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
-        parser.add_argument('-k', '--key', help='The psk to extract pan from it.')
+        parser.add_argument('-k', '--key', help='The psk to encrypt.')
+        parser.add_argument('-t', '--token-id', required=True, help='The token id')
         return parser
 
     def launch(self):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(PlainISO0PinBlock(self.args.key).encode(code))
+        print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).encode(code))
 
 
 class PinBlockDecodeLauncher(Launcher):
@@ -39,11 +40,12 @@ class PinBlockDecodeLauncher(Launcher):
     def create_parser(cls, subparsers):
         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')
         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
-        parser.add_argument('-k', '--key', help='The psk to extract pan from it.')
+        parser.add_argument('-k', '--key', help='The psk to decrypt')
+        parser.add_argument('-t', '--token-id', required=True, help='The token id')
         return parser
 
     def launch(self):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(PlainISO0PinBlock(self.args.key).decode(code))
+        print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code))
