@@ -2,7 +2,7 @@ import sys
 
 from restfulpy.cli import Launcher, RequireSubCommand
 
-from .cryptoutil import ISO0PinBlock
+from .cryptoutil import PlainISO0PinBlock
 
 
 # noinspection PyAbstractClass
@@ -30,7 +30,7 @@ class PinBlockEncodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(ISO0PinBlock(self.args.key).encode(code))
+        print(PlainISO0PinBlock(self.args.key).encode(code))
 
 
 class PinBlockDecodeLauncher(Launcher):
@@ -46,4 +46,4 @@ class PinBlockDecodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(ISO0PinBlock(self.args.key).decode(code))
+        print(PlainISO0PinBlock(self.args.key).decode(code))

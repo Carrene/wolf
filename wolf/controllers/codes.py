@@ -6,10 +6,10 @@ from restfulpy.validation import prevent_form
 from pymlconf.proxy import ObjectProxy
 
 from ..excpetions import ExpiredTokenError, LockedTokenError
-from ..cryptoutil import ISO0PinBlock
+from ..cryptoutil import EncryptedISOPinBlock
 
 
-pinblock = ObjectProxy(ISO0PinBlock)
+pinblock = ObjectProxy(EncryptedISOPinBlock)
 
 
 class CodesController(RestController):

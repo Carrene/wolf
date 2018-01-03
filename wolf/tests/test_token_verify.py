@@ -4,7 +4,7 @@ from nanohttp import settings
 from restfulpy.orm import DBSession
 
 from wolf.models import Token, Cryptomodule
-from wolf.cryptoutil import ISO0PinBlock
+from wolf.cryptoutil import EncryptedISOPinBlock
 from wolf.tests.helpers import TimeMonkeyPatch, DocumentaryTestCase
 
 
@@ -21,7 +21,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
 
     @classmethod
     def mockup(cls):
-        cls.pinblock = ISO0PinBlock()
+        cls.pinblock = EncryptedISOPinBlock()
         mockup_token1 = Token()
         mockup_token1.name = 'name1'
         mockup_token1.phone = 1

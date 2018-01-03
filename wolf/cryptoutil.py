@@ -1,6 +1,7 @@
 import os
+import binascii
 
-from Crypto.Cipher import AES
+from Crypto.Cipher import AES, DES3
 from nanohttp import settings
 
 
@@ -23,19 +24,39 @@ def aes_encrypt(content, secret):
     return iv + cipher.encrypt(content)
 
 
-class ISO0PinBlock:
+class PlainISO0PinBlock:
     """
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
 
     """
-    def __init__(self, psk=None):
-        psk = psk or settings.pinblock.psk
-        self.pan = int('0000' + psk[-13:-1], 16)
+    def __init__(self, pan=None):
+        pan = pan or settings.pinblock.pan
+        self.pan = int('0000' + pan[-13:-1], 16)
 
     def encode(self, data):
-        pin = int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
-        return '%0.16x' % (pin ^ self.pan)
+        return '%0.16x' % (self.pan ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16))
 
     def decode(self, encoded):
         block = '%0.16x' % (self.pan ^ int(encoded, 16))
         return block[2:2+int(block[:2])]
+
+
+class EncryptedISOPinBlock(PlainISO0PinBlock):
+
+    def __init__(self, pan=None, key=None):
+        super().__init__(pan=pan)
+        self.key = binascii.unhexlify(key or settings.pinblock.key)
+
+    def create_algorithm(self):
+        return DES3.new(self.key, DES3.MODE_ECB)
+
+    def encode(self, data):
+        pinblock = super().encode(data)
+        des_algorithm = self.create_algorithm()
+        encrypted = des_algorithm.encrypt(binascii.unhexlify(pinblock))
+        return binascii.hexlify(encrypted).decode().upper()
+
+    def decode(self, encoded):
+        algorithm = self.create_algorithm()
+        pinblock = algorithm.decrypt(binascii.unhexlify(encoded))
+        return super().decode(binascii.hexlify(pinblock).decode().upper())
