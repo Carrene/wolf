@@ -7,7 +7,7 @@ from .controllers.root import Root
 from .cli import PinBlockLauncher
 
 
-__version__ = '0.16.1-dev.8'
+__version__ = '0.17.0-alpha.0'
 
 
 class Application(BaseApplication):
@@ -29,7 +29,7 @@ class Application(BaseApplication):
       window: 2
       
     pinblock:
-      psk: 0123456789ABCDEF
+      key: 1234567890ABCDEF1234567890ABCDEF
 
     """
 
