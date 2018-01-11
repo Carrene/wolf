@@ -8,7 +8,8 @@ from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import DocumentaryTestCase
 
 
-class ListTokenTestCase(DocumentaryTestCase):
+
+class GetTokenTestCase(DocumentaryTestCase):
 
     @classmethod
     def mockup(cls):
@@ -30,7 +31,7 @@ class ListTokenTestCase(DocumentaryTestCase):
         cls.mockup_first_token_id = first_token.id
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
-    def test_list_token(self):
+    def test_get_token(self):
         mockup_token_id = self.mockup_first_token_id
         none_existence_token_id = 0
 
