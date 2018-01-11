@@ -50,7 +50,7 @@ class ListTokenTestCase(DocumentaryTestCase):
     def test_list_token(self):
         # Token list
         response = self.call_as_bank(
-            'List of tokens',
+            'Tokens list',
             'LIST',
             '/apiv1/tokens'
         )
@@ -58,7 +58,7 @@ class ListTokenTestCase(DocumentaryTestCase):
 
         # Token list with a phone query
         response = self.call_as_bank(
-            'List of tokens',
+            'Tokens list with a phone query',
             'LIST',
             '/apiv1/tokens',
             query=dict(phone=989121234567)
@@ -72,7 +72,7 @@ class ListTokenTestCase(DocumentaryTestCase):
 
         # Token list with pagination
         response = self.call_as_bank(
-            'List of tokens',
+            'Token list with pagination',
             'LIST',
             '/apiv1/tokens',
             query=dict(take=2)

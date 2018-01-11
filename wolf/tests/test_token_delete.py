@@ -1,6 +1,5 @@
 import unittest
 
-from nanohttp import settings
 from restfulpy.orm import DBSession
 
 from wolf.models import Cryptomodule, Token

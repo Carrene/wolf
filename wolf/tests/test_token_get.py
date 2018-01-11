@@ -41,17 +41,17 @@ class GetTokenTestCase(DocumentaryTestCase):
         )
         self.assertEqual(response.json['id'], mockup_token_id)
 
-        # Get a None_existence token
+        # Get a none existence token
         self.call_as_bank(
-            'Get a token',
+            'Get a none existence token',
             'GET',
             f'/apiv1/tokens/token_id: {none_existence_token_id}',
             status=404
         )
 
-        # Not provide a token_id
+        # Get token without providing a token_id
         self.call_as_bank(
-            'Get a token',
+            'Get token without providing a token_id',
             'GET',
             f'/apiv1/tokens',
             status=404

@@ -44,9 +44,9 @@ class ExtendTokenTestCase(DocumentaryTestCase):
         second_mockup_token_id = self.mockup_second_token_id
         none_existence_token_id = 0
 
-        # Extend a None_existence token
+        # Extend a none existence token
         self.call_as_bank(
-            'Extend a token',
+            'Extend a none existence token',
             'EXTEND',
             f'/apiv1/tokens/token_id: {none_existence_token_id}',
             form={'expireDate': 1713434403},
@@ -55,7 +55,7 @@ class ExtendTokenTestCase(DocumentaryTestCase):
 
         # Extend a expired token to a time that passed
         response = self.call_as_bank(
-            'Extend a token',
+            'Extend a expired token to a time that passed',
             'EXTEND',
             f'/apiv1/tokens/token_id: {first_mockup_token_id}',
             form={'expireDate': 1513434403},
@@ -72,7 +72,7 @@ class ExtendTokenTestCase(DocumentaryTestCase):
 
         # Extend a not expired token to a time that is less than its expire date
         self.call_as_bank(
-            'Extend a token',
+            'Extend a not expired token to a time that is less than its expire date',
             'EXTEND',
             f'/apiv1/tokens/token_id: {second_mockup_token_id}',
             form={'expireDate': 1813434403},
@@ -81,7 +81,7 @@ class ExtendTokenTestCase(DocumentaryTestCase):
 
         # Extend a token with a un supported expireDate format
         self.call_as_bank(
-            'Extend a token',
+            'Extend a token with a un supported expireDate format',
             'EXTEND',
             f'/apiv1/tokens/token_id: {first_mockup_token_id}',
             form={'expireDate': '2019-12-07T18:14:39.558891'},
