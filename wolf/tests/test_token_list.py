@@ -61,10 +61,7 @@ class ListTokenTestCase(DocumentaryTestCase):
             'List of tokens',
             'LIST',
             '/apiv1/tokens',
-            query=dict(
-                phone=989121234567,
-                take=2
-            )
+            query=dict(phone=989121234567)
         )
 
         self.assertEqual(len(response.json), 2)
@@ -72,6 +69,16 @@ class ListTokenTestCase(DocumentaryTestCase):
         self.assertIsNotNone(response.json[1]['id'])
         self.assertEqual(response.json[0]['phone'], 989121234567)
         self.assertEqual(response.json[1]['phone'], 989121234567)
+
+        # Token list with pagination
+        response = self.call_as_bank(
+            'List of tokens',
+            'LIST',
+            '/apiv1/tokens',
+            query=dict(take=2)
+        )
+
+        self.assertEqual(len(response.json), 2)
 
 
 if __name__ == '__main__':  # pragma: no cover
