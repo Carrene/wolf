@@ -135,3 +135,12 @@ class TokenController(ModelRestController):
         token.consecutive_tries = 0
         DBSession.add(token)
         return token
+
+    @json
+    @Token.expose
+    @commit
+    def delete(self, token_id: int):
+        token = self._ensure_token(token_id)
+        result = token.to_dict()
+        DBSession.delete(token)
+        return result
