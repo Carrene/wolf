@@ -1,12 +1,10 @@
 import unittest
-from datetime import date, timedelta
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import DocumentaryTestCase
-
 
 
 class GetTokenTestCase(DocumentaryTestCase):
