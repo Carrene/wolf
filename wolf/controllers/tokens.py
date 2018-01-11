@@ -157,3 +157,16 @@ class TokenController(ModelRestController):
         token.is_active = True
         DBSession.add(token)
         return token
+
+    @json
+    @Token.expose
+    @commit
+    def deactivate(self, token_id: int):
+        token = self._ensure_token(token_id)
+
+        if not token.is_active:
+            raise HttpConflict(info='Token is already deactive.')
+
+        token.is_active = False
+        DBSession.add(token)
+        return token
