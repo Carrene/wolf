@@ -1,7 +1,7 @@
 import functools
 
 from datetime import date
-from nanohttp import json, context, HttpNotFound, HttpBadRequest
+from nanohttp import json, context, HttpNotFound, HttpBadRequest, HttpConflict
 from restfulpy.controllers import ModelRestController
 from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form
@@ -120,5 +120,18 @@ class TokenController(ModelRestController):
         if expire_date <= max(token.expire_date, date.today()):
             raise HttpBadRequest(info='expireDate must be grater that current expireDate.')
         token.expire_date = expire_date
+        DBSession.add(token)
+        return token
+
+    @json
+    @Token.expose
+    @commit
+    def unlock(self, token_id: int):
+        token = self._ensure_token(token_id)
+
+        if not token.is_locked:
+            raise HttpConflict(info='Token is already unlock.')
+
+        token.consecutive_tries = 0
         DBSession.add(token)
         return token
