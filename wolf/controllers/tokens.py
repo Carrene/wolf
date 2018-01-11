@@ -94,3 +94,8 @@ class TokenController(ModelRestController):
         result = token.to_dict()
         result['provisioning'] = token.provision(device.secret)
         return result
+
+    @json
+    @Token.expose
+    def list(self):
+        return Token.query
