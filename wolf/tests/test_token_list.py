@@ -64,7 +64,7 @@ class ListTokenTestCase(DocumentaryTestCase):
             query=dict(
                 phone=989121234567,
                 take=2
-                )
+            )
         )
 
         self.assertEqual(len(response.json), 2)
