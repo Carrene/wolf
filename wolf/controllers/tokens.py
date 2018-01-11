@@ -144,3 +144,16 @@ class TokenController(ModelRestController):
         result = token.to_dict()
         DBSession.delete(token)
         return result
+
+    @json
+    @Token.expose
+    @commit
+    def activate(self, token_id: int):
+        token = self._ensure_token(token_id)
+
+        if token.is_active:
+            raise HttpConflict(info='Token is already active.')
+
+        token.is_active = True
+        DBSession.add(token)
+        return token
