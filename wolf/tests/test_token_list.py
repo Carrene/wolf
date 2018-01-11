@@ -52,8 +52,7 @@ class ListTokenTestCase(DocumentaryTestCase):
         response = self.call_as_bank(
             'List of tokens',
             'LIST',
-            '/apiv1/tokens',
-            query=dict(take=3)
+            '/apiv1/tokens'
         )
         self.assertEqual(len(response.json), 3)
 
@@ -70,8 +69,8 @@ class ListTokenTestCase(DocumentaryTestCase):
 
         self.assertEqual(len(response.json), 2)
         self.assertIsNotNone(response.json[0]['id'])
-        self.assertIsNotNone(response.json[0]['id'])
-        self.assertEqual(response.json[1]['phone'], 989121234567)
+        self.assertIsNotNone(response.json[1]['id'])
+        self.assertEqual(response.json[0]['phone'], 989121234567)
         self.assertEqual(response.json[1]['phone'], 989121234567)
 
 
