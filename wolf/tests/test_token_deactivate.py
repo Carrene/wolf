@@ -8,7 +8,7 @@ from wolf.tests.helpers import BDDTestClass
 from bddrest import When, Then, Given, response, And
 
 
-class ActivateTokenTestCase(BDDTestClass):
+class DeactivateTokenTestCase(BDDTestClass):
 
     @classmethod
     def mockup(cls):
@@ -40,37 +40,37 @@ class ActivateTokenTestCase(BDDTestClass):
         cls.mockup_deactive_token_id = deactive_token.id
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
-    def test_activate_token(self):
+    def test_deactivate_token(self):
         active_mockup_token_id = self.mockup_active_token_id
         deactive_mockup_token_id = self.mockup_deactive_token_id
         none_existence_token_id = 0
 
         call = self.call(
-            title='Activate a token',
-            description='Activate a token by id',
-            url=f'/apiv1/tokens/token_id: {deactive_mockup_token_id}',
-            verb='ACTIVATE',
+            title='Deactivate a token',
+            description='Deactivate a token by id',
+            url=f'/apiv1/tokens/token_id: {active_mockup_token_id}',
+            verb='DEACTIVATE',
         )
 
         with Given(call):
             Then(response.status_code == 200)
-            And(response.json['id'] == deactive_mockup_token_id)
-            And(response.json['isActive'] is True)
+            And(response.json['id'] == active_mockup_token_id)
+            And(response.json['isActive'] is False)
 
             When(
-                'Trying to activate a none existence token',
+                'Trying to deactivate a none existence token',
                 url=f'/apiv1/tokens/token_id: {none_existence_token_id}',
             )
             Then(response.status_code == 404)
 
             When(
-                'Trying to activate a active token',
-                url=f'/apiv1/tokens/token_id: {active_mockup_token_id}',
+                'Trying to deactivate a active token',
+                url=f'/apiv1/tokens/token_id: {deactive_mockup_token_id}',
             )
             Then(response.status_code == 409)
             And(self.assertDictEqual(response.json, dict(
                 message='Conflict',
-                description='Token is already active.'
+                description='Token is already deactive.'
             )))
 
 

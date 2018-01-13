@@ -37,7 +37,7 @@ class GetTokenTestCase(BDDTestClass):
         call = self.call(
             title='Get a token',
             description='Get a single token by id',
-            url=f'/apiv1/tokens/{mockup_token_id}',
+            url=f'/apiv1/tokens/token_id: {mockup_token_id}',
             verb='GET',
         )
 
@@ -47,7 +47,7 @@ class GetTokenTestCase(BDDTestClass):
 
             When(
                 'Trying to get a none existence token',
-                url=f'/apiv1/tokens/{none_existence_token_id}',
+                url=f'/apiv1/tokens/token_id: {none_existence_token_id}',
             )
             Then(response.status_code == 404)
 
