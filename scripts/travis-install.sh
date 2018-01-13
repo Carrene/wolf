@@ -13,6 +13,7 @@ ssh-add $OUT_KEY
 
 pip3 install -U pip setuptools wheel
 pip3 install -U coverage coveralls
+pip3 install --upgrade git+ssh://git@github.com/Carrene/bddrest.git
 pip3 install --upgrade git+ssh://git@github.com/Carrene/python-oath.git
 pip3 install --upgrade git+ssh://git@github.com/Carrene/oath.py.git
 pip3 install -e .

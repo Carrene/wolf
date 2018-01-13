@@ -108,7 +108,7 @@ class TokenController(ModelRestController):
 
     @json
     @validate_form(
-        exact=['expireDate', ],
+        exact=['expireDate'],
         types={'expireDate': float}
     )
     @Token.expose

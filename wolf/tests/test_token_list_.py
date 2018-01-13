@@ -3,14 +3,12 @@ from datetime import date, timedelta
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, story, response, CurrentResponse, WsgiCall, CurrentStory, And
-
 
 from wolf.models import Cryptomodule, Token
-from wolf.tests.helpers import BDDTestClass
+from wolf.tests.helpers import DocumentaryTestCase
 
 
-class ListTokenTestCase(BDDTestClass):
+class ListTokenTestCase(DocumentaryTestCase):
 
     @classmethod
     def mockup(cls):
@@ -51,19 +49,6 @@ class ListTokenTestCase(BDDTestClass):
 
     def test_list_token(self):
         # Token list
-        call = self.call(
-            title='Token list',
-            description='List of tokens',
-            url='/apiv1/tokens',
-            verb='LIST',
-        )
-
-        with Given(call):
-            Then(response.status == '200 OK')
-            And(response.status_code == 200)
-            And('version' in response.json)
-            And(response.json['version'] == wolf.__version__)
-
         response = self.call_as_bank(
             'Tokens list',
             'LIST',
