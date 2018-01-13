@@ -99,3 +99,8 @@ class TokenController(ModelRestController):
     @Token.expose
     def list(self):
         return Token.query
+
+    @json
+    @Token.expose
+    def get(self, token_id: int):
+        return self._ensure_token(token_id)
