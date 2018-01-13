@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, story, response, CurrentResponse, WsgiCall, CurrentStory, And
+from bddrest import When, Then, Given, response, And
 
 
 from wolf.models import Cryptomodule, Token
@@ -50,7 +50,6 @@ class ListTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_list_token(self):
-        # Token list
         call = self.call(
             title='Token list',
             description='List of tokens',
@@ -59,41 +58,30 @@ class ListTokenTestCase(BDDTestClass):
         )
 
         with Given(call):
-            Then(response.status == '200 OK')
-            And(response.status_code == 200)
-            And('version' in response.json)
-            And(response.json['version'] == wolf.__version__)
+            Then(response.status_code == 200)
+            And(len(response.json) == 3)
 
-        response = self.call_as_bank(
-            'Tokens list',
-            'LIST',
-            '/apiv1/tokens'
-        )
-        self.assertEqual(len(response.json), 3)
+            When(
+                'Trying to get list of tokens with phone query string',
+                query=dict(
+                    phone=989121234567
+                )
+            )
+            Then(response.status_code == 200)
+            And(len(response.json) == 2)
+            And('id' in response.json[0])
+            And('id' in response.json[1])
+            And(response.json[0]['phone'] == 989121234567)
+            And(response.json[1]['phone'] == 989121234567)
 
-        # Token list with a phone query
-        response = self.call_as_bank(
-            'Tokens list with a phone query',
-            'LIST',
-            '/apiv1/tokens',
-            query=dict(phone=989121234567)
-        )
-
-        self.assertEqual(len(response.json), 2)
-        self.assertIsNotNone(response.json[0]['id'])
-        self.assertIsNotNone(response.json[1]['id'])
-        self.assertEqual(response.json[0]['phone'], 989121234567)
-        self.assertEqual(response.json[1]['phone'], 989121234567)
-
-        # Token list with pagination
-        response = self.call_as_bank(
-            'Token list with pagination',
-            'LIST',
-            '/apiv1/tokens',
-            query=dict(take=2)
-        )
-
-        self.assertEqual(len(response.json), 2)
+            When(
+                'Trying to get list of tokens with take query string',
+                query=dict(
+                    take=2
+                )
+            )
+            Then(response.status_code == 200)
+            And(len(response.json) == 2)
 
 
 if __name__ == '__main__':  # pragma: no cover
