@@ -41,24 +41,29 @@ class ExtendTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_extend_token(self):
-        expired_mockup_token_id = self.mockup_expired_token_id
-        available_mockup_token_id = self.mockup_available_token_id
-        none_existence_token_id = 0
-
         call = self.call(
             title='Extend a token',
-            description='Extend a none existence token',
-            url=f'/apiv1/tokens/token_id: {none_existence_token_id}',
+            description='Extend a token by id',
+            url=f'/apiv1/tokens/token_id: {self.mockup_expired_token_id}',
             verb='EXTEND',
-            form={'expireDate': 1713434403},
+            form={'expireDate': 1613434403},
         )
 
         with Given(call):
+            Then(response.status_code == 200)
+            And(response.json['id'] == self.mockup_expired_token_id)
+            And(response.json['expireDate'] == '2021-02-16')
+
+            When(
+                'Trying extend a none existence token',
+                url_parameters=dict(token_id=0),
+                form={'expireDate': 1613434403},
+            )
             Then(response.status_code == 404)
 
             When(
                 'Trying to extend a expired token to a time that passed',
-                url=f'/apiv1/tokens/token_id: {expired_mockup_token_id}',
+                url_parameters=dict(token_id=self.mockup_expired_token_id),
                 form={'expireDate': 1513434403},
             )
             Then(response.status_code == 400)
@@ -69,26 +74,17 @@ class ExtendTokenTestCase(BDDTestClass):
 
             When(
                 'Trying to extend a not expired token to a time that is less than its expire date',
-                url=f'/apiv1/tokens/token_id: {available_mockup_token_id}',
+                url_parameters=dict(token_id=self.mockup_available_token_id),
                 form={'expireDate': 1813434403},
             )
             Then(response.status_code == 400)
 
             When(
                 'Trying to extend a token with a un supported expireDate format',
-                url=f'/apiv1/tokens/token_id: {expired_mockup_token_id}',
+                url_parameters=dict(token_id=self.mockup_expired_token_id),
                 form={'expireDate': '2019-12-07T18:14:39.558891'},
             )
             Then(response.status_code == 400)
-
-            When(
-                'Trying to extend a token',
-                url=f'/apiv1/tokens/token_id: {expired_mockup_token_id}',
-                form={'expireDate': 1613434403},
-            )
-            Then(response.status_code == 200)
-            And(response.json['id'] == expired_mockup_token_id)
-            And(response.json['expireDate'] == '2021-02-16')
 
 
 if __name__ == '__main__':  # pragma: no cover

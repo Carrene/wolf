@@ -41,36 +41,32 @@ class UnlockTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_unlock_token(self):
-        unlock_mockup_token_id = self.mockup_unlock_token_id
-        locked_mockup_token_id = self.mockup_locked_token_id
-        none_existence_token_id = 0
-
         call = self.call(
             title='Unlock a token',
             description='Unlock a token by id',
-            url=f'/apiv1/tokens/token_id: {locked_mockup_token_id}',
+            url=f'/apiv1/tokens/token_id: {self.mockup_locked_token_id}',
             verb='UNLOCK',
         )
 
         with Given(call):
             Then(response.status_code == 200)
-            And(response.json['id'] == locked_mockup_token_id)
+            And(response.json['id'] == self.mockup_locked_token_id)
 
             When(
                 'Trying to unlock a token that was unlocked before',
-                url=f'/apiv1/tokens/token_id: {locked_mockup_token_id}',
+                url_parameters=dict(token_id=self.mockup_locked_token_id),
             )
             Then(response.status_code == 409)
 
             When(
                 'Trying to unlock a none existence token',
-                url=f'/apiv1/tokens/token_id: {none_existence_token_id}',
+                url_parameters=dict(token_id=0),
             )
             Then(response.status_code == 404)
 
             When(
                 'Trying to Unlock an unlocked token',
-                url=f'/apiv1/tokens/token_id: {unlock_mockup_token_id}',
+                url_parameters=dict(token_id=self.mockup_unlock_token_id),
             )
             Then(response.status_code == 409)
             And(self.assertDictEqual(response.json, dict(

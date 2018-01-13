@@ -29,29 +29,26 @@ class DeleteTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_delete_token(self):
-        first_mockup_token_id = self.mockup_first_token_id
-        none_existence_token_id = 0
-
         call = self.call(
             title='Delete a token',
             description='Delete a token by id',
-            url=f'/apiv1/tokens/token_id: {first_mockup_token_id}',
+            url=f'/apiv1/tokens/token_id: {self.mockup_first_token_id}',
             verb='DELETE',
         )
 
         with Given(call):
             Then(response.status_code == 200)
-            And(response.json['id'] == first_mockup_token_id)
+            And(response.json['id'] == self.mockup_first_token_id)
 
             When(
                 'Trying to delete a none existence token',
-                url=f'/apiv1/tokens/token_id: {none_existence_token_id}',
+                url_parameters=dict(token_id=0),
             )
             Then(response.status_code == 404)
 
             When(
                 'Trying to get a deleted token',
-                url=f'/apiv1/tokens/token_id: {none_existence_token_id}',
+                url_parameters=dict(token_id=self.mockup_first_token_id),
                 verb='GET',
             )
             Then(response.status_code == 404)
