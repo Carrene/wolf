@@ -5,7 +5,8 @@ from datetime import date
 
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum
 from nanohttp import settings, HttpConflict
-from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, Field, DBSession
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, ActivationMixin, Field,\
+    DBSession
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship
@@ -17,7 +18,7 @@ class DuplicateSeedError(Exception):
     pass
 
 
-class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeclarativeBase):
+class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, DeclarativeBase):
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
