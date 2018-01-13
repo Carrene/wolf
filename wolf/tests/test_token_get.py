@@ -1,5 +1,4 @@
 import unittest
-from datetime import date, timedelta
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
