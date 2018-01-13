@@ -1,8 +1,9 @@
 import unittest
 import base64
 
-from wolf.tests.helpers import BDDTestClass
 from bddrest import When, Then, Given, response, And
+
+from wolf.tests.helpers import BDDTestClass
 
 
 # https://github.com/Carrene/wolf/wiki/User-Stories#add-or-remove-device

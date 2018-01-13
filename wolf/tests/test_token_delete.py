@@ -1,10 +1,10 @@
 import unittest
 
 from restfulpy.orm import DBSession
+from bddrest import When, Then, Given, response, And
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
-from bddrest import When, Then, Given, response, And
 
 
 class DeleteTokenTestCase(BDDTestClass):
