@@ -63,30 +63,29 @@ class EnsureTokenTestCase(BDDTestClass):
         )
         with RandomMonkeyPatch(
                 b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ):
-            with Given(call):
+        ), Given(call):
 
-                Then(response.status_code == 200)
-                result = response.json
-                And('provisioning' in result)
-                And(result['expireDate'] == '2021-02-16')
-                token = result['provisioning']
-                And(token == 'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EA'
-                             'E3371043A34342C84A7CAFCF82298A12F3440012102163515')
+            Then(response.status_code == 200)
+            result = response.json
+            And('provisioning' in result)
+            And(result['expireDate'] == '2021-02-16')
+            token = result['provisioning']
+            And(token == 'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EA'
+                         'E3371043A34342C84A7CAFCF82298A12F3440012102163515')
 
-                When(
-                    'Ensure the same token again',
-                    form={
-                        'phone': 989122451075,
-                        'name': 'DummyTokenName',
-                        'cryptomoduleId': self.mockup_cryptomodule_id,
-                        'expireDate': 1513434403,
-                    }
-                )
-                Then(response.status_code == 200)
-                result = response.json
-                And('provisioning' in result)
-                And(result['provisioning'] == token)
+            When(
+                'Ensure the same token again',
+                form={
+                    'phone': 989122451075,
+                    'name': 'DummyTokenName',
+                    'cryptomoduleId': self.mockup_cryptomodule_id,
+                    'expireDate': 1513434403,
+                }
+            )
+            Then(response.status_code == 200)
+            result = response.json
+            And('provisioning' in result)
+            And(result['provisioning'] == token)
 
     def test_invalid_cryptomodule_id(self):
         call = self.call(
@@ -101,33 +100,38 @@ class EnsureTokenTestCase(BDDTestClass):
                 'expireDate': 1513434403,
             },
         )
-        with Given(call):
-            with RandomMonkeyPatch(
+        with RandomMonkeyPatch(
                 b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-            ):
-                Then(response.status_code == 400)
-                And(self.assertDictEqual(response.json, dict(
-                    message='Bad Request',
-                    description='The field: cryptomoduleId must be int'
-                )))
+        ), Given(call):
 
-            with RandomMonkeyPatch(
-                    b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-            ):
-                When(
-                    'Trying to ensure token with provisioning with zero cryptomodule id',
-                    form={
-                        'phone': 989122451075,
-                        'name': 'DummyTokenName',
-                        'cryptomoduleId': 0,
-                        'expireDate': 1513434403,
-                    },
-                )
-                Then(response.status_code == 400)
-                And(self.assertDictEqual(response.json, dict(
-                    message='Bad Request',
-                    description='Invalid cryptomodule id.'
-                )))
+            Then(response.status_code == 400)
+            And(self.assertDictEqual(response.json, dict(
+                message='Bad Request',
+                description='The field: cryptomoduleId must be int'
+            )))
+
+        call = self.call(
+            title='Provisioning with zero',
+            description='Trying to ensure token with provisioning with zero cryptomodule id',
+            url='/apiv1/tokens',
+            verb='ENSURE',
+            form={
+                'phone': 989122451075,
+                'name': 'DummyTokenName',
+                'cryptomoduleId': 0,
+                'expireDate': 1513434403,
+            },
+        )
+
+        with RandomMonkeyPatch(
+                b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), Given(call):
+
+            Then(response.status_code == 400)
+            And(self.assertDictEqual(response.json, dict(
+                message='Bad Request',
+                description='Invalid cryptomodule id.'
+            )))
 
     def test_invalid_token_name(self):
 
@@ -144,36 +148,37 @@ class EnsureTokenTestCase(BDDTestClass):
             },
         )
 
-        with Given(call):
+        with RandomMonkeyPatch(
+            b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), Given(call):
+            Then(response.status_code == 400)
+            And(self.assertDictEqual(response.json, dict(
+                message='Bad Request',
+                description='Please enter at least 1 characters for field: name.'
+            )))
 
-            # With empty string !
-            with RandomMonkeyPatch(
-                b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-            ):
-                Then(response.status_code == 400)
-                And(self.assertDictEqual(response.json, dict(
-                    message='Bad Request',
-                    description='Please enter at least 1 characters for field: name.'
-                )))
+        call = self.call(
+            title='ensure token with provisioning with a long token name',
+            description='Trying to ensure token with provisioning with a long token name',
+            url='/apiv1/tokens',
+            verb='ENSURE',
+            form={
+                'phone': 989122451075,
+                'name': f'MoreThan50Chars{"x" * 36}',
+                'cryptomoduleId': self.mockup_cryptomodule_id,
+                'expireDate': 1513434403,
+            },
+        )
 
-            # With max length limit
-            with RandomMonkeyPatch(
-                b'F\x2e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-            ):
-                When(
-                    'Trying to ensure token with provisioning with a long token name',
-                    form={
-                        'phone': 989122451075,
-                        'name': f'MoreThan50Chars{"x" * 36}',
-                        'cryptomoduleId': self.mockup_cryptomodule_id,
-                        'expireDate': 1513434403,
-                    },
-                )
-                Then(response.status_code == 400)
-                And(self.assertDictEqual(response.json, dict(
-                    message='Bad Request',
-                    description='Cannot enter more than: 50 in field: name.'
-                )))
+        with RandomMonkeyPatch(
+            b'F\x2e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), Given(call):
+
+            Then(response.status_code == 400)
+            And(self.assertDictEqual(response.json, dict(
+                message='Bad Request',
+                description='Cannot enter more than: 50 in field: name.'
+            )))
 
     def test_locked_token(self):
 
@@ -192,13 +197,13 @@ class EnsureTokenTestCase(BDDTestClass):
 
         with RandomMonkeyPatch(
             b'F\x7e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ):
-            with Given(call):
-                Then(response.status_code == 462)
-                And(self.assertDictEqual(response.json, dict(
-                    message='Token is locked',
-                    description='The max try limitation is exceeded.'
-                )))
+        ), Given(call):
+
+            Then(response.status_code == 462)
+            And(self.assertDictEqual(response.json, dict(
+                message='Token is locked',
+                description='The max try limitation is exceeded.'
+            )))
 
     def test_expired_token(self):
         call = self.call(

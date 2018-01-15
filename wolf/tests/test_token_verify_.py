@@ -146,25 +146,6 @@ class VerifyTokenTestCase(DocumentaryTestCase):
                 status=461
             )
 
-    def test_verify_token_expiration(self):
-        mockup_token_id = self.mockup_token1_id
-
-        with TimeMonkeyPatch(self.fake_time1):
-            self.call(
-                'SKIP: ensure the code is valid',
-                'VERIFY',
-                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
-            )
-
-        future_time = 99999999999
-        with TimeMonkeyPatch(future_time):
-            self.call(
-                'When time expired',
-                'VERIFY',
-                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
-                status=461
-            )
-
 
 if __name__ == '__main__':  # pragma: no cover
     unittest.main()
