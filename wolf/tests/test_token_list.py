@@ -62,6 +62,30 @@ class ListTokenTestCase(BDDTestClass):
             And(len(response.json) == 3)
 
             When(
+                'Trying to get list of tokens sorted by id ascending',
+                query=dict(
+                    sort='id'
+                )
+            )
+            Then(response.status_code == 200)
+            And(len(response.json) == 3)
+            And(response.json[0]['id'] == 1)
+            And(response.json[1]['id'] == 2)
+            And(response.json[2]['id'] == 3)
+
+            When(
+                'Trying to get list of tokens sorted by id descending',
+                query=dict(
+                    sort='-id'
+                )
+            )
+            Then(response.status_code == 200)
+            And(len(response.json) == 3)
+            And(response.json[0]['id'] == 3)
+            And(response.json[1]['id'] == 2)
+            And(response.json[2]['id'] == 1)
+
+            When(
                 'Trying to get list of tokens with phone query string',
                 query=dict(
                     phone=989121234567
