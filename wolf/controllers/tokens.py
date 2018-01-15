@@ -7,7 +7,7 @@ from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form
 
 from ..models import Token, Device, Cryptomodule
-from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError
+from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError, DeactivatedTokenError
 from .codes import CodesController
 
 
@@ -42,6 +42,9 @@ class TokenController(ModelRestController):
 
         if token.is_locked:
             raise LockedTokenError()
+
+        if not token.is_active:
+            raise DeactivatedTokenError()
 
     @staticmethod
     def _ensure_device():

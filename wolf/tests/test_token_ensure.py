@@ -40,6 +40,17 @@ class EnsureTokenTestCase(BDDTestClass):
         expired_token.cryptomodule = mockup_cryptomodule
         DBSession.add(expired_token)
 
+        deactivated_token = Token()
+        deactivated_token.name = 'DeactivatedToken'
+        deactivated_token.phone = 989122451075
+        deactivated_token.expire_date = '2099-12-07T18:14:39.558891'
+        deactivated_token.seed = \
+            b'\xeb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
+            b'\xf8h\xf5j\xaaz\xda!\x9f\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xaaz'
+        deactivated_token.is_active = False
+        deactivated_token.cryptomodule = mockup_cryptomodule
+        DBSession.add(deactivated_token)
+
         mockup_device = Device()
         mockup_device.phone = 989122451075
         mockup_device.secret = b'\xa1(\x05\xe1\x05\xb9\xc8c\xfb\x89\x87|\xf7"\xf0\xc4h\xe1$=\x81\xc8k\x17rD,p\x1a\xcfT!'
@@ -224,6 +235,27 @@ class EnsureTokenTestCase(BDDTestClass):
             And(self.assertDictEqual(response.json, dict(
                 message='Token is expired',
                 description='The requested token is expired.'
+            )))
+
+    def test_deactivated_token(self):
+        call = self.call(
+            title='Provisioning with an deactivated token',
+            description='Provisioning with an deactivated token',
+            url='/apiv1/tokens',
+            verb='ENSURE',
+            form={
+                'phone': 989122451075,
+                'name': 'DeactivatedToken',
+                'cryptomoduleId': self.mockup_cryptomodule_id,
+                'expireDate': 1513434403,
+            },
+        )
+
+        with Given(call):
+            Then(response.status_code == 463)
+            And(self.assertDictEqual(response.json, dict(
+                message='Token is deactivated',
+                description='Token has been deactivated.'
             )))
 
 
