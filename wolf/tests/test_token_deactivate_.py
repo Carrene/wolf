@@ -57,14 +57,14 @@ class DeactivateTokenTestCase(DocumentaryTestCase):
             'Deactivate an deactive token',
             'DEACTIVATE',
             f'/apiv1/tokens/token_id: {second_mockup_token_id}',
-            status=409
+            status=463
         )
 
         self.assertDictEqual(
             response.json,
             {
-                'message': 'Conflict',
-                'description': 'Token is already deactive.'
+                'message': 'Token is deactivated',
+                'description': 'Token has been deactivated.'
             }
         )
 

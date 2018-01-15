@@ -63,10 +63,10 @@ class DeactivateTokenTestCase(BDDTestClass):
                 'Trying to deactivate a active token',
                 url_parameters=dict(token_id=self.mockup_deactive_token_id),
             )
-            Then(response.status_code == 409)
+            Then(response.status_code == 463)
             And(self.assertDictEqual(response.json, dict(
-                message='Conflict',
-                description='Token is already deactive.'
+                message='Token is deactivated',
+                description='Token has been deactivated.'
             )))
 
 

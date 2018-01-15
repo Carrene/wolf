@@ -57,14 +57,14 @@ class UnlockTokenTestCase(DocumentaryTestCase):
             'Unlock an unlock token',
             'UNLOCK',
             f'/apiv1/tokens/token_id: {first_mockup_token_id}',
-            status=409
+            status=466
         )
 
         self.assertDictEqual(
             response.json,
             {
-                'message': 'Conflict',
-                'description': 'Token is already unlock.'
+                'message': 'Token is not locked',
+                'description': 'The max try limitation is not exceeded.'
             }
         )
 
@@ -82,7 +82,7 @@ class UnlockTokenTestCase(DocumentaryTestCase):
             'Unlock a token that was unlocked before',
             'UNLOCK',
             f'/apiv1/tokens/token_id: {second_mockup_token_id}',
-            status=409
+            status=466
         )
 
 

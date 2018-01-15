@@ -7,7 +7,8 @@ from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form
 
 from ..models import Token, Device, Cryptomodule
-from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError, DeactivatedTokenError
+from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError, DeactivatedTokenError,\
+    ActivatedTokenError, NotLockedTokenError
 from .codes import CodesController
 
 
@@ -133,7 +134,7 @@ class TokenController(ModelRestController):
         token = self._ensure_token(token_id)
 
         if not token.is_locked:
-            raise HttpConflict(info='Token is already unlock.')
+            raise NotLockedTokenError()
 
         token.consecutive_tries = 0
         DBSession.add(token)
@@ -155,7 +156,7 @@ class TokenController(ModelRestController):
         token = self._ensure_token(token_id)
 
         if token.is_active:
-            raise HttpConflict(info='Token is already active.')
+            raise ActivatedTokenError()
 
         token.is_active = True
         DBSession.add(token)
@@ -168,7 +169,7 @@ class TokenController(ModelRestController):
         token = self._ensure_token(token_id)
 
         if not token.is_active:
-            raise HttpConflict(info='Token is already deactive.')
+            raise DeactivatedTokenError()
 
         token.is_active = False
         DBSession.add(token)

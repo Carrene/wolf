@@ -57,13 +57,13 @@ class ActivateTokenTestCase(DocumentaryTestCase):
             'Activate an active token',
             'ACTIVATE',
             f'/apiv1/tokens/token_id: {first_mockup_token_id}',
-            status=409
+            status=465
         )
 
         self.assertDictEqual(
             response.json,
             {
-                'message': 'Conflict',
+                'message': 'Token is active',
                 'description': 'Token is already active.'
             }
         )

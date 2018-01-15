@@ -52,7 +52,7 @@ class VerifyTokenTestCase(BDDTestClass):
         mockup_token3.seed = \
             b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9' \
             b'\x01U\x81!\xd8\x9cg\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
-        mockup_token2.is_active = False
+        mockup_token3.is_active = False
 
         # 752a312744b9bba65a2e3e886abe5a9b33c6ca8425870a890d8a0d699428f22248b0f7879aa1493901558121d89c67fcf7dee513fbba5aefa66476a2c0590076
 

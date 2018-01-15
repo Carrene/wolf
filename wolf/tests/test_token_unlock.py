@@ -56,7 +56,7 @@ class UnlockTokenTestCase(BDDTestClass):
                 'Trying to unlock a token that was unlocked before',
                 url_parameters=dict(token_id=self.mockup_locked_token_id),
             )
-            Then(response.status_code == 409)
+            Then(response.status_code == 466)
 
             When(
                 'Trying to unlock a none existence token',
@@ -68,10 +68,10 @@ class UnlockTokenTestCase(BDDTestClass):
                 'Trying to Unlock an unlocked token',
                 url_parameters=dict(token_id=self.mockup_unlock_token_id),
             )
-            Then(response.status_code == 409)
+            Then(response.status_code == 466)
             And(self.assertDictEqual(response.json, dict(
-                message='Conflict',
-                description='Token is already unlock.'
+                message='Token is not locked',
+                description='The max try limitation is not exceeded.'
             )))
 
 

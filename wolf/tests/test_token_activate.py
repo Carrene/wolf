@@ -63,9 +63,9 @@ class ActivateTokenTestCase(BDDTestClass):
                 'Trying to activate a active token',
                 url_parameters=dict(token_id=self.mockup_active_token_id),
             )
-            Then(response.status_code == 409)
+            Then(response.status_code == 465)
             And(self.assertDictEqual(response.json, dict(
-                message='Conflict',
+                message='Token is active',
                 description='Token is already active.'
             )))
 
