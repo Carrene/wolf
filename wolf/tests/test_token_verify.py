@@ -11,15 +11,6 @@ from wolf.tests.helpers import TimeMonkeyPatch, BDDTestClass
 
 class VerifyTokenTestCase(BDDTestClass):
 
-    # @classmethod
-    # def application_factory(cls):
-    #     app = super().application_factory()
-    #     settings.merge('''
-    #         oath:
-    #           window: 10
-    #     ''')
-    #     return app
-
     @classmethod
     def configure_app(cls):
         cls.application.configure(force=True, context=dict(unittest=True))
@@ -54,19 +45,31 @@ class VerifyTokenTestCase(BDDTestClass):
             b'\x01U\x81!\xd8\x9cg\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
         mockup_token2.is_active = True
 
+        mockup_token3 = Token()
+        mockup_token3.name = 'DeactivatedToken'
+        mockup_token3.phone = 2
+        mockup_token3.expire_date = '2059-12-07T18:14:39'
+        mockup_token3.seed = \
+            b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9' \
+            b'\x01U\x81!\xd8\x9cg\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
+        mockup_token2.is_active = False
+
         # 752a312744b9bba65a2e3e886abe5a9b33c6ca8425870a890d8a0d699428f22248b0f7879aa1493901558121d89c67fcf7dee513fbba5aefa66476a2c0590076
 
         mockup_cryptomodule_length_5 = Cryptomodule()
         mockup_cryptomodule_length_5.challenge_response_length = 5
         mockup_cryptomodule_length_5.one_time_password_length = 5
         mockup_token2.cryptomodule = mockup_cryptomodule_length_5
+        mockup_token3.cryptomodule = mockup_cryptomodule_length_5
 
         DBSession.add(mockup_token2)
+        DBSession.add(mockup_token3)
         DBSession.add(mockup_cryptomodule_length_5)
         DBSession.commit()
 
         cls.mockup_token1_id = mockup_token1.id
         cls.mockup_token2_id = mockup_token2.id
+        cls.mockup_token3_id = mockup_token3.id
         cls.pinblock = EncryptedISOPinBlock(mockup_token1.id)
         cls.fake_time1 = 10001000
         cls.challenge1 = 'testchallenge-1'
@@ -164,6 +167,19 @@ class VerifyTokenTestCase(BDDTestClass):
 
         with TimeMonkeyPatch(future_time), Given(call):
             Then(response.status_code == 461)
+
+    def test_verify_token_deactivated(self):
+        mockup_token_id = self.mockup_token3_id
+
+        call = self.call(
+            title='When time expired',
+            description='Verifying time based OTP',
+            url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
+            verb='VERIFY',
+        )
+
+        with TimeMonkeyPatch(self.fake_time1), Given(call):
+            Then(response.status_code == 463)
 
 
 if __name__ == '__main__':  # pragma: no cover
