@@ -9,6 +9,7 @@ from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, Pagina
     DBSession, OrderingMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from wolf import cryptoutil
@@ -44,8 +45,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
         ),
     )
 
-    # @hybrid_property
-    @property
+    @hybrid_property
     def is_locked(self):
         return self.consecutive_tries >= settings.token.max_consecutive_tries
 

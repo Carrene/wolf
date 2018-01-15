@@ -24,7 +24,7 @@ class ListTokenTestCase(BDDTestClass):
         first_token.seed = b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
 
         first_token.is_active = True
-        first_token.consecutive_tries = settings.token.max_consecutive_tries + 1
+        first_token.consecutive_tries = 5
         first_token.cryptomodule = mockup_cryptomodule
         DBSession.add(first_token)
 
@@ -68,10 +68,14 @@ class ListTokenTestCase(BDDTestClass):
                 )
             )
             Then(response.status_code == 200)
-            And(len(response.json) == 3)
-            And(response.json[0]['id'] == 1)
-            And(response.json[1]['id'] == 2)
-            And(response.json[2]['id'] == 3)
+            result = response.json
+            And(len(result) == 3)
+            And(result[0]['id'] == 1)
+            And(result[1]['id'] == 2)
+            And(result[2]['id'] == 3)
+            And(result[0]['isLocked'] is True)
+            And(result[1]['isLocked'] is False)
+            And(result[2]['isLocked'] is False)
 
             When(
                 'Trying to get list of tokens sorted by id descending',
@@ -80,10 +84,11 @@ class ListTokenTestCase(BDDTestClass):
                 )
             )
             Then(response.status_code == 200)
-            And(len(response.json) == 3)
-            And(response.json[0]['id'] == 3)
-            And(response.json[1]['id'] == 2)
-            And(response.json[2]['id'] == 1)
+            result = response.json
+            And(len(result) == 3)
+            And(result[0]['id'] == 3)
+            And(result[1]['id'] == 2)
+            And(result[2]['id'] == 1)
 
             When(
                 'Trying to get list of tokens with phone query string',
