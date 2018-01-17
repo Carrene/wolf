@@ -42,6 +42,7 @@ class GetTokenTestCase(BDDTestClass):
             Then(response.status_code == 200)
             And(response.json['id'] == self.mockup_first_token_id)
             And('isLocked' in response.json)
+            And('isExpired' in response.json)
 
             When(
                 'Trying to get a none existence token',

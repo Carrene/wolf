@@ -76,6 +76,9 @@ class ListTokenTestCase(BDDTestClass):
             And(result[0]['isLocked'] is True)
             And(result[1]['isLocked'] is False)
             And(result[2]['isLocked'] is False)
+            And(result[0]['isExpired'] is False)
+            And(result[1]['isExpired'] is True)
+            And(result[2]['isExpired'] is True)
 
             When(
                 'Trying to get list of tokens sorted by id descending',

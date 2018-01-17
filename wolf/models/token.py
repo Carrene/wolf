@@ -49,8 +49,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
     def is_locked(self):
         return self.consecutive_tries >= settings.token.max_consecutive_tries
 
-    # @hybrid_property
-    @property
+    @hybrid_property
     def is_expired(self):
         return self.expire_date <= date.today()
 
