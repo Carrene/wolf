@@ -2,15 +2,18 @@ from os.path import join, dirname
 
 from restfulpy import Application as BaseApplication
 
+from wolf.authentication import Authenticator
 from . import basedata
 from .controllers.root import Root
 from .cli import PinBlockLauncher
 
 
-__version__ = '0.17.0-alpha.0'
+__version__ = '0.18.0-alpha.1'
 
 
 class Application(BaseApplication):
+    __authenticator__ = Authenticator()
+
     builtin_configuration = """
     db: 
       url: postgresql://postgres:postgres@localhost/wolf

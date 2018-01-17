@@ -3,12 +3,14 @@ from datetime import date, timedelta
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
+from bddrest import When, Then, Given, response, And
+
 
 from wolf.models import Cryptomodule, Token
-from wolf.tests.helpers import DocumentaryTestCase
+from wolf.tests.helpers import BDDTestClass
 
 
-class ListTokenTestCase(DocumentaryTestCase):
+class ListTokenTestCase(BDDTestClass):
 
     @classmethod
     def mockup(cls):
@@ -22,7 +24,7 @@ class ListTokenTestCase(DocumentaryTestCase):
         first_token.seed = b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
 
         first_token.is_active = True
-        first_token.consecutive_tries = settings.token.max_consecutive_tries + 1
+        first_token.consecutive_tries = 5
         first_token.cryptomodule = mockup_cryptomodule
         DBSession.add(first_token)
 
@@ -48,37 +50,70 @@ class ListTokenTestCase(DocumentaryTestCase):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_list_token(self):
-        # Token list
-        response = self.call_as_bank(
-            'Tokens list',
-            'LIST',
-            '/apiv1/tokens'
-        )
-        self.assertEqual(len(response.json), 3)
-
-        # Token list with a phone query
-        response = self.call_as_bank(
-            'Tokens list with a phone query',
-            'LIST',
-            '/apiv1/tokens',
-            query=dict(phone=989121234567)
+        call = self.call(
+            title='Token list',
+            description='List of tokens',
+            url='/apiv1/tokens',
+            verb='LIST',
         )
 
-        self.assertEqual(len(response.json), 2)
-        self.assertIsNotNone(response.json[0]['id'])
-        self.assertIsNotNone(response.json[1]['id'])
-        self.assertEqual(response.json[0]['phone'], 989121234567)
-        self.assertEqual(response.json[1]['phone'], 989121234567)
+        with Given(call):
+            Then(response.status_code == 200)
+            And(len(response.json) == 3)
 
-        # Token list with pagination
-        response = self.call_as_bank(
-            'Token list with pagination',
-            'LIST',
-            '/apiv1/tokens',
-            query=dict(take=2)
-        )
+            When(
+                'Trying to get list of tokens sorted by id ascending',
+                query=dict(
+                    sort='id'
+                )
+            )
+            Then(response.status_code == 200)
+            result = response.json
+            And(len(result) == 3)
+            And(result[0]['id'] == 1)
+            And(result[1]['id'] == 2)
+            And(result[2]['id'] == 3)
+            And(result[0]['isLocked'] is True)
+            And(result[1]['isLocked'] is False)
+            And(result[2]['isLocked'] is False)
+            And(result[0]['isExpired'] is False)
+            And(result[1]['isExpired'] is True)
+            And(result[2]['isExpired'] is True)
 
-        self.assertEqual(len(response.json), 2)
+            When(
+                'Trying to get list of tokens sorted by id descending',
+                query=dict(
+                    sort='-id'
+                )
+            )
+            Then(response.status_code == 200)
+            result = response.json
+            And(len(result) == 3)
+            And(result[0]['id'] == 3)
+            And(result[1]['id'] == 2)
+            And(result[2]['id'] == 1)
+
+            When(
+                'Trying to get list of tokens with phone query string',
+                query=dict(
+                    phone=989121234567
+                )
+            )
+            Then(response.status_code == 200)
+            And(len(response.json) == 2)
+            And('id' in response.json[0])
+            And('id' in response.json[1])
+            And(response.json[0]['phone'] == 989121234567)
+            And(response.json[1]['phone'] == 989121234567)
+
+            When(
+                'Trying to get list of tokens with take query string',
+                query=dict(
+                    take=2
+                )
+            )
+            Then(response.status_code == 200)
+            And(len(response.json) == 2)
 
 
 if __name__ == '__main__':  # pragma: no cover

@@ -1,13 +1,12 @@
 import unittest
 
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
 
 from wolf.models import Cryptomodule, Token
-from wolf.tests.helpers import BDDTestClass
+from wolf.tests.helpers import DocumentaryTestCase
 
 
-class DeleteTokenTestCase(BDDTestClass):
+class DeleteTokenTestCase(DocumentaryTestCase):
 
     @classmethod
     def mockup(cls):
@@ -29,29 +28,33 @@ class DeleteTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_delete_token(self):
-        call = self.call(
-            title='Delete a token',
-            description='Delete a token by id',
-            url=f'/apiv1/tokens/token_id: {self.mockup_first_token_id}',
-            verb='DELETE',
+        first_mockup_token_id = self.mockup_first_token_id
+        none_existence_token_id = 0
+
+        # Delete a none existence token
+        self.call_as_bank(
+            'Delete a None existence token',
+            'DELETE',
+            f'/apiv1/tokens/token_id: {none_existence_token_id}',
+            status=404
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(response.json['id'] == self.mockup_first_token_id)
+        # Delete a token
+        response = self.call_as_bank(
+            'Delete a token',
+            'DELETE',
+            f'/apiv1/tokens/token_id: {first_mockup_token_id}',
+        )
 
-            When(
-                'Trying to delete a none existence token',
-                url_parameters=dict(token_id=0),
-            )
-            Then(response.status_code == 404)
+        self.assertEqual(response.json['id'], first_mockup_token_id)
 
-            When(
-                'Trying to get a deleted token',
-                url_parameters=dict(token_id=self.mockup_first_token_id),
-                verb='GET',
-            )
-            Then(response.status_code == 404)
+        # Get a deleted token
+        self.call_as_bank(
+            'Get a deleted token',
+            'Get',
+            f'/apiv1/tokens/token_id: {first_mockup_token_id}',
+            status=404
+        )
 
 
 if __name__ == '__main__':  # pragma: no cover

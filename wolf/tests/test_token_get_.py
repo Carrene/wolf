@@ -2,13 +2,12 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
 
 from wolf.models import Cryptomodule, Token
-from wolf.tests.helpers import BDDTestClass
+from wolf.tests.helpers import DocumentaryTestCase
 
 
-class GetTokenTestCase(BDDTestClass):
+class GetTokenTestCase(DocumentaryTestCase):
 
     @classmethod
     def mockup(cls):
@@ -31,30 +30,32 @@ class GetTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_get_token(self):
-        call = self.call(
-            title='Get a token',
-            description='Get a single token by id',
-            url=f'/apiv1/tokens/token_id: {self.mockup_first_token_id}',
-            verb='GET',
+        mockup_token_id = self.mockup_first_token_id
+        none_existence_token_id = 0
+
+        # Get a token
+        response = self.call_as_bank(
+            'Get a token',
+            'GET',
+            f'/apiv1/tokens/token_id: {mockup_token_id}'
+        )
+        self.assertEqual(response.json['id'], mockup_token_id)
+
+        # Get a none existence token
+        self.call_as_bank(
+            'Get a none existence token',
+            'GET',
+            f'/apiv1/tokens/token_id: {none_existence_token_id}',
+            status=404
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(response.json['id'] == self.mockup_first_token_id)
-            And('isLocked' in response.json)
-            And('isExpired' in response.json)
-
-            When(
-                'Trying to get a none existence token',
-                url_parameters=dict(token_id=0),
-            )
-            Then(response.status_code == 404)
-
-            When(
-                'Trying to get a token without providing a token_id',
-                url=f'/apiv1/tokens',
-            )
-            Then(response.status_code == 404)
+        # Get token without providing a token_id
+        self.call_as_bank(
+            'Get token without providing a token_id',
+            'GET',
+            f'/apiv1/tokens',
+            status=404
+        )
 
 
 if __name__ == '__main__':  # pragma: no cover

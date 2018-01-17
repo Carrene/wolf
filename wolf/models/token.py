@@ -5,10 +5,11 @@ from datetime import date
 
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum
 from nanohttp import settings, HttpConflict
-from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, ActivationMixin, Field,\
-    DBSession
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, ActivationMixin, Field, \
+    DBSession, OrderingMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from wolf import cryptoutil
@@ -18,7 +19,7 @@ class DuplicateSeedError(Exception):
     pass
 
 
-class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, DeclarativeBase):
+class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
@@ -44,13 +45,11 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Dec
         ),
     )
 
-    # @hybrid_property
-    @property
+    @hybrid_property
     def is_locked(self):
         return self.consecutive_tries >= settings.token.max_consecutive_tries
 
-    # @hybrid_property
-    @property
+    @hybrid_property
     def is_expired(self):
         return self.expire_date <= date.today()
 

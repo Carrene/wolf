@@ -54,11 +54,14 @@ Install it using [this instruction](https://docs.python.org/3/using/index.html).
 
 So, your changes will affect instantly on the installed version
 
-#### wolf
+#### wolf and oath.py
     
     $ cd /path/to/workspace
     $ git clone git@github.com:Carrene/wolf.git
-    $ cd wolf
+    $ git clone git@github.com:Carrene/oath.py.git
+    $ cd oath.py
+    $ pip install -e .
+    $ cd ../wolf
     $ pip install -e .
 
 For running tests, you should install development requirements too:
