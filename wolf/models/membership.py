@@ -4,7 +4,7 @@ from _sha256 import sha256
 
 from restfulpy.orm import ModifiedMixin, DeclarativeBase, Field
 from restfulpy.principal import JwtPrincipal, JwtRefreshToken
-from sqlalchemy import Integer, Unicode, ForeignKey
+from sqlalchemy import Integer, Unicode
 from sqlalchemy.orm import synonym
 
 
@@ -82,12 +82,9 @@ class Member(ModifiedMixin, DeclarativeBase):
 
 
 class Admin(Member):
-    __tablename__ = 'admin'
     __mapper_args__ = {
-        'polymorphic_identity': __tablename__,
+        'polymorphic_identity': 'admin',
     }
-
-    id = Field(Integer, ForeignKey(Member.id), primary_key=True)
 
     @property
     def roles(self):
