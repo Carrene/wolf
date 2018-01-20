@@ -1,12 +1,14 @@
 import functools
 
-from nanohttp import json, context, HttpNotFound, HttpBadRequest
+from datetime import date
+from nanohttp import json, context, HttpNotFound, HttpBadRequest, HttpConflict
 from restfulpy.controllers import ModelRestController
 from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form
 
 from ..models import Token, Device, Cryptomodule
-from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError
+from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError, DeactivatedTokenError,\
+    ActivatedTokenError, NotLockedTokenError
 from .codes import CodesController
 
 
@@ -41,6 +43,9 @@ class TokenController(ModelRestController):
 
         if token.is_locked:
             raise LockedTokenError()
+
+        if not token.is_active:
+            raise DeactivatedTokenError()
 
     @staticmethod
     def _ensure_device():
@@ -94,3 +99,78 @@ class TokenController(ModelRestController):
         result = token.to_dict()
         result['provisioning'] = token.provision(device.secret)
         return result
+
+    @json
+    @Token.expose
+    def list(self):
+        return Token.query
+
+    @json
+    @Token.expose
+    def get(self, token_id: int):
+        return self._ensure_token(token_id)
+
+    @json
+    @validate_form(
+        exact=['expireDate'],
+        types={'expireDate': float}
+    )
+    @Token.expose
+    @commit
+    def extend(self, token_id: int):
+        token = self._ensure_token(token_id)
+        expire_date = date.fromtimestamp(context.form['expireDate'])
+
+        if expire_date <= max(token.expire_date, date.today()):
+            raise HttpBadRequest(info='expireDate must be grater that current expireDate.')
+        token.expire_date = expire_date
+        DBSession.add(token)
+        return token
+
+    @json
+    @Token.expose
+    @commit
+    def unlock(self, token_id: int):
+        token = self._ensure_token(token_id)
+
+        if not token.is_locked:
+            raise NotLockedTokenError()
+
+        token.consecutive_tries = 0
+        DBSession.add(token)
+        return token
+
+    @json
+    @Token.expose
+    @commit
+    def delete(self, token_id: int):
+        token = self._ensure_token(token_id)
+        result = token.to_dict()
+        DBSession.delete(token)
+        return result
+
+    @json
+    @Token.expose
+    @commit
+    def activate(self, token_id: int):
+        token = self._ensure_token(token_id)
+
+        if token.is_active:
+            raise ActivatedTokenError()
+
+        token.is_active = True
+        DBSession.add(token)
+        return token
+
+    @json
+    @Token.expose
+    @commit
+    def deactivate(self, token_id: int):
+        token = self._ensure_token(token_id)
+
+        if not token.is_active:
+            raise DeactivatedTokenError()
+
+        token.is_active = False
+        DBSession.add(token)
+        return token

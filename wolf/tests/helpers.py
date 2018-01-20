@@ -1,13 +1,23 @@
 import time
+import unittest
 from collections import namedtuple
 
 from nanohttp import settings
 from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
+from restfulpy.testing import WebAppTestCase
 
+from bddrest import WsgiCall
 from wolf import cryptoutil, Application as Wolf
 
 
 roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceManager')
+
+
+class BDDTestClass(WebAppTestCase):
+    application = Wolf()
+
+    def call(self, **kwargs):
+        return WsgiCall(self.application, **kwargs)
 
 
 class DocumentaryMiddleware(FileDocumentaryMiddleware):

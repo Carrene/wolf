@@ -3,7 +3,7 @@ from nanohttp import action, settings, RestController, HttpBadRequest
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
 
-from ..excpetions import ExpiredTokenError, LockedTokenError
+from ..excpetions import ExpiredTokenError, LockedTokenError, DeactivatedTokenError
 from ..cryptoutil import EncryptedISOPinBlock
 
 
@@ -21,6 +21,9 @@ class CodesController(RestController):
 
         if self.token.is_expired:
             raise ExpiredTokenError()
+
+        if not self.token.is_active:
+            raise DeactivatedTokenError()
 
         window = settings.oath.window
         pinblock = EncryptedISOPinBlock(self.token.id)
