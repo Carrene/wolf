@@ -110,7 +110,7 @@ class VerifyTokenTestCase(BDDTestClass):
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
             verb='VERIFY',
         )
-        with TimeMonkeyPatch(self.fake_time1), given(**call):
+        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
             then(response.status_code == 200)
 
             when(
@@ -125,7 +125,7 @@ class VerifyTokenTestCase(BDDTestClass):
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time2}',
             verb='VERIFY',
         )
-        with TimeMonkeyPatch(self.fake_time2), given(**call):
+        with TimeMonkeyPatch(self.fake_time2), self.given(**call):
             then(response.status_code == 200)
 
             when(
@@ -141,7 +141,7 @@ class VerifyTokenTestCase(BDDTestClass):
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(self.invalid_fake_time), given(**call):
+        with TimeMonkeyPatch(self.invalid_fake_time), self.given(**call):
             then(response.status_code == 400)
 
     def test_verify_token_expiration(self):
@@ -154,7 +154,7 @@ class VerifyTokenTestCase(BDDTestClass):
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(self.fake_time1), given(**call):
+        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
             then(response.status_code == 200)
 
         future_time = 99999999999
@@ -165,7 +165,7 @@ class VerifyTokenTestCase(BDDTestClass):
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(future_time), given(**call):
+        with TimeMonkeyPatch(future_time), self.given(**call):
             then(response.status_code == 461)
 
     def test_verify_token_deactivated(self):
@@ -178,7 +178,7 @@ class VerifyTokenTestCase(BDDTestClass):
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(self.fake_time1), given(**call):
+        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
             then(response.status_code == 463)
 
 

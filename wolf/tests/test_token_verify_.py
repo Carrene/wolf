@@ -111,7 +111,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
                 f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time2}',
             )
 
-            dict(
+            self.call(
                 'SKIP: Trying to verify an invalid code',
                 'VERIFY',
                 f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.invalid_otp_token1_time2}',
@@ -120,7 +120,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
 
         # Invalid time
         with TimeMonkeyPatch(self.invalid_fake_time):
-            dict(
+            self.call(
                 'Verifying in invalid time',
                 'VERIFY',
                 f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time2}',
@@ -131,7 +131,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
         mockup_token_id = self.mockup_token1_id
 
         with TimeMonkeyPatch(self.fake_time1):
-            dict(
+            self.call(
                 'SKIP: ensure the code is valid',
                 'VERIFY',
                 f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
@@ -139,7 +139,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
 
         future_time = 99999999999
         with TimeMonkeyPatch(future_time):
-            dict(
+            self.call(
                 'when time expired',
                 'VERIFY',
                 f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
