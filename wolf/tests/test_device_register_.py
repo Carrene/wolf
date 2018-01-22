@@ -41,7 +41,7 @@ class AddDeviceTestCase(DocumentaryTestCase):
                 'phone': phone,
                 'udid': udid
             },
-            description='In this case the device secret will be re-randomized and therefore the previous instance of '
+            description='In this case the device secret will be re-randomized and_ therefore the previous instance of '
                         'the mobile app is not usable anymore'
         )
 

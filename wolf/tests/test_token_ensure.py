@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.models import Cryptomodule, Token, Device
 from wolf.tests.helpers import RandomMonkeyPatch, BDDTestClass
@@ -60,7 +60,7 @@ class EnsureTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_ensure_token(self):
-        call = self.call(
+        call = dict(
             title='Provisioning',
             description='Provisioning',
             url='/apiv1/tokens',
@@ -74,17 +74,17 @@ class EnsureTokenTestCase(BDDTestClass):
         )
         with RandomMonkeyPatch(
                 b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), Given(call):
+        ), self.given(**call):
 
-            Then(response.status_code == 200)
+            then(response.status_code == 200)
             result = response.json
-            And('provisioning' in result)
-            And(result['expireDate'] == '2021-02-16')
+            and_('provisioning' in result)
+            and_(result['expireDate'] == '2021-02-16')
             token = result['provisioning']
-            And(token == 'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EA'
+            and_(token == 'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EA'
                          'E3371043A34342C84A7CAFCF82298A12F3440012102163515')
 
-            When(
+            when(
                 'Ensure the same token again',
                 form={
                     'phone': 989122451075,
@@ -93,13 +93,13 @@ class EnsureTokenTestCase(BDDTestClass):
                     'expireDate': 1513434403,
                 }
             )
-            Then(response.status_code == 200)
+            then(response.status_code == 200)
             result = response.json
-            And('provisioning' in result)
-            And(result['provisioning'] == token)
+            and_('provisioning' in result)
+            and_(result['provisioning'] == token)
 
     def test_invalid_cryptomodule_id(self):
-        call = self.call(
+        call = dict(
             title='Provisioning with string',
             description='Provisioning with non-digit cryptomodule id',
             url='/apiv1/tokens',
@@ -113,15 +113,15 @@ class EnsureTokenTestCase(BDDTestClass):
         )
         with RandomMonkeyPatch(
                 b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), Given(call):
+        ), self.given(**call):
 
-            Then(response.status_code == 400)
-            And(self.assertDictEqual(response.json, dict(
+            then(response.status_code == 400)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Bad Request',
                 description='The field: cryptomoduleId must be int'
             )))
 
-        call = self.call(
+        call = dict(
             title='Provisioning with zero',
             description='Trying to ensure token with provisioning with zero cryptomodule id',
             url='/apiv1/tokens',
@@ -136,17 +136,17 @@ class EnsureTokenTestCase(BDDTestClass):
 
         with RandomMonkeyPatch(
                 b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), Given(call):
+        ), self.given(**call):
 
-            Then(response.status_code == 400)
-            And(self.assertDictEqual(response.json, dict(
+            then(response.status_code == 400)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Bad Request',
                 description='Invalid cryptomodule id.'
             )))
 
     def test_invalid_token_name(self):
 
-        call = self.call(
+        call = dict(
             title='Provisioning with empty token name',
             description='Provisioning with empty token name',
             url='/apiv1/tokens',
@@ -161,14 +161,14 @@ class EnsureTokenTestCase(BDDTestClass):
 
         with RandomMonkeyPatch(
             b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), Given(call):
-            Then(response.status_code == 400)
-            And(self.assertDictEqual(response.json, dict(
+        ), self.given(**call):
+            then(response.status_code == 400)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Bad Request',
                 description='Please enter at least 1 characters for field: name.'
             )))
 
-        call = self.call(
+        call = dict(
             title='ensure token with provisioning with a long token name',
             description='Trying to ensure token with provisioning with a long token name',
             url='/apiv1/tokens',
@@ -183,17 +183,17 @@ class EnsureTokenTestCase(BDDTestClass):
 
         with RandomMonkeyPatch(
             b'F\x2e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), Given(call):
+        ), self.given(**call):
 
-            Then(response.status_code == 400)
-            And(self.assertDictEqual(response.json, dict(
+            then(response.status_code == 400)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Bad Request',
                 description='Cannot enter more than: 50 in field: name.'
             )))
 
     def test_locked_token(self):
 
-        call = self.call(
+        call = dict(
             title='Provisioning with an expired token',
             description='Provisioning with an expired token',
             url='/apiv1/tokens',
@@ -208,16 +208,16 @@ class EnsureTokenTestCase(BDDTestClass):
 
         with RandomMonkeyPatch(
             b'F\x7e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), Given(call):
+        ), self.given(**call):
 
-            Then(response.status_code == 462)
-            And(self.assertDictEqual(response.json, dict(
+            then(response.status_code == 462)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Token is locked',
                 description='The max try limitation is exceeded.'
             )))
 
     def test_expired_token(self):
-        call = self.call(
+        call = dict(
             title='Provisioning with an expired token',
             description='Provisioning with an expired token',
             url='/apiv1/tokens',
@@ -230,15 +230,15 @@ class EnsureTokenTestCase(BDDTestClass):
             },
         )
 
-        with Given(call):
-            Then(response.status_code == 461)
-            And(self.assertDictEqual(response.json, dict(
+        with self.given(**call):
+            then(response.status_code == 461)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Token is expired',
                 description='The requested token is expired.'
             )))
 
     def test_deactivated_token(self):
-        call = self.call(
+        call = dict(
             title='Provisioning with an deactivated token',
             description='Provisioning with an deactivated token',
             url='/apiv1/tokens',
@@ -251,9 +251,9 @@ class EnsureTokenTestCase(BDDTestClass):
             },
         )
 
-        with Given(call):
-            Then(response.status_code == 463)
-            And(self.assertDictEqual(response.json, dict(
+        with self.given(**call):
+            then(response.status_code == 463)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Token is deactivated',
                 description='Token has been deactivated.'
             )))

@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
@@ -31,30 +31,30 @@ class GetTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_get_token(self):
-        call = self.call(
+        call = dict(
             title='Get a token',
             description='Get a single token by id',
             url=f'/apiv1/tokens/token_id: {self.mockup_first_token_id}',
             verb='GET',
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(response.json['id'] == self.mockup_first_token_id)
-            And('isLocked' in response.json)
-            And('isExpired' in response.json)
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_(response.json['id'] == self.mockup_first_token_id)
+            and_('isLocked' in response.json)
+            and_('isExpired' in response.json)
 
-            When(
+            when(
                 'Trying to get a none existence token',
                 url_parameters=dict(token_id=0),
             )
-            Then(response.status_code == 404)
+            then(response.status_code == 404)
 
-            When(
+            when(
                 'Trying to get a token without providing a token_id',
                 url=f'/apiv1/tokens',
             )
-            Then(response.status_code == 404)
+            then(response.status_code == 404)
 
 
 if __name__ == '__main__':  # pragma: no cover

@@ -6,7 +6,7 @@ from wolf.tests.helpers import DocumentaryTestCase
 class VersionTestCase(DocumentaryTestCase):
 
     def test_version(self):
-        response = self.call('Obtaining the backend version', 'GET', '/apiv1/version')
+        response = dict('Obtaining the backend version', 'GET', '/apiv1/version')
         self.assertIn('version', response.json)
 
 

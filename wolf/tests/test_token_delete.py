@@ -1,7 +1,7 @@
 import unittest
 
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
@@ -29,29 +29,29 @@ class DeleteTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_delete_token(self):
-        call = self.call(
+        call = dict(
             title='Delete a token',
             description='Delete a token by id',
             url=f'/apiv1/tokens/token_id: {self.mockup_first_token_id}',
             verb='DELETE',
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(response.json['id'] == self.mockup_first_token_id)
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_(response.json['id'] == self.mockup_first_token_id)
 
-            When(
+            when(
                 'Trying to delete a none existence token',
                 url_parameters=dict(token_id=0),
             )
-            Then(response.status_code == 404)
+            then(response.status_code == 404)
 
-            When(
+            when(
                 'Trying to get a deleted token',
                 url_parameters=dict(token_id=self.mockup_first_token_id),
                 verb='GET',
             )
-            Then(response.status_code == 404)
+            then(response.status_code == 404)
 
 
 if __name__ == '__main__':  # pragma: no cover

@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
@@ -41,35 +41,35 @@ class UnlockTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_unlock_token(self):
-        call = self.call(
+        call = dict(
             title='Unlock a token',
             description='Unlock a token by id',
             url=f'/apiv1/tokens/token_id: {self.mockup_locked_token_id}',
             verb='UNLOCK',
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(response.json['id'] == self.mockup_locked_token_id)
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_(response.json['id'] == self.mockup_locked_token_id)
 
-            When(
+            when(
                 'Trying to unlock a token that was unlocked before',
                 url_parameters=dict(token_id=self.mockup_locked_token_id),
             )
-            Then(response.status_code == 466)
+            then(response.status_code == 466)
 
-            When(
+            when(
                 'Trying to unlock a none existence token',
                 url_parameters=dict(token_id=0),
             )
-            Then(response.status_code == 404)
+            then(response.status_code == 404)
 
-            When(
+            when(
                 'Trying to Unlock an unlocked token',
                 url_parameters=dict(token_id=self.mockup_unlock_token_id),
             )
-            Then(response.status_code == 466)
-            And(self.assertDictEqual(response.json, dict(
+            then(response.status_code == 466)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Token is not locked',
                 description='The max try limitation is not exceeded.'
             )))

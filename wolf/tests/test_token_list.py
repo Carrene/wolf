@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 
 from wolf.models import Cryptomodule, Token
@@ -50,70 +50,70 @@ class ListTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_list_token(self):
-        call = self.call(
+        call = dict(
             title='Token list',
             description='List of tokens',
             url='/apiv1/tokens',
             verb='LIST',
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(len(response.json) == 3)
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_(len(response.json) == 3)
 
-            When(
+            when(
                 'Trying to get list of tokens sorted by id ascending',
                 query=dict(
                     sort='id'
                 )
             )
-            Then(response.status_code == 200)
+            then(response.status_code == 200)
             result = response.json
-            And(len(result) == 3)
-            And(result[0]['id'] == 1)
-            And(result[1]['id'] == 2)
-            And(result[2]['id'] == 3)
-            And(result[0]['isLocked'] is True)
-            And(result[1]['isLocked'] is False)
-            And(result[2]['isLocked'] is False)
-            And(result[0]['isExpired'] is False)
-            And(result[1]['isExpired'] is True)
-            And(result[2]['isExpired'] is True)
+            and_(len(result) == 3)
+            and_(result[0]['id'] == 1)
+            and_(result[1]['id'] == 2)
+            and_(result[2]['id'] == 3)
+            and_(result[0]['isLocked'] is True)
+            and_(result[1]['isLocked'] is False)
+            and_(result[2]['isLocked'] is False)
+            and_(result[0]['isExpired'] is False)
+            and_(result[1]['isExpired'] is True)
+            and_(result[2]['isExpired'] is True)
 
-            When(
+            when(
                 'Trying to get list of tokens sorted by id descending',
                 query=dict(
                     sort='-id'
                 )
             )
-            Then(response.status_code == 200)
+            then(response.status_code == 200)
             result = response.json
-            And(len(result) == 3)
-            And(result[0]['id'] == 3)
-            And(result[1]['id'] == 2)
-            And(result[2]['id'] == 1)
+            and_(len(result) == 3)
+            and_(result[0]['id'] == 3)
+            and_(result[1]['id'] == 2)
+            and_(result[2]['id'] == 1)
 
-            When(
+            when(
                 'Trying to get list of tokens with phone query string',
                 query=dict(
                     phone=989121234567
                 )
             )
-            Then(response.status_code == 200)
-            And(len(response.json) == 2)
-            And('id' in response.json[0])
-            And('id' in response.json[1])
-            And(response.json[0]['phone'] == 989121234567)
-            And(response.json[1]['phone'] == 989121234567)
+            then(response.status_code == 200)
+            and_(len(response.json) == 2)
+            and_('id' in response.json[0])
+            and_('id' in response.json[1])
+            and_(response.json[0]['phone'] == 989121234567)
+            and_(response.json[1]['phone'] == 989121234567)
 
-            When(
+            when(
                 'Trying to get list of tokens with take query string',
                 query=dict(
                     take=2
                 )
             )
-            Then(response.status_code == 200)
-            And(len(response.json) == 2)
+            then(response.status_code == 200)
+            and_(len(response.json) == 2)
 
 
 if __name__ == '__main__':  # pragma: no cover
