@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock
@@ -89,7 +89,7 @@ class VerifyTokenTestCase(BDDTestClass):
     def test_verify_token_otp_time_length_5(self):
         mockup_token_id = self.mockup_token2_id
 
-        call = self.call(
+        call = dict(
             title='Verifying time based OTP',
             description='Verifying time based OTP',
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token2_time1}',
@@ -97,89 +97,89 @@ class VerifyTokenTestCase(BDDTestClass):
         )
 
         with TimeMonkeyPatch(self.fake_time3):
-            with Given(call):
+            with self.given(**call):
 
-                Then(response.status_code == 200)
+                then(response.status_code == 200)
 
     def test_verify_token_otp_time(self):
         mockup_token_id = self.mockup_token1_id
 
-        call = self.call(
+        call = dict(
             title='Verifying time based OTP',
             description='Verifying time based OTP',
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
             verb='VERIFY',
         )
-        with TimeMonkeyPatch(self.fake_time1), Given(call):
-            Then(response.status_code == 200)
+        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
+            then(response.status_code == 200)
 
-            When(
+            when(
                 'Trying to verify an invalid code',
                 url_parameters=dict(code=self.invalid_otp_token1_time1)
             )
-            Then(response.status_code == 400)
+            then(response.status_code == 400)
 
-        call = self.call(
+        call = dict(
             title='SKIP: Verifying time base OTP',
             description='Test on another time',
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time2}',
             verb='VERIFY',
         )
-        with TimeMonkeyPatch(self.fake_time2), Given(call):
-            Then(response.status_code == 200)
+        with TimeMonkeyPatch(self.fake_time2), self.given(**call):
+            then(response.status_code == 200)
 
-            When(
+            when(
                 'Trying to verify an invalid code',
                 url_parameters=dict(code=self.invalid_otp_token1_time2)
             )
-            Then(response.status_code == 400)
+            then(response.status_code == 400)
 
-        call = self.call(
+        call = dict(
             title='Verifying in invalid time',
             description='Invalid time',
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time2}',
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(self.invalid_fake_time), Given(call):
-            Then(response.status_code == 400)
+        with TimeMonkeyPatch(self.invalid_fake_time), self.given(**call):
+            then(response.status_code == 400)
 
     def test_verify_token_expiration(self):
         mockup_token_id = self.mockup_token1_id
 
-        call = self.call(
+        call = dict(
             title='SKIP: ensure the code is valid',
             description='ensure the code is valid',
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(self.fake_time1), Given(call):
-            Then(response.status_code == 200)
+        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
+            then(response.status_code == 200)
 
         future_time = 99999999999
-        call = self.call(
-            title='When time expired',
+        call = dict(
+            title='when time expired',
             description='Verifying time based OTP',
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(future_time), Given(call):
-            Then(response.status_code == 461)
+        with TimeMonkeyPatch(future_time), self.given(**call):
+            then(response.status_code == 461)
 
     def test_verify_token_deactivated(self):
         mockup_token_id = self.mockup_token3_id
 
-        call = self.call(
-            title='When time expired',
+        call = dict(
+            title='when time expired',
             description='Verifying time based OTP',
             url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
             verb='VERIFY',
         )
 
-        with TimeMonkeyPatch(self.fake_time1), Given(call):
-            Then(response.status_code == 463)
+        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
+            then(response.status_code == 463)
 
 
 if __name__ == '__main__':  # pragma: no cover

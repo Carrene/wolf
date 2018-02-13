@@ -2,7 +2,7 @@ import unittest
 
 from restfulpy.orm import DBSession
 from restfulpy.principal import JwtPrincipal
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.tests.helpers import BDDTestClass
 from wolf.models import Admin
@@ -19,7 +19,7 @@ class AuthenticationTestCase(BDDTestClass):
         DBSession.commit()
 
     def test_login(self):
-        call = self.call(
+        call = dict(
             title='Login',
             description='Login to system as admin',
             url='/apiv1/members',
@@ -29,29 +29,29 @@ class AuthenticationTestCase(BDDTestClass):
                 'password': '123456',
             }
         )
-        with Given(call):
-            Then(response.status_code == 200)
-            And('token' in response.json)
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_('token' in response.json)
             principal = JwtPrincipal.load(response.json['token'])
-            And('sessionId' in principal.payload)
+            and_('sessionId' in principal.payload)
 
-            When(
-                'Trying to login with invalid username and password',
+            when(
+                'Trying to login with invalid username and_ password',
                 form={
                     'username': 'invalidUserName',
                     'password': 'invalidPassword',
                 }
             )
-            Then(response.status_code == 400)
+            then(response.status_code == 400)
 
-            When(
+            when(
                 'Trying to login with invalid password',
                 form={
                     'username': 'admin',
                     'password': 'invalidPassword',
                 }
             )
-            Then(response.status_code == 400)
+            then(response.status_code == 400)
 
 
 if __name__ == '__main__':  # pragma: no cover

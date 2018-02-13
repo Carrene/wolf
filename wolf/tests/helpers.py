@@ -6,7 +6,7 @@ from nanohttp import settings
 from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
 from restfulpy.testing import WebAppTestCase
 
-from bddrest import WsgiCall
+from bddrest import given
 from wolf import cryptoutil, Application as Wolf
 
 
@@ -16,8 +16,8 @@ roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceM
 class BDDTestClass(WebAppTestCase):
     application = Wolf()
 
-    def call(self, **kwargs):
-        return WsgiCall(self.application, **kwargs)
+    def given(self, *args, **kwargs):
+        return given(self.application, *args, **kwargs)
 
 
 class DocumentaryMiddleware(FileDocumentaryMiddleware):

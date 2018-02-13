@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
@@ -41,7 +41,7 @@ class ExtendTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_extend_token(self):
-        call = self.call(
+        call = dict(
             title='Extend a token',
             description='Extend a token by id',
             url=f'/apiv1/tokens/token_id: {self.mockup_expired_token_id}',
@@ -49,42 +49,42 @@ class ExtendTokenTestCase(BDDTestClass):
             form={'expireDate': 1613434403},
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(response.json['id'] == self.mockup_expired_token_id)
-            And(response.json['expireDate'] == '2021-02-16')
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_(response.json['id'] == self.mockup_expired_token_id)
+            and_(response.json['expireDate'] == '2021-02-16')
 
-            When(
+            when(
                 'Trying extend a none existence token',
                 url_parameters=dict(token_id=0),
                 form={'expireDate': 1613434403},
             )
-            Then(response.status_code == 404)
+            then(response.status_code == 404)
 
-            When(
+            when(
                 'Trying to extend a expired token to a time that passed',
                 url_parameters=dict(token_id=self.mockup_expired_token_id),
                 form={'expireDate': 1513434403},
             )
-            Then(response.status_code == 400)
-            And(self.assertDictEqual(response.json, dict(
+            then(response.status_code == 400)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Bad Request',
                 description='expireDate must be grater that current expireDate.'
             )))
 
-            When(
+            when(
                 'Trying to extend a not expired token to a time that is less than its expire date',
                 url_parameters=dict(token_id=self.mockup_available_token_id),
                 form={'expireDate': 1813434403},
             )
-            Then(response.status_code == 400)
+            then(response.status_code == 400)
 
-            When(
+            when(
                 'Trying to extend a token with a un supported expireDate format',
                 url_parameters=dict(token_id=self.mockup_expired_token_id),
                 form={'expireDate': '2019-12-07T18:14:39.558891'},
             )
-            Then(response.status_code == 400)
+            then(response.status_code == 400)
 
 
 if __name__ == '__main__':  # pragma: no cover

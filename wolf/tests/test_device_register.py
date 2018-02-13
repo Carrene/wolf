@@ -1,7 +1,7 @@
 import unittest
 import base64
 
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.tests.helpers import BDDTestClass
 
@@ -13,9 +13,9 @@ class AddDeviceTestCase(BDDTestClass):
         udid = '2b6f0cc904d137be2e1730235f5664094b831186'
         phone = 989122451075
 
-        call = self.call(
+        call = dict(
             title='Registering a device',
-            description='Registering a device by phone and udid',
+            description='Registering a device by phone and_ udid',
             url='/apiv1/devices',
             verb='REGISTER',
             form={
@@ -24,23 +24,23 @@ class AddDeviceTestCase(BDDTestClass):
             }
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
+        with self.given(**call):
+            then(response.status_code == 200)
             result = response.json
-            And('phone' in result)
-            And('secret' in result)
-            And('createdAt' in result)
-            And('createdAt' in result)
+            and_('phone' in result)
+            and_('secret' in result)
+            and_('createdAt' in result)
+            and_('createdAt' in result)
 
-            And(result['phone'] == phone)
-            And(len(base64.decodebytes(result['secret'].encode())) == 32)
+            and_(result['phone'] == phone)
+            and_(len(base64.decodebytes(result['secret'].encode())) == 32)
             first_secret = result['secret']
 
-            When(
+            when(
                 'Trying to registering the same device again',
             )
-            Then(response.status_code == 200)
-            And(response.json['secret'] != first_secret)
+            then(response.status_code == 200)
+            and_(response.json['secret'] != first_secret)
 
 
 if __name__ == '__main__':  # pragma: no cover

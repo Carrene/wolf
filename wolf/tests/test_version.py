@@ -1,6 +1,6 @@
 import unittest
 
-from bddrest import Then, Given, response, And
+from bddrest import then, given, response, and_
 
 import wolf
 from wolf.tests.helpers import BDDTestClass
@@ -9,17 +9,17 @@ from wolf.tests.helpers import BDDTestClass
 class VersionTestCase(BDDTestClass):
 
     def test_version(self):
-        call = self.call(
+        call = dict(
             title='Application version',
             description='Get application version',
             url='/apiv1/version',
             verb='GET',
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And('version' in response.json)
-            And(response.json['version'] == wolf.__version__)
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_('version' in response.json)
+            and_(response.json['version'] == wolf.__version__)
 
 
 if __name__ == '__main__':  # pragma: no cover

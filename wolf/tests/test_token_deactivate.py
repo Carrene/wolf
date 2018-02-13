@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import When, Then, Given, response, And
+from bddrest import when, then, given, response, and_
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
@@ -41,30 +41,30 @@ class DeactivateTokenTestCase(BDDTestClass):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_deactivate_token(self):
-        call = self.call(
+        call = dict(
             title='Deactivate a token',
             description='Deactivate a token by id',
             url=f'/apiv1/tokens/token_id: {self.mockup_active_token_id}',
             verb='DEACTIVATE',
         )
 
-        with Given(call):
-            Then(response.status_code == 200)
-            And(response.json['id'] == self.mockup_active_token_id)
-            And(response.json['isActive'] is False)
+        with self.given(**call):
+            then(response.status_code == 200)
+            and_(response.json['id'] == self.mockup_active_token_id)
+            and_(response.json['isActive'] is False)
 
-            When(
+            when(
                 'Trying to deactivate a none existence token',
                 url_parameters=dict(token_id=0),
             )
-            Then(response.status_code == 404)
+            then(response.status_code == 404)
 
-            When(
+            when(
                 'Trying to deactivate a active token',
                 url_parameters=dict(token_id=self.mockup_deactive_token_id),
             )
-            Then(response.status_code == 463)
-            And(self.assertDictEqual(response.json, dict(
+            then(response.status_code == 463)
+            and_(self.assertDictEqual(response.json, dict(
                 message='Token is deactivated',
                 description='Token has been deactivated.'
             )))

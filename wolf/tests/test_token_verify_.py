@@ -140,7 +140,7 @@ class VerifyTokenTestCase(DocumentaryTestCase):
         future_time = 99999999999
         with TimeMonkeyPatch(future_time):
             self.call(
-                'When time expired',
+                'when time expired',
                 'VERIFY',
                 f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token1_time1}',
                 status=461
