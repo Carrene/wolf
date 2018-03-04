@@ -11,6 +11,7 @@ dependencies = [
     'oathpy',
     'pycrypto',
 
+    'bddrest',
     # deployment
     'gunicorn',
 ]

@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import when, then, given, response, and_
+from bddrest.authoring import when, then, given, response, and_
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
@@ -51,8 +51,8 @@ class GetTokenTestCase(BDDTestClass):
             then(response.status_code == 404)
 
             when(
-                'Trying to get a token without providing a token_id',
-                url=f'/apiv1/tokens',
+                'Trying to get a token with an invalid token id',
+                url='/apiv1/tokens'
             )
             then(response.status_code == 404)
 

@@ -6,7 +6,7 @@ from nanohttp import settings
 from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
 from restfulpy.testing import WebAppTestCase
 
-from bddrest import given
+from bddrest.authoring import given
 from wolf import cryptoutil, Application as Wolf
 
 

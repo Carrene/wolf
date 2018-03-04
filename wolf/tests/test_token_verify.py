@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest import when, then, given, response, and_
+from bddrest.authoring import when, then, given, response, and_
 
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock
@@ -115,7 +115,10 @@ class VerifyTokenTestCase(BDDTestClass):
 
             when(
                 'Trying to verify an invalid code',
-                url_parameters=dict(code=self.invalid_otp_token1_time1)
+                url_parameters=dict(
+                    code=self.invalid_otp_token1_time1,
+                    token_id=mockup_token_id
+                )
             )
             then(response.status_code == 400)
 
@@ -130,7 +133,10 @@ class VerifyTokenTestCase(BDDTestClass):
 
             when(
                 'Trying to verify an invalid code',
-                url_parameters=dict(code=self.invalid_otp_token1_time2)
+                url_parameters=dict(
+                    code=self.invalid_otp_token1_time2,
+                    token_id=mockup_token_id
+                )
             )
             then(response.status_code == 400)
 
