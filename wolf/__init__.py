@@ -8,7 +8,7 @@ from .controllers.root import Root
 from .cli import PinBlockLauncher
 
 
-__version__ = '0.18.1-beta.1'
+__version__ = '0.19.0b2'
 
 
 class Application(BaseApplication):
