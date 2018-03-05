@@ -6,8 +6,8 @@ Mobile-Token 2.x tokenizer
 
 ![alt text](https://static.carrene.com/images/wolf.jpg "Wolf")
 
-Stable branches
----------------
+branches
+--------
 
 ### master
 
