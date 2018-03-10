@@ -4,8 +4,8 @@ from collections import namedtuple
 from nanohttp import settings
 from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
 from restfulpy.testing import WebAppTestCase
-
 from bddrest.authoring import given, response
+
 from wolf import cryptoutil, Application as Wolf
 
 
@@ -39,26 +39,6 @@ class BDDTestClass(WebAppTestCase):
             headers = kwargs.setdefault('headers', [])
             headers.append(('AUTHORIZATION', self.wsgi_app.jwt_token))
         return given(self.application, *args, **kwargs)
-
-    def login(self, username, password):
-
-        call = dict(
-            title='Login',
-            description='Login to system as admin',
-            url='/apiv1/members',
-            verb='LOGIN',
-            form={
-                'username': username,
-                'password': password,
-            }
-        )
-        with self.given(**call):
-            self.wsgi_app.jwt_token = response.json['token']
-
-        return username, password
-
-    def logout(self):
-        self.wsgi_app.jwt_token = ''
 
 
 class DocumentaryMiddleware(FileDocumentaryMiddleware):
