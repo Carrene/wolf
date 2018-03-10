@@ -15,7 +15,29 @@ roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceM
 class BDDTestClass(WebAppTestCase):
     application = Wolf()
 
+    def login(self, username, password):
+        call = dict(
+            title='Login',
+            description='Login to system as admin',
+            url='/apiv1/members',
+            verb='LOGIN',
+            form={
+                'username': username,
+                'password': password,
+            }
+        )
+        with self.given(**call):
+            self.wsgi_app.jwt_token = response.json['token']
+
+        return username, password
+
+    def logout(self):
+        self.wsgi_app.jwt_token = ''
+
     def given(self, *args, **kwargs):
+        if self.wsgi_app.jwt_token:
+            headers = kwargs.setdefault('headers', [])
+            headers.append(('AUTHORIZATION', self.wsgi_app.jwt_token))
         return given(self.application, *args, **kwargs)
 
     def login(self, username, password):
