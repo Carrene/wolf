@@ -2,7 +2,7 @@ import unittest
 
 from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest.authoring import when, then, given, response, and_
+from bddrest.authoring import when, then, response
 
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock

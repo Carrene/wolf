@@ -1,6 +1,6 @@
 import unittest
 
-from bddrest.authoring import then, given, response, and_
+from bddrest.authoring import then, response, and_
 
 import wolf
 from wolf.tests.helpers import BDDTestClass

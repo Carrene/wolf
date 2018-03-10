@@ -25,8 +25,8 @@ class Application(BaseApplication):
       
       seed:
         max_random_try: 3
-        min_sleep_millis: 10
-        max_sleep_millis: 50
+        min_sleep_milliseconds: 10
+        max_sleep_milliseconds: 50
       
     oath:
       window: 2

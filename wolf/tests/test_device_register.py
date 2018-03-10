@@ -1,7 +1,7 @@
 import unittest
 import base64
 
-from bddrest.authoring import when, then, given, response, and_
+from bddrest.authoring import when, then, response, and_
 
 from wolf.tests.helpers import BDDTestClass
 
