@@ -28,10 +28,7 @@ class ChangePasswordTestCase(BDDTestClass):
             form={
                 'currentPassword': '123456',
                 'newPassword': '1234567',
-            },
-            headers=[
-                ('AUTHORIZATION', self.wsgi_app.jwt_token)
-            ]
+            }
         )
 
         with self.given(**call):
