@@ -79,7 +79,9 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
 
             except DuplicateSeedError:
                 if i < settings.token.seed.max_random_try - 1:
-                    sleep_millis = randrange(settings.token.seed.min_sleep_millis, settings.token.seed.max_sleep_millis)
+                    sleep_millis = randrange(
+                        settings.token.seed.min_sleep_milliseconds, settings.token.seed.max_sleep_milliseconds
+                    )
                     time.sleep(sleep_millis / 1000)
 
         # Oh my god, this is impossible !!!
