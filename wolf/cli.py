@@ -47,3 +47,4 @@ class PinBlockDecodeLauncher(Launcher):
         if not code:
             code = sys.stdin.read().strip()
         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code).decode())
+

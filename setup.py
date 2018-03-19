@@ -1,6 +1,7 @@
 import re
 from os.path import join, dirname
 from setuptools import setup, find_packages
+from Cython.Build import cythonize
 
 # reading package version (same way the sqlalchemy does)
 with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
@@ -23,6 +24,7 @@ setup(
     author_email="mt@netalic.de",
     install_requires=dependencies,
     packages=find_packages(),
+    ext_modules=cythonize('wolf/**/*.pyx'),
     test_suite="wolf.tests",
     entry_points={
         'console_scripts': [
