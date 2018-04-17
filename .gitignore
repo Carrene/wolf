@@ -107,3 +107,7 @@ data
 
 # ctags
 .ctags
+
+# vim
+.*.sw[op]
+

@@ -33,7 +33,8 @@ class CodesController(RestController):
 #        except ValueError:
 #            is_valid = False
 
-        if is_valid is True and self.token.consecutive_tries > 0:
+#        if is_valid is True and self.token.consecutive_tries > 0:
+        if is_valid is True:
             self.token.consecutive_tries = 0
             DBSession.commit()
         else:
