@@ -73,18 +73,18 @@ class VerifyTokenTestCase(BDDTestClass):
         cls.pinblock = EncryptedISOPinBlock(mockup_token1.id)
         cls.fake_time1 = 10001000
         cls.challenge1 = 'testchallenge-1'
-        cls.valid_otp_token1_time1 = cls.pinblock.encode('7110')
-        cls.invalid_otp_token1_time1 = cls.pinblock.encode('123456')
+        cls.valid_otp_token1_time1 = cls.pinblock.encode('7110').decode()
+        cls.invalid_otp_token1_time1 = cls.pinblock.encode('123456').decode()
 
         cls.fake_time2 = 199919998
         cls.challenge2 = 'testchallenge-2'
-        cls.valid_otp_token1_time2 = cls.pinblock.encode('1251')
-        cls.invalid_otp_token1_time2 = cls.pinblock.encode('123456')
+        cls.valid_otp_token1_time2 = cls.pinblock.encode('1251').decode()
+        cls.invalid_otp_token1_time2 = cls.pinblock.encode('123456').decode()
 
         cls.invalid_fake_time = 123456
 
         cls.fake_time3 = 1515515295
-        cls.valid_otp_token2_time1 = cls.pinblock.encode('88533')
+        cls.valid_otp_token2_time1 = cls.pinblock.encode('88533').decode()
 
     def test_verify_token_otp_time_length_5(self):
         mockup_token_id = self.mockup_token2_id
@@ -98,7 +98,6 @@ class VerifyTokenTestCase(BDDTestClass):
 
         with TimeMonkeyPatch(self.fake_time3):
             with self.given(**call):
-
                 then(response.status_code == 200)
 
     def test_verify_token_otp_time(self):

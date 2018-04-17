@@ -3,6 +3,7 @@ import binascii
 from random import randrange
 from datetime import date
 
+import oathcy
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum
 from nanohttp import settings, HttpConflict
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, ActivationMixin, Field, \
@@ -106,9 +107,14 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
         result['provisioning'] = None
         return result
 
-#     def verify_totp(self, otp):
-#         import oathcy
-#         oathcy.verify(self.seed,
+    def verify_totp(self, otp):
+        return oathcy.totp_verify(
+            self.seed,
+            time.time(),
+            settings.oath.window,
+            otp,
+            self.cryptomodule.time_interval
+        )
 
     def create_one_time_password_algorithm(self):
         return TimeBasedOneTimePassword(
