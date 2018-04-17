@@ -15,7 +15,6 @@ class CodesController(RestController):
     @action
     @prevent_form
     def verify(self, code):
-
         if self.token.is_locked:
             raise LockedTokenError()
 
@@ -27,12 +26,14 @@ class CodesController(RestController):
 
         pinblock = EncryptedISOPinBlock(self.token.id)
         is_valid = self.token.verify_totp(pinblock.decode(code.encode()))
-#         try:
-#             is_valid, ___ = self.token.create_one_time_password_algorithm().verify(pinblock.decode(code), window)
-#         except ValueError:
-#             is_valid = False
+#        is_valid = True
+#        window = settings.oath.window
+#        try:
+#            is_valid, ___ = self.token.create_one_time_password_algorithm().verify(pinblock.decode(code).decode(), window)
+#        except ValueError:
+#            is_valid = False
 
-        if is_valid is True:
+        if is_valid is True and self.token.consecutive_tries > 0:
             self.token.consecutive_tries = 0
             DBSession.commit()
         else:

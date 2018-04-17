@@ -33,7 +33,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
     cryptomodule = relationship(
         'Cryptomodule',
         foreign_keys=[cryptomodule_id],
-        uselist=False
+        uselist=False,
     )
 
     expire_date = Field(Date)
