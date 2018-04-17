@@ -31,7 +31,7 @@ class PinBlockEncodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).encode(code))
+        print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).encode(code).decode())
 
 
 class PinBlockDecodeLauncher(Launcher):
@@ -46,4 +46,4 @@ class PinBlockDecodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
-        print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code))
+        print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code).decode())
