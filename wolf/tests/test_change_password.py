@@ -36,20 +36,12 @@ class ChangePasswordTestCase(BDDTestClass):
 
             when(
                 'Trying to change password with wrong current password',
-                form={
-                    'currentPassword': '123456',
-                    'newPassword': '12345678',
-                }
             )
             then(response.status_code == 400)
 
             when(
                 'Trying to change another user password',
-                url=f'/apiv1/members/member_id: {self.member_id+1}/password',
-                form={
-                    'currentPassword': '123456',
-                    'newPassword': '12345678',
-                }
+                url_parameters=dict(member_id=999),
             )
             then(response.status_code == 403)
 

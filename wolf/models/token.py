@@ -106,6 +106,10 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
         result['provisioning'] = None
         return result
 
+#     def verify_totp(self, otp):
+#         import oathcy
+#         oathcy.verify(self.seed,
+
     def create_one_time_password_algorithm(self):
         return TimeBasedOneTimePassword(
             'SHA-1',
