@@ -19,6 +19,7 @@ class CodesController(RestController):
     def verify(self, code):
         query = DBSession.query(MiniToken).filter(MiniToken.id == self.token_id)
         token = query.one_or_none()
+
         if token is None:
             raise HttpNotFound()
 
@@ -34,8 +35,8 @@ class CodesController(RestController):
         pinblock = EncryptedISOPinBlock(token.id)
         is_valid = token.verify_totp(pinblock.decode(code.encode()))
 
-#        if is_valid is True and token.consecutive_tries > 0:
-        if is_valid is True:
+        if is_valid:
+ #       if is_valid is True:
             DBSession.execute(
                 update(Token).where(Token.id == self.token_id).values(consecutive_tries=0)
             )

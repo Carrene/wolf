@@ -1,0 +1,8 @@
+db:
+  echo: False
+
+
+logging:
+  loggers:
+    default:
+      level: critical
