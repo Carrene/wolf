@@ -1,6 +1,6 @@
 
 from sqlalchemy import update
-from nanohttp import action, settings, RestController, HttpBadRequest
+from nanohttp import action, settings, RestController, HttpBadRequest, HttpNotFound
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
 
@@ -19,6 +19,9 @@ class CodesController(RestController):
     def verify(self, code):
         query = DBSession.query(MiniToken).filter(MiniToken.id == self.token_id)
         token = query.one_or_none()
+        if token is None:
+            raise HttpNotFound()
+
         if token.is_locked:
             raise LockedTokenError()
 
@@ -36,6 +39,7 @@ class CodesController(RestController):
             DBSession.execute(
                 update(Token).where(Token.id == self.token_id).values(consecutive_tries=0)
             )
+            DBSession.commit()
         else:
             # Code is not verified
             DBSession.execute(
@@ -43,5 +47,6 @@ class CodesController(RestController):
                     consecutive_tries=token.consecutive_tries+1
                 )
             )
+            DBSession.commit()
             raise HttpBadRequest('Invalid Code')
 
