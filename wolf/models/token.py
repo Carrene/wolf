@@ -179,7 +179,7 @@ class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, Activatio
         )
 
     def provision(self, secret):
-        encrypted_seed = cryptoutil.aes_encrypt(self.seed, secret)
+        encrypted_seed = cryptoutil.AESCipher(secret).encrypt(self.seed)
         hexstring_seed = binascii.hexlify(encrypted_seed).decode()
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         expire_date = self.expire_date.strftime('%y%m%d')

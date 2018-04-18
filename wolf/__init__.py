@@ -2,7 +2,7 @@ from os.path import join, dirname
 
 from restfulpy import Application as BaseApplication
 
-from wolf.authentication import Authenticator
+from .authentication import Authenticator
 from . import basedata
 from .controllers.root import Root
 from .cli import PinBlockLauncher

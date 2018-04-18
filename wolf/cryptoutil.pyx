@@ -1,5 +1,7 @@
 import os
 import binascii
+import base64
+import hashlib
 
 from Crypto.Cipher import AES, DES3
 from nanohttp import settings
@@ -10,18 +12,31 @@ def random(size):
     return os.urandom(size)
 
 
-def pad(contents, block_size=16):
-    remaining_bytes = len(contents) % block_size
-    padding_bytes = block_size - remaining_bytes
-    return contents + padding_bytes * bytes([padding_bytes])
+class AESCipher(object):
 
+    def __init__(self, key):
+        self.bs = 16
+        self.key = key
 
-def aes_encrypt(content, secret):
-    # FIXME: rename it to aes_encrypt and add iv
-    iv = random(AES.block_size)
-    cipher = AES.new(secret, AES.MODE_CBC, iv)
-    content = pad(content, block_size=AES.block_size)
-    return iv + cipher.encrypt(content)
+    def encrypt(self, raw):
+        raw = self._pad(raw)
+        iv = random(AES.block_size)
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        return iv + cipher.encrypt(raw)
+
+    def decrypt(self, enc):
+        iv = enc[:AES.block_size]
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        return self._unpad(cipher.decrypt(enc[AES.block_size:]))
+
+    def _pad(self, s):
+        remaining_bytes = len(s) % self.bs
+        padding_bytes = self.bs - remaining_bytes
+        return s + padding_bytes * bytes([padding_bytes])
+
+    @staticmethod
+    def _unpad(s):
+        return s[:-ord(s[len(s)-1:])]
 
 
 class PlainISO0PinBlock:
