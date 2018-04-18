@@ -28,7 +28,10 @@ class AESCipher(object):
     def decrypt(self, enc):
         iv = enc[:AES.block_size]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        return self._unpad(cipher.decrypt(enc[AES.block_size:]))
+        result = self._unpad(cipher.decrypt(enc[AES.block_size:]))
+        if not result.strip():
+            raise ValueError()
+        return result
 
     def _pad(self, s):
         remaining_bytes = len(s) % self.bs
@@ -40,7 +43,7 @@ class AESCipher(object):
         return s[:-ord(s[len(s)-1:])]
 
 
-configuration_cipher = AESCipher(b'1234567890ABCDEF')
+configuration_cipher = AESCipher(b'ced&#quevbot2(Sc')
 
 class PlainISO0PinBlock:
     """
