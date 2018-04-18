@@ -17,7 +17,7 @@ def insert():
 
     admin = Admin()
     admin.username = 'admin'
-    admin.password = '123456'
+    admin.password = 'haysOth?wrec5'
 
     DBSession.add(admin)
 
