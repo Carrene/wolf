@@ -39,6 +39,8 @@ class AESCipher(object):
         return s[:-ord(s[len(s)-1:])]
 
 
+configuration_cipher = AESCipher(b'1234567890ABCDEF')
+
 class PlainISO0PinBlock:
     """
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/

@@ -5,7 +5,7 @@ from restfulpy import Application as BaseApplication
 from .authentication import Authenticator
 from . import basedata
 from .controllers.root import Root
-from .cli import PinBlockLauncher
+from .cli import PinBlockLauncher, ConfigLauncher
 
 
 __version__ = '0.20.2b4'
@@ -54,6 +54,6 @@ class Application(BaseApplication):
         This is a template method
         """
         PinBlockLauncher.register(subparsers)
-
+        ConfigLauncher.register(subparsers)
 
 wolf = Application()
