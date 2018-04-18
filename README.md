@@ -52,7 +52,7 @@ Install it using [this instruction](https://docs.python.org/3/using/index.html).
 
 #### Upgrade pip, setuptools and wheel to the latest version
 
-    $ pip install -U pip setuptools wheel
+    $ pip install -U pip setuptools wheel cython
   
 ### Installing Project (edit mode)
 

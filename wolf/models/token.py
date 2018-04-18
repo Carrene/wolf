@@ -3,6 +3,7 @@ import binascii
 from random import randrange
 from datetime import date
 
+import oathcy
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum
 from nanohttp import settings, HttpConflict
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, ActivationMixin, Field, \
@@ -32,7 +33,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
     cryptomodule = relationship(
         'Cryptomodule',
         foreign_keys=[cryptomodule_id],
-        uselist=False
+        uselist=False,
     )
 
     expire_date = Field(Date)
@@ -79,7 +80,9 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
 
             except DuplicateSeedError:
                 if i < settings.token.seed.max_random_try - 1:
-                    sleep_millis = randrange(settings.token.seed.min_sleep_millis, settings.token.seed.max_sleep_millis)
+                    sleep_millis = randrange(
+                        settings.token.seed.min_sleep_milliseconds, settings.token.seed.max_sleep_milliseconds
+                    )
                     time.sleep(sleep_millis / 1000)
 
         # Oh my god, this is impossible !!!
@@ -103,6 +106,15 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
         result['ocraSuite'] = self.ocra_suite
         result['provisioning'] = None
         return result
+
+    def verify_totp(self, otp):
+        return oathcy.totp_verify(
+            self.seed,
+            time.time(),
+            settings.oath.window,
+            otp,
+            self.cryptomodule.time_interval
+        )
 
     def create_one_time_password_algorithm(self):
         return TimeBasedOneTimePassword(

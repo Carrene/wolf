@@ -2,7 +2,7 @@ import unittest
 
 from restfulpy.orm import DBSession
 from restfulpy.principal import JwtPrincipal
-from bddrest.authoring import when, then, given, response, and_
+from bddrest.authoring import when, then, response, and_
 
 from wolf.tests.helpers import BDDTestClass
 from wolf.models import Admin

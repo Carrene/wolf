@@ -31,13 +31,13 @@ class PlainISO0PinBlock:
     """
     def __init__(self, token_id):
         pan = str(token_id).zfill(16)
-        self.pan = int('0000' + pan[-13:-1], 16)
+        self.pan = int(f'0000{pan[-13:-1]}', 16)
 
     def encode(self, data):
-        return '%0.16x' % (self.pan ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16))
+        return b'%0.16x' % (self.pan ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16))
 
     def decode(self, encoded):
-        block = '%0.16x' % (self.pan ^ int(encoded, 16))
+        block = b'%0.16x' % (self.pan ^ int(encoded, 16))
         return block[2:2+int(block[:2])]
 
 
@@ -54,9 +54,10 @@ class EncryptedISOPinBlock(PlainISO0PinBlock):
         pinblock = super().encode(data)
         des_algorithm = self.create_algorithm()
         encrypted = des_algorithm.encrypt(binascii.unhexlify(pinblock))
-        return binascii.hexlify(encrypted).decode().upper()
+        return binascii.hexlify(encrypted).upper()
 
     def decode(self, encoded):
         algorithm = self.create_algorithm()
         pinblock = algorithm.decrypt(binascii.unhexlify(encoded))
-        return super().decode(binascii.hexlify(pinblock).decode().upper())
+        return super().decode(binascii.hexlify(pinblock).upper())
+

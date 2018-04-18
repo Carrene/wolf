@@ -1,16 +1,23 @@
 import unittest
 from datetime import date, timedelta
 
-from nanohttp import settings
 from restfulpy.orm import DBSession
-from bddrest.authoring import when, then, given, response, and_
-
+from bddrest.authoring import when, then, response, and_
+from nanohttp import settings
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
 
 
 class ListTokenTestCase(BDDTestClass):
+
+    @classmethod
+    def configure_app(cls):
+        super().configure_app()
+        settings.merge('''
+            token:
+                max_consecutive_tries: 5
+        ''')
 
     @classmethod
     def mockup(cls):

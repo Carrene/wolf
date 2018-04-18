@@ -1,7 +1,7 @@
 import unittest
 
 from restfulpy.orm import DBSession
-from bddrest.authoring import when, then, given, response, and_
+from bddrest.authoring import when, then, response, and_
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass

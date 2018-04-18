@@ -2,6 +2,7 @@ import os
 import uuid
 from _sha256 import sha256
 
+from nanohttp import HttpBadRequest
 from restfulpy.orm import ModifiedMixin, DeclarativeBase, Field
 from restfulpy.principal import JwtPrincipal, JwtRefreshToken
 from sqlalchemy import Integer, Unicode
@@ -79,6 +80,12 @@ class Member(ModifiedMixin, DeclarativeBase):
         return JwtRefreshToken(dict(
             id=self.id
         ))
+
+    def change_password(self, current_password, new_password):
+        if not self.validate_password(current_password):
+            raise HttpBadRequest('The current password is invalid.')
+
+        self.password = new_password
 
 
 class Admin(Member):
