@@ -13,7 +13,7 @@ class VerifyTokenTestCase(BDDTestClass):
 
     @classmethod
     def configure_app(cls):
-        cls.application.configure(force=True, context=dict(unittest=True))
+        super().configure_app()
         settings.merge('''
             oath:
               window: 10

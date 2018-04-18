@@ -7,7 +7,7 @@ from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicatio
 from restfulpy.testing import WebAppTestCase
 from bddrest.authoring import given, response, Composer
 
-from wolf import cryptoutil, Application as Wolf
+from wolf import cryptoutil, wolf
 
 
 HERE = path.abspath(path.dirname(__file__))
@@ -16,7 +16,7 @@ roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceM
 
 
 class BDDTestClass(WebAppTestCase):
-    application = Wolf()
+    application = wolf
 
     @classmethod
     def configure_app(cls):
@@ -46,7 +46,7 @@ class BDDTestClass(WebAppTestCase):
             self.wsgi_app.jwt_token = response.json['token']
 
         return username, password
-    
+
     @classmethod
     def get_spec_filename(cls, story: Composer):
         filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'

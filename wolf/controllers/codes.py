@@ -6,6 +6,7 @@ from sqlalchemy import update, select
 from sqlalchemy.sql import text
 from nanohttp import action, settings, RestController, HttpBadRequest, HttpNotFound, LazyAttribute
 from restfulpy.validation import prevent_form
+from restfulpy.orm import DBSession
 
 from ..excpetions import ExpiredTokenError, LockedTokenError, DeactivatedTokenError
 from ..cryptoutil import EncryptedISOPinBlock
