@@ -2,6 +2,7 @@ import os
 import binascii
 import base64
 import hashlib
+import io
 
 from Crypto.Cipher import AES, DES3
 from nanohttp import settings

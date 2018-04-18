@@ -69,6 +69,7 @@ class ConfigEncryptLauncher(Launcher):
         return parser
 
     def launch(self):
+        sys.stdout.buffer.write(b'#enc')
         sys.stdout.buffer.write(configuration_cipher.encrypt(sys.stdin.buffer.read()))
 
 
@@ -80,6 +81,8 @@ class ConfigDecryptLauncher(Launcher):
         return parser
 
     def launch(self):
-        sys.stdout.buffer.write(configuration_cipher.decrypt(sys.stdin.buffer.read()))
-
+        content = sys.stdin.buffer.read()
+        if content[:4] == b'#enc':
+            content = content[4:]
+        sys.stdout.buffer.write(configuration_cipher.decrypt(content))
 

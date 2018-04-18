@@ -1,12 +1,13 @@
 from os.path import join, dirname
 
+from nanohttp import settings
 from restfulpy import Application as BaseApplication
 
 from .authentication import Authenticator
 from . import basedata
 from .controllers.root import Root
 from .cli import PinBlockLauncher, ConfigLauncher
-
+from .cryptoutil import configuration_cipher
 
 __version__ = '0.20.2b4'
 
@@ -55,5 +56,19 @@ class Application(BaseApplication):
         """
         PinBlockLauncher.register(subparsers)
         ConfigLauncher.register(subparsers)
+
+    def configure(self, files=None, **kwargs):
+        super().configure(**kwargs)
+        files = ([files] if isinstance(files, str) else files) or []
+
+        for filename in files:
+            with open(filename, 'rb') as f:
+                header = f.read(4)
+                if header == b'#enc':
+                    content = configuration_cipher.decrypt(f.read())
+                else:
+                    content = header + f.read()
+                settings.merge(content.decode())
+
 
 wolf = Application()
