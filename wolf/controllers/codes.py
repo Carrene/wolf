@@ -1,45 +1,47 @@
 
+from sqlalchemy import update
 from nanohttp import action, settings, RestController, HttpBadRequest
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
 
 from ..excpetions import ExpiredTokenError, LockedTokenError, DeactivatedTokenError
 from ..cryptoutil import EncryptedISOPinBlock
+from ..models import MiniToken, Token
 
 
 class CodesController(RestController):
 
-    def __init__(self, token):
-        self.token = token
+    def __init__(self, token_id):
+        self.token_id = token_id
 
     @action
     @prevent_form
     def verify(self, code):
-        if self.token.is_locked:
+        query = DBSession.query(MiniToken).filter(MiniToken.id == self.token_id)
+        token = query.one_or_none()
+        if token.is_locked:
             raise LockedTokenError()
 
-        if self.token.is_expired:
+        if token.is_expired:
             raise ExpiredTokenError()
 
-        if not self.token.is_active:
+        if not token.is_active:
             raise DeactivatedTokenError()
 
-        pinblock = EncryptedISOPinBlock(self.token.id)
-        is_valid = self.token.verify_totp(pinblock.decode(code.encode()))
-#        is_valid = True
-#        window = settings.oath.window
-#        try:
-#            is_valid, ___ = self.token.create_one_time_password_algorithm().verify(pinblock.decode(code).decode(), window)
-#        except ValueError:
-#            is_valid = False
+        pinblock = EncryptedISOPinBlock(token.id)
+        is_valid = token.verify_totp(pinblock.decode(code.encode()))
 
-#        if is_valid is True and self.token.consecutive_tries > 0:
+#        if is_valid is True and token.consecutive_tries > 0:
         if is_valid is True:
-            self.token.consecutive_tries = 0
-            DBSession.commit()
+            DBSession.execute(
+                update(Token).where(Token.id == self.token_id).values(consecutive_tries=0)
+            )
         else:
             # Code is not verified
-            self.token.consecutive_tries += 1
-            DBSession.commit()
+            DBSession.execute(
+                update(Token).where(Token.id == self.token_id).values(
+                    consecutive_tries=token.consecutive_tries+1
+                )
+            )
             raise HttpBadRequest('Invalid Code')
 

@@ -96,3 +96,4 @@ class Admin(Member):
     @property
     def roles(self):
         return ['admin']
+

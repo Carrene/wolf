@@ -24,8 +24,7 @@ class TokenController(ModelRestController):
 
     def __call__(self, *remaining_paths):
         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
-            token = self._ensure_token(remaining_paths[0])
-            return CodesController(token)(*remaining_paths[2:])
+            return CodesController(remaining_paths[0])(*remaining_paths[2:])
         return super().__call__(*remaining_paths)
 
     @staticmethod
@@ -50,7 +49,6 @@ class TokenController(ModelRestController):
     @staticmethod
     def _ensure_device():
         phone = int(context.form['phone'])
-
         # Checking the device
         device = Device.query.filter(Device.phone == phone).one_or_none()
         # Adding a device also

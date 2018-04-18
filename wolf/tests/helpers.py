@@ -15,6 +15,19 @@ roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceM
 class BDDTestClass(WebAppTestCase):
     application = Wolf()
 
+    @classmethod
+    def configure_app(cls):
+        super().configure_app()
+        settings.merge("""
+            messaging:
+              default_messenger: restfulpy.testing.MockupMessenger
+            logging:
+              loggers:
+                default:
+                  level: debug
+            """)
+
+
     def login(self, username, password):
         call = dict(
             title='Login',

@@ -4,23 +4,88 @@ from random import randrange
 from datetime import date
 
 import oathcy
+from oathpy import OCRASuite
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum
 from nanohttp import settings, HttpConflict
-from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, ActivationMixin, Field, \
-    DBSession, OrderingMixin
-from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, \
+    ActivationMixin, Field, DBSession, OrderingMixin
+from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger, \
+    select, join
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, column_property, validates
 
-from wolf import cryptoutil
+from .. import cryptoutil
 
 
 class DuplicateSeedError(Exception):
     pass
 
 
-class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):
+class Cryptomodule(DeclarativeBase):
+    __tablename__ = 'cryptomodule'
+
+    id = Field(Integer, primary_key=True)
+    time_interval = Field(Integer, default=60)
+    one_time_password_length = Field(Integer, default=4)
+    challenge_response_length = Field(Integer, default=6)
+
+    @validates('time_interval')
+    def validate_time_interval(self, key, new_value):
+        if new_value == 0:
+            raise ValueError('Time interval should not be zero')
+        elif 60 <= new_value <= 59 * 60 and new_value % 60 != 0:
+            raise ValueError('60 <= time_interval <= 59 * 60 and time_interval % 60 != 0')
+        elif 60 * 60 <= new_value <= (48 * 60 * 60) and new_value % (60 * 60) != 0:
+            raise ValueError('60 <= time_interval <= 59 * 60 and time_interval % 60 != 0')
+        return new_value
+
+    @validates('challenge_limit')
+    def validate_challenge_limit(self, key, new_value):
+        if not 4 <= new_value <= 64:
+            raise ValueError('Challenge limit value must be between 4-64')
+        return new_value
+
+    @validates('one_time_password_length')
+    def validate_one_time_password(self, key, new_value):
+        new_value = int(new_value)
+        if not 4 <= new_value <= 10:
+            raise ValueError('Length should be between 4 and 10')
+        return new_value
+
+    @validates('challenge_response_length')
+    def validate_challenge_response_length(self, key, new_value):
+        new_value = int(new_value)
+        if not 4 <= new_value <= 10:
+            raise ValueError('Length should be between 4 and 10')
+        return new_value
+
+    @property
+    def ocra_suite(self):
+        return (OCRASuite(
+            'time',
+            self.challenge_response_length,
+            'SHA-1',
+            time_interval=self.time_interval,
+        ))
+
+    def to_dict(self):
+        result = super().to_dict()
+        result['ocraSuite'] = self.ocra_suite
+        return result
+
+
+class BaseToken:
+    @hybrid_property
+    def is_locked(self):
+        return self.consecutive_tries >= settings.token.max_consecutive_tries
+
+    @hybrid_property
+    def is_expired(self):
+        return self.expire_date <= date.today()
+
+
+class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
@@ -45,14 +110,6 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
             name='uix_name_phone_cryptomodule_id'
         ),
     )
-
-    @hybrid_property
-    def is_locked(self):
-        return self.consecutive_tries >= settings.token.max_consecutive_tries
-
-    @hybrid_property
-    def is_expired(self):
-        return self.expire_date <= date.today()
 
     def initialize_seed(self, session=DBSession):
         current_seed = self.seed
@@ -107,15 +164,6 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
         result['provisioning'] = None
         return result
 
-    def verify_totp(self, otp):
-        return oathcy.totp_verify(
-            self.seed,
-            time.time(),
-            settings.oath.window,
-            otp,
-            self.cryptomodule.time_interval
-        )
-
     def create_one_time_password_algorithm(self):
         return TimeBasedOneTimePassword(
             'SHA-1',
@@ -137,3 +185,30 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, Ord
         expire_date = self.expire_date.strftime('%y%m%d')
         token_string = f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}'.upper()
         return f'mt://oath/totp/{token_string}{totp_checksum(token_string.encode())}'
+
+
+fromclause = join(Token, Cryptomodule, Token.cryptomodule_id == Cryptomodule.id)
+minitoken_query = select([
+    Token.id,
+    Token.seed,
+    Token.expire_date,
+    Token.consecutive_tries,
+    Token.activated_at,
+    Cryptomodule.id.label('cryotomodule_id'),
+    Cryptomodule.one_time_password_length,
+    Cryptomodule.time_interval
+]).select_from(fromclause).alias()
+
+
+class MiniToken(BaseToken, ActivationMixin, DeclarativeBase):
+    __table__ = minitoken_query
+
+    def verify_totp(self, otp):
+        return oathcy.totp_verify(
+            self.seed,
+            time.time(),
+            settings.oath.window,
+            otp,
+            self.time_interval
+        )
+
