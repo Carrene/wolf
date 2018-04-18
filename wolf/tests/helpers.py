@@ -1,13 +1,16 @@
 import time
 from collections import namedtuple
+from os import path, pardir
 
 from nanohttp import settings
 from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
 from restfulpy.testing import WebAppTestCase
-from bddrest.authoring import given, response
+from bddrest.authoring import given, response, Composer
 
 from wolf import cryptoutil, Application as Wolf
 
+
+HERE = path.abspath(path.dirname(__file__))
 
 roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceManager')
 
@@ -30,6 +33,11 @@ class BDDTestClass(WebAppTestCase):
             self.wsgi_app.jwt_token = response.json['token']
 
         return username, password
+    
+    @classmethod
+    def get_spec_filename(cls, story: Composer):
+        filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'
+        return path.join(HERE, '../../data', f'{filename}.yml')
 
     def logout(self):
         self.wsgi_app.jwt_token = ''
@@ -38,7 +46,7 @@ class BDDTestClass(WebAppTestCase):
         if self.wsgi_app.jwt_token:
             headers = kwargs.setdefault('headers', [])
             headers.append(('AUTHORIZATION', self.wsgi_app.jwt_token))
-        return given(self.application, *args, **kwargs)
+        return given(self.application, autodump=self.get_spec_filename, *args, **kwargs)
 
 
 class DocumentaryMiddleware(FileDocumentaryMiddleware):
