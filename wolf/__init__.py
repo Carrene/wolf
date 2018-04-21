@@ -9,7 +9,7 @@ from .controllers.root import Root
 from .cli import PinBlockLauncher, ConfigLauncher
 from .cryptoutil import configuration_cipher
 
-__version__ = '0.21.0a1'
+__version__ = '0.21.0a2'
 
 
 class Application(BaseApplication):
