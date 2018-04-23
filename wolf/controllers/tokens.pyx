@@ -7,8 +7,8 @@ from restfulpy.orm import commit, DBSession
 from restfulpy.validation import validate_form
 
 from ..models import Token, Device, Cryptomodule
-from ..excpetions import DeviceNotFoundError, ExpiredTokenError, LockedTokenError, DeactivatedTokenError,\
-    ActivatedTokenError, NotLockedTokenError
+from ..excpetions import DeviceNotFoundError, ExpiredTokenError, \
+    DeactivatedTokenError, ActivatedTokenError, NotLockedTokenError
 from .codes import CodesController
 
 
@@ -42,9 +42,6 @@ class TokenController(ModelRestController):
     def _validate_token(token):
         if token.is_expired:
             raise ExpiredTokenError()
-
-        if token.is_locked:
-            raise LockedTokenError()
 
         if not token.is_active:
             raise DeactivatedTokenError()
@@ -125,19 +122,6 @@ class TokenController(ModelRestController):
         if expire_date <= max(token.expire_date, date.today()):
             raise HttpBadRequest(info='expireDate must be grater that current expireDate.')
         token.expire_date = expire_date
-        DBSession.add(token)
-        return token
-
-    @json
-    @Token.expose
-    @commit
-    def unlock(self, token_id: int):
-        token = self._ensure_token(token_id)
-
-        if not token.is_locked:
-            raise NotLockedTokenError()
-
-        token.consecutive_tries = 0
         DBSession.add(token)
         return token
 

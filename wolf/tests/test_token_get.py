@@ -41,7 +41,6 @@ class GetTokenTestCase(BDDTestClass):
         with self.given(**call):
             then(response.status_code == 200)
             and_(response.json['id'] == self.mockup_first_token_id)
-            and_('isLocked' in response.json)
             and_('isExpired' in response.json)
 
             when(

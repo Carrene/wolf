@@ -17,18 +17,6 @@ class EnsureTokenTestCase(BDDTestClass):
         mockup_cryptomodule = Cryptomodule()
         DBSession.add(mockup_cryptomodule)
 
-        locked_token = Token()
-        locked_token.name = 'LockedToken'
-        locked_token.phone = 989122451075
-        locked_token.expire_date = '2099-12-07T18:14:39.558891'
-        locked_token.seed = \
-            b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
-            b'\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xaaz'
-        locked_token.is_active = True
-        locked_token.consecutive_tries = settings.token.max_consecutive_tries + 1
-        locked_token.cryptomodule = mockup_cryptomodule
-        DBSession.add(locked_token)
-
         expired_token = Token()
         expired_token.name = 'ExpiredToken'
         expired_token.phone = 989122451075
@@ -189,31 +177,6 @@ class EnsureTokenTestCase(BDDTestClass):
             and_(self.assertDictEqual(response.json, dict(
                 message='Bad Request',
                 description='Cannot enter more than: 50 in field: name.'
-            )))
-
-    def test_locked_token(self):
-
-        call = dict(
-            title='Provisioning with an expired token',
-            description='Provisioning with an expired token',
-            url='/apiv1/tokens',
-            verb='ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': 'LockedToken',
-                'cryptomoduleId': self.mockup_cryptomodule_id,
-                'expireDate': 1513434403,
-            },
-        )
-
-        with RandomMonkeyPatch(
-            b'F\x7e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
-
-            then(response.status_code == 462)
-            and_(self.assertDictEqual(response.json, dict(
-                message='Token is locked',
-                description='The max try limitation is exceeded.'
             )))
 
     def test_expired_token(self):

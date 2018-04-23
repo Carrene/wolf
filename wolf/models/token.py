@@ -9,10 +9,10 @@ from restfulpy.cryptography import AESCipher
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, \
     ActivationMixin, Field, DBSession, OrderingMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger, \
-    select, join
+    select, join, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship, validates
+from sqlalchemy.orm import relationship, validates, object_session
 
 from .. import cryptoutil
 
@@ -27,8 +27,6 @@ class Cryptomodule(DeclarativeBase):
     id = Field(Integer, primary_key=True)
     time_interval = Field(Integer, default=60)
     one_time_password_length = Field(Integer, default=4)
-    # FIXME: Remove this field
-    challenge_response_length = Field(Integer, default=6)
 
     @validates('time_interval')
     def validate_time_interval(self, key, new_value):
@@ -49,10 +47,6 @@ class Cryptomodule(DeclarativeBase):
 
 
 class BaseToken:
-    @hybrid_property
-    def is_locked(self):
-        return self.consecutive_tries >= settings.token.max_consecutive_tries
-
     @hybrid_property
     def is_expired(self):
         return self.expire_date <= date.today()
@@ -75,7 +69,6 @@ class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, Activatio
     )
 
     expire_date = Field(Date)
-    consecutive_tries = Field(Integer, default=0, protected=True)
 
     __table_args__ = (
         UniqueConstraint(
@@ -133,27 +126,49 @@ class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, Activatio
         return f'mt://oath/totp/{token_string}{cryptoutil.totp_checksum(token_string.encode())}'
 
 
-fromclause = join(Token, Cryptomodule, Token.cryptomodule_id == Cryptomodule.id)
-minitoken_query = select([
-    Token.id,
-    Token.seed,
-    Token.expire_date,
-    Token.consecutive_tries,
-    Token.activated_at,
-    Cryptomodule.id.label('cryotomodule_id'),
-    Cryptomodule.one_time_password_length,
-    Cryptomodule.time_interval
-]).select_from(fromclause).alias()
+cached_cryptomodules = None
 
 
 class MiniToken(BaseToken, ActivationMixin, DeclarativeBase):
-    __table__ = minitoken_query
+    __table__ = select([
+        Token.id,
+        Token.seed,
+        Token.expire_date,
+        Token.activated_at,
+        Token.cryptomodule_id,
+    ]).alias()
 
-    def verify_totp(self, otp):
+    @property
+    def cryptomodules(self, session=None):
+        global cached_cryptomodules
+        if cached_cryptomodules is None:
+            if session is None:
+                session = object_session(self)
+            modules = {}
+            for m in session.execute(text(
+                'SELECT id, time_interval, one_time_password_length FROM cryptomodule'
+                )):
+                modules[m[0]] = m
+            cached_cryptomodules = modules
+        return cached_cryptomodules
+
+    @property
+    def cryptomodule(self):
+        return self.cryptomodules[self.cryptomodule_id]
+
+    @property
+    def time_interval(self):
+        return self.cryptomodule[1]
+
+    @property
+    def length(self):
+        return self.cryptomodule[2]
+
+    def verify(self, otp, window):
         return oathcy.totp_verify(
             self.seed,
             time.time(),
-            settings.oath.window,
+            window,
             otp,
             self.time_interval
         )
