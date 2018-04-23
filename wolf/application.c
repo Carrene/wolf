@@ -1108,6 +1108,16 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
+/* Print.proto */
+static int __Pyx_Print(PyObject*, PyObject *, int);
+#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
+static PyObject* __pyx_print = 0;
+static PyObject* __pyx_print_kwargs = 0;
+#endif
+
+/* PrintOne.proto */
+static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
+
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
@@ -1152,7 +1162,9 @@ static const char __pyx_k_rb[] = "rb";
 static const char __pyx_k_cli[] = "cli";
 static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_enc[] = "#enc";
+static const char __pyx_k_end[] = "end";
 static const char __pyx_k_Root[] = "Root";
+static const char __pyx_k_args[] = "args";
 static const char __pyx_k_exit[] = "__exit__";
 static const char __pyx_k_file[] = "__file__";
 static const char __pyx_k_init[] = "__init__";
@@ -1167,8 +1179,10 @@ static const char __pyx_k_wolf[] = "wolf";
 static const char __pyx_k_enter[] = "__enter__";
 static const char __pyx_k_files[] = "files";
 static const char __pyx_k_merge[] = "merge";
+static const char __pyx_k_print[] = "print";
 static const char __pyx_k_super[] = "super";
 static const char __pyx_k_decode[] = "decode";
+static const char __pyx_k_file_2[] = "file";
 static const char __pyx_k_header[] = "header";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_insert[] = "insert";
@@ -1195,6 +1209,7 @@ static const char __pyx_k_subparsers[] = "subparsers";
 static const char __pyx_k_Application[] = "Application";
 static const char __pyx_k_Authenticator[] = "Authenticator";
 static const char __pyx_k_authenticator[] = "__authenticator__";
+static const char __pyx_k_insert_mockup[] = "insert_mockup";
 static const char __pyx_k_authentication[] = "authentication";
 static const char __pyx_k_BaseApplication[] = "BaseApplication";
 static const char __pyx_k_ced_quevbot2_Sc[] = "ced&#quevbot2(Sc";
@@ -1210,6 +1225,7 @@ static const char __pyx_k_Application_configure[] = "Application.configure";
 static const char __pyx_k_builtin_configuration[] = "builtin_configuration";
 static const char __pyx_k_register_cli_launchers[] = "register_cli_launchers";
 static const char __pyx_k_restfulpy_cryptography[] = "restfulpy.cryptography";
+static const char __pyx_k_Application_insert_mockup[] = "Application.insert_mockup";
 static const char __pyx_k_Application_insert_basedata[] = "Application.insert_basedata";
 static const char __pyx_k_db_url_postgresql_postgres_post[] = "\n    db:\n      url: postgresql://postgres:postgres@localhost/wolf\n      test_url: postgresql://postgres:postgres@localhost/wolf_test\n      administrative_url: postgresql://postgres:postgres@localhost/postgres\n\n    token:\n      max_consecutive_tries: 5\n\n      seed:\n        max_random_try: 3\n        min_sleep_milliseconds: 10\n        max_sleep_milliseconds: 50\n\n    oath:\n      window: 2\n\n    pinblock:\n      key: 1234567890ABCDEF1234567890ABCDEF\n\n    ";
 static const char __pyx_k_Application_register_cli_launche[] = "Application.register_cli_launchers";
@@ -1218,6 +1234,7 @@ static PyObject *__pyx_n_s_Application;
 static PyObject *__pyx_n_s_Application___init;
 static PyObject *__pyx_n_s_Application_configure;
 static PyObject *__pyx_n_s_Application_insert_basedata;
+static PyObject *__pyx_n_s_Application_insert_mockup;
 static PyObject *__pyx_n_s_Application_register_cli_launche;
 static PyObject *__pyx_n_s_Authenticator;
 static PyObject *__pyx_n_s_BaseApplication;
@@ -1225,6 +1242,7 @@ static PyObject *__pyx_n_s_PinBlockLauncher;
 static PyObject *__pyx_n_s_Root;
 static PyObject *__pyx_kp_s__2;
 static PyObject *__pyx_n_s__5;
+static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_authentication;
 static PyObject *__pyx_n_s_authenticator;
 static PyObject *__pyx_n_s_basedata;
@@ -1242,10 +1260,12 @@ static PyObject *__pyx_n_s_decrypt;
 static PyObject *__pyx_n_s_dirname;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_kp_b_enc;
+static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_enter;
 static PyObject *__pyx_n_s_exit;
 static PyObject *__pyx_n_s_f;
 static PyObject *__pyx_n_s_file;
+static PyObject *__pyx_n_s_file_2;
 static PyObject *__pyx_n_s_filename;
 static PyObject *__pyx_n_s_files;
 static PyObject *__pyx_n_s_header;
@@ -1253,6 +1273,7 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_insert;
 static PyObject *__pyx_n_s_insert_basedata;
+static PyObject *__pyx_n_s_insert_mockup;
 static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_kwargs;
 static PyObject *__pyx_n_s_main;
@@ -1263,6 +1284,7 @@ static PyObject *__pyx_n_s_nanohttp;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_os_path;
 static PyObject *__pyx_n_s_prepare;
+static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_rb;
 static PyObject *__pyx_n_s_read;
@@ -1283,8 +1305,9 @@ static PyObject *__pyx_n_s_wolf_application;
 static PyObject *__pyx_kp_s_wolf_application_pyx;
 static PyObject *__pyx_pf_4wolf_11application_11Application___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_version); /* proto */
 static PyObject *__pyx_pf_4wolf_11application_11Application_2insert_basedata(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launchers(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_subparsers); /* proto */
-static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_files, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_4wolf_11application_11Application_4insert_mockup(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_args); /* proto */
+static PyObject *__pyx_pf_4wolf_11application_11Application_6register_cli_launchers(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_subparsers); /* proto */
+static PyObject *__pyx_pf_4wolf_11application_11Application_8configure(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_files, PyObject *__pyx_v_kwargs); /* proto */
 static PyObject *__pyx_int_4;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
@@ -1295,10 +1318,12 @@ static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__17;
 static PyObject *__pyx_codeobj__8;
 static PyObject *__pyx_codeobj__10;
 static PyObject *__pyx_codeobj__12;
 static PyObject *__pyx_codeobj__14;
+static PyObject *__pyx_codeobj__16;
 /* Late includes */
 
 /* "wolf/application.pyx":38
@@ -1638,7 +1663,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_2insert_basedata(CYT
  *     def insert_basedata(self):
  *         basedata.insert()             # <<<<<<<<<<<<<<
  * 
- *     # noinspection PyMethodMayBeStatic
+ *     def insert_mockup(self, args):
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_basedata); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -1688,7 +1713,111 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_2insert_basedata(CYT
   return __pyx_r;
 }
 
-/* "wolf/application.pyx":51
+/* "wolf/application.pyx":50
+ *         basedata.insert()
+ * 
+ *     def insert_mockup(self, args):             # <<<<<<<<<<<<<<
+ *         print(args)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_4wolf_11application_11Application_5insert_mockup(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_4wolf_11application_11Application_5insert_mockup = {"insert_mockup", (PyCFunction)__pyx_pw_4wolf_11application_11Application_5insert_mockup, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_4wolf_11application_11Application_5insert_mockup(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  CYTHON_UNUSED PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_args = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("insert_mockup (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_args,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_args)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("insert_mockup", 1, 2, 2, 1); __PYX_ERR(0, 50, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "insert_mockup") < 0)) __PYX_ERR(0, 50, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_args = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("insert_mockup", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 50, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("wolf.application.Application.insert_mockup", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_4wolf_11application_11Application_4insert_mockup(__pyx_self, __pyx_v_self, __pyx_v_args);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_4wolf_11application_11Application_4insert_mockup(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_args) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("insert_mockup", 0);
+
+  /* "wolf/application.pyx":51
+ * 
+ *     def insert_mockup(self, args):
+ *         print(args)             # <<<<<<<<<<<<<<
+ * 
+ *     # noinspection PyMethodMayBeStatic
+ */
+  if (__Pyx_PrintOne(0, __pyx_v_args) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+
+  /* "wolf/application.pyx":50
+ *         basedata.insert()
+ * 
+ *     def insert_mockup(self, args):             # <<<<<<<<<<<<<<
+ *         print(args)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("wolf.application.Application.insert_mockup", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "wolf/application.pyx":54
  * 
  *     # noinspection PyMethodMayBeStatic
  *     def register_cli_launchers(self, subparsers):             # <<<<<<<<<<<<<<
@@ -1697,10 +1826,10 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_2insert_basedata(CYT
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4wolf_11application_11Application_5register_cli_launchers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4wolf_11application_11Application_4register_cli_launchers[] = "\n        This is a template method\n        ";
-static PyMethodDef __pyx_mdef_4wolf_11application_11Application_5register_cli_launchers = {"register_cli_launchers", (PyCFunction)__pyx_pw_4wolf_11application_11Application_5register_cli_launchers, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4wolf_11application_11Application_4register_cli_launchers};
-static PyObject *__pyx_pw_4wolf_11application_11Application_5register_cli_launchers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_4wolf_11application_11Application_7register_cli_launchers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4wolf_11application_11Application_6register_cli_launchers[] = "\n        This is a template method\n        ";
+static PyMethodDef __pyx_mdef_4wolf_11application_11Application_7register_cli_launchers = {"register_cli_launchers", (PyCFunction)__pyx_pw_4wolf_11application_11Application_7register_cli_launchers, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4wolf_11application_11Application_6register_cli_launchers};
+static PyObject *__pyx_pw_4wolf_11application_11Application_7register_cli_launchers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_subparsers = 0;
   PyObject *__pyx_r = 0;
@@ -1729,11 +1858,11 @@ static PyObject *__pyx_pw_4wolf_11application_11Application_5register_cli_launch
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_subparsers)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("register_cli_launchers", 1, 2, 2, 1); __PYX_ERR(0, 51, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("register_cli_launchers", 1, 2, 2, 1); __PYX_ERR(0, 54, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "register_cli_launchers") < 0)) __PYX_ERR(0, 51, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "register_cli_launchers") < 0)) __PYX_ERR(0, 54, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1746,20 +1875,20 @@ static PyObject *__pyx_pw_4wolf_11application_11Application_5register_cli_launch
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("register_cli_launchers", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 51, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("register_cli_launchers", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 54, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.application.Application.register_cli_launchers", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4wolf_11application_11Application_4register_cli_launchers(__pyx_self, __pyx_v_self, __pyx_v_subparsers);
+  __pyx_r = __pyx_pf_4wolf_11application_11Application_6register_cli_launchers(__pyx_self, __pyx_v_self, __pyx_v_subparsers);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launchers(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_subparsers) {
+static PyObject *__pyx_pf_4wolf_11application_11Application_6register_cli_launchers(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self, PyObject *__pyx_v_subparsers) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1768,16 +1897,16 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launch
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("register_cli_launchers", 0);
 
-  /* "wolf/application.pyx":55
+  /* "wolf/application.pyx":58
  *         This is a template method
  *         """
  *         PinBlockLauncher.register(subparsers)             # <<<<<<<<<<<<<<
  * 
  *     def configure(self, files=None, **kwargs):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_PinBlockLauncher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_PinBlockLauncher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1791,13 +1920,13 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launch
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_subparsers); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_subparsers); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_subparsers};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -1805,19 +1934,19 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launch
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_subparsers};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_INCREF(__pyx_v_subparsers);
       __Pyx_GIVEREF(__pyx_v_subparsers);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_subparsers);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
@@ -1825,7 +1954,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launch
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/application.pyx":51
+  /* "wolf/application.pyx":54
  * 
  *     # noinspection PyMethodMayBeStatic
  *     def register_cli_launchers(self, subparsers):             # <<<<<<<<<<<<<<
@@ -1849,7 +1978,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launch
   return __pyx_r;
 }
 
-/* "wolf/application.pyx":57
+/* "wolf/application.pyx":60
  *         PinBlockLauncher.register(subparsers)
  * 
  *     def configure(self, files=None, **kwargs):             # <<<<<<<<<<<<<<
@@ -1858,9 +1987,9 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_4register_cli_launch
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4wolf_11application_11Application_7configure(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_4wolf_11application_11Application_7configure = {"configure", (PyCFunction)__pyx_pw_4wolf_11application_11Application_7configure, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_4wolf_11application_11Application_7configure(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_4wolf_11application_11Application_9configure(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_4wolf_11application_11Application_9configure = {"configure", (PyCFunction)__pyx_pw_4wolf_11application_11Application_9configure, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_4wolf_11application_11Application_9configure(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_files = 0;
   PyObject *__pyx_v_kwargs = 0;
@@ -1897,7 +2026,7 @@ static PyObject *__pyx_pw_4wolf_11application_11Application_7configure(PyObject 
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "configure") < 0)) __PYX_ERR(0, 57, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, pos_args, "configure") < 0)) __PYX_ERR(0, 60, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1913,14 +2042,14 @@ static PyObject *__pyx_pw_4wolf_11application_11Application_7configure(PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("configure", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 57, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("configure", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 60, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
   __Pyx_AddTraceback("wolf.application.Application.configure", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4wolf_11application_11Application_6configure(__pyx_self, __pyx_v_self, __pyx_v_files, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_4wolf_11application_11Application_8configure(__pyx_self, __pyx_v_self, __pyx_v_files, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_kwargs);
@@ -1928,7 +2057,7 @@ static PyObject *__pyx_pw_4wolf_11application_11Application_7configure(PyObject 
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_files, PyObject *__pyx_v_kwargs) {
+static PyObject *__pyx_pf_4wolf_11application_11Application_8configure(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_files, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_v_filename = NULL;
   PyObject *__pyx_v_f = NULL;
   PyObject *__pyx_v_header = NULL;
@@ -1953,7 +2082,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
   __Pyx_RefNannySetupContext("configure", 0);
   __Pyx_INCREF(__pyx_v_files);
 
-  /* "wolf/application.pyx":58
+  /* "wolf/application.pyx":61
  * 
  *     def configure(self, files=None, **kwargs):
  *         super().configure(**kwargs)             # <<<<<<<<<<<<<<
@@ -1961,9 +2090,9 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
  * 
  */
   __pyx_t_1 = __Pyx_CyFunction_GetClassObj(__pyx_self);
-  if (!__pyx_t_1) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 58, __pyx_L1_error) }
+  if (!__pyx_t_1) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 61, __pyx_L1_error) }
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -1971,18 +2100,18 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
   __Pyx_GIVEREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_self);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_configure); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_configure); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/application.pyx":59
+  /* "wolf/application.pyx":62
  *     def configure(self, files=None, **kwargs):
  *         super().configure(**kwargs)
  *         files = ([files] if isinstance(files, str) else files) or []             # <<<<<<<<<<<<<<
@@ -1991,7 +2120,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
  */
   __pyx_t_3 = PyString_Check(__pyx_v_files); 
   if ((__pyx_t_3 != 0)) {
-    __pyx_t_4 = PyList_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_4 = PyList_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_v_files);
     __Pyx_GIVEREF(__pyx_v_files);
@@ -2002,7 +2131,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
     __Pyx_INCREF(__pyx_v_files);
     __pyx_t_2 = __pyx_v_files;
   }
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
   if (!__pyx_t_3) {
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
@@ -2011,7 +2140,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     goto __pyx_L3_bool_binop_done;
   }
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_t_2);
   __pyx_t_1 = __pyx_t_2;
@@ -2020,7 +2149,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
   __Pyx_DECREF_SET(__pyx_v_files, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "wolf/application.pyx":61
+  /* "wolf/application.pyx":64
  *         files = ([files] if isinstance(files, str) else files) or []
  * 
  *         for filename in files:             # <<<<<<<<<<<<<<
@@ -2031,26 +2160,26 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
     __pyx_t_1 = __pyx_v_files; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_files); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_files); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_6)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -2060,7 +2189,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 61, __pyx_L1_error)
+          else __PYX_ERR(0, 64, __pyx_L1_error)
         }
         break;
       }
@@ -2069,7 +2198,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
     __Pyx_XDECREF_SET(__pyx_v_filename, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "wolf/application.pyx":62
+    /* "wolf/application.pyx":65
  * 
  *         for filename in files:
  *             with open(filename, 'rb') as f:             # <<<<<<<<<<<<<<
@@ -2077,7 +2206,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
  *                 if header == b'#enc':
  */
     /*with:*/ {
-      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_v_filename);
       __Pyx_GIVEREF(__pyx_v_filename);
@@ -2085,12 +2214,12 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
       __Pyx_INCREF(__pyx_n_s_rb);
       __Pyx_GIVEREF(__pyx_n_s_rb);
       PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_rb);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_7 = __Pyx_PyObject_LookupSpecial(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_LookupSpecial(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 65, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_PyObject_LookupSpecial(__pyx_t_4, __pyx_n_s_enter); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L7_error)
+      __pyx_t_8 = __Pyx_PyObject_LookupSpecial(__pyx_t_4, __pyx_n_s_enter); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L7_error)
       __Pyx_GOTREF(__pyx_t_8);
       __pyx_t_9 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
@@ -2103,10 +2232,10 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
         }
       }
       if (__pyx_t_9) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L7_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L7_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L7_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L7_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -2125,44 +2254,44 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
             __Pyx_XDECREF_SET(__pyx_v_f, __pyx_t_8);
             __pyx_t_8 = 0;
 
-            /* "wolf/application.pyx":63
+            /* "wolf/application.pyx":66
  *         for filename in files:
  *             with open(filename, 'rb') as f:
  *                 header = f.read(4)             # <<<<<<<<<<<<<<
  *                 if header == b'#enc':
  *                     content = self.__configuration_cipher__.decrypt(f.read())
  */
-            __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 63, __pyx_L13_error)
+            __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 66, __pyx_L13_error)
             __Pyx_GOTREF(__pyx_t_8);
-            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L13_error)
+            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 66, __pyx_L13_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
             __Pyx_XDECREF_SET(__pyx_v_header, __pyx_t_4);
             __pyx_t_4 = 0;
 
-            /* "wolf/application.pyx":64
+            /* "wolf/application.pyx":67
  *             with open(filename, 'rb') as f:
  *                 header = f.read(4)
  *                 if header == b'#enc':             # <<<<<<<<<<<<<<
  *                     content = self.__configuration_cipher__.decrypt(f.read())
  *                 else:
  */
-            __pyx_t_3 = (__Pyx_PyBytes_Equals(__pyx_v_header, __pyx_kp_b_enc, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 64, __pyx_L13_error)
+            __pyx_t_3 = (__Pyx_PyBytes_Equals(__pyx_v_header, __pyx_kp_b_enc, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 67, __pyx_L13_error)
             if (__pyx_t_3) {
 
-              /* "wolf/application.pyx":65
+              /* "wolf/application.pyx":68
  *                 header = f.read(4)
  *                 if header == b'#enc':
  *                     content = self.__configuration_cipher__.decrypt(f.read())             # <<<<<<<<<<<<<<
  *                 else:
  *                     content = header + f.read()
  */
-              __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_configuration_cipher); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L13_error)
+              __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_configuration_cipher); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 68, __pyx_L13_error)
               __Pyx_GOTREF(__pyx_t_8);
-              __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_decrypt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L13_error)
+              __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_decrypt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L13_error)
               __Pyx_GOTREF(__pyx_t_2);
               __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-              __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L13_error)
+              __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 68, __pyx_L13_error)
               __Pyx_GOTREF(__pyx_t_9);
               __pyx_t_13 = NULL;
               if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
@@ -2175,10 +2304,10 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
                 }
               }
               if (__pyx_t_13) {
-                __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L13_error)
+                __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 68, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
               } else {
-                __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L13_error)
+                __pyx_t_8 = __Pyx_PyObject_CallNoArg(__pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 68, __pyx_L13_error)
               }
               __Pyx_GOTREF(__pyx_t_8);
               __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -2193,14 +2322,14 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
                 }
               }
               if (!__pyx_t_9) {
-                __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L13_error)
+                __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
                 __Pyx_GOTREF(__pyx_t_4);
               } else {
                 #if CYTHON_FAST_PYCALL
                 if (PyFunction_Check(__pyx_t_2)) {
                   PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_t_8};
-                  __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L13_error)
+                  __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L13_error)
                   __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
                   __Pyx_GOTREF(__pyx_t_4);
                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -2209,20 +2338,20 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
                 #if CYTHON_FAST_PYCCALL
                 if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
                   PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_t_8};
-                  __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L13_error)
+                  __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L13_error)
                   __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
                   __Pyx_GOTREF(__pyx_t_4);
                   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
                 } else
                 #endif
                 {
-                  __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 65, __pyx_L13_error)
+                  __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 68, __pyx_L13_error)
                   __Pyx_GOTREF(__pyx_t_13);
                   __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_9); __pyx_t_9 = NULL;
                   __Pyx_GIVEREF(__pyx_t_8);
                   PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_8);
                   __pyx_t_8 = 0;
-                  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L13_error)
+                  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L13_error)
                   __Pyx_GOTREF(__pyx_t_4);
                   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
                 }
@@ -2231,7 +2360,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
               __Pyx_XDECREF_SET(__pyx_v_content, __pyx_t_4);
               __pyx_t_4 = 0;
 
-              /* "wolf/application.pyx":64
+              /* "wolf/application.pyx":67
  *             with open(filename, 'rb') as f:
  *                 header = f.read(4)
  *                 if header == b'#enc':             # <<<<<<<<<<<<<<
@@ -2241,7 +2370,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
               goto __pyx_L21;
             }
 
-            /* "wolf/application.pyx":67
+            /* "wolf/application.pyx":70
  *                     content = self.__configuration_cipher__.decrypt(f.read())
  *                 else:
  *                     content = header + f.read()             # <<<<<<<<<<<<<<
@@ -2249,7 +2378,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
  * 
  */
             /*else*/ {
-              __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L13_error)
+              __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_read); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L13_error)
               __Pyx_GOTREF(__pyx_t_2);
               __pyx_t_13 = NULL;
               if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2262,14 +2391,14 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
                 }
               }
               if (__pyx_t_13) {
-                __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L13_error)
+                __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L13_error)
                 __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
               } else {
-                __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L13_error)
+                __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 70, __pyx_L13_error)
               }
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __pyx_t_2 = PyNumber_Add(__pyx_v_header, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L13_error)
+              __pyx_t_2 = PyNumber_Add(__pyx_v_header, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L13_error)
               __Pyx_GOTREF(__pyx_t_2);
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_XDECREF_SET(__pyx_v_content, __pyx_t_2);
@@ -2277,19 +2406,19 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
             }
             __pyx_L21:;
 
-            /* "wolf/application.pyx":68
+            /* "wolf/application.pyx":71
  *                 else:
  *                     content = header + f.read()
  *                 settings.merge(content.decode())             # <<<<<<<<<<<<<<
  * 
  * 
  */
-            __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_settings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L13_error)
+            __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_settings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L13_error)
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_merge); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 68, __pyx_L13_error)
+            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_merge); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 71, __pyx_L13_error)
             __Pyx_GOTREF(__pyx_t_13);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_content, __pyx_n_s_decode); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 68, __pyx_L13_error)
+            __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_content, __pyx_n_s_decode); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 71, __pyx_L13_error)
             __Pyx_GOTREF(__pyx_t_8);
             __pyx_t_9 = NULL;
             if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
@@ -2302,10 +2431,10 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
               }
             }
             if (__pyx_t_9) {
-              __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L13_error)
+              __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L13_error)
               __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
             } else {
-              __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L13_error)
+              __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L13_error)
             }
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -2320,14 +2449,14 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
               }
             }
             if (!__pyx_t_8) {
-              __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L13_error)
+              __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L13_error)
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_GOTREF(__pyx_t_2);
             } else {
               #if CYTHON_FAST_PYCALL
               if (PyFunction_Check(__pyx_t_13)) {
                 PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_4};
-                __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L13_error)
+                __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L13_error)
                 __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
                 __Pyx_GOTREF(__pyx_t_2);
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -2336,20 +2465,20 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
               #if CYTHON_FAST_PYCCALL
               if (__Pyx_PyFastCFunction_Check(__pyx_t_13)) {
                 PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_4};
-                __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L13_error)
+                __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L13_error)
                 __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
                 __Pyx_GOTREF(__pyx_t_2);
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               } else
               #endif
               {
-                __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 68, __pyx_L13_error)
+                __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 71, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_9);
                 __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_8); __pyx_t_8 = NULL;
                 __Pyx_GIVEREF(__pyx_t_4);
                 PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_4);
                 __pyx_t_4 = 0;
-                __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L13_error)
+                __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L13_error)
                 __Pyx_GOTREF(__pyx_t_2);
                 __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
               }
@@ -2357,7 +2486,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-            /* "wolf/application.pyx":62
+            /* "wolf/application.pyx":65
  * 
  *         for filename in files:
  *             with open(filename, 'rb') as f:             # <<<<<<<<<<<<<<
@@ -2377,20 +2506,20 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           /*except:*/ {
             __Pyx_AddTraceback("wolf.application.Application.configure", __pyx_clineno, __pyx_lineno, __pyx_filename);
-            if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_13, &__pyx_t_9) < 0) __PYX_ERR(0, 62, __pyx_L15_except_error)
+            if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_13, &__pyx_t_9) < 0) __PYX_ERR(0, 65, __pyx_L15_except_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_GOTREF(__pyx_t_13);
             __Pyx_GOTREF(__pyx_t_9);
-            __pyx_t_4 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_13, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L15_except_error)
+            __pyx_t_4 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_13, __pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 65, __pyx_L15_except_error)
             __Pyx_GOTREF(__pyx_t_4);
             __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL);
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 62, __pyx_L15_except_error)
+            if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 65, __pyx_L15_except_error)
             __Pyx_GOTREF(__pyx_t_14);
             __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_14);
             __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-            if (__pyx_t_3 < 0) __PYX_ERR(0, 62, __pyx_L15_except_error)
+            if (__pyx_t_3 < 0) __PYX_ERR(0, 65, __pyx_L15_except_error)
             __pyx_t_15 = ((!(__pyx_t_3 != 0)) != 0);
             if (__pyx_t_15) {
               __Pyx_GIVEREF(__pyx_t_2);
@@ -2398,7 +2527,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
               __Pyx_XGIVEREF(__pyx_t_9);
               __Pyx_ErrRestoreWithState(__pyx_t_2, __pyx_t_13, __pyx_t_9);
               __pyx_t_2 = 0; __pyx_t_13 = 0; __pyx_t_9 = 0; 
-              __PYX_ERR(0, 62, __pyx_L15_except_error)
+              __PYX_ERR(0, 65, __pyx_L15_except_error)
             }
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -2424,7 +2553,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
           if (__pyx_t_7) {
             __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__4, NULL);
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 62, __pyx_L1_error)
+            if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 65, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_12);
             __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
           }
@@ -2439,7 +2568,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
       __pyx_L25:;
     }
 
-    /* "wolf/application.pyx":61
+    /* "wolf/application.pyx":64
  *         files = ([files] if isinstance(files, str) else files) or []
  * 
  *         for filename in files:             # <<<<<<<<<<<<<<
@@ -2449,7 +2578,7 @@ static PyObject *__pyx_pf_4wolf_11application_11Application_6configure(CYTHON_UN
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/application.pyx":57
+  /* "wolf/application.pyx":60
  *         PinBlockLauncher.register(subparsers)
  * 
  *     def configure(self, files=None, **kwargs):             # <<<<<<<<<<<<<<
@@ -2522,6 +2651,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Application___init, __pyx_k_Application___init, sizeof(__pyx_k_Application___init), 0, 0, 1, 1},
   {&__pyx_n_s_Application_configure, __pyx_k_Application_configure, sizeof(__pyx_k_Application_configure), 0, 0, 1, 1},
   {&__pyx_n_s_Application_insert_basedata, __pyx_k_Application_insert_basedata, sizeof(__pyx_k_Application_insert_basedata), 0, 0, 1, 1},
+  {&__pyx_n_s_Application_insert_mockup, __pyx_k_Application_insert_mockup, sizeof(__pyx_k_Application_insert_mockup), 0, 0, 1, 1},
   {&__pyx_n_s_Application_register_cli_launche, __pyx_k_Application_register_cli_launche, sizeof(__pyx_k_Application_register_cli_launche), 0, 0, 1, 1},
   {&__pyx_n_s_Authenticator, __pyx_k_Authenticator, sizeof(__pyx_k_Authenticator), 0, 0, 1, 1},
   {&__pyx_n_s_BaseApplication, __pyx_k_BaseApplication, sizeof(__pyx_k_BaseApplication), 0, 0, 1, 1},
@@ -2529,6 +2659,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Root, __pyx_k_Root, sizeof(__pyx_k_Root), 0, 0, 1, 1},
   {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {&__pyx_n_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 1},
+  {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_authentication, __pyx_k_authentication, sizeof(__pyx_k_authentication), 0, 0, 1, 1},
   {&__pyx_n_s_authenticator, __pyx_k_authenticator, sizeof(__pyx_k_authenticator), 0, 0, 1, 1},
   {&__pyx_n_s_basedata, __pyx_k_basedata, sizeof(__pyx_k_basedata), 0, 0, 1, 1},
@@ -2546,10 +2677,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_dirname, __pyx_k_dirname, sizeof(__pyx_k_dirname), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_kp_b_enc, __pyx_k_enc, sizeof(__pyx_k_enc), 0, 0, 0, 0},
+  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
   {&__pyx_n_s_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
+  {&__pyx_n_s_file_2, __pyx_k_file_2, sizeof(__pyx_k_file_2), 0, 0, 1, 1},
   {&__pyx_n_s_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 1},
   {&__pyx_n_s_files, __pyx_k_files, sizeof(__pyx_k_files), 0, 0, 1, 1},
   {&__pyx_n_s_header, __pyx_k_header, sizeof(__pyx_k_header), 0, 0, 1, 1},
@@ -2557,6 +2690,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_insert, __pyx_k_insert, sizeof(__pyx_k_insert), 0, 0, 1, 1},
   {&__pyx_n_s_insert_basedata, __pyx_k_insert_basedata, sizeof(__pyx_k_insert_basedata), 0, 0, 1, 1},
+  {&__pyx_n_s_insert_mockup, __pyx_k_insert_mockup, sizeof(__pyx_k_insert_mockup), 0, 0, 1, 1},
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -2567,6 +2701,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_os_path, __pyx_k_os_path, sizeof(__pyx_k_os_path), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
+  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_rb, __pyx_k_rb, sizeof(__pyx_k_rb), 0, 0, 1, 1},
   {&__pyx_n_s_read, __pyx_k_read, sizeof(__pyx_k_read), 0, 0, 1, 1},
@@ -2589,7 +2724,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 39, __pyx_L1_error)
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 65, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2610,25 +2745,25 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "wolf/application.pyx":63
+  /* "wolf/application.pyx":66
  *         for filename in files:
  *             with open(filename, 'rb') as f:
  *                 header = f.read(4)             # <<<<<<<<<<<<<<
  *                 if header == b'#enc':
  *                     content = self.__configuration_cipher__.decrypt(f.read())
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_int_4); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_int_4); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "wolf/application.pyx":62
+  /* "wolf/application.pyx":65
  * 
  *         for filename in files:
  *             with open(filename, 'rb') as f:             # <<<<<<<<<<<<<<
  *                 header = f.read(4)
  *                 if header == b'#enc':
  */
-  __pyx_tuple__4 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -2667,32 +2802,44 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__9);
   __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_application_pyx, __pyx_n_s_insert_basedata, 47, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 47, __pyx_L1_error)
 
-  /* "wolf/application.pyx":51
+  /* "wolf/application.pyx":50
+ *         basedata.insert()
+ * 
+ *     def insert_mockup(self, args):             # <<<<<<<<<<<<<<
+ *         print(args)
+ * 
+ */
+  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_args); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_application_pyx, __pyx_n_s_insert_mockup, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 50, __pyx_L1_error)
+
+  /* "wolf/application.pyx":54
  * 
  *     # noinspection PyMethodMayBeStatic
  *     def register_cli_launchers(self, subparsers):             # <<<<<<<<<<<<<<
  *         """
  *         This is a template method
  */
-  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_subparsers); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_application_pyx, __pyx_n_s_register_cli_launchers, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_subparsers); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_application_pyx, __pyx_n_s_register_cli_launchers, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 54, __pyx_L1_error)
 
-  /* "wolf/application.pyx":57
+  /* "wolf/application.pyx":60
  *         PinBlockLauncher.register(subparsers)
  * 
  *     def configure(self, files=None, **kwargs):             # <<<<<<<<<<<<<<
  *         super().configure(**kwargs)
  *         files = ([files] if isinstance(files, str) else files) or []
  */
-  __pyx_tuple__13 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_files, __pyx_n_s_kwargs, __pyx_n_s_filename, __pyx_n_s_f, __pyx_n_s_header, __pyx_n_s_content); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 57, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_application_pyx, __pyx_n_s_configure, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 57, __pyx_L1_error)
-  __pyx_tuple__15 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_files, __pyx_n_s_kwargs, __pyx_n_s_filename, __pyx_n_s_f, __pyx_n_s_header, __pyx_n_s_content); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_application_pyx, __pyx_n_s_configure, 60, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3226,32 +3373,44 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_insert_basedata, __pyx_t_6) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/application.pyx":51
+  /* "wolf/application.pyx":50
+ *         basedata.insert()
+ * 
+ *     def insert_mockup(self, args):             # <<<<<<<<<<<<<<
+ *         print(args)
+ * 
+ */
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11application_11Application_5insert_mockup, 0, __pyx_n_s_Application_insert_mockup, NULL, __pyx_n_s_wolf_application, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_insert_mockup, __pyx_t_6) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+  /* "wolf/application.pyx":54
  * 
  *     # noinspection PyMethodMayBeStatic
  *     def register_cli_launchers(self, subparsers):             # <<<<<<<<<<<<<<
  *         """
  *         This is a template method
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11application_11Application_5register_cli_launchers, 0, __pyx_n_s_Application_register_cli_launche, NULL, __pyx_n_s_wolf_application, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11application_11Application_7register_cli_launchers, 0, __pyx_n_s_Application_register_cli_launche, NULL, __pyx_n_s_wolf_application, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_register_cli_launchers, __pyx_t_6) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_register_cli_launchers, __pyx_t_6) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/application.pyx":57
+  /* "wolf/application.pyx":60
  *         PinBlockLauncher.register(subparsers)
  * 
  *     def configure(self, files=None, **kwargs):             # <<<<<<<<<<<<<<
  *         super().configure(**kwargs)
  *         files = ([files] if isinstance(files, str) else files) or []
  */
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11application_11Application_7configure, 0, __pyx_n_s_Application_configure, NULL, __pyx_n_s_wolf_application, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11application_11Application_9configure, 0, __pyx_n_s_Application_configure, NULL, __pyx_n_s_wolf_application, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_INCREF(__pyx_t_6);
   PyList_Append(__pyx_t_4, __pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_6);
-  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_6, __pyx_tuple__15);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_configure, __pyx_t_6) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_6, __pyx_tuple__17);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_configure, __pyx_t_6) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
   /* "wolf/application.pyx":13
@@ -4990,6 +5149,149 @@ bad:
     Py_XDECREF(py_code);
     Py_XDECREF(py_frame);
 }
+
+/* Print */
+            #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
+static PyObject *__Pyx_GetStdout(void) {
+    PyObject *f = PySys_GetObject((char *)"stdout");
+    if (!f) {
+        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
+    }
+    return f;
+}
+static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
+    int i;
+    if (!f) {
+        if (!(f = __Pyx_GetStdout()))
+            return -1;
+    }
+    Py_INCREF(f);
+    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
+        PyObject* v;
+        if (PyFile_SoftSpace(f, 1)) {
+            if (PyFile_WriteString(" ", f) < 0)
+                goto error;
+        }
+        v = PyTuple_GET_ITEM(arg_tuple, i);
+        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
+            goto error;
+        if (PyString_Check(v)) {
+            char *s = PyString_AsString(v);
+            Py_ssize_t len = PyString_Size(v);
+            if (len > 0) {
+                switch (s[len-1]) {
+                    case ' ': break;
+                    case '\f': case '\r': case '\n': case '\t': case '\v':
+                        PyFile_SoftSpace(f, 0);
+                        break;
+                    default:  break;
+                }
+            }
+        }
+    }
+    if (newline) {
+        if (PyFile_WriteString("\n", f) < 0)
+            goto error;
+        PyFile_SoftSpace(f, 0);
+    }
+    Py_DECREF(f);
+    return 0;
+error:
+    Py_DECREF(f);
+    return -1;
+}
+#else
+static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
+    PyObject* kwargs = 0;
+    PyObject* result = 0;
+    PyObject* end_string;
+    if (unlikely(!__pyx_print)) {
+        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
+        if (!__pyx_print)
+            return -1;
+    }
+    if (stream) {
+        kwargs = PyDict_New();
+        if (unlikely(!kwargs))
+            return -1;
+        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file_2, stream) < 0))
+            goto bad;
+        if (!newline) {
+            end_string = PyUnicode_FromStringAndSize(" ", 1);
+            if (unlikely(!end_string))
+                goto bad;
+            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
+                Py_DECREF(end_string);
+                goto bad;
+            }
+            Py_DECREF(end_string);
+        }
+    } else if (!newline) {
+        if (unlikely(!__pyx_print_kwargs)) {
+            __pyx_print_kwargs = PyDict_New();
+            if (unlikely(!__pyx_print_kwargs))
+                return -1;
+            end_string = PyUnicode_FromStringAndSize(" ", 1);
+            if (unlikely(!end_string))
+                return -1;
+            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
+                Py_DECREF(end_string);
+                return -1;
+            }
+            Py_DECREF(end_string);
+        }
+        kwargs = __pyx_print_kwargs;
+    }
+    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
+    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
+        Py_DECREF(kwargs);
+    if (!result)
+        return -1;
+    Py_DECREF(result);
+    return 0;
+bad:
+    if (kwargs != __pyx_print_kwargs)
+        Py_XDECREF(kwargs);
+    return -1;
+}
+#endif
+
+/* PrintOne */
+            #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
+static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
+    if (!f) {
+        if (!(f = __Pyx_GetStdout()))
+            return -1;
+    }
+    Py_INCREF(f);
+    if (PyFile_SoftSpace(f, 0)) {
+        if (PyFile_WriteString(" ", f) < 0)
+            goto error;
+    }
+    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
+        goto error;
+    if (PyFile_WriteString("\n", f) < 0)
+        goto error;
+    Py_DECREF(f);
+    return 0;
+error:
+    Py_DECREF(f);
+    return -1;
+    /* the line below is just to avoid C compiler
+     * warnings about unused functions */
+    return __Pyx_Print(f, NULL, 0);
+}
+#else
+static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
+    int res;
+    PyObject* arg_tuple = PyTuple_Pack(1, o);
+    if (unlikely(!arg_tuple))
+        return -1;
+    res = __Pyx_Print(stream, arg_tuple, 1);
+    Py_DECREF(arg_tuple);
+    return res;
+}
+#endif
 
 /* CIntToPy */
             static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
