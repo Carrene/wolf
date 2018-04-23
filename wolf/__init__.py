@@ -10,7 +10,7 @@ from .cli import PinBlockLauncher
 from .controllers.root import Root
 
 
-__version__ = '0.21.0a2'
+__version__ = '0.22.0a2'
 
 
 class Application(BaseApplication):
