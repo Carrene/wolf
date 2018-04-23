@@ -8,7 +8,7 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
     package_version = re.compile(r".*__version__ = '(.*?)'", re.S).match(v_file.read()).group(1)
 
 dependencies = [
-    'restfulpy >= 0.45.0',
+    'restfulpy >= 0.46.0',
     'oathpy',
     'oathcy',
     'pycrypto',
