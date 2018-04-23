@@ -1,26 +1,20 @@
 #!/usr/bin/env bash
 
 # Use this to encrypt files
-# $ tar -cf travis-keys.tar travis-wolf_rsa travis-oath.cy_rsa
+# $ tar -cf travis-keys.tar travis-oathcy_rsa*
 # $ travis encrypt-file travis-keys.tar
-# $ rm travis-oath.cy_rsa* travis-wolf_rsa* 
+# $ rm travis-oathcy_rsa*  
 # $ rm travis-keys.tar
 
-ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
-ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
-ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
-ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
-OUT_FILE="travis-keys.tar"
-openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in "${OUT_FILE}.enc" -out "$OUT_FILE" -d
+openssl aes-256-cbc -K $encrypted_5a97bbf310b0_key -iv $encrypted_5a97bbf310b0_iv \
+		-in travis-keys.tar.enc -out travis-keys.tar -d
 tar -xf travis-keys.tar
-chmod 600 travis-wolf_rsa
-chmod 600 travis-oath.cy_rsa
+chmod 600 travis-oathcy_rsa
 eval `ssh-agent -s`
-ssh-add travis-wolf_rsa
-ssh-add travis-oath.cy_rsa
+ssh-add travis-oathcy_rsa
 
 pip3 install -U pip setuptools wheel cython
 pip3 install -U coverage coveralls
-pip3 install --upgrade git+ssh://git@github.com/Carrene/oath.cy.git
+pip3 install -U git+ssh://git@github.com/Carrene/oath.cy.git
 pip3 install -e .
 
