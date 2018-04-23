@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 # Use this to encrypt files
-# $ tar -f travis-keys.tar travis-wolf_rsa travis-oath.cy_rsa
+# $ tar -cf travis-keys.tar travis-wolf_rsa travis-oath.cy_rsa
 # $ travis encrypt-file travis-keys.tar
+# $ rm travis-oath.cy_rsa* travis-wolf_rsa* 
 # $ rm travis-keys.tar
 
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
