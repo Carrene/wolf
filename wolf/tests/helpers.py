@@ -50,7 +50,10 @@ class BDDTestClass(WebAppTestCase):
     @classmethod
     def get_spec_filename(cls, story: Composer):
         filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'
-        return path.join(HERE, '../../data', f'{filename}.yml')
+        target = path.abspath(path.join(HERE, '../../data', f'{filename}.yml'))
+        if not exists(target):
+            makedirs(target, exist_ok=True)
+        return target
 
     def logout(self):
         self.wsgi_app.jwt_token = ''
