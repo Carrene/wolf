@@ -2,19 +2,20 @@ from os.path import join, dirname
 
 from nanohttp import settings
 from restfulpy import Application as BaseApplication
+from restfulpy.cryptography import AESCipher
 
-from .authentication import Authenticator
 from . import basedata
+from .authentication import Authenticator
+from .cli import PinBlockLauncher
 from .controllers.root import Root
-from .cli import PinBlockLauncher, ConfigLauncher
-from .cryptoutil import configuration_cipher
+
 
 __version__ = '0.21.0a2'
 
 
 class Application(BaseApplication):
     __authenticator__ = Authenticator()
-
+    __configuration_cipher__ = AESCipher(b'ced&#quevbot2(Sc')
     builtin_configuration = """
     db:
       url: postgresql://postgres:postgres@localhost/wolf
@@ -55,7 +56,6 @@ class Application(BaseApplication):
         This is a template method
         """
         PinBlockLauncher.register(subparsers)
-        ConfigLauncher.register(subparsers)
 
     def configure(self, files=None, **kwargs):
         super().configure(**kwargs)
@@ -72,3 +72,4 @@ class Application(BaseApplication):
 
 
 wolf = Application()
+

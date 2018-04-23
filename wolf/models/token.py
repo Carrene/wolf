@@ -7,13 +7,14 @@ import oathcy
 from oathpy import OCRASuite
 from oathpy import TimeBasedOneTimePassword, TimeBasedChallengeResponse, OCRASuite, totp_checksum
 from nanohttp import settings, HttpConflict
-from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, \
-    ActivationMixin, Field, DBSession, OrderingMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger, \
     select, join
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship, column_property, validates
+from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, \
+    ActivationMixin, Field, DBSession, OrderingMixin
+from restfulpy.cryptography import AESCipher
 
 from .. import cryptoutil
 
@@ -179,7 +180,7 @@ class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, Activatio
         )
 
     def provision(self, secret):
-        encrypted_seed = cryptoutil.AESCipher(secret).encrypt(self.seed)
+        encrypted_seed = AESCipher(secret, random=cryptoutil.random).encrypt(self.seed)
         hexstring_seed = binascii.hexlify(encrypted_seed).decode()
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         expire_date = self.expire_date.strftime('%y%m%d')

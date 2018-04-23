@@ -2,7 +2,7 @@ import sys
 
 from restfulpy.cli import Launcher, RequireSubCommand
 
-from .cryptoutil import EncryptedISOPinBlock, configuration_cipher
+from .cryptoutil import EncryptedISOPinBlock
 
 
 # noinspection PyAbstractClass
@@ -47,42 +47,4 @@ class PinBlockDecodeLauncher(Launcher):
         if not code:
             code = sys.stdin.read().strip()
         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code).decode())
-
-
-# noinspection PyAbstractClass
-class ConfigLauncher(Launcher, RequireSubCommand):
-
-    @classmethod
-    def create_parser(cls, subparsers):
-        parser = subparsers.add_parser('configuration', help='Configuration tools')
-        subparsers = parser.add_subparsers(title="configuration command", dest="config_command")
-        ConfigEncryptLauncher.register(subparsers)
-        ConfigDecryptLauncher.register(subparsers)
-        return parser
-
-
-class ConfigEncryptLauncher(Launcher):
-
-    @classmethod
-    def create_parser(cls, subparsers):
-        parser = subparsers.add_parser('encrypt', help='Encrypt configu file')
-        return parser
-
-    def launch(self):
-        sys.stdout.buffer.write(b'#enc')
-        sys.stdout.buffer.write(configuration_cipher.encrypt(sys.stdin.buffer.read()))
-
-
-class ConfigDecryptLauncher(Launcher):
-
-    @classmethod
-    def create_parser(cls, subparsers):
-        parser = subparsers.add_parser('decrypt', help='Decrypt the config file')
-        return parser
-
-    def launch(self):
-        content = sys.stdin.buffer.read()
-        if content[:4] == b'#enc':
-            content = content[4:]
-        sys.stdout.buffer.write(configuration_cipher.decrypt(content))
 
