@@ -1,7 +1,7 @@
 env:
   global:
     - COMMIT_AUTHOR_EMAIL: vahid.mardani@gmail.com
-    - ENCRYPTION_LABEL: bb0c1e99bc0c
+    - ENCRYPTION_LABEL: b5a97bbf310b0
 language: python
 dist: trusty
 python: "3.6"
