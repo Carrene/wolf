@@ -1,6 +1,6 @@
 import time
 from collections import namedtuple
-from os import path, pardir
+from os import path, pardir, makedirs
 
 from nanohttp import settings
 from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
@@ -51,7 +51,7 @@ class BDDTestClass(WebAppTestCase):
     def get_spec_filename(cls, story: Composer):
         filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'
         target = path.abspath(path.join(HERE, '../../data', f'{filename}.yml'))
-        if not exists(target):
+        if not path.exists(target):
             makedirs(target, exist_ok=True)
         return target
 
