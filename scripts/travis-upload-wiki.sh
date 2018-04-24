@@ -21,8 +21,7 @@ GIT="git -C ../project-gh-pages"
 $GIT rm --ignore-unmatch $VERSION/\*.md
 mkdir -p $TARGET
 cp data/documentation/*.md $TARGET
-ls | egrep '^(v.*|nightly)' | perl -e 'print "<html><body><ul>"; while(<>) { chop $_; print "<li><a
- href=\"./$_\">$_</a></li>";} print "</ul></body></html>"' > ../project-gh-pages/index.html
+ls ../project-gh-pages | egrep '^(v.*|nightly)' | perl -e 'print "<html><body><ul>"; while(<>) { chop $_; print "<li><a href=\"./$_\">$_</a></li>";} print "</ul></body></html>"' > ../project-gh-pages/index.html
 $GIT add $VERSION/\*.md
 $GIT add index.html
 $GIT config user.name "Travis CI"
