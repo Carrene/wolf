@@ -3,16 +3,14 @@ import time
 from datetime import date
 from random import randrange
 
-import oathcy
 from nanohttp import settings, HttpConflict
 from restfulpy.cryptography import AESCipher
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, PaginationMixin, \
     ActivationMixin, Field, DBSession, OrderingMixin
-from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger, \
-    select, join, text
+from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship, validates, object_session
+from sqlalchemy.orm import relationship, validates
 
 from .. import cryptoutil
 
@@ -124,52 +122,4 @@ class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, Activatio
         expire_date = self.expire_date.strftime('%y%m%d')
         token_string = f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}'.upper()
         return f'mt://oath/totp/{token_string}{cryptoutil.totp_checksum(token_string.encode())}'
-
-
-cached_cryptomodules = None
-
-
-class MiniToken(BaseToken, ActivationMixin, DeclarativeBase):
-    __table__ = select([
-        Token.id,
-        Token.seed,
-        Token.expire_date,
-        Token.activated_at,
-        Token.cryptomodule_id,
-    ]).alias()
-
-    @property
-    def cryptomodules(self, session=None):
-        global cached_cryptomodules
-        if cached_cryptomodules is None:
-            if session is None:
-                session = object_session(self)
-            modules = {}
-            for m in session.execute(text(
-                'SELECT id, time_interval, one_time_password_length FROM cryptomodule'
-                )):
-                modules[m[0]] = m
-            cached_cryptomodules = modules
-        return cached_cryptomodules
-
-    @property
-    def cryptomodule(self):
-        return self.cryptomodules[self.cryptomodule_id]
-
-    @property
-    def time_interval(self):
-        return self.cryptomodule[1]
-
-    @property
-    def length(self):
-        return self.cryptomodule[2]
-
-    def verify(self, otp, window):
-        return oathcy.totp_verify(
-            self.seed,
-            time.time(),
-            window,
-            otp,
-            self.time_interval
-        )
 

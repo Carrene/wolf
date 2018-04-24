@@ -1,3 +1,3 @@
-from .token import Token, MiniToken, Cryptomodule
+from .token import Token, BaseToken, Cryptomodule
 from .device import Device
 from .membership import Member, Admin
