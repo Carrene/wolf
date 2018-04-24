@@ -12,7 +12,7 @@ dependencies = [
     'oathcy >= 1.0.1a2',
     'pycrypto',
 
-    'bddrest',
+    'bddrest >= 0.11.0b2',
     # deployment
     'gunicorn',
 ]

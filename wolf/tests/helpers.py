@@ -50,10 +50,19 @@ class BDDTestClass(WebAppTestCase):
     @classmethod
     def get_spec_filename(cls, story: Composer):
         filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'
-        target = path.abspath(path.join(HERE, '../../data'))
+        target = path.abspath(path.join(HERE, '../../data/specifications'))
         if not path.exists(target):
             makedirs(target, exist_ok=True)
         filename = path.join(target, f'{filename}.yml')
+        return filename
+
+    @classmethod
+    def get_markdown_filename(cls, story: Composer):
+        filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'
+        target = path.abspath(path.join(HERE, '../../data/documentation'))
+        if not path.exists(target):
+            makedirs(target, exist_ok=True)
+        filename = path.join(target, f'{filename}.md')
         return filename
 
     def logout(self):
@@ -63,9 +72,16 @@ class BDDTestClass(WebAppTestCase):
         if self.wsgi_app.jwt_token:
             headers = kwargs.setdefault('headers', [])
             headers.append(('AUTHORIZATION', self.wsgi_app.jwt_token))
-        return given(self.application, autodump=self.get_spec_filename, *args, **kwargs)
+        return given(
+            self.application,
+            autodump=self.get_spec_filename,
+            autodoc=self.get_markdown_filename,
+            *args,
+            **kwargs
+        )
 
 
+# FIXME: remove it
 class DocumentaryMiddleware(FileDocumentaryMiddleware):
     def __init__(self, application):
         directory = settings.documentary.source_directory
