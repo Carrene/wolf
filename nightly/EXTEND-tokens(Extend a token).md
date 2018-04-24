@@ -26,21 +26,19 @@ expireDate | 1613434403
 #### Body
 
 ```json
-```
-
-```{
+{
     "expireDate":"2021-02-16",
     "id":1,
     "cryptomodule":{
         "oneTimePasswordLength":4,
-        "id":1,
-        "timeInterval":60
+        "timeInterval":60,
+        "id":1
     },
-    "modifiedAt":"2018-04-24T22:53:59.145081Z",
-    "isExpired":false,
-    "createdAt":"2018-04-24T22:53:59.134665Z",
-    "name":"expired_token",
     "phone":989121234567,
+    "isExpired":false,
+    "modifiedAt":"2018-04-24T23:08:44.980334Z",
+    "createdAt":"2018-04-24T23:08:44.967648Z",
+    "name":"expired_token",
     "isActive":true,
     "provisioning":null
 }
@@ -64,9 +62,7 @@ token_id | 0
 #### Body
 
 ```json
-```
-
-```{"message":"Not Found","description":"Nothing matches the given URI"}
+{"message":"Not Found","description":"Nothing matches the given URI"}
 ```
 
 ## WHEN: Trying to extend a expired token to a time that passed
@@ -87,9 +83,7 @@ expireDate | 1513434403
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"expireDate must be grater that current expireDate."}
+{"message":"Bad Request","description":"expireDate must be grater that current expireDate."}
 ```
 
 ## WHEN: Trying to extend a not expired token to a time that is less than its expire date
@@ -116,9 +110,7 @@ expireDate | 1813434403
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"expireDate must be grater that current expireDate."}
+{"message":"Bad Request","description":"expireDate must be grater that current expireDate."}
 ```
 
 ## WHEN: Trying to extend a token with a un supported expireDate format
@@ -140,8 +132,6 @@ expireDate | 2019-12-07T18:14:39.558891
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"The field: expireDate must be float"}
+{"message":"Bad Request","description":"The field: expireDate must be float"}
 ```
 

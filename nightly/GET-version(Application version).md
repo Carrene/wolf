@@ -14,9 +14,7 @@ Get application version
 #### Body
 
 ```json
-```
-
-```{
+{
     "version":"0.22.2a2"
 }
 ```

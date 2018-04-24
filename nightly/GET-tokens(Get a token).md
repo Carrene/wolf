@@ -20,21 +20,19 @@ token_id | 1
 #### Body
 
 ```json
-```
-
-```{
+{
     "expireDate":"2099-12-07",
     "id":1,
     "cryptomodule":{
         "oneTimePasswordLength":4,
-        "id":1,
-        "timeInterval":60
+        "timeInterval":60,
+        "id":1
     },
-    "modifiedAt":null,
-    "isExpired":false,
-    "createdAt":"2018-04-24T22:53:59.616342Z",
-    "name":"first_token",
     "phone":989121234567,
+    "isExpired":false,
+    "modifiedAt":null,
+    "createdAt":"2018-04-24T23:08:45.398565Z",
+    "name":"first_token",
     "isActive":true,
     "provisioning":null
 }
@@ -58,9 +56,7 @@ token_id | 0
 #### Body
 
 ```json
-```
-
-```{"message":"Not Found","description":"Nothing matches the given URI"}
+{"message":"Not Found","description":"Nothing matches the given URI"}
 ```
 
 ## WHEN: Trying to get a token with an invalid token id
@@ -75,9 +71,7 @@ token_id | 0
 #### Body
 
 ```
-```
-
-```Not Found
+Not Found
 Nothing matches the given URI
 ```
 

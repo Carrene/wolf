@@ -23,8 +23,6 @@ expireDate | 1513434403
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"Invalid cryptomodule id."}
+{"message":"Bad Request","description":"Invalid cryptomodule id."}
 ```
 

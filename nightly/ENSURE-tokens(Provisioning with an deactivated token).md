@@ -23,8 +23,6 @@ expireDate | 1513434403
 #### Body
 
 ```json
-```
-
-```{"message":"Token is deactivated","description":"Token has been deactivated."}
+{"message":"Token is deactivated","description":"Token has been deactivated."}
 ```
 

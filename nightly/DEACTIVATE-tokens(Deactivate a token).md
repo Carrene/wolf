@@ -20,21 +20,19 @@ token_id | 1
 #### Body
 
 ```json
-```
-
-```{
+{
     "expireDate":"2000-12-07",
     "id":1,
     "cryptomodule":{
         "oneTimePasswordLength":4,
-        "id":1,
-        "timeInterval":60
+        "timeInterval":60,
+        "id":1
     },
-    "modifiedAt":"2018-04-24T22:53:57.927504Z",
-    "isExpired":true,
-    "createdAt":"2018-04-24T22:53:57.917515Z",
-    "name":"active_token",
     "phone":989121234567,
+    "isExpired":true,
+    "modifiedAt":"2018-04-24T23:08:43.516618Z",
+    "createdAt":"2018-04-24T23:08:43.504781Z",
+    "name":"active_token",
     "isActive":false,
     "provisioning":null
 }
@@ -58,9 +56,7 @@ token_id | 0
 #### Body
 
 ```json
-```
-
-```{"message":"Not Found","description":"Nothing matches the given URI"}
+{"message":"Not Found","description":"Nothing matches the given URI"}
 ```
 
 ## WHEN: Trying to deactivate a active token
@@ -81,8 +77,6 @@ token_id | 2
 #### Body
 
 ```json
-```
-
-```{"message":"Token is deactivated","description":"Token has been deactivated."}
+{"message":"Token is deactivated","description":"Token has been deactivated."}
 ```
 

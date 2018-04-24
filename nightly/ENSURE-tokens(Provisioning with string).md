@@ -24,8 +24,6 @@ expireDate | 1513434403
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"The field: cryptomoduleId must be int"}
+{"message":"Bad Request","description":"The field: cryptomoduleId must be int"}
 ```
 

@@ -13,7 +13,7 @@ password | 123456
 
 ### Request Headers
 
-* AUTHORIZATION: eyJhbGciOiJIUzI1NiIsImlhdCI6MTUyNDYxMDQzNiwiZXhwIjoxNTI0Njk2ODM2fQ.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGVzIjpbImFkbWluIl0sInNlc3Npb25JZCI6IjIxMWUwZTlhLTFjZjYtNDRkZC1hNTFmLWViNGEzODg3ZTU1MSJ9.6uEjGbGtR-YzZnsGIvTOpgoe5vqJXoOVSAW44teekKU
+* AUTHORIZATION: eyJhbGciOiJIUzI1NiIsImlhdCI6MTUyNDYxMTMyMiwiZXhwIjoxNTI0Njk3NzIyfQ.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGVzIjpbImFkbWluIl0sInNlc3Npb25JZCI6IjIzODQwNDA4LWNlM2UtNDY0Ni1hNmQ3LTU0NWU4ZjhmOWI5YiJ9.pojvYTm1_xQQWkV2fsHnp7sJfwY0EeQIJnBrmbkyk1k
 
 ### Response: 400 Invalid username or password
 
@@ -26,8 +26,6 @@ password | 123456
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"Bad request syntax or unsupported method"}
+{"message":"Bad Request","description":"Bad request syntax or unsupported method"}
 ```
 

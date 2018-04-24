@@ -21,9 +21,7 @@ code | 8E45779CD9825818
 #### Body
 
 ```
-```
-
-```Bad Request
+Bad Request
 Bad request syntax or unsupported method
 ```
 

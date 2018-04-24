@@ -21,9 +21,7 @@ code | 97458A009AB01102
 #### Body
 
 ```
-```
-
-```Token is expired
+Token is expired
 The requested token is expired.
 ```
 

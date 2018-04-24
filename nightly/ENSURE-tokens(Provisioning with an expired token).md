@@ -23,8 +23,6 @@ expireDate | 1513434403
 #### Body
 
 ```json
-```
-
-```{"message":"Token is expired","description":"The requested token is expired."}
+{"message":"Token is expired","description":"The requested token is expired."}
 ```
 

@@ -24,8 +24,6 @@ expireDate | 1513434403
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"Cannot enter more than: 50 in field: name."}
+{"message":"Bad Request","description":"Cannot enter more than: 50 in field: name."}
 ```
 

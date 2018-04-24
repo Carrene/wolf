@@ -32,9 +32,7 @@ token_id | 1
 #### Body
 
 ```
-```
-
-```Bad Request
+Bad Request
 Bad request syntax or unsupported method
 ```
 

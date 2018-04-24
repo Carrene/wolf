@@ -24,8 +24,6 @@ expireDate | 1513434403
 #### Body
 
 ```json
-```
-
-```{"message":"Bad Request","description":"Please enter at least 1 characters for field: name."}
+{"message":"Bad Request","description":"Please enter at least 1 characters for field: name."}
 ```
 
