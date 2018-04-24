@@ -95,23 +95,23 @@ db:
 
 #### Remove old abd create a new database **TAKE CARE ABOUT USING THAT**
 
-    $ wolf admin create-db --drop --basedata --mockup
+    $ wolf db create --drop --basedata --mockup
 
 #### Drop old database: **TAKE CARE ABOUT USING THAT**
 
-    $ wolf [-c path/to/config.yml] admin drop-db
+    $ wolf [-c path/to/config.yml] db drop
 
 #### Create database
 
-    $ wolf [-c path/to/config.yml] admin create-db
+    $ wolf [-c path/to/config.yml] db create
 
 Or, you can add `--drop` to drop the previously created database: **TAKE CARE ABOUT USING THAT**
 
-    $ wolf [-c path/to/config.yml] admin create-db --drop
+    $ wolf [-c path/to/config.yml] db create --drop
     
 #### Create database object
 
-    $ wolf [-c path/to/config.yml] admin setup-db
+    $ wolf [-c path/to/config.yml] db schema
 
 #### Database migration
 
@@ -119,11 +119,12 @@ Or, you can add `--drop` to drop the previously created database: **TAKE CARE AB
 
 #### Insert Base data
 
-    $ wolf [-c path/to/config.yml] admin base-data
+    $ wolf [-c path/to/config.yml] db basedata
     
 #### Insert Mockup data
 
-    $ wolf [-c path/to/config.yml] dev mockup-data
+    $ wolf db mockup [count[prefix]]
+    $ wolf [-c path/to/config.yml db mockup 200 01
     
 ### Unittests
 
