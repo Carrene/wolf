@@ -21,7 +21,10 @@ GIT="git -C ../project-gh-pages"
 mkdir -p $TARGET
 $GIT rm --ignore-unmatch $VERSION/\*.md
 cp data/documentation/*.md $TARGET
+ls | egrep '^(v.*|nightly)' | perl -e 'print "<html><body><ul>"; while(<>) { chop $_; print "<li><a
+ href=\"./$_\">$_</a></li>";} print "</ul></body></html>"' > $TARGET/index.html
 $GIT add $VERSION/\*.md
+$GIT add index.htmk
 $GIT config user.name "Travis CI"
 $GIT config user.email "$COMMIT_AUTHOR_EMAIL"
 $GIT commit -am "Deploy to Github Pages: ${VERSION} ${SHA}"
