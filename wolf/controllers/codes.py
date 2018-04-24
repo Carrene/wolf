@@ -52,25 +52,35 @@ class MiniToken:
 
     @classmethod
     def load_from_cache(cls, token_id):
-        pass
+        cache_key = str(token_id)
+        redis = cls.redis()
+        if redis.exists(cache_key):
+            token = redis.get(cache_key).split(b',')
+            return (
+                int(token[0]),
+                token[1],
+                float(token[2]),
+                bool(token[3]),
+                int(token[4])
+            )
+        return None
 
     @classmethod
     def load(cls, token_id, cache=False):
-        cache_key = str(token_id)
-#        if cls.redis().exists(cache_key):
-#            return
-        token = cls.load_from_database(token_id)
-
+        token = cls.load_from_cache(token_id)
         if token is None:
-            return token
+            token = cls.load_from_database(token_id)
 
-#        if cache:
-#            cls.redis().set(
-#                str(token_id),
-#                '%s,%s,%s,%s,%s' % (
-#                    token[0], token[1], token[2], token[3], token[4]
-#                )
-#            )
+            if token is None:
+                return token
+
+            if cache:
+                cls.redis().set(
+                    str(token_id),
+                    '%s,%s,%s,%s,%s' % (
+                        token[0], token[1], token[2], token[3], token[4]
+                    )
+                )
 
         return cls(*token)
 
