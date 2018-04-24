@@ -186,6 +186,25 @@ class VerifyTokenTestCase(BDDTestClass):
         with TimeMonkeyPatch(self.fake_time1), self.given(**call):
             then(response.status_code == 463)
 
+    def test_verify_malformed_code(self):
+        mockup_token_id = self.mockup_token1_id
+
+        call = dict(
+            title='When code has odd length',
+            description='Verifying time based OTP',
+            url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: badcode',
+            verb='VERIFY',
+        )
+
+        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
+            then(response.status_code == 400)
+
+            when(
+                'When code is malformed',
+                url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: 1234567'
+            )
+            then(response.status_code == 400)
+
 
 if __name__ == '__main__':  # pragma: no cover
     unittest.main()

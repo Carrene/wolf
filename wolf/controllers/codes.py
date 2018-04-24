@@ -162,11 +162,15 @@ class CodesController(RestController):
         if not token.is_active:
             raise DeactivatedTokenError()
 
-        is_valid = token.verify(
-            code.encode(),
-            self.window,
-        )
-        token.cache()
+        try:
+            is_valid = token.verify(
+                code.encode(),
+                self.window,
+            )
+            token.cache()
+        except ValueError:
+            is_valid = False
+
         if not is_valid:
             raise HttpBadRequest('Invalid Code')
 

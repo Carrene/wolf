@@ -48,6 +48,8 @@ class EncryptedISOPinBlock(PlainISO0PinBlock):
 
     def decode(self, encoded):
         algorithm = self.create_algorithm()
+        if len(encoded) % 2 != 0:
+            raise ValueError('Odd-length string')
         pinblock = algorithm.decrypt(binascii.unhexlify(encoded))
         return super().decode(binascii.hexlify(pinblock).upper())
 
