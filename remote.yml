@@ -5,3 +5,4 @@ db:
 token:
   redis:
     enabled: True
+  verify_limit: 999999999999

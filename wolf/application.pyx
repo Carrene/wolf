@@ -30,6 +30,9 @@ class Application(BaseApplication):
         port: 6379
         password: ~
         db: 0
+        max_connections: 10
+        socket_timeout: 1
+      verify_limit: 1
 
     oath:
       window: 2

@@ -18,12 +18,15 @@ cached_cryptomodules = None
 class MiniToken:
     _redis = None
 
-    def __init__(self, id, seed, expire_date, is_active, cryptomodule_id):
+    def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,
+                 same_code_verify_counter=0):
         self.id = id
         self.seed = seed
         self.expire_date = expire_date
         self.is_active = is_active
         self.cryptomodule_id = cryptomodule_id
+        self.last_code = last_code
+        self.same_code_verify_counter = same_code_verify_counter
 
     @staticmethod
     def create_blocking_redis_client():
@@ -31,7 +34,9 @@ class MiniToken:
             host=settings.token.redis.host,
             port=settings.token.redis.port,
             db=settings.token.redis.db,
-            password=settings.token.redis.password
+            password=settings.token.redis.password,
+            max_connections=settings.token.redis.max_connections,
+            socket_timeout=settings.token.redis.socket_timeout
         )
 
     @classmethod
@@ -62,7 +67,9 @@ class MiniToken:
                 token[0],
                 float(token[1]),
                 bool(token[2]),
-                int(token[3])
+                int(token[3]),
+                token[4],
+                int(token[5])
             ) if token else None
         return None
 
@@ -72,19 +79,18 @@ class MiniToken:
             token = cls.load_from_cache(token_id)
             if token is not None:
                 return token
-
-            token = cls.load_from_database(token_id)
-            if token is not None:
-                token.cache()
-            return token
-
         return cls.load_from_database(token_id)
 
     def cache(self):
         self.redis().set(
             str(self.id),
-            '%s,%s,%s,%s' % (
-                self.seed , self.expire_date, self.is_active, self.cryptomodule_id
+            b'%s,%d,%d,%d,%s,%d' % (
+                self.seed,
+                int(self.expire_date),
+                int(self.is_active),
+                self.cryptomodule_id,
+                self.last_code,
+                self.same_code_verify_counter
             )
         )
 
@@ -116,7 +122,17 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, otp, window):
+    def verify(self, code, window):
+        if self.last_code == code:
+            self.same_code_verify_counter += 1
+            if settings.token.verify_limit < self.same_code_verify_counter:
+                return False
+        else:
+            self.last_code = code
+            self.same_code_verify_counter = 0
+
+        pinblock = EncryptedISOPinBlock(self.id)
+        otp = pinblock.decode(code)
         return oathcy.totp_verify(
             self.seed,
             time.time(),
@@ -145,11 +161,11 @@ class CodesController(RestController):
         if not token.is_active:
             raise DeactivatedTokenError()
 
-        pinblock = EncryptedISOPinBlock(token_id)
         is_valid = token.verify(
-            pinblock.decode(code.encode()),
+            code.encode(),
             self.window,
         )
+        token.cache()
         if not is_valid:
             raise HttpBadRequest('Invalid Code')
 
