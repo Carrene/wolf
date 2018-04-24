@@ -23,18 +23,18 @@ token_id | 1
 ```
 
 ```{
+    "expireDate":"2000-12-07",
     "id":1,
     "cryptomodule":{
-        "id":1,
         "oneTimePasswordLength":4,
+        "id":1,
         "timeInterval":60
     },
-    "createdAt":"2018-04-24T22:34:14.363343Z",
-    "phone":989121234567,
-    "name":"first_token",
     "modifiedAt":null,
     "isExpired":true,
-    "expireDate":"2000-12-07",
+    "createdAt":"2018-04-24T22:53:58.390333Z",
+    "name":"first_token",
+    "phone":989121234567,
     "isActive":true,
     "provisioning":null
 }

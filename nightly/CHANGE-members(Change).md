@@ -19,7 +19,7 @@ newPassword | 1234567
 
 ### Request Headers
 
-* AUTHORIZATION: eyJhbGciOiJIUzI1NiIsImlhdCI6MTUyNDYwOTI1MiwiZXhwIjoxNTI0Njk1NjUyfQ.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGVzIjpbImFkbWluIl0sInNlc3Npb25JZCI6Ijk0YThmNTA3LWY3YzUtNDVjYS05YTI4LWI2MTcwZDM0NTlkMSJ9.HpSC5C5frOss5RUBpQUmxLFj0ZrRuamoLPu2j4mkaW4
+* AUTHORIZATION: eyJhbGciOiJIUzI1NiIsImlhdCI6MTUyNDYxMDQzNiwiZXhwIjoxNTI0Njk2ODM2fQ.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGVzIjpbImFkbWluIl0sInNlc3Npb25JZCI6IjIxMWUwZTlhLTFjZjYtNDRkZC1hNTFmLWViNGEzODg3ZTU1MSJ9.6uEjGbGtR-YzZnsGIvTOpgoe5vqJXoOVSAW44teekKU
 
 ### Response: 200 OK
 
@@ -61,7 +61,7 @@ currentPassword | invalid
 ```json
 ```
 
-```{"message":"Bad Request","description":"Exactly these fields are allowed: [currentPassword, newPassword]"}
+```{"message":"Bad Request","description":"Exactly these fields are allowed: [newPassword, currentPassword]"}
 ```
 
 ## WHEN: Trying to change another user password
