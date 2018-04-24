@@ -36,6 +36,7 @@ class ChangePasswordTestCase(BDDTestClass):
 
             when(
                 'Trying to change password with wrong current password',
+                form={'currentPassword': 'invalid'},
             )
             then(response.status_code == 400)
 
