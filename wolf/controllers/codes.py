@@ -136,6 +136,7 @@ class MiniToken:
         return oathcy.totp_verify(
             self.seed,
             time.time(),
+            self.length,
             window,
             otp,
             self.time_interval

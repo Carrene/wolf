@@ -9,7 +9,7 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
 
 dependencies = [
     'restfulpy >= 0.46.1',
-    'oathcy',
+    'oathcy >= 1.0.1a2',
     'pycrypto',
 
     'bddrest',
