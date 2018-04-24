@@ -19,7 +19,7 @@ rm -rf ../project-gh-pages
 git -C .. clone git@github.com:Carrene/wolf.git -b gh-pages project-gh-pages
 GIT="git -C ../project-gh-pages"
 mkdir -p $TARGET
-$GIT rm $VERSION/\*.md
+$GIT rm --ignore-unmatch $VERSION/\*.md
 cp data/documentation/*.md $TARGET
 $GIT add $VERSION/\*.md
 $GIT config user.name "Travis CI"
