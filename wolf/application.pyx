@@ -49,7 +49,7 @@ class Application(BaseApplication):
 
     def insert_mockup(self, args):
         from . import mockup
-        mockup.insert(args)
+        mockup.insert(*args)
 
     # noinspection PyMethodMayBeStatic
     def register_cli_launchers(self, subparsers):
