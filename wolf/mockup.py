@@ -26,3 +26,4 @@ def insert(quantity=10, prefix=0):
                 progress.increment()
         DBSession.commit()
         progress.increment()
+

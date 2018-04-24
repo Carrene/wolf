@@ -44,13 +44,8 @@ class Cryptomodule(DeclarativeBase):
         return new_value
 
 
-class BaseToken:
-    @hybrid_property
-    def is_expired(self):
-        return self.expire_date <= date.today()
 
-
-class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):
+class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
@@ -74,6 +69,10 @@ class Token(BaseToken, ModifiedMixin, PaginationMixin, FilteringMixin, Activatio
             name='uix_name_phone_cryptomodule_id'
         ),
     )
+
+    @hybrid_property
+    def is_expired(self):
+        return self.expire_date <= date.today()
 
     def initialize_seed(self, session=DBSession):
         current_seed = self.seed

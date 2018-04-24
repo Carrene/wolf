@@ -1,46 +1,82 @@
 import time
 
+import redis
 import oathcy
-from sqlalchemy.sql import text
+from sqlalchemy.sql import text, func, extract
 from nanohttp import action, settings, RestController, HttpBadRequest, HttpNotFound, LazyAttribute
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
 
 from ..cryptoutil import EncryptedISOPinBlock
 from ..excpetions import ExpiredTokenError, DeactivatedTokenError
-from ..models import BaseToken, Token
+from ..models import Token
 
 
 cached_cryptomodules = None
 
 
-class MiniToken(BaseToken):
+class MiniToken:
+    _redis = None
 
-    def __init__(self, id, seed, expire_date, activated_at, cryptomodule_id):
+    def __init__(self, id, seed, expire_date, is_active, cryptomodule_id):
         self.id = id
         self.seed = seed
         self.expire_date = expire_date
-        self.activated_at = activated_at
+        self.is_active = is_active
         self.cryptomodule_id = cryptomodule_id
+
+    @staticmethod
+    def create_blocking_redis_client():
+        return redis.StrictRedis(
+            host=settings.token.redis.host,
+            port=settings.token.redis.port,
+            db=settings.token.redis.db,
+            password=settings.token.redis.password
+        )
+
+    @classmethod
+    def redis(cls):
+        if cls._redis is None:
+            cls._redis = cls.create_blocking_redis_client()
+        return cls._redis
 
     @classmethod
     def load_from_database(cls, token_id):
-        row = DBSession.query(
+        return DBSession.query(
             Token.id,
             Token.seed,
-            Token.expire_date,
-            Token.activated_at,
+            extract('epoch', Token.expire_date),
+            Token.activated_at.isnot(None),
             Token.cryptomodule_id,
         ).filter(Token.id == token_id).one_or_none()
-        return cls(*row)
 
     @classmethod
-    def load(cls, token_id):
-        return cls.load_from_database(token_id)
+    def load_from_cache(cls, token_id):
+        pass
+
+    @classmethod
+    def load(cls, token_id, cache=False):
+        cache_key = str(token_id)
+#        if cls.redis().exists(cache_key):
+#            return
+        token = cls.load_from_database(token_id)
+
+        if token is None:
+            return token
+
+#        if cache:
+#            cls.redis().set(
+#                str(token_id),
+#                '%s,%s,%s,%s,%s' % (
+#                    token[0], token[1], token[2], token[3], token[4]
+#                )
+#            )
+
+        return cls(*token)
 
     @property
-    def is_active(self):
-        return self.activated_at is not None
+    def is_expired(self):
+        return self.expire_date <= time.time()
 
     @property
     def cryptomodules(self):
@@ -85,7 +121,7 @@ class CodesController(RestController):
     @action
     @prevent_form
     def verify(self, token_id, code):
-        token = MiniToken.load(token_id)
+        token = MiniToken.load(token_id, cache=True)
         if token is None:
             raise HttpNotFound()
 

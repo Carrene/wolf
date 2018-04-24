@@ -20,12 +20,15 @@ class Application(BaseApplication):
       administrative_url: postgresql://postgres:postgres@localhost/postgres
 
     token:
-      max_consecutive_tries: 5
-
       seed:
         max_random_try: 3
         min_sleep_milliseconds: 10
         max_sleep_milliseconds: 50
+      redis:
+        host: localhost
+        port: 6379
+        password: ~
+        db: 0
 
     oath:
       window: 2
@@ -47,7 +50,7 @@ class Application(BaseApplication):
     def insert_basedata(self):
         basedata.insert()
 
-    def insert_mockup(self, args):
+    def insert_mockup(self, args=[]):
         from . import mockup
         mockup.insert(*args)
 
