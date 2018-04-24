@@ -22,10 +22,10 @@ udid | 2b6f0cc904d137be2e1730235f5664094b831186
 
 ```json
 {
+    "createdAt":"2018-04-24T23:31:39.994084Z",
     "phone":989122451075,
-    "modifiedAt":null,
-    "createdAt":"2018-04-24T23:08:42.604240Z",
-    "secret":"ZgomqIm7YnoRuGFOy14jlGzic93hbltJiKhk1xR463w=\n"
+    "secret":"8G6AaZmjXLW+DDFf8+GPRhfvZZTLumrRJp+LabqEwzk=\n",
+    "modifiedAt":null
 }
 ```
 
@@ -42,10 +42,10 @@ udid | 2b6f0cc904d137be2e1730235f5664094b831186
 
 ```json
 {
+    "createdAt":"2018-04-24T23:31:39.994084Z",
     "phone":989122451075,
-    "modifiedAt":"2018-04-24T23:08:42.717480Z",
-    "createdAt":"2018-04-24T23:08:42.604240Z",
-    "secret":"FlbYiucyrQ+0QVRUl\/Nl2Sf75P3pAGoeBgLMK4V82bU=\n"
+    "secret":"7E\/mmk1cRmpOy+iYRmONe+fBMgKLtzCiWqX17kkZzNk=\n",
+    "modifiedAt":"2018-04-24T23:31:40.124375Z"
 }
 ```
 
