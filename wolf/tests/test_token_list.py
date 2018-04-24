@@ -12,14 +12,6 @@ from wolf.tests.helpers import BDDTestClass
 class ListTokenTestCase(BDDTestClass):
 
     @classmethod
-    def configure_app(cls):
-        super().configure_app()
-        settings.merge('''
-            token:
-                max_consecutive_tries: 5
-        ''')
-
-    @classmethod
     def mockup(cls):
         mockup_cryptomodule = Cryptomodule()
         DBSession.add(mockup_cryptomodule)
@@ -31,7 +23,6 @@ class ListTokenTestCase(BDDTestClass):
         first_token.seed = b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
 
         first_token.is_active = True
-        first_token.consecutive_tries = 5
         first_token.cryptomodule = mockup_cryptomodule
         DBSession.add(first_token)
 

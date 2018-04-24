@@ -42,13 +42,14 @@ class MiniToken:
 
     @classmethod
     def load_from_database(cls, token_id):
-        return DBSession.query(
+        row = DBSession.query(
             Token.id,
             Token.seed,
             extract('epoch', Token.expire_date),
             Token.activated_at.isnot(None),
             Token.cryptomodule_id,
         ).filter(Token.id == token_id).one_or_none()
+        return cls(*row) if row else None
 
     @classmethod
     def load_from_cache(cls, token_id):
@@ -56,33 +57,36 @@ class MiniToken:
         redis = cls.redis()
         if redis.exists(cache_key):
             token = redis.get(cache_key).split(b',')
-            return (
+            return cls(
                 int(token[0]),
                 token[1],
                 float(token[2]),
                 bool(token[3]),
                 int(token[4])
-            )
+            ) if token else None
         return None
 
     @classmethod
     def load(cls, token_id, cache=False):
-        token = cls.load_from_cache(token_id)
-        if token is None:
+        if cache:
+            token = cls.load_from_cache(token_id)
+            if token is None:
+                token = cls.load_from_database(token_id)
+
+            if token is not None:
+                token.cache()
+        else:
             token = cls.load_from_database(token_id)
 
-            if token is None:
-                return token
+        return token
 
-            if cache:
-                cls.redis().set(
-                    str(token_id),
-                    '%s,%s,%s,%s,%s' % (
-                        token[0], token[1], token[2], token[3], token[4]
-                    )
-                )
-
-        return cls(*token)
+    def cache(self):
+        self.redis().set(
+            str(token_id),
+            '%s,%s,%s,%s,%s' % (
+                self.id, self.seed , self.expire_date, self.is_active, self.cryptomodule_id
+            )
+        )
 
     @property
     def is_expired(self):
@@ -131,7 +135,7 @@ class CodesController(RestController):
     @action
     @prevent_form
     def verify(self, token_id, code):
-        token = MiniToken.load(token_id, cache=True)
+        token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
         if token is None:
             raise HttpNotFound()
 

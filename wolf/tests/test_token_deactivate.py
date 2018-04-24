@@ -1,8 +1,7 @@
 import unittest
 
-from nanohttp import settings
-from restfulpy.orm import DBSession
 from bddrest.authoring import when, then, response, and_
+from restfulpy.orm import DBSession
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import BDDTestClass
@@ -21,7 +20,6 @@ class DeactivateTokenTestCase(BDDTestClass):
         active_token.expire_date = '2000-12-07T18:14:39.558891'
         active_token.seed = b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         active_token.is_active = True
-        active_token.consecutive_tries = 0
         active_token.cryptomodule = mockup_cryptomodule
         DBSession.add(active_token)
 
@@ -31,7 +29,6 @@ class DeactivateTokenTestCase(BDDTestClass):
         deactive_token.expire_date = '2099-12-07T18:14:39.558891'
         deactive_token.seed = b'\xca!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         deactive_token.is_active = False
-        deactive_token.consecutive_tries = settings.token.max_consecutive_tries + 1
         deactive_token.cryptomodule = mockup_cryptomodule
         DBSession.add(deactive_token)
 

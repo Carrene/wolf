@@ -22,7 +22,6 @@ class GetTokenTestCase(BDDTestClass):
         first_token.seed = b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
 
         first_token.is_active = True
-        first_token.consecutive_tries = settings.token.max_consecutive_tries + 1
         first_token.cryptomodule = mockup_cryptomodule
         DBSession.add(first_token)
 

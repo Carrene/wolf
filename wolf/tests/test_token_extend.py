@@ -21,7 +21,6 @@ class ExtendTokenTestCase(BDDTestClass):
         expired_token.expire_date = '2000-12-07T18:14:39.558891'
         expired_token.seed = b'\xda!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         expired_token.is_active = True
-        expired_token.consecutive_tries = settings.token.max_consecutive_tries + 1
         expired_token.cryptomodule = mockup_cryptomodule
         DBSession.add(expired_token)
 
@@ -31,7 +30,6 @@ class ExtendTokenTestCase(BDDTestClass):
         available_token.expire_date = '2099-12-07T18:14:39.558891'
         available_token.seed = b'\xca!\x8e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         available_token.is_active = True
-        available_token.consecutive_tries = settings.token.max_consecutive_tries + 1
         available_token.cryptomodule = mockup_cryptomodule
         DBSession.add(available_token)
 

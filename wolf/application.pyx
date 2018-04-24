@@ -25,6 +25,7 @@ class Application(BaseApplication):
         min_sleep_milliseconds: 10
         max_sleep_milliseconds: 50
       redis:
+        enabled: False
         host: localhost
         port: 6379
         password: ~
