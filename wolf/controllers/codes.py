@@ -58,11 +58,11 @@ class MiniToken:
         if redis.exists(cache_key):
             token = redis.get(cache_key).split(b',')
             return cls(
-                int(token[0]),
-                token[1],
-                float(token[2]),
-                bool(token[3]),
-                int(token[4])
+                token_id,
+                token[0],
+                float(token[1]),
+                bool(token[2]),
+                int(token[3])
             ) if token else None
         return None
 
@@ -70,21 +70,21 @@ class MiniToken:
     def load(cls, token_id, cache=False):
         if cache:
             token = cls.load_from_cache(token_id)
-            if token is None:
-                token = cls.load_from_database(token_id)
+            if token is not None:
+                return token
 
+            token = cls.load_from_database(token_id)
             if token is not None:
                 token.cache()
-        else:
-            token = cls.load_from_database(token_id)
+            return token
 
-        return token
+        return cls.load_from_database(token_id)
 
     def cache(self):
         self.redis().set(
-            str(token_id),
-            '%s,%s,%s,%s,%s' % (
-                self.id, self.seed , self.expire_date, self.is_active, self.cryptomodule_id
+            str(self.id),
+            '%s,%s,%s,%s' % (
+                self.seed , self.expire_date, self.is_active, self.cryptomodule_id
             )
         )
 
