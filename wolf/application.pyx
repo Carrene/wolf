@@ -46,7 +46,7 @@ class Application(BaseApplication):
         super().__init__(
             'wolf',
             root=Root(),
-            root_path=join(dirname(__file__), '..'),
+            root_path=dirname(__file__),
             version=version
         )
 
