@@ -21,8 +21,6 @@ token_id | 1
 
 ```json
 {
-    "createdAt":"2018-04-25T11:20:54.187756Z",
-    "phone":989121234567,
     "cryptomodule":{
         "oneTimePasswordLength":4,
         "timeInterval":60,
@@ -31,6 +29,8 @@ token_id | 1
     "name":"first_token",
     "expireDate":"2000-12-07",
     "isExpired":true,
+    "createdAt":"2018-04-25T11:31:17.927208Z",
+    "phone":989121234567,
     "modifiedAt":null,
     "id":1,
     "isActive":true,

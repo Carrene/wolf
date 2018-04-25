@@ -24,8 +24,6 @@ expireDate | 1613434403
 
 ```json
 {
-    "createdAt":"2018-04-25T11:20:54.572397Z",
-    "phone":989122451075,
     "cryptomodule":{
         "oneTimePasswordLength":4,
         "timeInterval":60,
@@ -34,6 +32,8 @@ expireDate | 1613434403
     "name":"DummyTokenName",
     "expireDate":"2021-02-16",
     "isExpired":false,
+    "createdAt":"2018-04-25T11:31:18.476715Z",
+    "phone":989122451075,
     "modifiedAt":null,
     "id":3,
     "isActive":true,
@@ -63,8 +63,6 @@ expireDate | 1513434403
 
 ```json
 {
-    "createdAt":"2018-04-25T11:20:54.572397Z",
-    "phone":989122451075,
     "cryptomodule":{
         "oneTimePasswordLength":4,
         "timeInterval":60,
@@ -73,6 +71,8 @@ expireDate | 1513434403
     "name":"DummyTokenName",
     "expireDate":"2021-02-16",
     "isExpired":false,
+    "createdAt":"2018-04-25T11:31:18.476715Z",
+    "phone":989122451075,
     "modifiedAt":null,
     "id":3,
     "isActive":true,

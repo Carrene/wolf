@@ -19,8 +19,6 @@ List of tokens
 ```json
 [
     {
-        "createdAt":"2018-04-25T11:20:55.944349Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -29,14 +27,14 @@ List of tokens
         "name":"first_token",
         "expireDate":"2099-12-07",
         "isExpired":false,
+        "createdAt":"2018-04-25T11:31:19.730516Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":1,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.946400Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -45,14 +43,14 @@ List of tokens
         "name":"second_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732181Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":2,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.947058Z",
-        "phone":989121234568,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -61,6 +59,8 @@ List of tokens
         "name":"third_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732772Z",
+        "phone":989121234568,
         "modifiedAt":null,
         "id":3,
         "isActive":true,
@@ -92,8 +92,6 @@ sort | id
 ```json
 [
     {
-        "createdAt":"2018-04-25T11:20:55.944349Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -102,14 +100,14 @@ sort | id
         "name":"first_token",
         "expireDate":"2099-12-07",
         "isExpired":false,
+        "createdAt":"2018-04-25T11:31:19.730516Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":1,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.946400Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -118,14 +116,14 @@ sort | id
         "name":"second_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732181Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":2,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.947058Z",
-        "phone":989121234568,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -134,6 +132,8 @@ sort | id
         "name":"third_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732772Z",
+        "phone":989121234568,
         "modifiedAt":null,
         "id":3,
         "isActive":true,
@@ -165,8 +165,6 @@ sort | -id
 ```json
 [
     {
-        "createdAt":"2018-04-25T11:20:55.947058Z",
-        "phone":989121234568,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -175,14 +173,14 @@ sort | -id
         "name":"third_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732772Z",
+        "phone":989121234568,
         "modifiedAt":null,
         "id":3,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.946400Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -191,14 +189,14 @@ sort | -id
         "name":"second_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732181Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":2,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.944349Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -207,6 +205,8 @@ sort | -id
         "name":"first_token",
         "expireDate":"2099-12-07",
         "isExpired":false,
+        "createdAt":"2018-04-25T11:31:19.730516Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":1,
         "isActive":true,
@@ -238,8 +238,6 @@ phone | 989121234567
 ```json
 [
     {
-        "createdAt":"2018-04-25T11:20:55.944349Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -248,14 +246,14 @@ phone | 989121234567
         "name":"first_token",
         "expireDate":"2099-12-07",
         "isExpired":false,
+        "createdAt":"2018-04-25T11:31:19.730516Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":1,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.946400Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -264,6 +262,8 @@ phone | 989121234567
         "name":"second_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732181Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":2,
         "isActive":true,
@@ -295,8 +295,6 @@ take | 2
 ```json
 [
     {
-        "createdAt":"2018-04-25T11:20:55.944349Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -305,14 +303,14 @@ take | 2
         "name":"first_token",
         "expireDate":"2099-12-07",
         "isExpired":false,
+        "createdAt":"2018-04-25T11:31:19.730516Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":1,
         "isActive":true,
         "provisioning":null
     },
     {
-        "createdAt":"2018-04-25T11:20:55.946400Z",
-        "phone":989121234567,
         "cryptomodule":{
             "oneTimePasswordLength":4,
             "timeInterval":60,
@@ -321,6 +319,8 @@ take | 2
         "name":"second_token",
         "expireDate":"2018-04-24",
         "isExpired":true,
+        "createdAt":"2018-04-25T11:31:19.732181Z",
+        "phone":989121234567,
         "modifiedAt":null,
         "id":2,
         "isActive":true,
