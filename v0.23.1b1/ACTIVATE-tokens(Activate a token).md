@@ -21,18 +21,18 @@ token_id | 2
 
 ```json
 {
-    "createdAt":"2018-04-25T09:02:20.003855Z",
-    "isExpired":false,
-    "phone":989121234567,
-    "expireDate":"2099-12-07",
     "name":"deactive_token",
+    "isExpired":false,
+    "expireDate":"2099-12-07",
     "cryptomodule":{
-        "timeInterval":60,
         "oneTimePasswordLength":4,
+        "timeInterval":60,
         "id":1
     },
-    "modifiedAt":"2018-04-25T09:02:20.013494Z",
+    "createdAt":"2018-04-25T11:18:21.146825Z",
+    "modifiedAt":"2018-04-25T11:18:21.155843Z",
     "id":2,
+    "phone":989121234567,
     "isActive":true,
     "provisioning":null
 }
