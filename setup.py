@@ -24,6 +24,7 @@ setup(
     author_email="mt@netalic.de",
     install_requires=dependencies,
     packages=find_packages(),
+    include_package_data=True,
     ext_modules=cythonize('wolf/**/*.pyx'),
     test_suite="wolf.tests",
     entry_points={
