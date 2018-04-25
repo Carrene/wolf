@@ -24,18 +24,18 @@ expireDate | 1613434403
 
 ```json
 {
+    "createdAt":"2018-04-25T11:20:54.572397Z",
+    "phone":989122451075,
+    "cryptomodule":{
+        "oneTimePasswordLength":4,
+        "timeInterval":60,
+        "id":1
+    },
     "name":"DummyTokenName",
     "expireDate":"2021-02-16",
     "isExpired":false,
     "modifiedAt":null,
     "id":3,
-    "phone":989122451075,
-    "cryptomodule":{
-        "timeInterval":60,
-        "oneTimePasswordLength":4,
-        "id":1
-    },
-    "createdAt":"2018-04-25T09:05:34.579729Z",
     "isActive":true,
     "provisioning":"mt:\/\/oath\/totp\/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A12F3440012102163515"
 }
@@ -63,18 +63,18 @@ expireDate | 1513434403
 
 ```json
 {
+    "createdAt":"2018-04-25T11:20:54.572397Z",
+    "phone":989122451075,
+    "cryptomodule":{
+        "oneTimePasswordLength":4,
+        "timeInterval":60,
+        "id":1
+    },
     "name":"DummyTokenName",
     "expireDate":"2021-02-16",
     "isExpired":false,
     "modifiedAt":null,
     "id":3,
-    "phone":989122451075,
-    "cryptomodule":{
-        "timeInterval":60,
-        "oneTimePasswordLength":4,
-        "id":1
-    },
-    "createdAt":"2018-04-25T09:05:34.579729Z",
     "isActive":true,
     "provisioning":"mt:\/\/oath\/totp\/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A12F3440012102163515"
 }
