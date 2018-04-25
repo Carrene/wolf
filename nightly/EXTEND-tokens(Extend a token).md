@@ -28,17 +28,17 @@ expireDate | 1613434403
 ```json
 {
     "name":"expired_token",
-    "createdAt":"2018-04-24T23:31:41.998941Z",
+    "expireDate":"2021-02-16",
+    "isExpired":false,
+    "modifiedAt":"2018-04-25T09:05:35.269638Z",
     "id":1,
     "phone":989121234567,
-    "modifiedAt":"2018-04-24T23:31:42.008377Z",
-    "isExpired":false,
     "cryptomodule":{
-        "id":1,
+        "timeInterval":60,
         "oneTimePasswordLength":4,
-        "timeInterval":60
+        "id":1
     },
-    "expireDate":"2021-02-16",
+    "createdAt":"2018-04-25T09:05:35.251354Z",
     "isActive":true,
     "provisioning":null
 }
