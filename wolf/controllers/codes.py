@@ -2,7 +2,7 @@ import time
 
 import redis
 import oathcy
-from sqlalchemy.sql import text, func, extract
+from sqlalchemy import text, func, extract, event
 from nanohttp import action, settings, RestController, HttpBadRequest, HttpNotFound, LazyAttribute
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
@@ -57,42 +57,12 @@ class MiniToken:
         return cls(*row) if row else None
 
     @classmethod
-    def load_from_cache(cls, token_id):
-        cache_key = str(token_id)
-        redis = cls.redis()
-        if redis.exists(cache_key):
-            token = redis.get(cache_key).split(b',')
-            return cls(
-                token_id,
-                token[0],
-                float(token[1]),
-                bool(token[2]),
-                int(token[3]),
-                token[4],
-                int(token[5])
-            ) if token else None
-        return None
-
-    @classmethod
     def load(cls, token_id, cache=False):
         if cache:
             token = cls.load_from_cache(token_id)
             if token is not None:
                 return token
         return cls.load_from_database(token_id)
-
-    def cache(self):
-        self.redis().set(
-            str(self.id),
-            b'%s,%d,%d,%d,%s,%d' % (
-                self.seed,
-                int(self.expire_date),
-                int(self.is_active),
-                self.cryptomodule_id,
-                self.last_code,
-                self.same_code_verify_counter
-            )
-        )
 
     @property
     def is_expired(self):
@@ -141,6 +111,47 @@ class MiniToken:
             otp,
             self.time_interval
         )
+
+    def cache(self):
+        self.redis().set(
+            str(self.id),
+            b'%s,%d,%d,%d,%s,%d' % (
+                self.seed,
+                int(self.expire_date),
+                int(self.is_active),
+                self.cryptomodule_id,
+                self.last_code,
+                self.same_code_verify_counter
+            )
+        )
+
+    @classmethod
+    def load_from_cache(cls, token_id):
+        cache_key = str(token_id)
+        redis = cls.redis()
+        if redis.exists(cache_key):
+            token = redis.get(cache_key).split(b',')
+            return cls(
+                token_id,
+                token[0],
+                float(token[1]),
+                bool(token[2]),
+                int(token[3]),
+                token[4],
+                int(token[5])
+            ) if token else None
+        return None
+
+    @classmethod
+    def invalidate(cls, token_id):
+        self.redis().delete(token_id)
+
+    @classmethod
+    def after_update(cls, mapper, connection, target):
+        cls.invalidate(target.id)
+
+
+event.listen(Token, 'after_update', MiniToken.after_update)
 
 
 class CodesController(RestController):
