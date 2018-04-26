@@ -144,7 +144,7 @@ class MiniToken:
 
     @classmethod
     def invalidate(cls, token_id):
-        self.redis().delete(token_id)
+        cls.redis().delete(token_id)
 
     @classmethod
     def after_update(cls, mapper, connection, target):
