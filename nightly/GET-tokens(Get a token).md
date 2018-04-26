@@ -21,18 +21,18 @@ token_id | 1
 
 ```json
 {
-    "modifiedAt":null,
-    "name":"first_token",
-    "id":1,
-    "phone":989121234567,
-    "expireDate":"2099-12-07",
-    "createdAt":"2018-04-25T12:00:27.232041Z",
-    "isExpired":false,
     "cryptomodule":{
         "id":1,
-        "oneTimePasswordLength":4,
-        "timeInterval":60
+        "timeInterval":60,
+        "oneTimePasswordLength":4
     },
+    "name":"first_token",
+    "modifiedAt":null,
+    "id":1,
+    "createdAt":"2018-04-26T15:19:24.232413Z",
+    "phone":989121234567,
+    "isExpired":false,
+    "expireDate":"2099-12-07",
     "isActive":true,
     "provisioning":null
 }
