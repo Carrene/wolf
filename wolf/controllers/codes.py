@@ -144,7 +144,8 @@ class MiniToken:
 
     @classmethod
     def after_update(cls, mapper, connection, target):
-        cls.invalidate(target.id)
+        if settings.token.redis.enabled:
+            cls.invalidate(target.id)
 
 
 event.listen(Token, 'after_update', MiniToken.after_update)
