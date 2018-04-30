@@ -6,6 +6,7 @@ from sqlalchemy import text, func, extract, event
 from nanohttp import action, settings, RestController, HttpBadRequest, HttpNotFound, LazyAttribute
 from restfulpy.orm import DBSession
 from restfulpy.validation import prevent_form
+from oathcy.otp import TOTP
 
 from ..cryptoutil import EncryptedISOPinBlock
 from ..excpetions import ExpiredTokenError, DeactivatedTokenError
@@ -103,14 +104,9 @@ class MiniToken:
 
         pinblock = EncryptedISOPinBlock(self.id)
         otp = pinblock.decode(code)
-        return oathcy.totp_verify(
-            self.seed,
-            time.time(),
-            self.length,
-            window,
-            otp,
-            self.time_interval
-        )
+        return oathcy\
+            .TOTP(self.seed, time.time(), self.length, step=self.time_interval)\
+            .verify(otp, window)
 
     def cache(self):
         self.redis().set(
