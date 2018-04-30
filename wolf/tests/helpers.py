@@ -1,11 +1,10 @@
 import time
 from collections import namedtuple
-from os import path, pardir, makedirs
+from os import path, makedirs
 
-from nanohttp import settings
-from restfulpy.documentary import FileDocumentaryMiddleware, RestfulpyApplicationTestCase
-from restfulpy.testing import WebAppTestCase
 from bddrest.authoring import given, response, Composer
+from nanohttp import settings
+from restfulpy.testing import WebAppTestCase
 
 from wolf import cryptoutil, wolf
 
@@ -81,29 +80,6 @@ class BDDTestClass(WebAppTestCase):
         )
 
 
-# FIXME: remove it
-class DocumentaryMiddleware(FileDocumentaryMiddleware):
-    def __init__(self, application):
-        directory = settings.documentary.source_directory
-        super().__init__(application, directory)
-
-
-class DocumentaryTestCase(RestfulpyApplicationTestCase):
-    documentary_middleware_factory = DocumentaryMiddleware
-
-    @classmethod
-    def application_factory(cls):
-        app = Wolf()
-        app.configure(force=True)
-        return app
-
-    def call_as_device_manager(self, *args, **kwargs):
-        return super().call(*args, role=roles.device_manager, **kwargs)
-
-    def call_as_bank(self, *args, **kwargs):
-        return super().call(*args, role=roles.provider, **kwargs)
-
-
 class RandomMonkeyPatch:
     """
     For faking the random function
@@ -141,3 +117,4 @@ class TimeMonkeyPatch:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         time.time = self.real_time
+
