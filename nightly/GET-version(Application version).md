@@ -15,7 +15,7 @@ Get application version
 
 ```json
 {
-    "version":"0.23.5b2"
+    "version":"0.24.1b3"
 }
 ```
 
