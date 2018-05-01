@@ -27,7 +27,7 @@ class PinBlockEncodeLauncher(Launcher):
         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
         return parser
 
-    def launch(self):
+    def launch(self):  # pragma: no cover
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
@@ -42,7 +42,7 @@ class PinBlockDecodeLauncher(Launcher):
         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
         return parser
 
-    def launch(self):
+    def launch(self):  # pragma: no cover
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()

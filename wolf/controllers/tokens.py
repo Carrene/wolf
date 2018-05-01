@@ -25,18 +25,11 @@ class TokenController(ModelRestController):
     def __init__(self):
         super().__init__()
         self.codes_controller = CodesController()
+
     def __call__(self, *remaining_paths):
         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
             return self.codes_controller(remaining_paths[0], *remaining_paths[2:])
         return super().__call__(*remaining_paths)
-
-    @staticmethod
-    def _ensure_token(token_id):
-        token = Token.query.filter(Token.id == token_id).one_or_none()
-        if not token:
-            raise HttpNotFound()
-
-        return token
 
     @staticmethod
     def _validate_token(token):
@@ -98,64 +91,3 @@ class TokenController(ModelRestController):
         result['provisioning'] = token.provision(device.secret)
         return result
 
-    @json
-    @Token.expose
-    def list(self):
-        return Token.query
-
-    @json
-    @Token.expose
-    def get(self, token_id: int):
-        return self._ensure_token(token_id)
-
-    @json
-    @validate_form(
-        exact=['expireDate'],
-        types={'expireDate': float}
-    )
-    @Token.expose
-    @commit
-    def extend(self, token_id: int):
-        token = self._ensure_token(token_id)
-        expire_date = date.fromtimestamp(context.form['expireDate'])
-
-        if expire_date <= max(token.expire_date, date.today()):
-            raise HttpBadRequest(info='expireDate must be grater that current expireDate.')
-        token.expire_date = expire_date
-        DBSession.add(token)
-        return token
-
-    @json
-    @Token.expose
-    @commit
-    def delete(self, token_id: int):
-        token = self._ensure_token(token_id)
-        result = token.to_dict()
-        DBSession.delete(token)
-        return result
-
-    @json
-    @Token.expose
-    @commit
-    def activate(self, token_id: int):
-        token = self._ensure_token(token_id)
-
-        if token.is_active:
-            raise ActivatedTokenError()
-
-        token.is_active = True
-        DBSession.add(token)
-        return token
-
-    @json
-    @Token.expose
-    @commit
-    def deactivate(self, token_id: int):
-        token = self._ensure_token(token_id)
-
-        if not token.is_active:
-            raise DeactivatedTokenError()
-
-        token.is_active = False
-        DBSession.add(token)
-        return token

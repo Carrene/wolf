@@ -3,14 +3,12 @@ from restfulpy.controllers import RootController
 
 import wolf
 from wolf.controllers.devices import DeviceController
-from wolf.controllers.members import MembersController
 from wolf.controllers.tokens import TokenController
 
 
 class ApiV1(Controller):
     tokens = TokenController()
     devices = DeviceController()
-    members = MembersController()
 
     @json
     def version(self):

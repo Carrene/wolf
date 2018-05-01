@@ -1,0 +1,11 @@
+[run]
+plugins = Cython.Coverage
+
+omit = 
+  wolf/mockup.py
+  wolf/basedata.pyx
+
+[report]
+omit = 
+  wolf/mockup.py
+  wolf/basedata.pyx

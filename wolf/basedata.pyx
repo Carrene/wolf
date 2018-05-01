@@ -1,6 +1,6 @@
 from restfulpy.orm import DBSession
 
-from wolf.models import Cryptomodule, Admin
+from wolf.models import Cryptomodule
 
 
 def insert():
@@ -14,11 +14,4 @@ def insert():
 
     DBSession.add(mockup_cryptomodule1)
     DBSession.add(mockup_cryptomodule2)
-
-    admin = Admin()
-    admin.username = 'admin'
-    admin.password = 'haysOth?wrec5'
-
-    DBSession.add(admin)
-
     DBSession.commit()

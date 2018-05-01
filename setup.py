@@ -17,6 +17,14 @@ dependencies = [
     'gunicorn',
 ]
 
+
+wolf_modules = cythonize(
+    'wolf/**/*.pyx',
+    annotate=True,
+    compiler_directives={'linetrace': True}
+)
+
+
 setup(
     name="wolf",
     version=package_version,
@@ -25,7 +33,7 @@ setup(
     install_requires=dependencies,
     packages=find_packages(),
     include_package_data=True,
-    ext_modules=cythonize('wolf/**/*.pyx'),
+    ext_modules=wolf_modules,
     test_suite="wolf.tests",
     entry_points={
         'console_scripts': [

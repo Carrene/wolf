@@ -5,13 +5,11 @@ from restfulpy import Application as BaseApplication
 from restfulpy.cryptography import AESCipher
 
 from . import basedata
-from .authentication import Authenticator
 from .cli import PinBlockLauncher
 from .controllers.root import Root
 
 
 class Application(BaseApplication):
-    __authenticator__ = Authenticator()
     __configuration_cipher__ = AESCipher(b'ced&#quevbot2(Sc')
     builtin_configuration = """
     db:
