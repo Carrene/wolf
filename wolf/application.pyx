@@ -6,7 +6,7 @@ from restfulpy.cryptography import AESCipher
 
 from . import basedata
 from .cli import PinBlockLauncher
-from .controllers.root import Root
+from .controllers import Root
 
 
 class Application(BaseApplication):

@@ -1401,12 +1401,12 @@ static const char __pyx_k_restfulpy[] = "restfulpy";
 static const char __pyx_k_root_path[] = "root_path";
 static const char __pyx_k_subparsers[] = "subparsers";
 static const char __pyx_k_Application[] = "Application";
+static const char __pyx_k_controllers[] = "controllers";
 static const char __pyx_k_insert_mockup[] = "insert_mockup";
 static const char __pyx_k_BaseApplication[] = "BaseApplication";
 static const char __pyx_k_ced_quevbot2_Sc[] = "ced&#quevbot2(Sc";
 static const char __pyx_k_insert_basedata[] = "insert_basedata";
 static const char __pyx_k_PinBlockLauncher[] = "PinBlockLauncher";
-static const char __pyx_k_controllers_root[] = "controllers.root";
 static const char __pyx_k_wolf_application[] = "wolf.application";
 static const char __pyx_k_Application___init[] = "Application.__init__";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -1440,7 +1440,7 @@ static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_configuration_cipher;
 static PyObject *__pyx_n_s_configure;
 static PyObject *__pyx_n_s_content;
-static PyObject *__pyx_n_s_controllers_root;
+static PyObject *__pyx_n_s_controllers;
 static PyObject *__pyx_kp_s_db_url_postgresql_postgres_post;
 static PyObject *__pyx_n_s_decode;
 static PyObject *__pyx_n_s_decrypt;
@@ -2919,7 +2919,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_configuration_cipher, __pyx_k_configuration_cipher, sizeof(__pyx_k_configuration_cipher), 0, 0, 1, 1},
   {&__pyx_n_s_configure, __pyx_k_configure, sizeof(__pyx_k_configure), 0, 0, 1, 1},
   {&__pyx_n_s_content, __pyx_k_content, sizeof(__pyx_k_content), 0, 0, 1, 1},
-  {&__pyx_n_s_controllers_root, __pyx_k_controllers_root, sizeof(__pyx_k_controllers_root), 0, 0, 1, 1},
+  {&__pyx_n_s_controllers, __pyx_k_controllers, sizeof(__pyx_k_controllers), 0, 0, 1, 1},
   {&__pyx_kp_s_db_url_postgresql_postgres_post, __pyx_k_db_url_postgresql_postgres_post, sizeof(__pyx_k_db_url_postgresql_postgres_post), 0, 0, 1, 0},
   {&__pyx_n_s_decode, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
   {&__pyx_n_s_decrypt, __pyx_k_decrypt, sizeof(__pyx_k_decrypt), 0, 0, 1, 1},
@@ -3444,7 +3444,7 @@ if (!__Pyx_RefNanny) {
  * 
  * from . import basedata             # <<<<<<<<<<<<<<
  * from .cli import PinBlockLauncher
- * from .controllers.root import Root
+ * from .controllers import Root
  */
   __Pyx_TraceLine(7,0,__PYX_ERR(0, 7, __pyx_L1_error))
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
@@ -3465,7 +3465,7 @@ if (!__Pyx_RefNanny) {
  * 
  * from . import basedata
  * from .cli import PinBlockLauncher             # <<<<<<<<<<<<<<
- * from .controllers.root import Root
+ * from .controllers import Root
  * 
  */
   __Pyx_TraceLine(8,0,__PYX_ERR(0, 8, __pyx_L1_error))
@@ -3486,7 +3486,7 @@ if (!__Pyx_RefNanny) {
   /* "wolf/application.pyx":9
  * from . import basedata
  * from .cli import PinBlockLauncher
- * from .controllers.root import Root             # <<<<<<<<<<<<<<
+ * from .controllers import Root             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -3496,7 +3496,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_Root);
   __Pyx_GIVEREF(__pyx_n_s_Root);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Root);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_controllers_root, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_controllers, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Root); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)

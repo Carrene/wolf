@@ -20,7 +20,6 @@ dependencies = [
 
 wolf_modules = cythonize(
     'wolf/**/*.pyx',
-    annotate=True,
     compiler_directives={'linetrace': True}
 )
 

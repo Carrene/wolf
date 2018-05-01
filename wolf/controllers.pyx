@@ -1,16 +1,21 @@
+import functools
+import hashlib
 import time
 
 import redis
-import oathcy
-from sqlalchemy import text, func, extract, event
-from nanohttp import action, settings, RestController, HttpBadRequest, HttpNotFound, LazyAttribute
-from restfulpy.orm import DBSession
-from restfulpy.validation import prevent_form
+from nanohttp import json, context, action, settings, RestController, \
+    HttpBadRequest, HttpNotFound, LazyAttribute, Controller
 from oathcy.otp import TOTP
+from restfulpy.controllers import ModelRestController, RootController
+from restfulpy.orm import commit, DBSession
+from restfulpy.validation import validate_form, prevent_form
+from sqlalchemy import text, extract, event
 
-from ..cryptoutil import EncryptedISOPinBlock
-from ..excpetions import ExpiredTokenError, DeactivatedTokenError
-from ..models import Token
+import wolf
+from wolf import cryptoutil
+from wolf.exceptions import DeviceNotFoundError, DeactivatedTokenError, \
+    ExpiredTokenError
+from wolf.models import Device, Cryptomodule, Token
 
 
 cached_cryptomodules = None
@@ -102,10 +107,10 @@ class MiniToken:
             self.last_code = code
             self.same_code_verify_counter = 0
 
-        pinblock = EncryptedISOPinBlock(self.id)
+        pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
         otp = pinblock.decode(code)
-        return oathcy\
-            .TOTP(self.seed, time.time(), self.length, step=self.time_interval)\
+        return \
+            TOTP(self.seed, time.time(), self.length, step=self.time_interval)\
             .verify(otp, window)
 
     def cache(self):
@@ -181,4 +186,130 @@ class CodesController(RestController):
 
         if not is_valid:
             raise HttpBadRequest('Invalid Code')
+
+validate_submit = functools.partial(
+    validate_form,
+    types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
+    pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}
+)
+
+
+class TokenController(ModelRestController):
+    __model__ = Token
+
+    def __init__(self):
+        super().__init__()
+        self.codes_controller = CodesController()
+
+    def __call__(self, *remaining_paths):
+        if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
+            return self.codes_controller(remaining_paths[0], *remaining_paths[2:])
+        return super().__call__(*remaining_paths)
+
+    @staticmethod
+    def _validate_token(token):
+        if token.is_expired:
+            raise ExpiredTokenError()
+
+        if not token.is_active:
+            raise DeactivatedTokenError()
+
+    @staticmethod
+    def _ensure_device():
+        phone = int(context.form['phone'])
+        # Checking the device
+        device = Device.query.filter(Device.phone == phone).one_or_none()
+        # Adding a device also
+        if device is None:
+            raise DeviceNotFoundError()
+        return device
+
+    @staticmethod
+    def _find_or_create_token():
+        name = context.form['name']
+        phone = context.form['phone']
+        cryptomodule_id = context.form['cryptomoduleId']
+
+        if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
+            raise HttpBadRequest(info='Invalid cryptomodule id.')
+
+        token = Token.query.filter(
+            Token.name == name,
+            Token.cryptomodule_id == cryptomodule_id,
+            Token.phone == phone
+        ).one_or_none()
+
+        if token is None:
+            # Creating a new token
+            token = Token()
+            token.update_from_request()
+            token.is_active = True
+            token.initialize_seed()
+            DBSession.add(token)
+        DBSession.flush()
+        return token
+
+    @json
+    @validate_form(
+        exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
+        types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
+    )
+    @Token.expose
+    @commit
+    def ensure(self):
+        # TODO: type validation
+        device = self._ensure_device()
+        token = self._find_or_create_token()
+        self._validate_token(token)
+        DBSession.flush()
+        result = token.to_dict()
+        result['provisioning'] = token.provision(device.secret)
+        return result
+
+
+challenge_pattern = r'^[a-zA-Z0-9]{5,25}$'
+
+
+class DeviceController(ModelRestController):
+    __model__ = Device
+
+    # FIXME Rename it to register
+    @json
+    @validate_form(exact=['phone', 'udid'], types={'phone': int})
+    @Device.expose
+    @commit
+    def register(self):
+        phone = context.form['phone']
+        udid = context.form['udid']
+        device = Device.query.filter(Device.phone == phone).one_or_none()
+
+        if device is None:
+            device = Device()
+            DBSession.add(device)
+            device.phone = phone
+
+        secret_key = hashlib.pbkdf2_hmac(
+            'sha256',
+            str(phone).encode() + udid.encode(),
+            cryptoutil.random(32),
+            100000,
+            dklen=32
+        )
+        device.secret = secret_key
+        return device
+
+
+class ApiV1(Controller):
+    tokens = TokenController()
+    devices = DeviceController()
+
+    @json
+    def version(self):
+        return {
+            'version': wolf.__version__
+        }
+
+
+class Root(RootController):
+    apiv1 = ApiV1()
 
