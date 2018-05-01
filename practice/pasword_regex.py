@@ -12,13 +12,13 @@ blacklist = [
     # + is not allowed
     'Foo123!+',
     'Foo123!-',
-    
+
     # Space is not allowed
     'Foo 123!',
-    
+
     # At lease one capital character is required
     'foo1234!',
-    
+
     # At lease one lowercase character is required
     'FOO1234!',
 
