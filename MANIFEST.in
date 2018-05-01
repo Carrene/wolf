@@ -1,2 +1,2 @@
 include wolf/alembic.ini
-
+exclude wolf/*.c
