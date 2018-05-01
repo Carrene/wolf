@@ -30,7 +30,7 @@ setup(
     author="Netalic",
     author_email="mt@netalic.de",
     install_requires=dependencies,
-    packages=find_packages(),
+    packages=find_packages('.', exclude=['*.tests']),
     include_package_data=True,
     ext_modules=wolf_modules,
     test_suite="wolf.tests",
