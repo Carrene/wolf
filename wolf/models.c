@@ -1490,7 +1490,6 @@ static const char __pyx_k_hexstring_seed[] = "hexstring_seed";
 static const char __pyx_k_max_random_try[] = "max_random_try";
 static const char __pyx_k_sqlalchemy_exc[] = "sqlalchemy.exc";
 static const char __pyx_k_sqlalchemy_orm[] = "sqlalchemy.orm";
-static const char __pyx_k_ActivationMixin[] = "ActivationMixin";
 static const char __pyx_k_DeclarativeBase[] = "DeclarativeBase";
 static const char __pyx_k_PaginationMixin[] = "PaginationMixin";
 static const char __pyx_k_Token_provision[] = "Token.provision";
@@ -1500,6 +1499,7 @@ static const char __pyx_k_initialize_seed[] = "initialize_seed";
 static const char __pyx_k_wolf_models_pyx[] = "wolf/models.pyx";
 static const char __pyx_k_Token_is_expired[] = "Token.is_expired";
 static const char __pyx_k_UniqueConstraint[] = "UniqueConstraint";
+static const char __pyx_k_DeactivationMixin[] = "DeactivationMixin";
 static const char __pyx_k_cryptomodule_id_2[] = "cryptomodule.id";
 static const char __pyx_k_DuplicateSeedError[] = "DuplicateSeedError";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -1523,7 +1523,6 @@ static const char __pyx_k_Time_interval_should_not_be_zero[] = "Time interval sh
 static const char __pyx_k_We_could_not_initialize_token_fo[] = "We could not initialize token for you!";
 static PyObject *__pyx_kp_s_60_time_interval_59_60_and_time;
 static PyObject *__pyx_n_s_AESCipher;
-static PyObject *__pyx_n_s_ActivationMixin;
 static PyObject *__pyx_n_s_BigInteger;
 static PyObject *__pyx_n_s_Binary;
 static PyObject *__pyx_n_s_Cryptomodule;
@@ -1531,6 +1530,7 @@ static PyObject *__pyx_n_s_Cryptomodule_validate_one_time_p;
 static PyObject *__pyx_n_s_Cryptomodule_validate_time_inter;
 static PyObject *__pyx_n_s_DBSession;
 static PyObject *__pyx_n_s_Date;
+static PyObject *__pyx_n_s_DeactivationMixin;
 static PyObject *__pyx_n_s_DeclarativeBase;
 static PyObject *__pyx_n_s_Device;
 static PyObject *__pyx_n_s_Device_prepare_for_export;
@@ -4061,7 +4061,6 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_60_time_interval_59_60_and_time, __pyx_k_60_time_interval_59_60_and_time, sizeof(__pyx_k_60_time_interval_59_60_and_time), 0, 0, 1, 0},
   {&__pyx_n_s_AESCipher, __pyx_k_AESCipher, sizeof(__pyx_k_AESCipher), 0, 0, 1, 1},
-  {&__pyx_n_s_ActivationMixin, __pyx_k_ActivationMixin, sizeof(__pyx_k_ActivationMixin), 0, 0, 1, 1},
   {&__pyx_n_s_BigInteger, __pyx_k_BigInteger, sizeof(__pyx_k_BigInteger), 0, 0, 1, 1},
   {&__pyx_n_s_Binary, __pyx_k_Binary, sizeof(__pyx_k_Binary), 0, 0, 1, 1},
   {&__pyx_n_s_Cryptomodule, __pyx_k_Cryptomodule, sizeof(__pyx_k_Cryptomodule), 0, 0, 1, 1},
@@ -4069,6 +4068,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Cryptomodule_validate_time_inter, __pyx_k_Cryptomodule_validate_time_inter, sizeof(__pyx_k_Cryptomodule_validate_time_inter), 0, 0, 1, 1},
   {&__pyx_n_s_DBSession, __pyx_k_DBSession, sizeof(__pyx_k_DBSession), 0, 0, 1, 1},
   {&__pyx_n_s_Date, __pyx_k_Date, sizeof(__pyx_k_Date), 0, 0, 1, 1},
+  {&__pyx_n_s_DeactivationMixin, __pyx_k_DeactivationMixin, sizeof(__pyx_k_DeactivationMixin), 0, 0, 1, 1},
   {&__pyx_n_s_DeclarativeBase, __pyx_k_DeclarativeBase, sizeof(__pyx_k_DeclarativeBase), 0, 0, 1, 1},
   {&__pyx_n_s_Device, __pyx_k_Device, sizeof(__pyx_k_Device), 0, 0, 1, 1},
   {&__pyx_n_s_Device_prepare_for_export, __pyx_k_Device_prepare_for_export, sizeof(__pyx_k_Device_prepare_for_export), 0, 0, 1, 1},
@@ -4836,7 +4836,7 @@ if (!__Pyx_RefNanny) {
  * from nanohttp import settings, HttpConflict
  * from restfulpy.cryptography import AESCipher             # <<<<<<<<<<<<<<
  * from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
- *     PaginationMixin, ActivationMixin, Field, DBSession, OrderingMixin
+ *     PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin
  */
   __Pyx_TraceLine(8,0,__PYX_ERR(0, 8, __pyx_L1_error))
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
@@ -4857,7 +4857,7 @@ if (!__Pyx_RefNanny) {
  * from nanohttp import settings, HttpConflict
  * from restfulpy.cryptography import AESCipher
  * from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \             # <<<<<<<<<<<<<<
- *     PaginationMixin, ActivationMixin, Field, DBSession, OrderingMixin
+ *     PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin
  * from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, \
  */
   __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
@@ -4875,9 +4875,9 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_PaginationMixin);
   __Pyx_GIVEREF(__pyx_n_s_PaginationMixin);
   PyList_SET_ITEM(__pyx_t_1, 3, __pyx_n_s_PaginationMixin);
-  __Pyx_INCREF(__pyx_n_s_ActivationMixin);
-  __Pyx_GIVEREF(__pyx_n_s_ActivationMixin);
-  PyList_SET_ITEM(__pyx_t_1, 4, __pyx_n_s_ActivationMixin);
+  __Pyx_INCREF(__pyx_n_s_DeactivationMixin);
+  __Pyx_GIVEREF(__pyx_n_s_DeactivationMixin);
+  PyList_SET_ITEM(__pyx_t_1, 4, __pyx_n_s_DeactivationMixin);
   __Pyx_INCREF(__pyx_n_s_Field);
   __Pyx_GIVEREF(__pyx_n_s_Field);
   PyList_SET_ITEM(__pyx_t_1, 5, __pyx_n_s_Field);
@@ -4906,9 +4906,9 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_PaginationMixin, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ActivationMixin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DeactivationMixin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ActivationMixin, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeactivationMixin, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Field); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4926,7 +4926,7 @@ if (!__Pyx_RefNanny) {
 
   /* "wolf/models.pyx":11
  * from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
- *     PaginationMixin, ActivationMixin, Field, DBSession, OrderingMixin
+ *     PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin
  * from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, \             # <<<<<<<<<<<<<<
  *     UniqueConstraint, BigInteger
  * from sqlalchemy.exc import IntegrityError
@@ -5581,7 +5581,7 @@ if (!__Pyx_RefNanny) {
   /* "wolf/models.pyx":65
  * 
  * 
- * class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):             # <<<<<<<<<<<<<<
+ * class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, OrderingMixin, DeclarativeBase):             # <<<<<<<<<<<<<<
  *     __tablename__ = 'token'
  * 
  */
@@ -5592,7 +5592,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_FilteringMixin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_ActivationMixin); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_DeactivationMixin); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_OrderingMixin); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -5627,7 +5627,7 @@ if (!__Pyx_RefNanny) {
 
   /* "wolf/models.pyx":66
  * 
- * class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):
+ * class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, OrderingMixin, DeclarativeBase):
  *     __tablename__ = 'token'             # <<<<<<<<<<<<<<
  * 
  *     id = Field(Integer, primary_key=True)
@@ -6128,7 +6128,7 @@ if (!__Pyx_RefNanny) {
   /* "wolf/models.pyx":65
  * 
  * 
- * class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):             # <<<<<<<<<<<<<<
+ * class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, OrderingMixin, DeclarativeBase):             # <<<<<<<<<<<<<<
  *     __tablename__ = 'token'
  * 
  */

@@ -7,7 +7,7 @@ from random import randrange
 from nanohttp import settings, HttpConflict
 from restfulpy.cryptography import AESCipher
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
-    PaginationMixin, ActivationMixin, Field, DBSession, OrderingMixin
+    PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, \
     UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
@@ -62,7 +62,7 @@ class Cryptomodule(DeclarativeBase):
 
 
 
-class Token(ModifiedMixin, PaginationMixin, FilteringMixin, ActivationMixin, OrderingMixin, DeclarativeBase):
+class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, OrderingMixin, DeclarativeBase):
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
