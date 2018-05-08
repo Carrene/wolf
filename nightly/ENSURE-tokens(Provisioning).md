@@ -24,18 +24,18 @@ expireDate | 1613434403
 
 ```json
 {
-    "modifiedAt":null,
-    "isExpired":false,
-    "id":3,
     "phone":989122451075,
-    "createdAt":"2018-05-06T12:39:49.137677Z",
     "expireDate":"2021-02-16",
+    "id":3,
     "cryptomodule":{
         "oneTimePasswordLength":4,
         "id":1,
         "timeInterval":60
     },
     "name":"DummyTokenName",
+    "modifiedAt":null,
+    "createdAt":"2018-05-08T08:05:13.716421Z",
+    "isExpired":false,
     "isActive":true,
     "provisioning":"mt:\/\/oath\/totp\/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A12F3440012102163515"
 }
@@ -63,18 +63,18 @@ expireDate | 1513434403
 
 ```json
 {
-    "modifiedAt":null,
-    "isExpired":false,
-    "id":3,
     "phone":989122451075,
-    "createdAt":"2018-05-06T12:39:49.137677Z",
     "expireDate":"2021-02-16",
+    "id":3,
     "cryptomodule":{
         "oneTimePasswordLength":4,
         "id":1,
         "timeInterval":60
     },
     "name":"DummyTokenName",
+    "modifiedAt":null,
+    "createdAt":"2018-05-08T08:05:13.716421Z",
+    "isExpired":false,
     "isActive":true,
     "provisioning":"mt:\/\/oath\/totp\/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A12F3440012102163515"
 }
