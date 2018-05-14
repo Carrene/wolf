@@ -166,6 +166,7 @@ class CodesController(RestController):
     @action
     @prevent_form
     def verify(self, token_id, code):
+        print(f'Verifying token_id={token_id} code={code}')
         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
         if token is None:
             raise HttpNotFound()
