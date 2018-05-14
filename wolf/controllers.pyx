@@ -1,6 +1,7 @@
 import functools
 import hashlib
 import time
+import binascii
 
 import redis
 from nanohttp import json, context, action, settings, RestController, \
@@ -117,7 +118,7 @@ class MiniToken:
         self.redis().set(
             str(self.id),
             b'%s,%d,%d,%d,%s,%d' % (
-                self.seed,
+                binascii.hexlify(self.seed),
                 int(self.expire_date),
                 int(self.is_active),
                 self.cryptomodule_id,
@@ -134,7 +135,7 @@ class MiniToken:
             token = redis.get(cache_key).split(b',')
             return cls(
                 token_id,
-                token[0],
+                binascii.unhexlify(token[0]),
                 float(token[1]),
                 bool(token[2]),
                 int(token[3]),
