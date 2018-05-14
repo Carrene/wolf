@@ -16,16 +16,16 @@ udid | 2b6f0cc904d137be2e1730235f5664094b831186
 #### Headers
 
 * Content-Type: application/json; charset=utf-8
-* Content-Length: 163
+* Content-Length: 161
 
 #### Body
 
 ```json
 {
-    "phone":989122451075,
+    "secret":"KAcsOV89pT+l15qtH5CzT3H+35a+OMdm8GVNcszDx1M=\n",
     "modifiedAt":null,
-    "secret":"\/p6DEOxoBEYp5K\/xSEGeJ8zEJXaILhDlFedYRPJ49p4=\n",
-    "createdAt":"2018-05-08T08:05:13.116509Z"
+    "createdAt":"2018-05-14T19:40:56.649479Z",
+    "phone":989122451075
 }
 ```
 
@@ -42,10 +42,10 @@ udid | 2b6f0cc904d137be2e1730235f5664094b831186
 
 ```json
 {
-    "phone":989122451075,
-    "modifiedAt":"2018-05-08T08:05:13.235498Z",
-    "secret":"3cK2vY1chwigYQNYY7lEe5JevCcwmu93GhGbbaYVfog=\n",
-    "createdAt":"2018-05-08T08:05:13.116509Z"
+    "secret":"77iBGSw4EASZGiiEYRt2WdHXO6RWntmiTtPlvKoB8zY=\n",
+    "modifiedAt":"2018-05-14T19:40:56.773035Z",
+    "createdAt":"2018-05-14T19:40:56.649479Z",
+    "phone":989122451075
 }
 ```
 
