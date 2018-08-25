@@ -4,7 +4,7 @@ import time
 from datetime import date
 from random import randrange
 
-from nanohttp import settings, HttpConflict
+from nanohttp import settings, HTTPConflict
 from restfulpy.cryptography import AESCipher
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
     PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin
@@ -124,7 +124,10 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, O
 
         # Oh my god, this is impossible !!!
         self.seed = current_seed
-        raise HttpConflict(info='We could not initialize token for you!', reason='token-initialization-error')
+        raise HTTPConflict(
+            info='We could not initialize token for you!',
+            reason='token-initialization-error'
+        )
 
     def to_dict(self):
         result = super().to_dict()

@@ -5,11 +5,11 @@ import binascii
 
 import redis
 from nanohttp import json, context, action, settings, RestController, \
-    HttpBadRequest, HttpNotFound, LazyAttribute, Controller
+    HTTPBadRequest, HTTPNotFound, LazyAttribute, Controller
 from oathcy.otp import TOTP
 from restfulpy.controllers import ModelRestController, RootController
 from restfulpy.orm import commit, DBSession
-from restfulpy.validation import validate_form, prevent_form
+from nanohttp import validate
 from sqlalchemy import text, extract, event
 
 import wolf
@@ -22,6 +22,7 @@ from wolf.models import Device, Cryptomodule, Token
 cached_cryptomodules = None
 
 
+# FIXME: Move it to models.pyx
 class MiniToken:
     _redis = None
 
@@ -153,7 +154,6 @@ class MiniToken:
         if settings.token.redis.enabled:
             cls.invalidate(target.id)
 
-
 event.listen(Token, 'after_update', MiniToken.after_update)
 
 
@@ -164,12 +164,11 @@ class CodesController(RestController):
         return settings.oath.window
 
     @action
-    @prevent_form
     def verify(self, token_id, code):
         print(f'Verifying token_id={token_id} code={code}')
         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
         if token is None:
-            raise HttpNotFound()
+            raise HTTPNotFound()
 
         if token.is_expired:
             raise ExpiredTokenError()
@@ -187,13 +186,7 @@ class CodesController(RestController):
             is_valid = False
 
         if not is_valid:
-            raise HttpBadRequest('Invalid Code')
-
-validate_submit = functools.partial(
-    validate_form,
-    types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
-    pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}
-)
+            raise HTTPBadRequest('Invalid Code')
 
 
 class TokenController(ModelRestController):
@@ -233,7 +226,7 @@ class TokenController(ModelRestController):
         cryptomodule_id = context.form['cryptomoduleId']
 
         if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
-            raise HttpBadRequest(info='Invalid cryptomodule id.')
+            raise HTTPBadRequest(info='Invalid cryptomodule id.')
 
         token = Token.query.filter(
             Token.name == name,
@@ -252,9 +245,22 @@ class TokenController(ModelRestController):
         return token
 
     @json
-    @validate_form(
-        exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
-        types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
+    @validate(
+        name=dict(
+            required='467 name required',
+        ),
+        phone=dict(
+            required='468 phone required',
+            type_=int
+        ),
+        cryptomoduleId=dict(
+            required='469 cryptomoduleId required',
+            type_=int
+        ),
+        expireDate=dict(
+            required='470 expireDate required',
+            type_=float
+        )
     )
     @Token.expose
     @commit
@@ -275,9 +281,8 @@ challenge_pattern = r'^[a-zA-Z0-9]{5,25}$'
 class DeviceController(ModelRestController):
     __model__ = Device
 
-    # FIXME Rename it to register
     @json
-    @validate_form(exact=['phone', 'udid'], types={'phone': int})
+    # TODO: Use model validation
     @Device.expose
     @commit
     def register(self):

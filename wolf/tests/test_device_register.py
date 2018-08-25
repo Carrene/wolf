@@ -3,6 +3,7 @@ import base64
 
 from bddrest.authoring import when, then, response, and_
 
+import pyximport; pyximport.install(pyimport=True)
 from wolf.tests.helpers import BDDTestClass
 
 
