@@ -1,83 +1,12 @@
 import time
-from collections import namedtuple
-from os import path, makedirs
 
-from bddrest.authoring import given, response, Composer
-from nanohttp import settings
-from restfulpy.testing import WebAppTestCase
+from restfulpy.testing import ApplicableTestCase
 
-from wolf import cryptoutil, wolf
+from wolf import cryptoutil, Wolf
 
 
-HERE = path.abspath(path.dirname(__file__))
-
-roles = namedtuple('roles', ['provider', 'device_manager'])('provider', 'DeviceManager')
-
-
-class BDDTestClass(WebAppTestCase):
-    application = wolf
-
-    @classmethod
-    def configure_app(cls):
-        super().configure_app()
-        settings.merge("""
-            messaging:
-              default_messenger: restfulpy.testing.MockupMessenger
-            logging:
-              loggers:
-                default:
-                  level: debug
-            """)
-
-
-    def login(self, username, password):
-        call = dict(
-            title='Login',
-            description='Login to system as admin',
-            url='/apiv1/members',
-            verb='LOGIN',
-            form={
-                'username': username,
-                'password': password,
-            }
-        )
-        with self.given(**call):
-            self.wsgi_app.jwt_token = response.json['token']
-
-        return username, password
-
-    @classmethod
-    def get_spec_filename(cls, story: Composer):
-        filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'
-        target = path.abspath(path.join(HERE, '../../data/specifications'))
-        if not path.exists(target):
-            makedirs(target, exist_ok=True)
-        filename = path.join(target, f'{filename}.yml')
-        return filename
-
-    @classmethod
-    def get_markdown_filename(cls, story: Composer):
-        filename = f'{story.base_call.verb}-{story.base_call.url.split("/")[2]}({story.title})'
-        target = path.abspath(path.join(HERE, '../../data/documentation'))
-        if not path.exists(target):
-            makedirs(target, exist_ok=True)
-        filename = path.join(target, f'{filename}.md')
-        return filename
-
-    def logout(self):
-        self.wsgi_app.jwt_token = ''
-
-    def given(self, *args, **kwargs):
-        if self.wsgi_app.jwt_token:
-            headers = kwargs.setdefault('headers', [])
-            headers.append(('AUTHORIZATION', self.wsgi_app.jwt_token))
-        return given(
-            self.application,
-            autodump=self.get_spec_filename,
-            autodoc=self.get_markdown_filename,
-            *args,
-            **kwargs
-        )
+class LocalApplicationTestClass(ApplicableTestCase):
+    __application_factory__ = Wolf
 
 
 class RandomMonkeyPatch:

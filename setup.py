@@ -18,10 +18,11 @@ dependencies = [
 ]
 
 
-wolf_modules = cythonize(
-    'wolf/**/*.pyx',
-    compiler_directives={'linetrace': True}
-)
+# FIXME: Uncomment it before deploy
+#wolf_modules = cythonize(
+#    'wolf/**/*.pyx',
+#    compiler_directives={'linetrace': True}
+#)
 
 
 setup(
@@ -32,7 +33,8 @@ setup(
     install_requires=dependencies,
     packages=find_packages('.', exclude=['*.tests']),
     include_package_data=True,
-    ext_modules=wolf_modules,
+    # FIXME: Uncomment it before deploy
+    #ext_modules=wolf_modules,
     test_suite="wolf.tests",
     entry_points={
         'console_scripts': [

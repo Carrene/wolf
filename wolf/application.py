@@ -1,17 +1,15 @@
-from os.path import join, dirname
+from os.path import dirname
 
-from nanohttp import settings
-from restfulpy import Application as BaseApplication
+from restfulpy import Application
 from restfulpy.cryptography import AESCipher
 
-from . import basedata
 from .cli import PinBlockLauncher
 from .controllers import Root
 
 
-class Application(BaseApplication):
+class Wolf(Application):
     __configuration_cipher__ = AESCipher(b'ced&#quevbot2(Sc')
-    builtin_configuration = """
+    __configuration__ = '''
     db:
       url: postgresql://postgres:postgres@localhost/wolf
       test_url: postgresql://postgres:postgres@localhost/wolf_test
@@ -38,42 +36,25 @@ class Application(BaseApplication):
     pinblock:
       key: 1234567890ABCDEF1234567890ABCDEF
 
-    """
+    '''
 
-    def __init__(self, version):
+    def __init__(self, application_name='wolf'):
+        from wolf import __version__
         super().__init__(
-            'wolf',
+            application_name,
             root=Root(),
             root_path=dirname(__file__),
-            version=version
+            version=__version__
         )
 
-    # noinspection PyArgumentList
     def insert_basedata(self):
+        from . import basedata
         basedata.insert()
 
     def insert_mockup(self, args=[]):
         from . import mockup
         mockup.insert(*args)
 
-    # noinspection PyMethodMayBeStatic
     def register_cli_launchers(self, subparsers):
-        """
-        This is a template method
-        """
         PinBlockLauncher.register(subparsers)
-
-    def configure(self, files=None, **kwargs):
-        super().configure(**kwargs)
-        files = ([files] if isinstance(files, str) else files) or []
-
-        for filename in files:
-            with open(filename, 'rb') as f:
-                header = f.read(4)
-                if header == b'#enc':
-                    content = self.__configuration_cipher__.decrypt(f.read())
-                else:
-                    content = header + f.read()
-                settings.merge(content.decode())
-
 

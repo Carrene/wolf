@@ -1,14 +1,12 @@
 import unittest
 import base64
 
-from bddrest.authoring import when, then, response, and_
+from bddrest.authoring import when, response
 
-import pyximport; pyximport.install(pyimport=True)
-from wolf.tests.helpers import BDDTestClass
+from wolf.tests.helpers import ApplicableTestCase
 
 
-# https://github.com/Carrene/wolf/wiki/User-Stories#add-or-remove-device
-class AddDeviceTestCase(BDDTestClass):
+class TestAddDevice(LocalApplicationTestCase):
 
     def test_register_device(self):
         udid = '2b6f0cc904d137be2e1730235f5664094b831186'
@@ -28,21 +26,17 @@ class AddDeviceTestCase(BDDTestClass):
         with self.given(**call):
             then(response.status_code == 200)
             result = response.json
-            and_('phone' in result)
-            and_('secret' in result)
-            and_('createdAt' in result)
-            and_('createdAt' in result)
-
-            and_(result['phone'] == phone)
-            and_(len(base64.decodebytes(result['secret'].encode())) == 32)
+            assert 'phone' in result
+            assert 'secret' in result
+            assert 'createdAt' in result
+            assert 'createdAt' in result
+            assert result['phone'] == phone
+            assert len(base64.decodebytes(result['secret'].encode())) == 32
             first_secret = result['secret']
 
             when(
                 'Trying to registering the same device again',
             )
-            then(response.status_code == 200)
-            and_(response.json['secret'] != first_secret)
+            assert response.status_code == 200
+            assert response.json['secret'] != first_secret
 
-
-if __name__ == '__main__':  # pragma: no cover
-    unittest.main()

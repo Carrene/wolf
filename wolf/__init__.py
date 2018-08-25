@@ -1,8 +1,8 @@
-from .application import Application
+from .application import Wolf
 
 
 __version__ = '0.25.1b3'
 
 
-wolf = Application(__version__)
+wolf = Wolf()
 
