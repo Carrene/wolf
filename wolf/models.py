@@ -96,7 +96,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
 
     @property
     def is_expired(self):
-        return self.expire_date.date() <= date.today()
+        return self.expire_date <= date.today()
 
     def initialize_seed(self, session=DBSession):
         current_seed = self.seed

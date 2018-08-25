@@ -71,14 +71,16 @@ class TestEnsureToken(LocalApplicationTestCase):
         ), call:
 
             assert status == 200
-"""
             result = response.json
-            and_('provisioning' in result)
-            and_(result['expireDate'] == '2021-02-16')
+            assert 'provisioning' in result
+            assert result['expireDate'] == '2021-02-16'
             token = result['provisioning']
-            and_(token == 'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EA'
-                         'E3371043A34342C84A7CAFCF82298A12F3440012102163515')
+            assert token == \
+                'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F7' \
+                '22EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A' \
+                '12F3440012102163515'
 
+"""
             when(
                 'Ensure the same token again',
                 form={
