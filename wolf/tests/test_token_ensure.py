@@ -2,57 +2,62 @@ import unittest
 from datetime import date, timedelta
 
 from nanohttp import settings
-from restfulpy.orm import DBSession
-from bddrest.authoring import when, then, response, and_
+from bddrest.authoring import when, response, status
 
 from wolf.models import Cryptomodule, Token, Device
-from wolf.tests.helpers import RandomMonkeyPatch, BDDTestClass
+from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
 
 
-# https://github.com/Carrene/wolf/wiki/User-Stories#token-ensure
-class EnsureTokenTestCase(BDDTestClass):
+class TestEnsureToken(LocalApplicationTestCase):
 
     @classmethod
     def mockup(cls):
+        session = cls.create_session()
         mockup_cryptomodule = Cryptomodule()
-        DBSession.add(mockup_cryptomodule)
+        session.add(mockup_cryptomodule)
 
         expired_token = Token()
         expired_token.name = 'ExpiredToken'
         expired_token.phone = 989122451075
         expired_token.expire_date = date.today() - timedelta(days=1)
+        # FIXME: What about only 20 bytes
         expired_token.seed = \
-            b'\xdb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
-            b'\xf8h\xf5j\xaaz\xda!\x9f\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xaaz'
+            b'\xdb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xda!\x9f\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xf5j\xaaz'
         expired_token.is_active = True
         expired_token.cryptomodule = mockup_cryptomodule
-        DBSession.add(expired_token)
+        session.add(expired_token)
 
         deactivated_token = Token()
         deactivated_token.name = 'DeactivatedToken'
         deactivated_token.phone = 989122451075
         deactivated_token.expire_date = '2099-12-07T18:14:39.558891'
         deactivated_token.seed = \
-            b'\xeb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
-            b'\xf8h\xf5j\xaaz\xda!\x9f\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xaaz'
+            b'\xeb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xda!\x9f\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xf5j\xaaz'
         deactivated_token.is_active = False
         deactivated_token.cryptomodule = mockup_cryptomodule
-        DBSession.add(deactivated_token)
+        session.add(deactivated_token)
 
         mockup_device = Device()
         mockup_device.phone = 989122451075
-        mockup_device.secret = b'\xa1(\x05\xe1\x05\xb9\xc8c\xfb\x89\x87|\xf7"\xf0\xc4h\xe1$=\x81\xc8k\x17rD,p\x1a\xcfT!'
-        DBSession.add(mockup_device)
+        mockup_device.secret = \
+            b'\xa1(\x05\xe1\x05\xb9\xc8c\xfb\x89\x87|\xf7"\xf0\xc4h\xe1$=' \
+            b'\x81\xc8k\x17rD,p\x1a\xcfT!'
+        session.add(mockup_device)
 
-        DBSession.commit()
+        session.commit()
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_ensure_token(self):
-        call = dict(
-            title='Provisioning',
-            description='Provisioning',
-            url='/apiv1/tokens',
-            verb='ENSURE',
+        call = self.given(
+            'Provisioning',
+            '/apiv1/tokens',
+            'ENSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DummyTokenName',
@@ -61,10 +66,12 @@ class EnsureTokenTestCase(BDDTestClass):
             }
         )
         with RandomMonkeyPatch(
-                b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
+            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
+            b'\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), call:
 
-            then(response.status_code == 200)
+            assert status == 200
+"""
             result = response.json
             and_('provisioning' in result)
             and_(result['expireDate'] == '2021-02-16')
@@ -221,6 +228,4 @@ class EnsureTokenTestCase(BDDTestClass):
                 description='Token has been deactivated.'
             )))
 
-
-if __name__ == '__main__':  # pragma: no cover
-    unittest.main()
+"""

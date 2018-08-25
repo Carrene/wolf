@@ -212,8 +212,12 @@ class TokenController(ModelRestController):
     @staticmethod
     def _ensure_device():
         phone = int(context.form['phone'])
+
         # Checking the device
-        device = Device.query.filter(Device.phone == phone).one_or_none()
+        device = DBSession.query(Device) \
+            .filter(Device.phone == phone) \
+            .one_or_none()
+
         # Adding a device also
         if device is None:
             raise DeviceNotFoundError()
@@ -225,10 +229,12 @@ class TokenController(ModelRestController):
         phone = context.form['phone']
         cryptomodule_id = context.form['cryptomoduleId']
 
-        if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
+        if DBSession.query(Cryptomodule) \
+                .filter(Cryptomodule.id == cryptomodule_id) \
+                .count() <= 0:
             raise HTTPBadRequest(info='Invalid cryptomodule id.')
 
-        token = Token.query.filter(
+        token = DBSession.query(Token).filter(
             Token.name == name,
             Token.cryptomodule_id == cryptomodule_id,
             Token.phone == phone

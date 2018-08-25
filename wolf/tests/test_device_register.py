@@ -12,18 +12,16 @@ class TestAddDevice(LocalApplicationTestCase):
         udid = '2b6f0cc904d137be2e1730235f5664094b831186'
         phone = 989122451075
 
-        call = dict(
-            title='Registering a device',
-            description='Registering a device by phone and_ udid',
-            url='/apiv1/devices',
-            verb='REGISTER',
+        with self.given(
+            'Registering a device',
+            '/apiv1/devices',
+            'REGISTER',
             form={
                 'phone': phone,
                 'udid': udid,
             }
-        )
+        ):
 
-        with self.given(**call):
             assert status == 200
 
             result = response.json

@@ -62,7 +62,8 @@ class Cryptomodule(DeclarativeBase):
 
 
 
-class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, OrderingMixin, DeclarativeBase):
+class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
+            OrderingMixin, DeclarativeBase):
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
@@ -71,7 +72,11 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, O
     seed = Field(Binary(20), unique=True, protected=True)
 
     # Cryptomodule
-    cryptomodule_id = Field(Integer, ForeignKey('cryptomodule.id'), protected=True)
+    cryptomodule_id = Field(
+        Integer,
+        ForeignKey('cryptomodule.id'),
+        protected=True
+    )
     cryptomodule = relationship(
         'Cryptomodule',
         foreign_keys=[cryptomodule_id],
@@ -82,14 +87,16 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin, O
 
     __table_args__ = (
         UniqueConstraint(
-            name, phone, cryptomodule_id,
+            name,
+            phone,
+            cryptomodule_id,
             name='uix_name_phone_cryptomodule_id'
         ),
     )
 
-    @hybrid_property
+    @property
     def is_expired(self):
-        return self.expire_date <= date.today()
+        return self.expire_date.date() <= date.today()
 
     def initialize_seed(self, session=DBSession):
         current_seed = self.seed
