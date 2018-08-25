@@ -1,26 +1,26 @@
-from nanohttp import HttpStatus
+from nanohttp import HTTPKnownStatus
 
 
-class ExpiredTokenError(HttpStatus):
-    status_code, status_text, info = 461, 'Token is expired', 'The requested token is expired.'
+class ExpiredTokenError(HTTPKnownStatus):
+    status = '461 Token is expired'
 
 
-class LockedTokenError(HttpStatus):
-    status_code, status_text, info = 462, 'Token is locked', 'The max try limitation is exceeded.'
+class LockedTokenError(HTTPKnownStatus):
+    status = '462 Token is locked'
 
 
-class DeactivatedTokenError(HttpStatus):
-    status_code, status_text, info = 463, 'Token is deactivated', 'Token has been deactivated.'
+class DeactivatedTokenError(HTTPKnownStatus):
+    status = '463 Token is deactivated'
 
 
-class DeviceNotFoundError(HttpStatus):
-    status_code, status_text, info = 464, 'Device Not Found', 'Requested device is found.'
+class DeviceNotFoundError(HTTPKnownStatus):
+    status = '464 Device Not Found'
 
 
-class ActivatedTokenError(HttpStatus):
-    status_code, status_text, info = 465, 'Token is active', 'Token is already active.'
+class ActivatedTokenError(HTTPKnownStatus):
+    status = '465 Token is active'
 
 
-class NotLockedTokenError(HttpStatus):
-    status_code, status_text, info = 466, 'Token is not locked', 'The max try limitation is not exceeded.'
+class NotLockedTokenError(HTTPKnownStatus):
+    status = '466 Token is not locked'
 
