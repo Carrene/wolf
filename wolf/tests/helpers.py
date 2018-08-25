@@ -5,7 +5,7 @@ from restfulpy.testing import ApplicableTestCase
 from wolf import cryptoutil, Wolf
 
 
-class LocalApplicationTestClass(ApplicableTestCase):
+class LocalApplicationTestCase(ApplicableTestCase):
     __application_factory__ = Wolf
 
 

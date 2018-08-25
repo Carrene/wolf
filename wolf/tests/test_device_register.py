@@ -1,9 +1,9 @@
 import unittest
 import base64
 
-from bddrest.authoring import when, response
+from bddrest.authoring import when, response, status
 
-from wolf.tests.helpers import ApplicableTestCase
+from wolf.tests.helpers import LocalApplicationTestCase
 
 
 class TestAddDevice(LocalApplicationTestCase):
@@ -24,7 +24,8 @@ class TestAddDevice(LocalApplicationTestCase):
         )
 
         with self.given(**call):
-            then(response.status_code == 200)
+            assert status == 200
+
             result = response.json
             assert 'phone' in result
             assert 'secret' in result
@@ -37,6 +38,6 @@ class TestAddDevice(LocalApplicationTestCase):
             when(
                 'Trying to registering the same device again',
             )
-            assert response.status_code == 200
+            assert status == 200
             assert response.json['secret'] != first_secret
 

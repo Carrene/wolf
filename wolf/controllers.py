@@ -288,7 +288,9 @@ class DeviceController(ModelRestController):
     def register(self):
         phone = context.form['phone']
         udid = context.form['udid']
-        device = Device.query.filter(Device.phone == phone).one_or_none()
+        device = DBSession.query(Device) \
+            .filter(Device.phone == phone) \
+            .one_or_none()
 
         if device is None:
             device = Device()
