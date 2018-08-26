@@ -165,47 +165,33 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == \
                 '472 Token name shouldn\'t be more than 50 cahracters'
 
-"""
     def test_expired_token(self):
-        call = dict(
-            title='Provisioning with an expired token',
-            description='Provisioning with an expired token',
-            url='/apiv1/tokens',
-            verb='ENSURE',
+
+        with self.given(
+            'Provisioning with an expired token',
+            '/apiv1/tokens',
+            'ENSURE',
             form={
                 'phone': 989122451075,
                 'name': 'ExpiredToken',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
-            },
-        )
-
-        with self.given(**call):
-            then(response.status_code == 461)
-            and_(self.assertDictEqual(response.json, dict(
-                message='Token is expired',
-                description='The requested token is expired.'
-            )))
+            }
+        ):
+            assert status == '461 Token is expired'
 
     def test_deactivated_token(self):
-        call = dict(
-            title='Provisioning with an deactivated token',
-            description='Provisioning with an deactivated token',
-            url='/apiv1/tokens',
-            verb='ENSURE',
+
+        with self.given(
+            'Provisioning with an deactivated token',
+            '/apiv1/tokens',
+            'ENSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DeactivatedToken',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
-            },
-        )
+            }
+        ):
+            assert status == '463 Token is deactivated'
 
-        with self.given(**call):
-            then(response.status_code == 463)
-            and_(self.assertDictEqual(response.json, dict(
-                message='Token is deactivated',
-                description='Token has been deactivated.'
-            )))
-
-"""
