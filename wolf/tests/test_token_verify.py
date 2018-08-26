@@ -188,23 +188,21 @@ class TestVerifyToken(LocalApplicationTestCase):
         ):
             assert status == 463
 
-"""
     def test_verify_malformed_code(self):
         mockup_token_id = self.mockup_token1_id
 
-        call = dict(
-            title='When code has odd length',
-            description='Verifying time based OTP',
-            url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: badcode',
-            verb='VERIFY',
-        )
-
-        with TimeMonkeyPatch(self.fake_time1), self.given(**call):
-            then(status == 400)
+        with TimeMonkeyPatch(self.fake_time1), self.given(
+            'When code has odd length',
+            f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: badcode',
+            'VERIFY',
+        ):
+            assert status == 400
 
             when(
                 'When code is malformed',
-                url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: 1234567'
+                url=\
+                    f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: '
+                    f'1234567'
             )
-            then(status == 400)
-"""
+            assert status == 400
+
