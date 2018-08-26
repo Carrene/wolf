@@ -115,7 +115,8 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == '471 cryptomoduleId must be integer'
 
         with RandomMonkeyPatch(
-                b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+            b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
+            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
         ), self.given(
             'Provisioning with zero',
             '/apiv1/tokens',
