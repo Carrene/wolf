@@ -92,9 +92,11 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert 'provisioning' in response.json
             assert response.json['provisioning'] == token
 
-"""
     def test_invalid_cryptomodule_id(self):
-        call = dict(
+        with RandomMonkeyPatch(
+            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
+            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), self.given(
             title='Provisioning with string',
             description='Provisioning with non-digit cryptomodule id',
             url='/apiv1/tokens',
@@ -105,17 +107,11 @@ class TestEnsureToken(LocalApplicationTestCase):
                 'cryptomoduleId': 'InvalidCryptomoduleId',
                 'expireDate': 1513434403,
             },
-        )
-        with RandomMonkeyPatch(
-                b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
+        ):
 
-            then(response.status_code == 400)
-            and_(self.assertDictEqual(response.json, dict(
-                message='Bad Request',
-                description='The field: cryptomoduleId must be int'
-            )))
+            assert status == '471 cryptomoduleId must be integer'
 
+"""
         call = dict(
             title='Provisioning with zero',
             description='Trying to ensure token with provisioning with zero cryptomodule id',

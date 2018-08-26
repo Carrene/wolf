@@ -261,7 +261,7 @@ class TokenController(ModelRestController):
         ),
         cryptomoduleId=dict(
             required='469 cryptomoduleId required',
-            type_=int
+            type_=(int, '471 cryptomoduleId must be integer')
         ),
         expireDate=dict(
             required='470 expireDate required',
