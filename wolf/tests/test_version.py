@@ -1,26 +1,19 @@
 import unittest
 
-from bddrest.authoring import then, response, and_
+from bddrest.authoring import response, status
 
 import wolf
-from wolf.tests.helpers import BDDTestClass
+from wolf.tests.helpers import LocalApplicationTestCase
 
 
-class VersionTestCase(BDDTestClass):
+class TestVersion(LocalApplicationTestCase):
 
     def test_version(self):
-        call = dict(
-            title='Application version',
-            description='Get application version',
-            url='/apiv1/version',
-            verb='GET',
-        )
+        with self.given(
+            'Application version',
+            '/apiv1/version',
+        ):
+            assert status == 200
+            assert 'version' in response.json
+            assert response.json['version'] == wolf.__version__
 
-        with self.given(**call):
-            then(response.status_code == 200)
-            and_('version' in response.json)
-            and_(response.json['version'] == wolf.__version__)
-
-
-if __name__ == '__main__':  # pragma: no cover
-    unittest.main()
