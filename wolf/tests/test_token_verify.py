@@ -1,48 +1,48 @@
 import unittest
 
 from nanohttp import settings
-from restfulpy.orm import DBSession
-from bddrest.authoring import when, then, response
+from bddrest.authoring import when, response, status
 
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock
-from wolf.tests.helpers import TimeMonkeyPatch, BDDTestClass
+from wolf.tests.helpers import TimeMonkeyPatch, LocalApplicationTestCase
 
 
-class VerifyTokenTestCase(BDDTestClass):
+class TestVerifyToken(LocalApplicationTestCase):
 
-    @classmethod
-    def configure_app(cls):
-        super().configure_app()
-        settings.merge('''
-            oath:
-              window: 10
-        ''')
+    __configuration__ = '''
+      oath:
+        window: 10
+    '''
 
     @classmethod
     def mockup(cls):
+        session = cls.create_session()
         mockup_token1 = Token()
         mockup_token1.name = 'name1'
         mockup_token1.phone = 1
         mockup_token1.expire_date = '2059-12-07T18:14:39'
         mockup_token1.seed = \
-            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5' \
-            b'\xf8h\xf5j\xaaz\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz\xf5j\xaaz'
+            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
+            b'\xf5j\xaaz'
         mockup_token1.is_active = True
 
         mockup_cryptomodule_length_4 = Cryptomodule()
         mockup_token1.cryptomodule = mockup_cryptomodule_length_4
 
-        DBSession.add(mockup_token1)
-        DBSession.add(mockup_cryptomodule_length_4)
+        session.add(mockup_token1)
+        session.add(mockup_cryptomodule_length_4)
 
         mockup_token2 = Token()
         mockup_token2.name = 'name2'
         mockup_token2.phone = 2
         mockup_token2.expire_date = '2059-12-07T18:14:39'
         mockup_token2.seed = \
-            b'u*1\'D\xb9\xbb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9' \
-            b'\x01U\x81!\xd8\x9cg\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
+            b'u*1\'D\xb9\xbb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89' \
+            b'\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9\x01U\x81!\xd8\x9cg' \
+            b'\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
         mockup_token2.is_active = True
 
         mockup_token3 = Token()
@@ -50,11 +50,13 @@ class VerifyTokenTestCase(BDDTestClass):
         mockup_token3.phone = 2
         mockup_token3.expire_date = '2059-12-07T18:14:39'
         mockup_token3.seed = \
-            b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9' \
-            b'\x01U\x81!\xd8\x9cg\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
+            b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89' \
+            b'\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9\x01U\x81!\xd8\x9cg' \
+            b'\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
         mockup_token3.is_active = False
 
-        # 752a312744b9bba65a2e3e886abe5a9b33c6ca8425870a890d8a0d699428f22248b0f7879aa1493901558121d89c67fcf7dee513fbba5aefa66476a2c0590076
+        # 752a312744b9bba65a2e3e886abe5a9b33c6ca8425870a890d8a0d699428f22248
+        # b0f7879aa1493901558121d89c67fcf7dee513fbba5aefa66476a2c0590076
 
         mockup_cryptomodule_length_5 = Cryptomodule()
         mockup_cryptomodule_length_5.challenge_response_length = 5
@@ -62,10 +64,10 @@ class VerifyTokenTestCase(BDDTestClass):
         mockup_token2.cryptomodule = mockup_cryptomodule_length_5
         mockup_token3.cryptomodule = mockup_cryptomodule_length_5
 
-        DBSession.add(mockup_token2)
-        DBSession.add(mockup_token3)
-        DBSession.add(mockup_cryptomodule_length_5)
-        DBSession.commit()
+        session.add(mockup_token2)
+        session.add(mockup_token3)
+        session.add(mockup_cryptomodule_length_5)
+        session.commit()
 
         cls.mockup_token1_id = mockup_token1.id
         cls.mockup_token2_id = mockup_token2.id
@@ -89,17 +91,15 @@ class VerifyTokenTestCase(BDDTestClass):
     def test_verify_token_otp_time_length_5(self):
         mockup_token_id = self.mockup_token2_id
 
-        call = dict(
-            title='Verifying time based OTP',
-            description='Verifying time based OTP',
-            url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: {self.valid_otp_token2_time1}',
-            verb='VERIFY',
-        )
-
-        with TimeMonkeyPatch(self.fake_time3):
-            with self.given(**call):
-                then(response.status_code == 200)
-
+        with TimeMonkeyPatch(self.fake_time3), self.given(
+            'Verifying time based OTP',
+            \
+                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: ' \
+                f'{self.valid_otp_token2_time1}',
+            'VERIFY',
+        ):
+            assert status == 200
+"""
     def test_verify_token_otp_time(self):
         mockup_token_id = self.mockup_token1_id
 
@@ -204,7 +204,4 @@ class VerifyTokenTestCase(BDDTestClass):
                 url=f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: 1234567'
             )
             then(response.status_code == 400)
-
-
-if __name__ == '__main__':  # pragma: no cover
-    unittest.main()
+"""
