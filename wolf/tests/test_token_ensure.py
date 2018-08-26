@@ -1,3 +1,4 @@
+import time
 import unittest
 from datetime import date, timedelta
 
@@ -6,6 +7,10 @@ from bddrest.authoring import when, response, status
 
 from wolf.models import Cryptomodule, Token, Device
 from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
+
+
+HOUR = 3600
+DAY = HOUR * 24
 
 
 class TestEnsureToken(LocalApplicationTestCase):
@@ -107,7 +112,6 @@ class TestEnsureToken(LocalApplicationTestCase):
                 'expireDate': 1513434403,
             },
         ):
-
             assert status == '471 cryptomoduleId must be integer'
 
         with RandomMonkeyPatch(
@@ -128,7 +132,6 @@ class TestEnsureToken(LocalApplicationTestCase):
 
     def test_invalid_token_name(self):
 
-        import pudb; pudb.set_trace()  # XXX BREAKPOINT
         with RandomMonkeyPatch(
             b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
             b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
@@ -140,35 +143,29 @@ class TestEnsureToken(LocalApplicationTestCase):
                 'phone': 989122451075,
                 'name': '',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
-                'expireDate': 1513434403,
+                'expireDate': time.time() + DAY,
             },
         ):
-            assert status == ''
+            assert status == '471 Token name should at least 16 cahracters'
 
-"""
-        call = dict(
-            title='ensure token with provisioning with a long token name',
-            description='Trying to ensure token with provisioning with a long token name',
-            url='/apiv1/tokens',
-            verb='ENSURE',
+        with RandomMonkeyPatch(
+            b'F\x2e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
+            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), self.given(
+            'ensure token with provisioning with a long token name',
+            '/apiv1/tokens',
+            'ENSURE',
             form={
                 'phone': 989122451075,
                 'name': f'MoreThan50Chars{"x" * 36}',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
             },
-        )
+        ):
+            assert status == \
+                '472 Token name shouldn\'t be more than 50 cahracters'
 
-        with RandomMonkeyPatch(
-            b'F\x2e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
-
-            then(response.status_code == 400)
-            and_(self.assertDictEqual(response.json, dict(
-                message='Bad Request',
-                description='Cannot enter more than: 50 in field: name.'
-            )))
-
+"""
     def test_expired_token(self):
         call = dict(
             title='Provisioning with an expired token',

@@ -203,6 +203,7 @@ class TokenController(ModelRestController):
     @staticmethod
     def _validate_token(token):
         if token.is_expired:
+            import pudb; pudb.set_trace()  # XXX BREAKPOINT
             raise ExpiredTokenError()
 
         if not token.is_active:
@@ -253,6 +254,11 @@ class TokenController(ModelRestController):
     @validate(
         name=dict(
             required='467 name required',
+            min_length=(6, '471 Token name should at least 16 cahracters'),
+            max_length=(
+                50,
+                '472 Token name shouldn\'t be more than 50 cahracters'
+            )
         ),
         phone=dict(
             required='468 phone required',
