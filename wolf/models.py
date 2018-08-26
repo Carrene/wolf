@@ -142,7 +142,8 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         return result
 
     def provision(self, secret):
-        encrypted_seed = AESCipher(secret, random=cryptoutil.random).encrypt(self.seed)
+        encrypted_seed = AESCipher(secret, random=cryptoutil.random) \
+            .encrypt(self.seed)
         hexstring_seed = binascii.hexlify(encrypted_seed).decode()
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         expire_date = self.expire_date.strftime('%y%m%d')

@@ -54,7 +54,10 @@ class TestEnsureToken(LocalApplicationTestCase):
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_ensure_token(self):
-        call = self.given(
+        with RandomMonkeyPatch(
+            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
+            b'\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), self.given(
             'Provisioning',
             '/apiv1/tokens',
             'ENSURE',
@@ -64,11 +67,7 @@ class TestEnsureToken(LocalApplicationTestCase):
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1613434403,
             }
-        )
-        with RandomMonkeyPatch(
-            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
-            b'\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), call:
+        ):
 
             assert status == 200
             result = response.json
@@ -80,7 +79,6 @@ class TestEnsureToken(LocalApplicationTestCase):
                 '22EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A' \
                 '12F3440012102163515'
 
-"""
             when(
                 'Ensure the same token again',
                 form={
@@ -90,11 +88,11 @@ class TestEnsureToken(LocalApplicationTestCase):
                     'expireDate': 1513434403,
                 }
             )
-            then(response.status_code == 200)
-            result = response.json
-            and_('provisioning' in result)
-            and_(result['provisioning'] == token)
+            assert status == 200
+            assert 'provisioning' in response.json
+            assert response.json['provisioning'] == token
 
+"""
     def test_invalid_cryptomodule_id(self):
         call = dict(
             title='Provisioning with string',
