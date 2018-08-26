@@ -25,8 +25,8 @@ cached_cryptomodules = None
 class MiniToken:
     _redis = None
 
-    def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,
-                 same_code_verify_counter=0):
+    def __init__(self, id, seed, expire_date, is_active, cryptomodule_id,
+                 last_code=None, same_code_verify_counter=0):
         self.id = id
         self.seed = seed
         self.expire_date = expire_date
@@ -81,8 +81,9 @@ class MiniToken:
         if cached_cryptomodules is None:
             modules = {}
             for m in DBSession.execute(text(
-                'SELECT id, time_interval, one_time_password_length FROM cryptomodule'
-                )):
+                'SELECT id, time_interval, one_time_password_length '
+                'FROM cryptomodule'
+            )):
                 modules[m[0]] = m
             cached_cryptomodules = modules
         return cached_cryptomodules
@@ -110,9 +111,12 @@ class MiniToken:
 
         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
         otp = pinblock.decode(code)
-        return \
-            TOTP(self.seed, time.time(), self.length, step=self.time_interval)\
-            .verify(otp, window)
+        return TOTP(
+            self.seed,
+            time.time(),
+            self.length,
+            step=self.time_interval
+        ).verify(otp, window)
 
     def cache(self):
         self.redis().set(
