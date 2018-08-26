@@ -110,54 +110,42 @@ class TestEnsureToken(LocalApplicationTestCase):
 
             assert status == '471 cryptomoduleId must be integer'
 
-"""
-        call = dict(
-            title='Provisioning with zero',
-            description='Trying to ensure token with provisioning with zero cryptomodule id',
-            url='/apiv1/tokens',
-            verb='ENSURE',
+        with RandomMonkeyPatch(
+                b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), self.given(
+            'Provisioning with zero',
+            '/apiv1/tokens',
+            'ENSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DummyTokenName',
                 'cryptomoduleId': 0,
                 'expireDate': 1513434403,
             },
-        )
+        ):
 
-        with RandomMonkeyPatch(
-                b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
-
-            then(response.status_code == 400)
-            and_(self.assertDictEqual(response.json, dict(
-                message='Bad Request',
-                description='Invalid cryptomodule id.'
-            )))
+            assert status == '472 Invalid cryptomodule id'
 
     def test_invalid_token_name(self):
 
-        call = dict(
-            title='Provisioning with empty token name',
-            description='Provisioning with empty token name',
-            url='/apiv1/tokens',
-            verb='ENSURE',
+        import pudb; pudb.set_trace()  # XXX BREAKPOINT
+        with RandomMonkeyPatch(
+            b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
+            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
+        ), self.given(
+            'Provisioning with empty token name',
+            '/apiv1/tokens',
+            'ENSURE',
             form={
                 'phone': 989122451075,
                 'name': '',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
             },
-        )
+        ):
+            assert status == ''
 
-        with RandomMonkeyPatch(
-            b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
-            then(response.status_code == 400)
-            and_(self.assertDictEqual(response.json, dict(
-                message='Bad Request',
-                description='Please enter at least 1 characters for field: name.'
-            )))
-
+"""
         call = dict(
             title='ensure token with provisioning with a long token name',
             description='Trying to ensure token with provisioning with a long token name',

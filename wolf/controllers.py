@@ -1,15 +1,14 @@
-import functools
+import binascii
 import hashlib
 import time
-import binascii
 
 import redis
 from nanohttp import json, context, action, settings, RestController, \
-    HTTPBadRequest, HTTPNotFound, LazyAttribute, Controller
+    HTTPBadRequest, HTTPStatus, HTTPNotFound, LazyAttribute, Controller, \
+    validate
 from oathcy.otp import TOTP
 from restfulpy.controllers import ModelRestController, RootController
 from restfulpy.orm import commit, DBSession
-from nanohttp import validate
 from sqlalchemy import text, extract, event
 
 import wolf
@@ -232,7 +231,7 @@ class TokenController(ModelRestController):
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
                 .count() <= 0:
-            raise HTTPBadRequest(info='Invalid cryptomodule id.')
+            raise HTTPStatus('472 Invalid cryptomodule id')
 
         token = DBSession.query(Token).filter(
             Token.name == name,
