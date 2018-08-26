@@ -9,9 +9,9 @@ from nanohttp import settings
 
 
 def random(size):
-    # This function is trying to be a secure random and it will be improved later.
+    # This function is trying to be a secure random and it will be improved
+    # later.
     return os.urandom(size)
-
 
 
 class PlainISO0PinBlock:
@@ -24,7 +24,9 @@ class PlainISO0PinBlock:
         self.pan = int(f'0000{pan[-13:-1]}', 16)
 
     def encode(self, data):
-        return b'%0.16x' % (self.pan ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16))
+        return b'%0.16x' % (
+            self.pan ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
+        )
 
     def decode(self, encoded):
         block = b'%0.16x' % (self.pan ^ int(encoded, 16))
@@ -83,5 +85,4 @@ def totp_checksum(data: bytes, length=4):
         ((digest[offset + 2] & 0xff) << 8) |
         (digest[offset + 3] & 0xff)
     ).zfill(length)[-length:]
-
 
