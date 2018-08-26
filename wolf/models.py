@@ -43,14 +43,20 @@ class Cryptomodule(DeclarativeBase):
     time_interval = Field(Integer, default=60)
     one_time_password_length = Field(Integer, default=4)
 
+    # FIXME: Move it to validate decorator
     @validates('time_interval')
     def validate_time_interval(self, key, new_value):
         if new_value == 0:
             raise ValueError('Time interval should not be zero')
         elif 60 <= new_value <= 59 * 60 and new_value % 60 != 0:
-            raise ValueError('60 <= time_interval <= 59 * 60 and time_interval % 60 != 0')
-        elif 60 * 60 <= new_value <= (48 * 60 * 60) and new_value % (60 * 60) != 0:
-            raise ValueError('60 <= time_interval <= 59 * 60 and time_interval % 60 != 0')
+            raise ValueError(
+                '60 <= time_interval <= 59 * 60 and time_interval % 60 != 0'
+            )
+        elif 60 * 60 <= new_value <= (48 * 60 * 60) and \
+                new_value % (60 * 60) != 0:
+            raise ValueError(
+                '60 <= time_interval <= 59 * 60 and time_interval % 60 != 0'
+            )
         return new_value
 
     @validates('one_time_password_length')
@@ -125,7 +131,8 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
             except DuplicateSeedError:
                 if i < settings.token.seed.max_random_try - 1:
                     sleep_millis = randrange(
-                        settings.token.seed.min_sleep_milliseconds, settings.token.seed.max_sleep_milliseconds
+                        settings.token.seed.min_sleep_milliseconds,
+                        settings.token.seed.max_sleep_milliseconds
                     )
                     time.sleep(sleep_millis / 1000)
 
@@ -147,6 +154,10 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         hexstring_seed = binascii.hexlify(encrypted_seed).decode()
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         expire_date = self.expire_date.strftime('%y%m%d')
-        token_string = f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}'.upper()
-        return f'mt://oath/totp/{token_string}{cryptoutil.totp_checksum(token_string.encode())}'
+        token_string = \
+            f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}' \
+            .upper()
+        return \
+            f'mt://oath/totp/{token_string}{cryptoutil.totp_checksum('
+            f'token_string.encode())}'
 
