@@ -1,8 +1,5 @@
-import os
+from wolf import wolf as app
 
-from wolf import wolf
+app.configure()
+app.initialize_models()
 
-wolf.configure(files=os.environ.get('WOLF_CONFIG_FILE'))
-wolf.initialize_models()
-
-app = wolf
