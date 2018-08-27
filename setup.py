@@ -14,7 +14,6 @@ dependencies = [
     'oathcy >= 1.2.4b1',
     'pycrypto',
 
-    'bddrest >= 0.11.0b2',
     # deployment
     'gunicorn',
 ]

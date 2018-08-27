@@ -51,7 +51,7 @@ class Wolf(Application):
         from . import basedata
         basedata.insert()
 
-    def insert_mockup(self, args=[]):
+    def insert_mockup(self):
         from . import mockup
         mockup.insert(*args)
 
