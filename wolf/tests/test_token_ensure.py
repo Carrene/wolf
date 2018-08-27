@@ -3,7 +3,7 @@ import unittest
 from datetime import date, timedelta
 
 from nanohttp import settings
-from bddrest.authoring import when, response, status
+from bddrest import when, response, status
 
 from wolf.models import Cryptomodule, Token, Device
 from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase

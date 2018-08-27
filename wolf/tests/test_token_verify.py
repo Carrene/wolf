@@ -1,7 +1,7 @@
 import unittest
 
 from nanohttp import settings
-from bddrest.authoring import when, response, status
+from bddrest import when, response, status
 
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock

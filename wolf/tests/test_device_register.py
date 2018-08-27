@@ -1,7 +1,7 @@
 import unittest
 import base64
 
-from bddrest.authoring import when, response, status
+from bddrest import when, response, status
 
 from wolf.tests.helpers import LocalApplicationTestCase
 

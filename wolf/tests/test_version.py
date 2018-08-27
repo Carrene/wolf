@@ -1,6 +1,6 @@
 import unittest
 
-from bddrest.authoring import response, status
+from bddrest import response, status
 
 import wolf
 from wolf.tests.helpers import LocalApplicationTestCase
