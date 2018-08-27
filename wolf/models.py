@@ -23,7 +23,7 @@ class Device(ModifiedMixin, DeclarativeBase):
     id = Field(Integer, primary_key=True, protected=True)
 
     phone = Field(BigInteger, unique=True, index=True)
-    secret = Field('secret', Binary(32))
+    secret = Field(Binary(32))
 
     def prepare_for_export(self, column, value):
         if column is self.__class__.secret:
