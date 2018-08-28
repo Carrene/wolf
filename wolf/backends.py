@@ -29,7 +29,7 @@ class LionClient:
                 data=dict(data=data)
             )
             if response.status_code != 200:
-                print(response.content.decode())
+                logger.exception(response.content.decode())
                 raise SSMInternalError()
 
         except requests.RequestException as ex:
