@@ -1,3 +1,5 @@
 coverage
+coveralls
 pytest-pudb
+pytest-cov
 ipython
