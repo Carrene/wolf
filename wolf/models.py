@@ -13,6 +13,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship
 
 from wolf import cryptoutil
+from .backends import LionClient
 
 
 class DuplicateSeedError(Exception):
@@ -107,9 +108,8 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         result['provisioning'] = None
         return result
 
-    def provision(self, secret):
-        encrypted_seed = AESCipher(secret, random=cryptoutil.random) \
-            .encrypt(self.seed)
+    def provision(self, phone):
+        encrypted_seed = LionClient().encrypt(phone, self.seed)
         hexstring_seed = binascii.hexlify(encrypted_seed).decode()
         cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         expire_date = self.expire_date.strftime('%y%m%d')

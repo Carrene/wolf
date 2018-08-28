@@ -216,23 +216,7 @@ class TokenController(ModelRestController):
             raise DeactivatedTokenError()
 
     @staticmethod
-    def _ensure_device():
-        phone = int(context.form['phone'])
-
-        # Checking the device
-        device = DBSession.query(Device) \
-            .filter(Device.phone == phone) \
-            .one_or_none()
-
-        # Adding a device also
-        if device is None:
-            raise DeviceNotFoundError()
-        return device
-
-    @staticmethod
-    def _find_or_create_token():
-        name = context.form['name']
-        phone = context.form['phone']
+    def _find_or_create_token(name, phone):
         cryptomodule_id = context.form['cryptomoduleId']
 
         if DBSession.query(Cryptomodule) \
@@ -264,7 +248,8 @@ class TokenController(ModelRestController):
             max_length=(
                 50,
                 '472 Token name shouldn\'t be more than 50 cahracters'
-            )
+            ),
+            type_=str
         ),
         phone=dict(
             required='468 phone required',
@@ -283,12 +268,13 @@ class TokenController(ModelRestController):
     @commit
     def ensure(self):
         # TODO: type validation
-        device = self._ensure_device()
-        token = self._find_or_create_token()
+        phone = context.form['phone']
+        name = context.form['name']
+        token = self._find_or_create_token(name, phone)
         self._validate_token(token)
         DBSession.flush()
         result = token.to_dict()
-        result['provisioning'] = token.provision(device.secret)
+        result['provisioning'] = token.provision(phone)
         return result
 
 

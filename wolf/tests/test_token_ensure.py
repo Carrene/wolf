@@ -1,9 +1,11 @@
 import time
 import unittest
 from datetime import date, timedelta
+from contextlib import contextmanager
 
-from nanohttp import settings
+from nanohttp import settings, RegexRouteController, json
 from bddrest import when, response, status
+from restfulpy.mockup import MockupApplication, mockup_http_server
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
@@ -11,6 +13,29 @@ from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
 
 HOUR = 3600
 DAY = HOUR * 24
+
+
+@contextmanager
+def lion_mockup_server():
+    class Root(RegexRouteController):
+        def __init__(self):
+            super().__init__([
+                ('/apiv1/keys/(?P<keyname>\w+)', self.encrypt),
+            ])
+
+        @json(verbs='encrypt')
+        def encrypt(self, keyname):
+            return \
+                'Ro4WsXckQscBovDEaOH3IuxTt4ES+bGtfEZCWi6uM3EEOjQ0LISnyvz4Ip' \
+                'ihLzRA\n'
+
+    app = MockupApplication('lion-mockup', Root())
+    with mockup_http_server(app) as (server, url):
+        settings.merge(f'''
+          ssm:
+            url: {url}
+        ''')
+        yield app
 
 
 class TestEnsureToken(LocalApplicationTestCase):
@@ -48,13 +73,6 @@ class TestEnsureToken(LocalApplicationTestCase):
         deactivated_token.cryptomodule = mockup_cryptomodule
         session.add(deactivated_token)
 
-        mockup_device = Device()
-        mockup_device.phone = 989122451075
-        mockup_device.secret = \
-            b'\xa1(\x05\xe1\x05\xb9\xc8c\xfb\x89\x87|\xf7"\xf0\xc4h\xe1$=' \
-            b'\x81\xc8k\x17rD,p\x1a\xcfT!'
-        session.add(mockup_device)
-
         session.commit()
         cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
@@ -62,7 +80,7 @@ class TestEnsureToken(LocalApplicationTestCase):
         with RandomMonkeyPatch(
             b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
             b'\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(
+        ), lion_mockup_server(), self.given(
             'Provisioning',
             '/apiv1/tokens',
             'ENSURE',
@@ -195,4 +213,3 @@ class TestEnsureToken(LocalApplicationTestCase):
             }
         ):
             assert status == '463 Token is deactivated'
-
