@@ -16,7 +16,7 @@ ssh-add travis-oathcy_rsa
 ssh-add travis-wolf_rsa
 
 pip3 install -U pip setuptools wheel cython
-pip3 install -U coverage coveralls
+pip3 install -U coverage coveralls pytest-cov
 pip3 install -U git+ssh://git@github.com/Carrene/oath.cy.git
 pip3 install -e .
 
