@@ -3,9 +3,11 @@ plugins = Cython.Coverage
 
 omit = 
   wolf/mockup.py
-  wolf/basedata.pyx
+  wolf/basedata.py
+  wolf/cli.py
 
 [report]
 omit = 
   wolf/mockup.py
-  wolf/basedata.pyx
+  wolf/basedata.py
+  wolf/cli.py
