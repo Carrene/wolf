@@ -166,7 +166,7 @@ class CodesController(RestController):
     def window(self):
         return settings.oath.window
 
-    @action
+    @action(prevent_form='700 Form Not Allowed')
     def verify(self, token_id, code):
         print(f'Verifying token_id={token_id} code={code}')
         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)

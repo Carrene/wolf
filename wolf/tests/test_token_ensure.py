@@ -200,7 +200,6 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == '461 Token is expired'
 
     def test_deactivated_token(self):
-
         with self.given(
             'Provisioning with an deactivated token',
             '/apiv1/tokens',
@@ -213,3 +212,4 @@ class TestEnsureToken(LocalApplicationTestCase):
             }
         ):
             assert status == '463 Token is deactivated'
+

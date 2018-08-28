@@ -116,7 +116,6 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         token_string = \
             f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}' \
             .upper()
-        return \
-            f'mt://oath/totp/{token_string}' \
-            f'{cryptoutil.totp_checksum(token_string.encode())}'
+        checksum = cryptoutil.totp_checksum(token_string.encode())
+        return f'mt://oath/totp/{token_string}{checksum}'
 

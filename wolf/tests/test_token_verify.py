@@ -206,3 +206,16 @@ class TestVerifyToken(LocalApplicationTestCase):
             )
             assert status == 400
 
+    def test_nonempty_form(self):
+        mockup_token_id = self.mockup_token1_id
+
+        with TimeMonkeyPatch(self.fake_time1), self.given(
+            'When code has odd length',
+            f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: badcode',
+            'VERIFY',
+            form=dict(a='b')
+        ):
+            assert status == '700 Form Not Allowed'
+
+
+
