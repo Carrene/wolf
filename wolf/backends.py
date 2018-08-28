@@ -4,6 +4,8 @@ import requests
 from nanohttp import settings, HTTPKnownStatus
 from restfulpy.logging_ import get_logger
 
+from .exceptions import DeviceNotFoundError
+
 
 logger = get_logger()
 
@@ -28,6 +30,9 @@ class LionClient:
                 'ENCRYPT', f'{self.base_url}/keys/{keyname}',
                 data=dict(data=data)
             )
+            if response.status_code == 404:
+                raise DeviceNotFoundError()
+
             if response.status_code != 200:
                 logger.exception(response.content.decode())
                 raise SSMInternalError()
