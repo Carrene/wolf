@@ -5,7 +5,7 @@ from datetime import date, timedelta
 from nanohttp import settings
 from bddrest import when, response, status
 
-from wolf.models import Cryptomodule, Token, Device
+from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
 
 

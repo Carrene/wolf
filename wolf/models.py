@@ -1,4 +1,3 @@
-import base64
 import binascii
 import time
 from datetime import date
@@ -11,25 +10,9 @@ from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, \
     UniqueConstraint, BigInteger
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship, validates
+from sqlalchemy.orm import relationship
 
 from wolf import cryptoutil
-
-
-class Device(ModifiedMixin, DeclarativeBase):
-    __tablename__ = 'device'
-
-    id = Field(Integer, primary_key=True, protected=True)
-
-    phone = Field(BigInteger, unique=True, index=True)
-    secret = Field(Binary(32))
-
-    def prepare_for_export(self, column, value):
-        if column is self.__class__.secret:
-            return column.key, base64.encodebytes(value)
-
-        return super().prepare_for_export(column, value)
 
 
 class DuplicateSeedError(Exception):
@@ -42,30 +25,6 @@ class Cryptomodule(DeclarativeBase):
     id = Field(Integer, primary_key=True)
     time_interval = Field(Integer, default=60)
     one_time_password_length = Field(Integer, default=4)
-
-    # FIXME: Move it to validate decorator
-    @validates('time_interval')
-    def validate_time_interval(self, key, new_value):
-        if new_value == 0:
-            raise ValueError('Time interval should not be zero')
-        elif 60 <= new_value <= 59 * 60 and new_value % 60 != 0:
-            raise ValueError(
-                '60 <= time_interval <= 59 * 60 and time_interval % 60 != 0'
-            )
-        elif 60 * 60 <= new_value <= (48 * 60 * 60) and \
-                new_value % (60 * 60) != 0:
-            raise ValueError(
-                '60 <= time_interval <= 59 * 60 and time_interval % 60 != 0'
-            )
-        return new_value
-
-    @validates('one_time_password_length')
-    def validate_one_time_password(self, key, new_value):
-        new_value = int(new_value)
-        if not 4 <= new_value <= 10:
-            raise ValueError('Length should be between 4 and 10')
-        return new_value
-
 
 
 class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,

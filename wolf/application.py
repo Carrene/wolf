@@ -15,6 +15,9 @@ class Wolf(Application):
       test_url: postgresql://postgres:postgres@localhost/wolf_test
       administrative_url: postgresql://postgres:postgres@localhost/postgres
 
+    ssm:
+      url: http://localhost:8081
+
     token:
       seed:
         max_random_try: 3

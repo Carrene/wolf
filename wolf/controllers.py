@@ -15,7 +15,7 @@ import wolf
 from wolf import cryptoutil
 from wolf.exceptions import DeviceNotFoundError, DeactivatedTokenError, \
     ExpiredTokenError
-from wolf.models import Device, Cryptomodule, Token
+from wolf.models import Cryptomodule, Token
 
 
 cached_cryptomodules = None
