@@ -292,42 +292,8 @@ class TokenController(ModelRestController):
         return result
 
 
-challenge_pattern = r'^[a-zA-Z0-9]{5,25}$'
-
-
-class DeviceController(ModelRestController):
-    __model__ = Device
-
-    @json
-    # TODO: Use model validation
-    @Device.expose
-    @commit
-    def register(self):
-        phone = context.form['phone']
-        udid = context.form['udid']
-        device = DBSession.query(Device) \
-            .filter(Device.phone == phone) \
-            .one_or_none()
-
-        if device is None:
-            device = Device()
-            DBSession.add(device)
-            device.phone = phone
-
-        secret_key = hashlib.pbkdf2_hmac(
-            'sha256',
-            str(phone).encode() + udid.encode(),
-            cryptoutil.random(32),
-            100000,
-            dklen=32
-        )
-        device.secret = secret_key
-        return device
-
-
 class ApiV1(Controller):
     tokens = TokenController()
-    devices = DeviceController()
 
     @json
     def version(self):
