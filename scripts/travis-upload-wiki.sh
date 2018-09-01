@@ -10,7 +10,7 @@ fi
 TARGET="/var/www/html/wiki/wolf/$TRAVIS_BRANCH"
 SCP_TARGET="wiki@carrene.com:$TARGET"
 
-SSH_ARGS="-itravis-wiki_rsa"
+SSH_ARGS="-itravis-wiki_rsa -oStrictHostKeyChecking=no"
 SSH="ssh -p7346 $SSH_ARGS wiki@carrene.com"
 SCP="scp -P7346 $SSH_ARGS"
 
