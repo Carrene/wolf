@@ -12,7 +12,7 @@ DATA_DIRECTORY = path.abspath(path.join(HERE, '../../data'))
 class LocalApplicationTestCase(ApplicableTestCase):
     __application_factory__ = Wolf
     __story_directory__ = path.join(DATA_DIRECTORY, 'stories')
-    __api_documentation_directory__ = path.join(DATA_DIRECTORY, 'documents')
+    __api_documentation_directory__ = path.join(DATA_DIRECTORY, 'markdown')
 
 
 class RandomMonkeyPatch:
