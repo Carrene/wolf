@@ -25,4 +25,6 @@ services:
 
 install: ./scripts/travis-install.sh
 script: py.test --cov=wolf wolf/tests
-after_success: travis-retry coveralls
+after_success: 
+  - travis-retry coveralls
+  - ./scripts/travis-upload-wiki.sh
