@@ -3,7 +3,7 @@ import unittest
 from datetime import date, timedelta
 from contextlib import contextmanager
 
-from nanohttp import settings, RegexRouteController, json
+from nanohttp import settings, RegexRouteController, json, context
 from bddrest import when, response, status
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
@@ -23,8 +23,11 @@ def lion_mockup_server():
                 ('/apiv1/keys/(?P<keyname>\w+)', self.encrypt),
             ])
 
-        @json(verbs='encrypt')
+        @json(verbs=['encrypt', 'checksum'])
         def encrypt(self, keyname):
+            if context.method == 'checksum':
+                return '3515'
+
             return \
                 'Ro4WsXckQscBovDEaOH3IuxTt4ES+bGtfEZCWi6uM3EEOjQ0LISnyvz4Ip' \
                 'ihLzRA\n'

@@ -42,3 +42,23 @@ class LionClient:
             raise SSMIsNotAvailableError()
 
         return base64.decodebytes(response.json().encode())
+
+    def checksum(self, keyname, data):
+        try:
+            response = requests.request(
+                'CHECKSUM', f'{self.base_url}/keys/{keyname}',
+                data=dict(data=data)
+            )
+            if response.status_code == 404:
+                raise DeviceNotFoundError()
+
+            if response.status_code != 200:
+                logger.exception(response.content.decode())
+                raise SSMInternalError()
+
+        except requests.RequestException as ex:
+            logger.exception(ex)
+            raise SSMIsNotAvailableError()
+
+        return response.json()
+

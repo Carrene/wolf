@@ -116,6 +116,8 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         token_string = \
             f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}' \
             .upper()
-        checksum = cryptoutil.totp_checksum(token_string.encode())
+        checksum = LionClient().checksum(phone, token_string)
+        # TODO: Remove this commented line after passing all tests
+        #checksum = cryptoutil.totp_checksum(token_string.encode())
         return f'mt://oath/totp/{token_string}{checksum}'
 

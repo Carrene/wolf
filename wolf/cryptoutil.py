@@ -14,6 +14,7 @@ def random(size):
     return os.urandom(size)
 
 
+# FIXME: Migrate it to lion
 class PlainISO0PinBlock:
     """
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/

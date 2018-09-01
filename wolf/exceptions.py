@@ -12,7 +12,7 @@ class LockedTokenError(HTTPKnownStatus):
 class DeactivatedTokenError(HTTPKnownStatus):
     status = '463 Token is deactivated'
 
-
+# FIXME: Rename it to key not found
 class DeviceNotFoundError(HTTPKnownStatus):
     status = '464 Device Not Found'
 
