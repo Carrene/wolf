@@ -2,9 +2,25 @@
 
 set -e # Exit with nonzero exit code if anything fails
 
-TARGET="/var/log/www/html/wiki/wolf/$TRAVIS_BRANCH"
+# Exit safely when this build is a pull request
+if [ $TRAVIS_PULL_REQUEST = false ]; then
+	exit 0
+fi
+
+TARGET="/var/www/html/wiki/wolf/$TRAVIS_BRANCH"
+SCP_TARGET="wiki@carrene.com:$TARGET"
+
 echo '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 echo $TARGET
 echo $TRAVIS_PULL_REQUEST
 echo '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 
+SSH_ARGS="-itravis-wiki_rsa "
+SSH="ssh -p7346 $SSH_ARGS wiki@carrene.com"
+SCP="scp -P7346 $SSH_ARGS"
+
+
+SSH "rm -rf $TARGET"
+SSH "mkdir -p $TARGET"
+SCP -r data/stories "$TCP_TARGET/stories"
+SCP -r data/documents "$TCP_TARGET/stories"
