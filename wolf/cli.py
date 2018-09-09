@@ -5,7 +5,6 @@ from restfulpy.cli import Launcher, RequireSubCommand
 from wolf.cryptoutil import EncryptedISOPinBlock
 
 
-# noinspection PyAbstractClass
 class PinBlockLauncher(Launcher, RequireSubCommand):
 
     @classmethod

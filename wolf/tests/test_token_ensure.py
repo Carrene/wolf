@@ -3,7 +3,8 @@ import unittest
 from datetime import date, timedelta
 from contextlib import contextmanager
 
-from nanohttp import settings, RegexRouteController, json, context
+from nanohttp import settings, RegexRouteController, json, context, \
+    HTTPNotFound, HTTPStatus
 from bddrest import when, response, status, given
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
@@ -13,6 +14,9 @@ from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
 
 HOUR = 3600
 DAY = HOUR * 24
+
+
+_lion_status = 'idle'
 
 
 @contextmanager
@@ -25,6 +29,9 @@ def lion_mockup_server():
 
         @json(verbs=['encrypt', 'checksum'])
         def encrypt(self, keyname):
+            if _lion_status != 'idle':
+                raise HTTPStatus(_lion_status)
+
             if context.method == 'checksum':
                 return '3515'
 
@@ -39,6 +46,14 @@ def lion_mockup_server():
             url: {url}
         ''')
         yield app
+
+
+@contextmanager
+def lion_status(status):
+    global _lion_status
+    _lion_status = status
+    yield
+    _lion_status = 'idle'
 
 
 class TestEnsureToken(LocalApplicationTestCase):
@@ -114,6 +129,10 @@ class TestEnsureToken(LocalApplicationTestCase):
             )
             assert status == 200
 
+            with lion_status('404 Not Found'):
+                when('Device is not found')
+                assert status == '605 Device is not found: 989122451075'
+
             when(
                 'CryptomoduleId is not integer',
                 form=given | dict(cryptomoduleId='NotInteger')
@@ -187,4 +206,16 @@ class TestEnsureToken(LocalApplicationTestCase):
                 form=given | dict(expireDate='NotInteger')
             )
             assert status == '708 expireDate should be Integer or Float'
+
+            with lion_status('502 Bad Gateway'):
+                when('SSM is not available')
+                assert status == '801 SSM is not available'
+
+            with lion_status('500 Internal Server Error'):
+                when('SSM is not working properly')
+                assert status == '802 SSM internal error'
+
+            with lion_status('400 Internal Server Error'):
+                when('SSM Returns 400 Bad request ')
+                assert status == '802 SSM internal error'
 

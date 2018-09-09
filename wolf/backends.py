@@ -4,18 +4,11 @@ import requests
 from nanohttp import settings, HTTPKnownStatus
 from restfulpy.logging_ import get_logger
 
-from .exceptions import DeviceNotFoundError
+from .exceptions import DeviceNotFoundError, SSMInternalError, \
+    SSMIsNotAvailableError
 
 
 logger = get_logger()
-
-
-class SSMIsNotAvailableError(HTTPKnownStatus):
-    status = '801 SSM is not available'
-
-
-class SSMInternalError(HTTPKnownStatus):
-    status = '802 SSM internal error'
 
 
 class LionClient:
@@ -23,42 +16,35 @@ class LionClient:
     def __init__(self):
         self.base_url = f'{settings.ssm.url}/apiv1'
 
-    def encrypt(self, keyname, data):
-        data = base64.encodebytes(data)
+    def _request(self, key, verb, data):
         try:
             response = requests.request(
-                'ENCRYPT', f'{self.base_url}/keys/{keyname}',
-                data=dict(data=data)
+                verb,
+                f'{self.base_url}/keys/{key}',
+                data=data
             )
             if response.status_code == 404:
-                raise DeviceNotFoundError()
+                raise DeviceNotFoundError(key)
+
+            if response.status_code == 502:
+                raise SSMIsNotAvailableError()
 
             if response.status_code != 200:
                 logger.exception(response.content.decode())
                 raise SSMInternalError()
 
-        except requests.RequestException as ex:
+        except requests.RequestException as ex:  # pragma: no cover
             logger.exception(ex)
             raise SSMIsNotAvailableError()
+        else:
+            return response
 
+    def encrypt(self, phone, data):
+        data = base64.encodebytes(data)
+        response = self._request(str(phone), 'ENCRYPT', dict(data=data))
         return base64.decodebytes(response.json().encode())
 
-    def checksum(self, keyname, data):
-        try:
-            response = requests.request(
-                'CHECKSUM', f'{self.base_url}/keys/{keyname}',
-                data=dict(data=data)
-            )
-            if response.status_code == 404:
-                raise DeviceNotFoundError()
-
-            if response.status_code != 200:
-                logger.exception(response.content.decode())
-                raise SSMInternalError()
-
-        except requests.RequestException as ex:
-            logger.exception(ex)
-            raise SSMIsNotAvailableError()
-
+    def checksum(self, phone, data):
+        response = self._request(str(phone), 'CHECKSUM', dict(data=data))
         return response.json()
 
