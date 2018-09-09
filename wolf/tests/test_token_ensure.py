@@ -207,6 +207,12 @@ class TestEnsureToken(LocalApplicationTestCase):
             )
             assert status == '708 expireDate should be Integer or Float'
 
+            when(
+                'Form field is unknown',
+                form=given + dict(a=1)
+            )
+            assert status == '400 Field: a Not Allowed'
+
             with lion_status('502 Bad Gateway'):
                 when('SSM is not available')
                 assert status == '801 SSM is not available'

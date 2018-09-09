@@ -242,7 +242,7 @@ class TokenController(ModelRestController):
         DBSession.flush()
         return token
 
-    @json
+    @json(form_whitelist=['name', 'phone', 'cryptomoduleId', 'expireDate'])
     @validate(
         name=dict(
             required='703 name is required',
