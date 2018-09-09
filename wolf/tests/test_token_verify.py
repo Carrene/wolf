@@ -81,6 +81,14 @@ class TestVerifyToken(LocalApplicationTestCase):
             )
             assert status == '604 Invalid code'
 
+            when(
+                'Token not exists',
+                url_parameters=given | dict(
+                    token_id=0,
+                )
+            )
+            assert status == '404 Not Found'
+
             with TimeMonkeyPatch(self.invalid_time):
                 when('Verifying a valid code within invalid time span')
                 assert status == '604 Invalid code'

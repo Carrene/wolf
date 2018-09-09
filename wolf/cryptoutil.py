@@ -8,7 +8,7 @@ from Crypto.Cipher import DES3
 from nanohttp import settings
 
 
-def random(size):
+def random(size):  # pragma: no cover
     # This function is trying to be a secure random and it will be improved
     # later.
     return os.urandom(size)
