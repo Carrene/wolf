@@ -95,10 +95,18 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         return result
 
     def provision(self, phone):
-        encrypted_seed = LionClient().encrypt(phone, self.seed)
-        hexstring_seed = binascii.hexlify(encrypted_seed).decode()
-        cryptomodule_id = str(self.cryptomodule_id).zfill(2)
+        """
+        version+seed+expdate+cryptomoduleid+name
+        """
         expire_date = self.expire_date.strftime('%y%m%d')
+        binary = struct.pack('@B', 1)
+        binary += self.seed
+        binary += struct.pack('@IB', expire_date, self.cryptomodule_id)
+        binary += self.name.encode()
+
+        encrypted_binary = LionClient().encrypt(phone, binary, checksum=4) 
+        hexstring = binascii.hexlify(encrypted_binary).decode()
+        cryptomodule_id = str(self.cryptomodule_id).zfill(2)
         token_string = \
             f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}' \
             .upper()
