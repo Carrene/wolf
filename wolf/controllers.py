@@ -189,7 +189,7 @@ class CodesController(RestController):
             is_valid = False
 
         if not is_valid:
-            raise HTTPBadRequest('Invalid Code')
+            raise HTTPStatus('604 Invalid code')
 
 
 class TokenController(ModelRestController):

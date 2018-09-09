@@ -41,15 +41,16 @@ class TimeMonkeyPatch:
     """
     For faking time
     """
+    __stack = []
 
     def __init__(self, fake_time):
         self.fake_time = fake_time
 
     def __enter__(self):
-        self.real_time = time.time
+        self.__stack.append(time.time)
         time.time = lambda: self.fake_time
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        time.time = self.real_time
+        time.time = self.__stack.pop()
 
