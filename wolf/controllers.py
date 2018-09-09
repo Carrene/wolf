@@ -10,11 +10,12 @@ from oathcy.otp import TOTP
 from restfulpy.controllers import ModelRestController, RootController
 from restfulpy.orm import commit, DBSession
 from sqlalchemy import text, extract, event
+from sqlalchemy.exc import IntegrityError
 
 import wolf
 from wolf import cryptoutil
-from wolf.exceptions import DeviceNotFoundError, DeactivatedTokenError, \
-    ExpiredTokenError
+from .exceptions import DeviceNotFoundError, DeactivatedTokenError, \
+    ExpiredTokenError, DuplicateSeedError
 from wolf.models import Cryptomodule, Token
 
 
@@ -168,7 +169,6 @@ class CodesController(RestController):
 
     @action(prevent_form='400 Form Not Allowed')
     def verify(self, token_id, code):
-        print(f'Verifying token_id={token_id} code={code}')
         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
         if token is None:
             raise HTTPNotFound()
@@ -239,8 +239,13 @@ class TokenController(ModelRestController):
             token.is_active = True
             token.initialize_seed()
             DBSession.add(token)
-        DBSession.flush()
-        return token
+
+        try:
+            DBSession.flush()
+        except IntegrityError:
+            raise DuplicateSeedError()
+        else:
+            return token
 
     @json(form_whitelist=['name', 'phone', 'cryptomoduleId', 'expireDate'])
     @validate(

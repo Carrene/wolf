@@ -25,3 +25,7 @@ class SSMIsNotAvailableError(HTTPKnownStatus):
 class SSMInternalError(HTTPKnownStatus):
     status = '802 SSM internal error'
 
+
+class DuplicateSeedError(HTTPKnownStatus):
+    status = '666 Cannot generate and randomize seed, please try again'
+

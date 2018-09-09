@@ -225,3 +225,10 @@ class TestEnsureToken(LocalApplicationTestCase):
                 when('SSM Returns 400 Bad request ')
                 assert status == '802 SSM internal error'
 
+            when(
+                'Seed is duplicated, it\'s a very rare exception',
+                form=given | dict(phone=989122451010)
+            )
+            assert status == \
+                '666 Cannot generate and randomize seed, please try again'
+

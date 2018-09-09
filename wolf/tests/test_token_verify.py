@@ -90,9 +90,16 @@ class TestVerifyToken(LocalApplicationTestCase):
                 when('Verifying a valid code within invalid time span')
                 assert status == '604 Invalid code'
 
-            with TimeMonkeyPatch(real_time() + 60):
-                when('When token is expired')
-                assert status == '602 Token is expired'
+            session = self.create_session()
+            token = session.query(Token) \
+                .filter(Token.id == self.active_token.id) \
+                .one()
+            token.expire_date = datetime(1970, 3, 1)
+            session.commit()
+            when('When token is expired')
+            assert status == '602 Token is expired'
+            token.expire_date = datetime.now() + timedelta(days=1)
+            session.commit()
 
             when(
                 'Token is deactivated',
