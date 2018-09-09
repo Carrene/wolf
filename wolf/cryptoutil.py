@@ -14,7 +14,6 @@ def random(size):
     return os.urandom(size)
 
 
-# FIXME: Migrate it to lion
 class PlainISO0PinBlock:
     """
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
@@ -55,35 +54,4 @@ class EncryptedISOPinBlock(PlainISO0PinBlock):
             raise ValueError('Odd-length string')
         pinblock = algorithm.decrypt(binascii.unhexlify(encoded))
         return super().decode(binascii.hexlify(pinblock).upper())
-
-
-# FIXME: Migrate to oath.cy
-def totp_checksum(data: bytes, length=4):
-    """
-    https://tools.ietf.org/html/rfc6238  [page 13]
-
-    byte[] hash = hmac_sha(crypto, k, msg);
-    // put selected bytes into result int
-    int offset = hash[hash.length - 1] & 0xf;
-    int binary =
-        ((hash[offset] & 0x7f) << 24) |
-        ((hash[offset + 1] & 0xff) << 16) |
-        ((hash[offset + 2] & 0xff) << 8) |
-        (hash[offset + 3] & 0xff);
-    int otp = binary % DIGITS_POWER[codeDigits];
-    result = Integer.toString(otp);
-    while (result.length() < codeDigits) {
-        result = "0" + result;
-    }
-    return result;
-    """
-    digest = hashlib.sha1(data).digest()
-    offset = digest[-1] & 0xf
-
-    return str(
-        ((digest[offset] & 0x7f) << 24) |
-        ((digest[offset + 1] & 0xff) << 16) |
-        ((digest[offset + 2] & 0xff) << 8) |
-        (digest[offset + 3] & 0xff)
-    ).zfill(length)[-length:]
 
