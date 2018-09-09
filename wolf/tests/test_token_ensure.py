@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from contextlib import contextmanager
 
 from nanohttp import settings, RegexRouteController, json, context
-from bddrest import when, response, status
+from bddrest import when, response, status, given_form
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
 from wolf.models import Cryptomodule, Token
@@ -105,114 +105,89 @@ class TestEnsureToken(LocalApplicationTestCase):
                 '22EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A' \
                 '12F3440012102163515'
 
-            when(
-                'Ensure the same token again',
-                form={
-                    'phone': 989122451075,
-                    'name': 'DummyTokenName',
-                    'cryptomoduleId': self.mockup_cryptomodule_id,
-                    'expireDate': 1513434403,
-                }
-            )
+            when('Ensure the same token again')
             assert status == 200
             assert 'provisioning' in response.json
             assert response.json['provisioning'] == token
 
-    def test_invalid_cryptomodule_id(self):
-        with RandomMonkeyPatch(
-            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
-            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(
-            'Provisioning with string',
-            '/apiv1/tokens',
-            'ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': 'DummyTokenName',
-                'cryptomoduleId': 'InvalidCryptomoduleId',
-                'expireDate': 1513434403,
-            },
-        ):
-            assert status == '471 cryptomoduleId must be integer'
+            when(
+                'Expire date is a float value',
+                form=given_form | dict(expireDate=1613434403.3)
+            )
+            assert status == 200
 
-        with RandomMonkeyPatch(
-            b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
-            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(
-            'Provisioning with zero',
-            '/apiv1/tokens',
-            'ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': 'DummyTokenName',
-                'cryptomoduleId': 0,
-                'expireDate': 1513434403,
-            },
-        ):
+            when(
+                'CryptomoduleId is not integer',
+                form=given_form | dict(cryptomoduleId='NotInteger')
+            )
+            assert status == '701 CryptomoduleId must be Integer'
 
-            assert status == '472 Invalid cryptomodule id'
+            when(
+                'CryptomoduleId does not exists',
+                form=given_form | dict(cryptomoduleId=0)
+            )
+            assert status == '601 Cryptomodule does not exists: 0'
 
-    def test_invalid_token_name(self):
-
-        with RandomMonkeyPatch(
-            b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
-            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(
-            'Provisioning with empty token name',
-            '/apiv1/tokens',
-            'ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': '',
-                'cryptomoduleId': self.mockup_cryptomodule_id,
-                'expireDate': time.time() + DAY,
-            },
-        ):
-            assert status == '471 Token name should at least 16 cahracters'
-
-        with RandomMonkeyPatch(
-            b'F\x2e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
-            b'\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(
-            'ensure token with provisioning with a long token name',
-            '/apiv1/tokens',
-            'ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': f'MoreThan50Chars{"x" * 36}',
-                'cryptomoduleId': self.mockup_cryptomodule_id,
-                'expireDate': 1513434403,
-            },
-        ):
+            when(
+                'Provisioning with an empty token name',
+                form=given_form | dict(name='')
+            )
             assert status == \
-                '472 Token name shouldn\'t be more than 50 cahracters'
+                '702 Name length should be between 6 and 50 characters'
 
-    def test_expired_token(self):
+            when(
+                'Provisioning with a long token name',
+                form=given_form | dict(name='a' * (50+1))
+            )
+            assert status == \
+                '702 Name length should be between 6 and 50 characters'
 
-        with self.given(
-            'Provisioning with an expired token',
-            '/apiv1/tokens',
-            'ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': 'ExpiredToken',
-                'cryptomoduleId': self.mockup_cryptomodule_id,
-                'expireDate': 1513434403,
-            }
-        ):
-            assert status == '461 Token is expired'
+            when(
+                'Provisioning with an expired token',
+                form=given_form | dict(name='ExpiredToken')
+            )
+            assert status == '602 Token is expired'
 
-    def test_deactivated_token(self):
-        with self.given(
-            'Provisioning with an deactivated token',
-            '/apiv1/tokens',
-            'ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': 'DeactivatedToken',
-                'cryptomoduleId': self.mockup_cryptomodule_id,
-                'expireDate': 1513434403,
-            }
-        ):
-            assert status == '463 Token is deactivated'
+            when(
+                'Provisioning with a deactivated token',
+                form=given_form | dict(name='DeactivatedToken')
+            )
+            assert status == '603 Token is deactivated'
+
+            when(
+                'Name is not given',
+                form=given_form - 'name'
+            )
+            assert status == '703 name is required'
+
+            when(
+                'Phone is not given',
+                form=given_form - 'phone'
+            )
+            assert status == '704 phone is required'
+
+            when(
+                'Phone is not an integer',
+                form=given_form | dict(phone='NotInteger')
+            )
+            assert status == '705 phone should be Integer'
+
+            when(
+                'Cryptomodule is not given',
+                form=given_form - 'cryptomoduleId'
+            )
+            assert status == '706 cryptomoduleId is required'
+
+            when(
+                'Expire date is not given',
+                form=given_form - 'expireDate'
+            )
+            assert status == '707 expireDate is required'
+
+            when(
+                'Expire date is not an integer or float',
+                form=given_form | dict(expireDate='NotInteger')
+            )
+            assert status == '708 expireDate should be Integer or Float'
+
 

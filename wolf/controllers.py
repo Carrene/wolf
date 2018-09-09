@@ -222,7 +222,9 @@ class TokenController(ModelRestController):
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
                 .count() <= 0:
-            raise HTTPStatus('472 Invalid cryptomodule id')
+            raise HTTPStatus(
+                f'601 Cryptomodule does not exists: {cryptomodule_id}'
+            )
 
         token = DBSession.query(Token).filter(
             Token.name == name,
@@ -243,25 +245,28 @@ class TokenController(ModelRestController):
     @json
     @validate(
         name=dict(
-            required='467 name required',
-            min_length=(6, '471 Token name should at least 16 cahracters'),
+            required='703 name is required',
+            min_length=(
+                6,
+                '702 Name length should be between 6 and 50 characters'
+            ),
             max_length=(
                 50,
-                '472 Token name shouldn\'t be more than 50 cahracters'
+                '702 Name length should be between 6 and 50 characters'
             ),
             type_=str
         ),
         phone=dict(
-            required='468 phone required',
-            type_=int
+            required='704 phone is required',
+            type_=(int, '705 phone should be Integer')
         ),
         cryptomoduleId=dict(
-            required='469 cryptomoduleId required',
-            type_=(int, '471 cryptomoduleId must be integer')
+            required='706 cryptomoduleId is required',
+            type_=(int, '701 CryptomoduleId must be Integer')
         ),
         expireDate=dict(
-            required='470 expireDate required',
-            type_=float
+            required='707 expireDate is required',
+            type_=(float, '708 expireDate should be Integer or Float')
         )
     )
     @Token.expose

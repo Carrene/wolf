@@ -2,7 +2,7 @@ from nanohttp import HTTPKnownStatus
 
 
 class ExpiredTokenError(HTTPKnownStatus):
-    status = '461 Token is expired'
+    status = '602 Token is expired'
 
 
 class LockedTokenError(HTTPKnownStatus):
@@ -10,7 +10,7 @@ class LockedTokenError(HTTPKnownStatus):
 
 
 class DeactivatedTokenError(HTTPKnownStatus):
-    status = '463 Token is deactivated'
+    status = '603 Token is deactivated'
 
 # FIXME: Rename it to key not found
 class DeviceNotFoundError(HTTPKnownStatus):
