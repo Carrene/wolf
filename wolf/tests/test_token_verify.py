@@ -20,26 +20,36 @@ class TestVerifyToken(LocalApplicationTestCase):
     @classmethod
     def mockup(cls):
         session = cls.create_session()
-        cls.mockup_token1 = mockup_token1 = Token()
-        mockup_token1.name = 'name1'
-        mockup_token1.phone = 1
-        mockup_token1.expire_date = datetime.now() + timedelta(minutes=1)
-        mockup_token1.seed = \
+        cls.active_token = active_token = Token()
+        active_token.name = 'name1'
+        active_token.phone = 1
+        active_token.expire_date = datetime.now() + timedelta(minutes=1)
+        active_token.seed = \
             b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
             b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
             b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
             b'\xf5j\xaaz'
-        mockup_token1.is_active = True
+        active_token.is_active = True
 
         mockup_cryptomodule_length_4 = Cryptomodule()
-        mockup_token1.cryptomodule = mockup_cryptomodule_length_4
+        active_token.cryptomodule = mockup_cryptomodule_length_4
+        session.add(active_token)
 
-        session.add(mockup_token1)
-        session.add(mockup_cryptomodule_length_4)
+        cls.deactivated_token = deactivated_token = Token()
+        deactivated_token.name = 'DeactivatedToken'
+        deactivated_token.phone = 2
+        deactivated_token.expire_date = datetime.now() + timedelta(minutes=1)
+        deactivated_token.seed = \
+            b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89' \
+            b'\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9\x01U\x81!\xd8\x9cg' \
+            b'\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
+        deactivated_token.is_active = False
+        deactivated_token.cryptomodule = mockup_cryptomodule_length_4
+        session.add(deactivated_token)
 
         session.commit()
 
-        cls.pinblock = EncryptedISOPinBlock(mockup_token1.id)
+        cls.pinblock = EncryptedISOPinBlock(active_token.id)
         cls.valid_time = 10001000
         cls.invalid_time = 123456
         cls.valid_otp_token1_time1 = cls.pinblock.encode('7110').decode()
@@ -50,7 +60,7 @@ class TestVerifyToken(LocalApplicationTestCase):
         with TimeMonkeyPatch(self.valid_time), self.given(
             'Verifying time based OTP',
             \
-                f'/apiv1/tokens/token_id: {self.mockup_token1.id}/codes/code: '
+                f'/apiv1/tokens/token_id: {self.active_token.id}/codes/code: '
                 f'{self.valid_otp_token1_time1}',
             'VERIFY',
         ):
@@ -64,64 +74,32 @@ class TestVerifyToken(LocalApplicationTestCase):
             )
             assert status == '604 Invalid code'
 
+            when(
+                'When code has odd length',
+                url_parameters=given | dict(code='12345')
+            )
+            assert status == '604 Invalid code'
+
+            when(
+                'When code is malformed',
+                url_parameters=given | dict(code='Ma!f0rM3&')
+            )
+            assert status == '604 Invalid code'
+
             with TimeMonkeyPatch(self.invalid_time):
                 when('Verifying a valid code within invalid time span')
                 assert status == '604 Invalid code'
 
-            with TimeMonkeyPatch(real_time() + 30):
+            with TimeMonkeyPatch(real_time() + 60):
                 when('When token is expired')
                 assert status == '602 Token is expired'
-#
-#    def test_verify_token_deactivated(self):
-#        mockup_token_id = self.mockup_token3_id
-#        with TimeMonkeyPatch(self.fake_time1), self.given(
-#            'when time expired',
-#            \
-#                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: '
-#                f'{self.valid_otp_token1_time1}',
-#            'VERIFY',
-#        ):
-#            assert status == 463
-#
-#    def test_verify_malformed_code(self):
-#        mockup_token_id = self.mockup_token1_id
-#
-#        with TimeMonkeyPatch(self.fake_time1), self.given(
-#            'When code has odd length',
-#            f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: badcode',
-#            'VERIFY',
-#        ):
-#            assert status == 400
-#
-#            when(
-#                'When code is malformed',
-#                url=\
-#                    f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: '
-#                    f'1234567'
-#            )
-#            assert status == 400
-#
-#    def test_nonempty_form(self):
-#        mockup_token_id = self.mockup_token1_id
-#
-#        with TimeMonkeyPatch(self.fake_time1), self.given(
-#            'When code has odd length',
-#            f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: badcode',
-#            'VERIFY',
-#            form=dict(a='b')
-#        ):
-#            assert status == '700 Form Not Allowed'
-#
-#    def test_verify_token_otp_time_length_5(self):
-#        mockup_token_id = self.mockup_token2_id
-#
-#        with TimeMonkeyPatch(1515515295), self.given(
-#            'Verifying time based OTP',
-#            \
-#                f'/apiv1/tokens/token_id: {mockup_token_id}/codes/code: '
-#                f'{self.valid_otp_token2_time1}',
-#            'VERIFY',
-#        ):
-#            assert status == 200
-#
-#
+
+            when(
+                'Token is deactivated',
+                url_parameters=given | dict(token_id=self.deactivated_token.id),
+            )
+            assert status == '603 Token is deactivated'
+
+            when('Form is not empty', form=dict(a='b'))
+            assert status == '400 Form Not Allowed'
+
