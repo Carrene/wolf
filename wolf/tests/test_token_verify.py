@@ -25,10 +25,7 @@ class TestVerifyToken(LocalApplicationTestCase):
         active_token.phone = 1
         active_token.expire_date = datetime.now() + timedelta(minutes=1)
         active_token.seed = \
-            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xf5j\xaaz'
+            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         active_token.is_active = True
 
         mockup_cryptomodule_length_4 = Cryptomodule()
@@ -40,9 +37,7 @@ class TestVerifyToken(LocalApplicationTestCase):
         deactivated_token.phone = 2
         deactivated_token.expire_date = datetime.now() + timedelta(minutes=1)
         deactivated_token.seed = \
-            b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89' \
-            b'\r\x8a\ri\x94(\xf2"H\xb0\xf7\x87\x9a\xa1I9\x01U\x81!\xd8\x9cg' \
-            b'\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
+            b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89'
         deactivated_token.is_active = False
         deactivated_token.cryptomodule = mockup_cryptomodule_length_4
         session.add(deactivated_token)

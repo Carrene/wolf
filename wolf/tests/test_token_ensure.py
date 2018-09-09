@@ -68,12 +68,8 @@ class TestEnsureToken(LocalApplicationTestCase):
         expired_token.name = 'ExpiredToken'
         expired_token.phone = 989122451075
         expired_token.expire_date = date.today() - timedelta(days=1)
-        # FIXME: What about only 20 bytes
         expired_token.seed = \
-            b'\xdb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xda!\x9f\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xf5j\xaaz'
+            b'\xdb!.\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         expired_token.is_active = True
         expired_token.cryptomodule = mockup_cryptomodule
         session.add(expired_token)
@@ -83,10 +79,7 @@ class TestEnsureToken(LocalApplicationTestCase):
         deactivated_token.phone = 989122451075
         deactivated_token.expire_date = '2099-12-07T18:14:39.558891'
         deactivated_token.seed = \
-            b'\xeb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xda!\x9f\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz' \
-            b'\xf5j\xaaz'
+            b'\xeb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         deactivated_token.is_active = False
         deactivated_token.cryptomodule = mockup_cryptomodule
         session.add(deactivated_token)
@@ -94,8 +87,7 @@ class TestEnsureToken(LocalApplicationTestCase):
 
     def test_ensure_token(self):
         with RandomMonkeyPatch(
-            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf' \
-            b'\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
+            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
         ), lion_mockup_server(), self.given(
             'Provisioning',
             '/apiv1/tokens',
