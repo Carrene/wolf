@@ -5,9 +5,12 @@ omit =
   wolf/mockup.py
   wolf/basedata.py
   wolf/cli.py
+  wolf/migration
 
 [report]
 omit = 
   wolf/mockup.py
   wolf/basedata.py
   wolf/cli.py
+  wolf/migration
+

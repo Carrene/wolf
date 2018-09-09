@@ -125,7 +125,7 @@ class MiniToken:
 
     @classmethod
     def load(cls, token_id, cache=False):
-        if cache:
+        if cache:  # pragma: no cover
             token = cls.load_from_cache(token_id)
             if token is not None:
                 return token
@@ -161,7 +161,7 @@ class MiniToken:
         return self.cryptomodule[2]
 
     def verify(self, code, window):
-        if self.last_code == code:
+        if self.last_code == code:  # pragma: no cover
             self.same_code_verify_counter += 1
             if settings.token.verify_limit < self.same_code_verify_counter:
                 return False
@@ -178,7 +178,7 @@ class MiniToken:
             step=self.time_interval
         ).verify(otp, window)
 
-    def cache(self):
+    def cache(self):  # pragma: no cover
         self.redis().set(
             str(self.id),
             b'%s,%d,%d,%d,%s,%d' % (
@@ -192,7 +192,7 @@ class MiniToken:
         )
 
     @classmethod
-    def load_from_cache(cls, token_id):
+    def load_from_cache(cls, token_id):  # pragma: no cover
         cache_key = str(token_id)
         redis = cls.redis()
         if redis.exists(cache_key):
@@ -209,11 +209,11 @@ class MiniToken:
         return None
 
     @classmethod
-    def invalidate(cls, token_id):
+    def invalidate(cls, token_id):  # pragma: no cover
         cls.redis().delete(token_id)
 
     @classmethod
-    def after_update(cls, mapper, connection, target):
+    def after_update(cls, mapper, connection, target):  # pragma: no cover
         if settings.token.redis.enabled:
             cls.invalidate(target.id)
 
