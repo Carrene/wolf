@@ -10,7 +10,7 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
         .group(1)
 
 dependencies = [
-    'restfulpy >= 1.9.0',
+    'restfulpy >= 2.0.1',
     'oathcy >= 1.3.0',
     'pycrypto',
 
