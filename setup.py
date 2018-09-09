@@ -9,8 +9,9 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
         .match(v_file.read()) \
         .group(1)
 
+
 dependencies = [
-    'restfulpy >= 2.0.1',
+    'restfulpy >= 2.1.0',
     'oathcy >= 1.3.0',
     'pycrypto',
 
