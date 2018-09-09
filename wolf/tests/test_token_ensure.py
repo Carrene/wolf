@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from contextlib import contextmanager
 
 from nanohttp import settings, RegexRouteController, json, context
-from bddrest import when, response, status, given_form
+from bddrest import when, response, status, given
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
 from wolf.models import Cryptomodule, Token
@@ -46,7 +46,7 @@ class TestEnsureToken(LocalApplicationTestCase):
     @classmethod
     def mockup(cls):
         session = cls.create_session()
-        mockup_cryptomodule = Cryptomodule()
+        cls.mockup_cryptomodule = mockup_cryptomodule = Cryptomodule()
         session.add(mockup_cryptomodule)
 
         expired_token = Token()
@@ -75,9 +75,7 @@ class TestEnsureToken(LocalApplicationTestCase):
         deactivated_token.is_active = False
         deactivated_token.cryptomodule = mockup_cryptomodule
         session.add(deactivated_token)
-
         session.commit()
-        cls.mockup_cryptomodule_id = mockup_cryptomodule.id
 
     def test_ensure_token(self):
         with RandomMonkeyPatch(
@@ -90,7 +88,7 @@ class TestEnsureToken(LocalApplicationTestCase):
             form={
                 'phone': 989122451075,
                 'name': 'DummyTokenName',
-                'cryptomoduleId': self.mockup_cryptomodule_id,
+                'cryptomoduleId': self.mockup_cryptomodule.id,
                 'expireDate': 1613434403,
             }
         ):
@@ -112,82 +110,81 @@ class TestEnsureToken(LocalApplicationTestCase):
 
             when(
                 'Expire date is a float value',
-                form=given_form | dict(expireDate=1613434403.3)
+                form=given | dict(expireDate=1613434403.3)
             )
             assert status == 200
 
             when(
                 'CryptomoduleId is not integer',
-                form=given_form | dict(cryptomoduleId='NotInteger')
+                form=given | dict(cryptomoduleId='NotInteger')
             )
             assert status == '701 CryptomoduleId must be Integer'
 
             when(
                 'CryptomoduleId does not exists',
-                form=given_form | dict(cryptomoduleId=0)
+                form=given | dict(cryptomoduleId=0)
             )
             assert status == '601 Cryptomodule does not exists: 0'
 
             when(
                 'Provisioning with an empty token name',
-                form=given_form | dict(name='')
+                form=given | dict(name='')
             )
             assert status == \
                 '702 Name length should be between 6 and 50 characters'
 
             when(
                 'Provisioning with a long token name',
-                form=given_form | dict(name='a' * (50+1))
+                form=given | dict(name='a' * (50+1))
             )
             assert status == \
                 '702 Name length should be between 6 and 50 characters'
 
             when(
                 'Provisioning with an expired token',
-                form=given_form | dict(name='ExpiredToken')
+                form=given | dict(name='ExpiredToken')
             )
             assert status == '602 Token is expired'
 
             when(
                 'Provisioning with a deactivated token',
-                form=given_form | dict(name='DeactivatedToken')
+                form=given | dict(name='DeactivatedToken')
             )
             assert status == '603 Token is deactivated'
 
             when(
                 'Name is not given',
-                form=given_form - 'name'
+                form=given - 'name'
             )
             assert status == '703 name is required'
 
             when(
                 'Phone is not given',
-                form=given_form - 'phone'
+                form=given - 'phone'
             )
             assert status == '704 phone is required'
 
             when(
                 'Phone is not an integer',
-                form=given_form | dict(phone='NotInteger')
+                form=given | dict(phone='NotInteger')
             )
             assert status == '705 phone should be Integer'
 
             when(
                 'Cryptomodule is not given',
-                form=given_form - 'cryptomoduleId'
+                form=given - 'cryptomoduleId'
             )
             assert status == '706 cryptomoduleId is required'
 
             when(
                 'Expire date is not given',
-                form=given_form - 'expireDate'
+                form=given - 'expireDate'
             )
             assert status == '707 expireDate is required'
 
             when(
                 'Expire date is not an integer or float',
-                form=given_form | dict(expireDate='NotInteger')
+                form=given | dict(expireDate='NotInteger')
             )
             assert status == '708 expireDate should be Integer or Float'
-
 
