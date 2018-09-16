@@ -17,5 +17,4 @@ SCP="scp -P7346 $SSH_ARGS"
 
 $SSH "rm -rf $TARGET"
 $SSH "mkdir -p $TARGET"
-$SCP -r data/stories "$SCP_TARGET/stories"
-$SCP -r data/markdown "$SCP_TARGET/markdown"
+$SCP -r data/markdown "$SCP_TARGET"
