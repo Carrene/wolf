@@ -19,10 +19,6 @@ branches
 [![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=eprq9y92Aqggf5smZccy&branch=nightly)](https://travis-ci.com/Carrene/wolf)
 [![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?branch=nightly&t=FNpdQh)](https://coveralls.io/github/Carrene/wolf?branch=nightly)
 
-### develop
-
-[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=eprq9y92Aqggf5smZccy&branch=develop)](https://travis-ci.com/Carrene/wolf)
-[![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?branch=develop&t=FNpdQh)](https://coveralls.io/github/Carrene/wolf?branch=develop)
 
 Setting up development Environment on Linux
 ----------------------------------
