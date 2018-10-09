@@ -69,7 +69,8 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
     expire_date = Field(
         Date,
         required='707 expireDate is required',
-        python_type=(float, '708 expireDate should be Integer or Float')
+        python_type=(float, '708 expireDate should be Integer or Float'),
+        not_none=True
     )
 
     __table_args__ = (

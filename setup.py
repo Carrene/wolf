@@ -11,7 +11,7 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
 
 
 dependencies = [
-    'restfulpy >= 2.1.0',
+    'restfulpy >= 2.5.1',
     'oathcy >= 1.3.0',
     'pycrypto',
 
