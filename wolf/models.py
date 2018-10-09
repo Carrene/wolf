@@ -7,7 +7,7 @@ from nanohttp import settings
 from oathcy.otp import TOTP
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
     PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin
-from sqlalchemy import Integer, Unicode, ForeignKey, Date, Binary, \
+from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
     UniqueConstraint, BigInteger, event, extract, text
 from sqlalchemy.orm import relationship
 
@@ -28,23 +28,49 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
     __tablename__ = 'token'
 
     id = Field(Integer, primary_key=True)
-    name = Field(Unicode(50), min_length=1)
-    phone = Field(BigInteger, index=True)
-    seed = Field(Binary(20), unique=True, protected=True)
+    name = Field(
+        Unicode(50),
+        required='703 name is required',
+        min_length=(
+            6,
+            '702 Name length should be between 6 and 50 characters'
+        ),
+        max_length=(
+            50,
+            '702 Name length should be between 6 and 50 characters'
+        ),
+        not_none='709 Name cannot be null',
+        python_type=str
+    )
+    phone = Field(
+        BigInteger,
+        index=True,
+        required='704 phone is required',
+        not_none='704 phone is required',
+        python_type=(int, '705 phone should be Integer'),
+    )
+    seed = Field(LargeBinary(20), unique=True, protected=True)
 
-    # Cryptomodule
     cryptomodule_id = Field(
         Integer,
         ForeignKey('cryptomodule.id'),
-        protected=True
+        protected=True,
+        not_none=True,
+        required='706 cryptomoduleId is required',
+        python_type=(int, '701 CryptomoduleId must be Integer')
     )
+
     cryptomodule = relationship(
         'Cryptomodule',
         foreign_keys=[cryptomodule_id],
         uselist=False,
     )
 
-    expire_date = Field(Date)
+    expire_date = Field(
+        Date,
+        required='707 expireDate is required',
+        python_type=(float, '708 expireDate should be Integer or Float')
+    )
 
     __table_args__ = (
         UniqueConstraint(

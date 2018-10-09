@@ -24,7 +24,7 @@ def lion_mockup_server():
     class Root(RegexRouteController):
         def __init__(self):
             super().__init__([
-                ('/apiv1/keys/(?P<keyname>\w+)', self.encrypt),
+                (r'/apiv1/keys/(?P<keyname>\w+)', self.encrypt),
             ])
 
         @json(verbs=['encrypt', 'checksum'])
@@ -57,6 +57,9 @@ def lion_status(status):
 
 
 class TestEnsureToken(LocalApplicationTestCase):
+    __metadata__ = {
+        r'^/apiv1/tokens.*': Token.json_metadata()['fields']
+    }
 
     @classmethod
     def mockup(cls):

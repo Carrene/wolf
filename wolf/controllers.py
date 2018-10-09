@@ -97,32 +97,7 @@ class TokenController(ModelRestController):
             return token
 
     @json(form_whitelist=['name', 'phone', 'cryptomoduleId', 'expireDate'])
-    @validate(
-        name=dict(
-            required='703 name is required',
-            min_length=(
-                6,
-                '702 Name length should be between 6 and 50 characters'
-            ),
-            max_length=(
-                50,
-                '702 Name length should be between 6 and 50 characters'
-            ),
-            type_=str
-        ),
-        phone=dict(
-            required='704 phone is required',
-            type_=(int, '705 phone should be Integer')
-        ),
-        cryptomoduleId=dict(
-            required='706 cryptomoduleId is required',
-            type_=(int, '701 CryptomoduleId must be Integer')
-        ),
-        expireDate=dict(
-            required='707 expireDate is required',
-            type_=(float, '708 expireDate should be Integer or Float')
-        )
-    )
+    @Token.validate(strict=True)
     @Token.expose
     @commit
     def ensure(self):
