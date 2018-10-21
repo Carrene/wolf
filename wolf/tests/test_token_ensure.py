@@ -27,17 +27,18 @@ def lion_mockup_server():
                 (r'/apiv1/keys/(?P<keyname>\w+)', self.encrypt),
             ])
 
-        @json(verbs=['encrypt', 'checksum'])
+        @json(verbs=['encrypt'])
         def encrypt(self, keyname):
             if _lion_status != 'idle':
                 raise HTTPStatus(_lion_status)
 
-            if context.method == 'checksum':
-                return '3515'
+            checksum_length = int(context.form.get('checksumLength', '0'))
+            assert checksum_length == 4
 
             return \
-                'Ro4WsXckQscBovDEaOH3IuxTt4ES+bGtfEZCWi6uM3EEOjQ0LISnyvz4Ip' \
-                'ihLzRA\n'
+                'Ro4WsXckQscBovDEaOH3IrQHQeFNfu_7pxe54MgeQz33UbtMiLgKDYx3_46' \
+                'aVoe6JDhWhYHna31YG-_W6D0L0g=='
+
 
     app = MockupApplication('lion-mockup', Root())
     with mockup_http_server(app) as (server, url):
@@ -109,9 +110,9 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert result['expireDate'] == '2021-02-16'
             token = result['provisioning']
             assert token == \
-                'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F7' \
-                '22EC53B78112F9B1AD7C46425A2EAE3371043A34342C84A7CAFCF82298A' \
-                '12F3440012102163515'
+                'mt://oath/totp/468e16b1772442c701a2f0c468e1f722b40741e14d7e' \
+                'effba717b9e0c81e433df751bb4c88b80a0d8c77ff8e9a5687ba2438568' \
+                '581e76b7d581befd6e83d0bd2'
 
             when('Ensure the same token again')
             assert status == 200

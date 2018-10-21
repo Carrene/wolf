@@ -39,12 +39,12 @@ class LionClient:
         else:
             return response
 
-    def encrypt(self, phone, data):
-        data = base64.encodebytes(data)
-        response = self._request(str(phone), 'ENCRYPT', dict(data=data))
-        return base64.decodebytes(response.json().encode())
-
-    def checksum(self, phone, data):
-        response = self._request(str(phone), 'CHECKSUM', dict(data=data))
-        return response.json()
+    def encrypt(self, phone, data, checksum=4):
+        data = base64.urlsafe_b64encode(data)
+        response = self._request(
+            str(phone),
+            'ENCRYPT',
+            dict(data=data, checksumLength=checksum)
+        )
+        return base64.urlsafe_b64decode(response.json().encode())
 

@@ -1,5 +1,6 @@
-import binascii
 import time
+import struct
+import binascii
 from datetime import date
 
 import redis
@@ -99,19 +100,13 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         version+seed+expdate+cryptomoduleid+name
         """
         expire_date = self.expire_date.strftime('%y%m%d')
-        binary = struct.pack('@B', 1)
+        binary = struct.pack('@BIB', 1, int(expire_date), self.cryptomodule_id)
         binary += self.seed
-        binary += struct.pack('@IB', expire_date, self.cryptomodule_id)
         binary += self.name.encode()
 
-        encrypted_binary = LionClient().encrypt(phone, binary, checksum=4) 
+        encrypted_binary = LionClient().encrypt(phone, binary, checksum=4)
         hexstring = binascii.hexlify(encrypted_binary).decode()
-        cryptomodule_id = str(self.cryptomodule_id).zfill(2)
-        token_string = \
-            f'{self.name}{hexstring_seed}{cryptomodule_id}{expire_date}' \
-            .upper()
-        checksum = LionClient().checksum(phone, token_string)
-        return f'mt://oath/totp/{token_string}{checksum}'
+        return f'mt://oath/totp/{hexstring}'
 
 
 cached_cryptomodules = None
