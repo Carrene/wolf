@@ -1,4 +1,4 @@
-.PHONY: inplace build sdist wheel install develop clean
+.PHONY: inplace build sdist wheel install develop clean test
 
 inplace:
 	python setup.py build_ext --inplace
