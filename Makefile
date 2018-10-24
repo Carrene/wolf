@@ -21,3 +21,6 @@ develop:
 clean:
 	python setup.py clean
 
+test:
+	pytest
+
