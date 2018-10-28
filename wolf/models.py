@@ -100,7 +100,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         version+seed+expdate+cryptomoduleid+name
         """
         expire_date = self.expire_date.strftime('%y%m%d')
-        binary = struct.pack('@BIB', 1, int(expire_date), self.cryptomodule_id)
+        binary = struct.pack('!BIB', 1, int(expire_date), self.cryptomodule_id)
         binary += self.seed
         binary += self.name.encode()
 
