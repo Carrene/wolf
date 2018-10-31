@@ -1,11 +1,8 @@
-import time
-import unittest
-from datetime import date, timedelta
 from contextlib import contextmanager
+from datetime import date, timedelta
 
-from nanohttp import settings, RegexRouteController, json, context, \
-    HTTPNotFound, HTTPStatus
 from bddrest import when, response, status, given
+from nanohttp import settings, RegexRouteController, json, context, HTTPStatus
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
 from wolf.models import Cryptomodule, Token
@@ -58,9 +55,6 @@ def lion_status(status):
 
 
 class TestEnsureToken(LocalApplicationTestCase):
-    __metadata__ = {
-        r'^/apiv1/tokens.*': Token.json_metadata()['fields']
-    }
 
     @classmethod
     def mockup(cls):
