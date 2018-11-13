@@ -25,24 +25,25 @@ Setting up development Environment on Linux
 
 ### Installing Dependencies
 
-    $ sudo apt-get install libpq-dev postgresql \
-        build-essential redis-server redis-tools
+```bash
+sudo apt-get install libpq-dev postgresql build-essential redis-server \
+    redis-tools
+```
 
 ### Installing Python
 
 We need **Python 3.6.1** or higher.
 Install it using [this instruction](https://docs.python.org/3/using/index.html).
 
-  
+
 ### Installing Project (edit mode)
 
 So, your changes will affect instantly on the installed version
 
-#### wolf and oath.py
-
+#### wolf and oath.cy
 
 ```bash
-pip instal cython
+pip install cython
 git clone git@github.com:Carrene/oath.cy.git
 cd oath.cy
 pip install -e .
@@ -52,8 +53,9 @@ pip install -e .
 
 For running tests, you should install development requirements too:
 
-    $ pip install -r requirements-dev.txt
-
+```bash
+pip install -r requirements-dev.txt
+```
 
 #### Configuration
 
@@ -71,51 +73,69 @@ db:
 
 #### Remove old abd create a new database **TAKE CARE ABOUT USING THAT**
 
-    $ wolf db create --drop --basedata --mockup
+```bash
+wolf db create --drop --basedata --mockup
+```
 
 #### Drop old database: **TAKE CARE ABOUT USING THAT**
 
-    $ wolf [-c path/to/config.yml] db drop
+```bash
+wolf [-c path/to/config.yml] db drop
+```
 
 #### Create database
 
-    $ wolf [-c path/to/config.yml] db create
+```bash
+wolf [-c path/to/config.yml] db create
+```
 
 Or, you can add `--drop` to drop the previously created database: **TAKE CARE ABOUT USING THAT**
 
-    $ wolf [-c path/to/config.yml] db create --drop
-    
-#### Create database object
+```bash
+wolf [-c path/to/config.yml] db create --drop
+```
 
-    $ wolf [-c path/to/config.yml] db schema
+#### Create database objects
+
+```bash
+wolf [-c path/to/config.yml] db schema
+```
 
 #### Database migration
 
-    $ wolf migrate upgrade head
+```bash
+wolf migrate upgrade head
+```
 
 #### Insert Base data
 
-    $ wolf [-c path/to/config.yml] db basedata
-    
+```bash
+wolf [-c path/to/config.yml] db basedata
+```
+
 #### Insert Mockup data
 
-    $ wolf db mockup [count[prefix]]
-    $ wolf [-c path/to/config.yml db mockup 200 01
-    
-### Unittests
+```bash
+wolf db mockup [count[prefix]]
+wolf [-c path/to/config.yml db mockup 200 01
+```
 
-    $ nosetests
-    
+### Runnig tests
+
+```bash
+pytest
+```
+
 ### Serving
 
-- Using python builtin http server
+Using python builtin http server
 
 ```bash
-$ wolf [-c path/to/config.yml] serve
-```    
+wolf [-c path/to/config.yml] serve
+``` 
 
-- Gunicorn
+#### Gunicorn
 
 ```bash
-$ ./gunicorn
+./gunicorn
 ```
