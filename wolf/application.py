@@ -15,6 +15,10 @@ class Wolf(Application):
       test_url: postgresql://postgres:postgres@localhost/wolf_test
       administrative_url: postgresql://postgres:postgres@localhost/postgres
 
+    migration:
+      directory: %(root_path)s/migration
+      ini: %(root_pat)s/alembic.ini
+
     ssm:
       url: http://localhost:8081
 
