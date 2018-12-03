@@ -3,7 +3,7 @@ from os.path import dirname
 from restfulpy import Application
 from restfulpy.cryptography import AESCipher
 
-from .cli import PinBlockLauncher
+from .cli import PinBlockLauncher, OTPLauncher
 from .controllers import Root
 
 
@@ -17,7 +17,7 @@ class Wolf(Application):
 
     migration:
       directory: %(root_path)s/migration
-      ini: %(root_pat)s/alembic.ini
+      ini: %(root_path)s/alembic.ini
 
     ssm:
       url: http://localhost:8081
@@ -64,4 +64,5 @@ class Wolf(Application):
 
     def register_cli_launchers(self, subparsers):
         PinBlockLauncher.register(subparsers)
+        OTPLauncher.register(subparsers)
 
