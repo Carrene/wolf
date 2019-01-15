@@ -80,4 +80,3 @@ class TestIntegration(LocalApplicationTestCase):
                 'mt://oath/totp/6162636465666768696a6b6c6d6e6f701'\
                 '705b3e00fd35163620dd990151d72f42619eef515d25c08b'\
                 'ed94f4491bcf49ebde0b96ad97a41110b4e588eeb34e7ee'
-
