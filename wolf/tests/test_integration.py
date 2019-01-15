@@ -31,12 +31,12 @@ def lion_mockup_server():
         def encrypt(self, keyname):
             checksum_length = int(context.form.get('checksumLength', '0'))
             assert checksum_length == 4
-            assert 'AQADW8UBBDxhYmNkZWZnaGlqa2xtbm9wcXJzdGFiY2RlZmdoaWprbG1u' \
-                == context.form['data']
+            assert 'AQADW8UBBDwCYWJjZGVmZ2hpamtsbW5vcHFyc3RhYmNkZWZnaGlqa2x'\
+                'tbg==' == context.form['data']
 
             return \
-                'YWJjZGVmZ2hpamtsbW5vcKiw48-fEhSGJEqHPBWoVMnhZH4PYuXujJ9e2qn' \
-                'wqcCPz_MG_XIzTwPNM5OBsetuWg=='
+                'YWJjZGVmZ2hpamtsbW5vcApvij0uRIs0aSK9fhJO_de--tjWPO5jxEfzjl5'\
+                'F9DlHJkyHMeGdEOhbB8d90qkArw=='
 
 
     app = MockupApplication('lion-mockup', Root())
@@ -67,6 +67,7 @@ class TestIntegration(LocalApplicationTestCase):
                 'name': 'abcdefghijklmn',
                 'cryptomoduleId': self.mockup_cryptomodule.id,
                 'expireDate': 1640982600,
+                'bankId': 2
             }
         ):
 
@@ -76,7 +77,6 @@ class TestIntegration(LocalApplicationTestCase):
             assert result['expireDate'] == '2022-01-01'
             token = result['provisioning']
             assert token == \
-                'mt://oath/totp/6162636465666768696a6b6c6d6e6f70a8b0e3cf9f12' \
-                '1486244a873c15a854c9e1647e0f62e5ee8c9f5edaa9f0a9c08fcff306f' \
-                'd72334f03cd339381b1eb6e5a'
-
+                'mt://oath/totp/6162636465666768696a6b6c6d6e6f700'\
+                'a6f8a3d2e448b346922bd7e124efdd7befad8d63cee63c44'\
+                '7f38e5e45f43947264c8731e19d10e85b07c77dd2a900af'

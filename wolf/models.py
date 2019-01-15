@@ -74,12 +74,21 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         not_none=True
     )
 
+    bank_id = Field(
+        Integer,
+        required='709 bankId is required',
+        not_none='709 bankId is required',
+        python_type=(int, '710 BankId must be Integer')
+    )
+
+
     __table_args__ = (
         UniqueConstraint(
             name,
             phone,
             cryptomodule_id,
-            name='uix_name_phone_cryptomodule_id'
+            bank_id,
+            name='uix_name_phone_cryptomodule_id_bank_id'
         ),
     )
 
@@ -97,16 +106,17 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
 
     def provision(self, phone):
         """
-        version+seed+expdate+cryptomoduleid+name
+        version+seed+expdate+cryptomoduleid+name+bankid
         """
         expire_date = self.expire_date.strftime('%y%m%d')
         binary = struct.pack(
-            '!BIBBB',
+            '!BIBBBB',
             1,                      # Version
             int(expire_date),
             self.cryptomodule_id,
             self.cryptomodule.one_time_password_length,
-            self.cryptomodule.time_interval
+            self.cryptomodule.time_interval,
+            self.bank_id,
         )
         binary += self.seed
         binary += self.name.encode()

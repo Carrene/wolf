@@ -70,6 +70,7 @@ class TestEnsureToken(LocalApplicationTestCase):
             b'\xdb!.\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         expired_token.is_active = True
         expired_token.cryptomodule = mockup_cryptomodule
+        expired_token.bank_id = 1
         session.add(expired_token)
 
         deactivated_token = Token()
@@ -80,6 +81,7 @@ class TestEnsureToken(LocalApplicationTestCase):
             b'\xeb!\x2e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         deactivated_token.is_active = False
         deactivated_token.cryptomodule = mockup_cryptomodule
+        deactivated_token.bank_id = 2
         session.add(deactivated_token)
         session.commit()
 
@@ -95,6 +97,7 @@ class TestEnsureToken(LocalApplicationTestCase):
                 'name': 'DummyTokenName',
                 'cryptomoduleId': self.mockup_cryptomodule.id,
                 'expireDate': 1613434403,
+                'bankId': 2,
             }
         ):
 
@@ -151,7 +154,7 @@ class TestEnsureToken(LocalApplicationTestCase):
 
             when(
                 'Provisioning with an expired token',
-                form=given | dict(name='ExpiredToken')
+                form=given | dict(name='ExpiredToken', bankId=1)
             )
             assert status == '602 Token is expired'
 
@@ -196,6 +199,18 @@ class TestEnsureToken(LocalApplicationTestCase):
                 form=given | dict(expireDate='NotInteger')
             )
             assert status == '708 expireDate should be Integer or Float'
+
+            when(
+                'Bank id is not given',
+                form=given - 'bankId'
+            )
+            assert status == '709 bankId is required'
+
+            when(
+                'BankId is not an integer',
+                form=given | dict(bankId='NotInteger')
+            )
+            assert status == '710 BankId must be Integer'
 
             when(
                 'Form field is unknown',

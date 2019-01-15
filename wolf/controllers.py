@@ -67,6 +67,7 @@ class TokenController(ModelRestController):
     @staticmethod
     def _find_or_create_token(name, phone):
         cryptomodule_id = context.form['cryptomoduleId']
+        bank_id = context.form['bankId']
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
@@ -78,7 +79,8 @@ class TokenController(ModelRestController):
         token = DBSession.query(Token).filter(
             Token.name == name,
             Token.cryptomodule_id == cryptomodule_id,
-            Token.phone == phone
+            Token.phone == phone,
+            Token.bank_id == bank_id
         ).one_or_none()
 
         if token is None:
@@ -96,7 +98,7 @@ class TokenController(ModelRestController):
         else:
             return token
 
-    @json(form_whitelist=['name', 'phone', 'cryptomoduleId', 'expireDate'])
+    @json(form_whitelist=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'])
     @Token.validate(strict=True)
     @Token.expose
     @commit
