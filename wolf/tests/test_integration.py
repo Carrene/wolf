@@ -31,12 +31,12 @@ def lion_mockup_server():
         def encrypt(self, keyname):
             checksum_length = int(context.form.get('checksumLength', '0'))
             assert checksum_length == 4
-            assert 'AQADW8UBBDwCYWJjZGVmZ2hpamtsbW5vcHFyc3RhYmNkZWZnaGlqa2x'\
+            assert 'AQAC5wYBBDwCYWJjZGVmZ2hpamtsbW5vcHFyc3RhYmNkZWZnaGlqa2x'\
                 'tbg==' == context.form['data']
 
             return \
-                'YWJjZGVmZ2hpamtsbW5vcApvij0uRIs0aSK9fhJO_de--tjWPO5jxEfzjl5'\
-                'F9DlHJkyHMeGdEOhbB8d90qkArw=='
+                'YWJjZGVmZ2hpamtsbW5vcBcFs-AP01FjYg3ZkBUdcvQmGe71FdJcCL7ZT0S'\
+                'RvPSeveC5atl6QRELTliO6zTn7g=='
 
 
     app = MockupApplication('lion-mockup', Root())
@@ -66,7 +66,7 @@ class TestIntegration(LocalApplicationTestCase):
                 'phone': 989121234567,
                 'name': 'abcdefghijklmn',
                 'cryptomoduleId': self.mockup_cryptomodule.id,
-                'expireDate': 1640982600,
+                'expireDate': 1550133902,
                 'bankId': 2
             }
         ):
@@ -74,9 +74,10 @@ class TestIntegration(LocalApplicationTestCase):
             assert status == 200
             result = response.json
             assert 'provisioning' in result
-            assert result['expireDate'] == '2022-01-01'
+            assert result['expireDate'] == '2019-02-14'
             token = result['provisioning']
             assert token == \
-                'mt://oath/totp/6162636465666768696a6b6c6d6e6f700'\
-                'a6f8a3d2e448b346922bd7e124efdd7befad8d63cee63c44'\
-                '7f38e5e45f43947264c8731e19d10e85b07c77dd2a900af'
+                'mt://oath/totp/6162636465666768696a6b6c6d6e6f701'\
+                '705b3e00fd35163620dd990151d72f42619eef515d25c08b'\
+                'ed94f4491bcf49ebde0b96ad97a41110b4e588eeb34e7ee'
+
