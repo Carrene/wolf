@@ -106,7 +106,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
 
     def provision(self, phone):
         """
-        version+seed+expdate+cryptomoduleid+name+bankid
+        version:1+expdate:4+cryptomoduleId:1+length:1+timeInterval:1+bankId:1+seed:20+name:~14
         """
         expire_date = self.expire_date.strftime('%y%m%d')
         binary = struct.pack(
