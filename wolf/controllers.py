@@ -99,8 +99,11 @@ class TokenController(ModelRestController):
         else:
             return token
 
-    @json(form_whitelist=['name', 'phone', 'cryptomoduleId', 'expireDate',
-                          'bankId'])
+    @json(
+        form_whitelist=[
+            'name', 'phone', 'cryptomoduleId', 'expireDate','bankId'
+        ]
+    )
     @Token.validate(strict=True, fields=dict(
         bankId=dict(
             required=False,
