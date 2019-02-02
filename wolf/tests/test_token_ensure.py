@@ -201,12 +201,6 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == '708 expireDate should be Integer or Float'
 
             when(
-                'BankId is not an integer',
-                form=given | dict(bankId='NotInteger')
-            )
-            assert status == '710 BankId must be Integer'
-
-            when(
                 'Form field is unknown',
                 form=given + dict(a=1)
             )
@@ -230,26 +224,4 @@ class TestEnsureToken(LocalApplicationTestCase):
             )
             assert status == \
                 '666 Cannot generate and randomize seed, please try again'
-
-    def test_ensure_token_bank_id(self):
-        with RandomMonkeyPatch(
-            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
-        ), lion_mockup_server(), self.given(
-            'Provisioning',
-            '/apiv1/tokens',
-            'ENSURE',
-            form={
-                'phone': 989122451075,
-                'name': 'DummyTokenName',
-                'cryptomoduleId': self.mockup_cryptomodule.id,
-                'expireDate': 1613434403,
-            }
-        ):
-            assert status == 200
-
-            when(
-                'Form give bank id',
-                form=given + dict(bankId=1)
-            )
-            assert status == 200
 
