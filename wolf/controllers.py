@@ -28,10 +28,12 @@ class CodesController(RestController):
         if not token.is_active:
             raise DeactivatedTokenError()
 
+        soft = context.query.get('soft') == 'yes'
         try:
             is_valid = token.verify(
                 code.encode(),
                 self.window,
+                soft=soft
             )
             token.cache()
         except ValueError:

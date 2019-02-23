@@ -207,9 +207,10 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, code, window):
-        if self.last_code == code:  # pragma: no cover
-            self.same_code_verify_counter += 1
+    def verify(self, code, window, soft=False):
+        if self.last_code == code:
+            if not soft:
+                self.same_code_verify_counter += 1
             if settings.token.verify_limit <= self.same_code_verify_counter:
                 return False
         else:
