@@ -111,3 +111,6 @@ data
 # vim
 .*.sw[op]
 
+# pytest
+.pytest_cache
+
