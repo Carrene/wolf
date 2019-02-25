@@ -99,9 +99,12 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, code, window):
+    def verify(self, code, window, soft=False):
         if self.last_code == code:
-            self.same_code_verify_counter += 1
+
+            if not soft:
+                self.same_code_verify_counter += 1
+
             if settings.token.verify_limit < self.same_code_verify_counter:
                 return False
         else:
@@ -177,10 +180,12 @@ class CodesController(RestController):
         if not token.is_active:
             raise DeactivatedTokenError()
 
+        soft = context.query.get('soft') == 'yes'
         try:
             is_valid = token.verify(
                 code.encode(),
                 self.window,
+                soft=soft,
             )
             token.cache()
         except ValueError:
