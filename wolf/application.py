@@ -10,6 +10,7 @@ from .controllers import Root
 class Wolf(Application):
     __configuration_cipher__ = AESCipher(b'ced&#quevbot2(Sc')
     __configuration__ = '''
+    process_name: %(process_name)s
     db:
       url: postgresql://postgres:postgres@localhost/wolf
       test_url: postgresql://postgres:postgres@localhost/wolf_test
