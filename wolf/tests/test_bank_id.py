@@ -92,7 +92,7 @@ class TestEnsureTokenBankId(LocalApplicationTestCase):
 
             when(
                 'Form give bank id',
-                form=given + dict(bankId=62)
+                form=given + dict(bankId=2)
             )
             assert status == 200
 

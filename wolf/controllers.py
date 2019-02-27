@@ -69,7 +69,7 @@ class TokenController(ModelRestController):
     @staticmethod
     def _find_or_create_token(name, phone):
         cryptomodule_id = context.form['cryptomoduleId']
-        context.form.setdefault('bankId', 62)
+        context.form.setdefault('bankId', 2)
         bank_id = context.form['bankId']
 
         if DBSession.query(Cryptomodule) \
