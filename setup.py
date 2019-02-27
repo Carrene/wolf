@@ -12,6 +12,7 @@ dependencies = [
     'nanohttp == 0.26.2',
     'oathcy >= 1.2.4b1',
     'pycrypto',
+    'pymlconf==0.7.1',
 
     'bddrest == 0.11.0b2',
     # deployment
