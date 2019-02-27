@@ -137,6 +137,13 @@ class ApiV1(Controller):
             'version': wolf.__version__
         }
 
+    @json
+    def info(self):
+        return {
+            'version': wolf.__version__,
+            'title': settings.process_name
+        }
+
 
 class Root(RootController):
     apiv1 = ApiV1()
