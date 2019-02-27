@@ -180,7 +180,7 @@ class CodesController(RestController):
         if not token.is_active:
             raise DeactivatedTokenError()
 
-        soft = context.query.get('soft') == 'yes'
+        soft = context.query_string.get('soft') == 'yes'
         try:
             is_valid = token.verify(
                 code.encode(),

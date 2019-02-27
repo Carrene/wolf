@@ -8,11 +8,12 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
     package_version = re.compile(r".*__version__ = '(.*?)'", re.S).match(v_file.read()).group(1)
 
 dependencies = [
-    'restfulpy >= 0.47.0',
+    'restfulpy == 0.48.1',
+    'nanohttp == 0.26.2',
     'oathcy >= 1.2.4b1',
     'pycrypto',
 
-    'bddrest >= 0.11.0b2',
+    'bddrest == 0.11.0b2',
     # deployment
     'gunicorn',
 ]
