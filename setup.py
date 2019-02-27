@@ -10,10 +10,12 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
 dependencies = [
     'restfulpy == 0.48.1',
     'nanohttp == 0.26.2',
-    'oathcy >= 1.2.4b1',
-    'pycrypto',
-
+    'oathcy == 1.2.4b1',
+    'pymlconf == 0.7.1',
     'bddrest == 0.11.0b2',
+    
+    'pycrypto',
+    
     # deployment
     'gunicorn',
 ]
