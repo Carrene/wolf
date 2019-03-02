@@ -10,9 +10,6 @@ from .exceptions import DeactivatedTokenError, ExpiredTokenError, \
 from .models import Cryptomodule, Token, MiniToken
 
 
-AYANDE_CBI = 62
-
-
 class CodesController(RestController):
 
     @LazyAttribute
@@ -72,7 +69,7 @@ class TokenController(ModelRestController):
     @staticmethod
     def _find_or_create_token(name, phone):
         cryptomodule_id = context.form['cryptomoduleId']
-        context.form.setdefault('bankId', AYANDE_CBI)
+        context.form.setdefault('bankId', 2)
         bank_id = context.form['bankId']
 
         if DBSession.query(Cryptomodule) \

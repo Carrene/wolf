@@ -7,7 +7,6 @@ from restfulpy.mockup import MockupApplication, mockup_http_server
 
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
-from wolf.controllers import AYANDE_CBI
 
 
 HOUR = 3600
@@ -93,7 +92,7 @@ class TestEnsureTokenBankId(LocalApplicationTestCase):
 
             when(
                 'Form give bank id',
-                form=given + dict(bankId=AYANDE_CBI)
+                form=given + dict(bankId=2)
             )
             assert status == 200
 
