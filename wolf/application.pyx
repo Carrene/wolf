@@ -4,8 +4,7 @@ from nanohttp import settings
 from restfulpy import Application as BaseApplication
 from restfulpy.cryptography import AESCipher
 
-from . import basedata
-from .cli import PinBlockLauncher
+from .cli import PinBlockLauncher, OTPLauncher
 from .controllers import Root
 
 
@@ -48,9 +47,9 @@ class Application(BaseApplication):
             version=version
         )
 
-    # noinspection PyArgumentList
-    def insert_basedata(self):
-        basedata.insert()
+#    # noinspection PyArgumentList
+#    def insert_basedata(self):
+#        basedata.insert()
 
     def insert_mockup(self, args=[]):
         from . import mockup
@@ -62,6 +61,7 @@ class Application(BaseApplication):
         This is a template method
         """
         PinBlockLauncher.register(subparsers)
+        OTPLauncher.register(subparsers)
 
     def configure(self, files=None, **kwargs):
         super().configure(**kwargs)
