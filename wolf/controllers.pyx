@@ -105,7 +105,7 @@ class MiniToken:
             if not soft:
                 self.same_code_verify_counter += 1
 
-            if settings.token.verify_limit < self.same_code_verify_counter:
+            if settings.token.verify_limit <= self.same_code_verify_counter:
                 return False
         else:
             self.last_code = code
