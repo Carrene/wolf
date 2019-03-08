@@ -11,8 +11,8 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
 
 
 dependencies = [
-    'restfulpy >= 2.6.13',
-    'oathcy >= 1.4.0',
+    'restfulpy >= 2.6.13, < 3',
+    'oathcy >= 1.4.0, < 2',
     'pycrypto',
 
     # deployment
