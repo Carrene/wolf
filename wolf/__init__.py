@@ -1,7 +1,7 @@
 from .application import Application
 
 
-__version__ = '0.27.1'
+__version__ = '0.28.0'
 
 
 wolf = Application(__version__)
