@@ -257,8 +257,8 @@ class TokenController(ModelRestController):
 
     @json
     @validate_form(
-        exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
-        types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
+        exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
+        types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
     )
     @Token.expose
     @commit

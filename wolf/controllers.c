@@ -1607,6 +1607,7 @@ static const char __pyx_k_token[] = "token";
 static const char __pyx_k_types[] = "types";
 static const char __pyx_k_Device[] = "Device";
 static const char __pyx_k_action[] = "action";
+static const char __pyx_k_bankId[] = "bankId";
 static const char __pyx_k_code_2[] = " code=";
 static const char __pyx_k_commit[] = "commit";
 static const char __pyx_k_decode[] = "decode";
@@ -1822,6 +1823,7 @@ static PyObject *__pyx_n_s_activated_at;
 static PyObject *__pyx_n_s_add;
 static PyObject *__pyx_n_s_after_update;
 static PyObject *__pyx_n_s_apiv1;
+static PyObject *__pyx_n_s_bankId;
 static PyObject *__pyx_n_s_binascii;
 static PyObject *__pyx_n_s_cache;
 static PyObject *__pyx_n_s_cache_key;
@@ -4003,7 +4005,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
  *             if not soft:
  *                 self.same_code_verify_counter += 1             # <<<<<<<<<<<<<<
  * 
- *             if settings.token.verify_limit < self.same_code_verify_counter:
+ *             if settings.token.verify_limit <= self.same_code_verify_counter:
  */
       __Pyx_TraceLine(106,0,__PYX_ERR(0, 106, __pyx_L1_error))
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
@@ -4026,7 +4028,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
     /* "wolf/controllers.pyx":108
  *                 self.same_code_verify_counter += 1
  * 
- *             if settings.token.verify_limit < self.same_code_verify_counter:             # <<<<<<<<<<<<<<
+ *             if settings.token.verify_limit <= self.same_code_verify_counter:             # <<<<<<<<<<<<<<
  *                 return False
  *         else:
  */
@@ -4041,7 +4043,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
@@ -4050,7 +4052,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
 
       /* "wolf/controllers.pyx":109
  * 
- *             if settings.token.verify_limit < self.same_code_verify_counter:
+ *             if settings.token.verify_limit <= self.same_code_verify_counter:
  *                 return False             # <<<<<<<<<<<<<<
  *         else:
  *             self.last_code = code
@@ -4064,7 +4066,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
       /* "wolf/controllers.pyx":108
  *                 self.same_code_verify_counter += 1
  * 
- *             if settings.token.verify_limit < self.same_code_verify_counter:             # <<<<<<<<<<<<<<
+ *             if settings.token.verify_limit <= self.same_code_verify_counter:             # <<<<<<<<<<<<<<
  *                 return False
  *         else:
  */
@@ -8311,6 +8313,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_add, __pyx_k_add, sizeof(__pyx_k_add), 0, 0, 1, 1},
   {&__pyx_n_s_after_update, __pyx_k_after_update, sizeof(__pyx_k_after_update), 0, 0, 1, 1},
   {&__pyx_n_s_apiv1, __pyx_k_apiv1, sizeof(__pyx_k_apiv1), 0, 0, 1, 1},
+  {&__pyx_n_s_bankId, __pyx_k_bankId, sizeof(__pyx_k_bankId), 0, 0, 1, 1},
   {&__pyx_n_s_binascii, __pyx_k_binascii, sizeof(__pyx_k_binascii), 0, 0, 1, 1},
   {&__pyx_n_s_cache, __pyx_k_cache, sizeof(__pyx_k_cache), 0, 0, 1, 1},
   {&__pyx_n_s_cache_key, __pyx_k_cache_key, sizeof(__pyx_k_cache_key), 0, 0, 1, 1},
@@ -10249,7 +10252,7 @@ if (!__Pyx_RefNanny) {
  * 
  *     @json             # <<<<<<<<<<<<<<
  *     @validate_form(
- *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
+ *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
  */
   __Pyx_TraceLine(258,0,__PYX_ERR(0, 258, __pyx_L1_error))
   __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_json); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
@@ -10259,8 +10262,8 @@ if (!__Pyx_RefNanny) {
  * 
  *     @json
  *     @validate_form(             # <<<<<<<<<<<<<<
- *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
- *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
+ *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
+ *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  */
   __Pyx_TraceLine(259,0,__PYX_ERR(0, 259, __pyx_L1_error))
   __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 259, __pyx_L1_error)
@@ -10269,14 +10272,14 @@ if (!__Pyx_RefNanny) {
   /* "wolf/controllers.pyx":260
  *     @json
  *     @validate_form(
- *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],             # <<<<<<<<<<<<<<
- *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
+ *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],             # <<<<<<<<<<<<<<
+ *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  *     )
  */
   __Pyx_TraceLine(260,0,__PYX_ERR(0, 260, __pyx_L1_error))
   __pyx_t_9 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = PyList_New(4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 260, __pyx_L1_error)
+  __pyx_t_10 = PyList_New(5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_INCREF(__pyx_n_s_name);
   __Pyx_GIVEREF(__pyx_n_s_name);
@@ -10290,22 +10293,26 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_expireDate);
   __Pyx_GIVEREF(__pyx_n_s_expireDate);
   PyList_SET_ITEM(__pyx_t_10, 3, __pyx_n_s_expireDate);
+  __Pyx_INCREF(__pyx_n_s_bankId);
+  __Pyx_GIVEREF(__pyx_n_s_bankId);
+  PyList_SET_ITEM(__pyx_t_10, 4, __pyx_n_s_bankId);
   if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_exact, __pyx_t_10) < 0) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
   /* "wolf/controllers.pyx":261
  *     @validate_form(
- *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
- *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}             # <<<<<<<<<<<<<<
+ *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
+ *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}             # <<<<<<<<<<<<<<
  *     )
  *     @Token.expose
  */
   __Pyx_TraceLine(261,0,__PYX_ERR(0, 261, __pyx_L1_error))
-  __pyx_t_10 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_cryptomoduleId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_expireDate, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_phone, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_bankId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_types, __pyx_t_10) < 0) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
@@ -10313,8 +10320,8 @@ if (!__Pyx_RefNanny) {
  * 
  *     @json
  *     @validate_form(             # <<<<<<<<<<<<<<
- *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate'],
- *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
+ *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
+ *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  */
   __Pyx_TraceLine(259,0,__PYX_ERR(0, 259, __pyx_L1_error))
   __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 259, __pyx_L1_error)
@@ -10323,7 +10330,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
   /* "wolf/controllers.pyx":263
- *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int}
+ *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  *     )
  *     @Token.expose             # <<<<<<<<<<<<<<
  *     @commit

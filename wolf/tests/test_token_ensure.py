@@ -58,6 +58,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'name': 'DummyTokenName',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1613434403,
+                'bankId': 2,
             }
         )
         with RandomMonkeyPatch(
@@ -79,12 +80,26 @@ class EnsureTokenTestCase(BDDTestClass):
                     'name': 'DummyTokenName',
                     'cryptomoduleId': self.mockup_cryptomodule_id,
                     'expireDate': 1513434403,
+                    'bankId': 2,
                 }
             )
             then(response.status_code == 200)
             result = response.json
             and_('provisioning' in result)
             and_(result['provisioning'] == token)
+
+            when(
+                'Invalid bank id type',
+                form={
+                    'phone': 989122451075,
+                    'name': 'DummyTokenName',
+                    'cryptomoduleId': self.mockup_cryptomodule_id,
+                    'expireDate': 1513434403,
+                    'bankId': 'not-integer',
+                }
+            )
+            then(response.status_code == 400)
+
 
     def test_invalid_cryptomodule_id(self):
         call = dict(
@@ -97,6 +112,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'name': 'DummyTokenName',
                 'cryptomoduleId': 'InvalidCryptomoduleId',
                 'expireDate': 1513434403,
+                'bankId': 2,
             },
         )
         with RandomMonkeyPatch(
@@ -119,6 +135,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'name': 'DummyTokenName',
                 'cryptomoduleId': 0,
                 'expireDate': 1513434403,
+                'bankId': 2,
             },
         )
 
@@ -144,6 +161,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'name': '',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
+                'bankId': 2,
             },
         )
 
@@ -166,6 +184,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'name': f'MoreThan50Chars{"x" * 36}',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
+                'bankId': 2,
             },
         )
 
@@ -190,6 +209,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'name': 'ExpiredToken',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
+                'bankId': 2,
             },
         )
 
@@ -211,6 +231,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'name': 'DeactivatedToken',
                 'cryptomoduleId': self.mockup_cryptomodule_id,
                 'expireDate': 1513434403,
+                'bankId': 2,
             },
         )
 
