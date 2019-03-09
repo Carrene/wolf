@@ -10,7 +10,7 @@ from wolf.cryptoutil import EncryptedISOPinBlock
 from wolf.tests.helpers import TimeMonkeyPatch, LocalApplicationTestCase
 
 
-class TestVerifyToken(LocalApplicationTestCase):
+class TestVerifyNoPrimitive(LocalApplicationTestCase):
 
     __configuration__ = '''
       oath:
@@ -21,7 +21,7 @@ class TestVerifyToken(LocalApplicationTestCase):
     def mockup(cls):
         session = cls.create_session()
         cls.active_token = active_token = Token()
-        active_token.name = 'name'
+        active_token.name = 'name1'
         active_token.phone = 1
         active_token.bank_id = 2
         active_token.expire_date = datetime.now() + timedelta(minutes=1)
@@ -49,24 +49,25 @@ class TestVerifyToken(LocalApplicationTestCase):
         cls.pinblock = EncryptedISOPinBlock(active_token.id)
         cls.valid_time = 10001000
         cls.invalid_time = 123456
-        cls.valid_otp_token1_time1 = cls.pinblock.encode('7110').decode()
-        cls.invalid_otp_token1_time1 = cls.pinblock.encode('123456').decode()
+        cls.valid_otp_token_time = cls.pinblock.encode('7110').decode()
+        cls.invalid_otp_token_time = cls.pinblock.encode('123456').decode()
 
-    def test_verify_token_otp_time(self):
+    def test_verify_primitive_no(self):
         real_time = time.time
         with TimeMonkeyPatch(self.valid_time), self.given(
-            'Verifying time based OTP',
-            \
-                f'/apiv1/tokens/token_id: {self.active_token.id}/codes/code: '
-                f'{self.valid_otp_token1_time1}',
-            'VERIFY',
+                'Verifying time based OPT with primitive yes query',
+                \
+                    f'/apiv1/tokens/token_id: {self.active_token.id}/codes'
+                    f'/code: {self.valid_otp_token_time}',
+                'VERIFY',
+                query=dict(primitive='no')
         ):
             assert status == 200
 
             when(
                 'Trying to verify an invalid code',
                 url_parameters=given | dict(
-                    code=self.invalid_otp_token1_time1,
+                    code=self.invalid_otp_token_time,
                 )
             )
             assert status == '604 Invalid code'
@@ -108,7 +109,9 @@ class TestVerifyToken(LocalApplicationTestCase):
 
             when(
                 'Token is deactivated',
-                url_parameters=given | dict(token_id=self.deactivated_token.id),
+                url_parameters=given | dict(
+                    token_id=self.deactivated_token.id
+                ),
             )
             assert status == '603 Token is deactivated'
 
@@ -116,8 +119,20 @@ class TestVerifyToken(LocalApplicationTestCase):
             assert status == '400 Form Not Allowed'
 
             when(
-                'Trying to verify with yes primitive query',
-                query=given + dict(primitive='yes')
+                'Trying to verify with yes primitive query again',
+                query=given | dict(primitive='yes')
+            )
+            assert status == '604 Invalid code'
+
+            when(
+                'Trying to verify with no primitive query again',
+                query=given | dict(primitive='no')
+            )
+            assert status == '604 Invalid code'
+
+            when(
+                'Trying to verify without primitive query',
+                query=given - 'primitive'
             )
             assert status == '604 Invalid code'
 
