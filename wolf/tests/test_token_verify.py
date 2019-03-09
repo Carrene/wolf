@@ -21,7 +21,7 @@ class TestVerifyToken(LocalApplicationTestCase):
     def mockup(cls):
         session = cls.create_session()
         cls.active_token = active_token = Token()
-        active_token.name = 'name'
+        active_token.name = 'name1'
         active_token.phone = 1
         active_token.bank_id = 2
         active_token.expire_date = datetime.now() + timedelta(minutes=1)
@@ -115,9 +115,6 @@ class TestVerifyToken(LocalApplicationTestCase):
             when('Form is not empty', form=dict(a='b'))
             assert status == '400 Form Not Allowed'
 
-            when(
-                'Trying to verify with yes primitive query',
-                query=given + dict(primitive='yes')
-            )
-            assert status == '604 Invalid code'
+            when('Soft verify', query=dict(soft='yes'))
+            assert status == 200
 
