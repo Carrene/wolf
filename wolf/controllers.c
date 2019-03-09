@@ -4030,7 +4030,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
  * 
  *             if settings.token.verify_limit <= self.same_code_verify_counter:             # <<<<<<<<<<<<<<
  *                 return False
- *         else:
+ *         elif not soft:
  */
     __Pyx_TraceLine(108,0,__PYX_ERR(0, 108, __pyx_L1_error))
     __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
@@ -4054,7 +4054,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
  * 
  *             if settings.token.verify_limit <= self.same_code_verify_counter:
  *                 return False             # <<<<<<<<<<<<<<
- *         else:
+ *         elif not soft:
  *             self.last_code = code
  */
       __Pyx_TraceLine(109,0,__PYX_ERR(0, 109, __pyx_L1_error))
@@ -4068,7 +4068,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
  * 
  *             if settings.token.verify_limit <= self.same_code_verify_counter:             # <<<<<<<<<<<<<<
  *                 return False
- *         else:
+ *         elif not soft:
  */
     }
 
@@ -4082,31 +4082,50 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
     goto __pyx_L3;
   }
 
-  /* "wolf/controllers.pyx":111
+  /* "wolf/controllers.pyx":110
+ *             if settings.token.verify_limit <= self.same_code_verify_counter:
  *                 return False
- *         else:
+ *         elif not soft:             # <<<<<<<<<<<<<<
+ *             self.last_code = code
+ *             self.same_code_verify_counter = 1
+ */
+  __Pyx_TraceLine(110,0,__PYX_ERR(0, 110, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_soft); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_3 = ((!__pyx_t_4) != 0);
+  if (__pyx_t_3) {
+
+    /* "wolf/controllers.pyx":111
+ *                 return False
+ *         elif not soft:
  *             self.last_code = code             # <<<<<<<<<<<<<<
- *             self.same_code_verify_counter = 0
+ *             self.same_code_verify_counter = 1
  * 
  */
-  __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
-  /*else*/ {
+    __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_last_code, __pyx_v_code) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
 
     /* "wolf/controllers.pyx":112
- *         else:
+ *         elif not soft:
  *             self.last_code = code
- *             self.same_code_verify_counter = 0             # <<<<<<<<<<<<<<
+ *             self.same_code_verify_counter = 1             # <<<<<<<<<<<<<<
  * 
  *         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
  */
     __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_int_0) < 0) __PYX_ERR(0, 112, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_int_1) < 0) __PYX_ERR(0, 112, __pyx_L1_error)
+
+    /* "wolf/controllers.pyx":110
+ *             if settings.token.verify_limit <= self.same_code_verify_counter:
+ *                 return False
+ *         elif not soft:             # <<<<<<<<<<<<<<
+ *             self.last_code = code
+ *             self.same_code_verify_counter = 1
+ */
   }
   __pyx_L3:;
 
   /* "wolf/controllers.pyx":114
- *             self.same_code_verify_counter = 0
+ *             self.same_code_verify_counter = 1
  * 
  *         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)             # <<<<<<<<<<<<<<
  *         otp = pinblock.decode(code)

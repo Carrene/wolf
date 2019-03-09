@@ -107,9 +107,9 @@ class MiniToken:
 
             if settings.token.verify_limit <= self.same_code_verify_counter:
                 return False
-        else:
+        elif not soft:
             self.last_code = code
-            self.same_code_verify_counter = 0
+            self.same_code_verify_counter = 1
 
         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
         otp = pinblock.decode(code)
