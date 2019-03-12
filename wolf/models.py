@@ -133,14 +133,14 @@ class MiniToken:
     _redis = None
 
     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id,
-                 last_code=None, same_code_verify_counter=0):
+                 last_code=None, final=False):
         self.id = id
         self.seed = seed
         self.expire_date = expire_date
         self.is_active = is_active
         self.cryptomodule_id = cryptomodule_id
         self.last_code = last_code
-        self.same_code_verify_counter = same_code_verify_counter
+        self.final = final
 
     @staticmethod
     def create_blocking_redis_client():
@@ -207,15 +207,15 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, code, window, soft=False):
+    def verify(self, code, window, primitive=False):
         if self.last_code == code:
-            if not soft:
-                self.same_code_verify_counter += 1
-            if settings.token.verify_limit <= self.same_code_verify_counter:
+            if self.final:
                 return False
+
         else:
             self.last_code = code
-            self.same_code_verify_counter = 0
+
+        self.final = not primitive
 
         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
         otp = pinblock.decode(code)
@@ -235,7 +235,7 @@ class MiniToken:
                 int(self.is_active),
                 self.cryptomodule_id,
                 self.last_code,
-                self.same_code_verify_counter
+                int(self.final)
             )
         )
 
