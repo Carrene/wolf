@@ -75,9 +75,7 @@ class TestEnsureTokenBankId(LocalApplicationTestCase):
         session.commit()
 
     def test_ensure_token_bank_id(self):
-        with RandomMonkeyPatch(
-            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
-        ), lion_mockup_server(), self.given(
+        with lion_mockup_server(), self.given(
             'Provisioning',
             '/apiv1/tokens',
             'ENSURE',
@@ -92,7 +90,10 @@ class TestEnsureTokenBankId(LocalApplicationTestCase):
 
             when(
                 'Form give bank id',
-                form=given + dict(bankId=AYANDE_BANK_ID)
+                form=given | dict(
+                    bankId=AYANDE_BANK_ID,
+                    name='DummyTokenName20'
+                )
             )
             assert status == 200
 
