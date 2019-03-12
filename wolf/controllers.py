@@ -70,7 +70,7 @@ class TokenController(ModelRestController):
             raise DeactivatedTokenError()
 
     @staticmethod
-    def _find_or_create_token(name, phone):
+    def _create_token(name, phone):
         cryptomodule_id = context.form['cryptomoduleId']
         context.form.setdefault('bankId', AYANDE_BANK_ID)
         bank_id = context.form['bankId']
@@ -82,24 +82,16 @@ class TokenController(ModelRestController):
                 f'601 Cryptomodule does not exists: {cryptomodule_id}'
             )
 
-        token = DBSession.query(Token).filter(
-            Token.name == name,
-            Token.cryptomodule_id == cryptomodule_id,
-            Token.phone == phone,
-            Token.bank_id == bank_id
-        ).one_or_none()
-
-        if token is None:
-            # Creating a new token
-            token = Token()
-            token.update_from_request()
-            token.is_active = True
-            token.initialize_seed()
-            DBSession.add(token)
+        # Creating a new token
+        token = Token()
+        token.update_from_request()
+        token.is_active = True
+        token.initialize_seed()
+        DBSession.add(token)
 
         try:
             DBSession.flush()
-        except IntegrityError:
+        except IntegrityError as ex:
             raise DuplicateSeedError()
         else:
             return token
@@ -120,7 +112,7 @@ class TokenController(ModelRestController):
     def ensure(self):
         phone = context.form['phone']
         name = context.form['name']
-        token = self._find_or_create_token(name, phone)
+        token = self._create_token(name, phone)
         self._validate_token(token)
         DBSession.flush()
         result = token.to_dict()

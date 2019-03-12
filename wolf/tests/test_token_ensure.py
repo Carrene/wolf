@@ -86,9 +86,7 @@ class TestEnsureToken(LocalApplicationTestCase):
         session.commit()
 
     def test_ensure_token(self):
-        with RandomMonkeyPatch(
-            b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf'
-        ), lion_mockup_server(), self.given(
+        with lion_mockup_server(), self.given(
             'Provisioning',
             '/apiv1/tokens',
             'ENSURE',
@@ -111,19 +109,20 @@ class TestEnsureToken(LocalApplicationTestCase):
                 'effba717b9e0c81e433df751bb4c88b80a0d8c77ff8e9a5687ba2438568' \
                 '581e76b7d581befd6e83d0bd2'
 
-            when('Ensure the same token again')
-            assert status == 200
-            assert 'provisioning' in response.json
-            assert response.json['provisioning'] == token
-
             when(
                 'Expire date is a float value',
-                form=given | dict(expireDate=1613434403.3)
+                form=given | dict(
+                    expireDate=1613434403.3,
+                    name='DummyTokenName2'
+                )
             )
             assert status == 200
 
             with lion_status('404 Not Found'):
-                when('Device is not found')
+                when(
+                    'Device is not found',
+                    form=given | dict(name='DummyTokenName3')
+                )
                 assert status == '605 Device is not found: 989122451075'
 
             when(
@@ -151,18 +150,6 @@ class TestEnsureToken(LocalApplicationTestCase):
             )
             assert status == \
                 '702 Name length should be between 6 and 50 characters'
-
-            when(
-                'Provisioning with an expired token',
-                form=given | dict(name='ExpiredToken', bankId=1)
-            )
-            assert status == '602 Token is expired'
-
-            when(
-                'Provisioning with a deactivated token',
-                form=given | dict(name='DeactivatedToken', bankId=2)
-            )
-            assert status == '603 Token is deactivated'
 
             when(
                 'Name is not given',
@@ -207,21 +194,27 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == '400 Field: a Not Allowed'
 
             with lion_status('502 Bad Gateway'):
-                when('SSM is not available')
+                when(
+                    'SSM is not available',
+                    form=given | dict(name='DummyTokenName5')
+                )
                 assert status == '801 SSM is not available'
 
             with lion_status('500 Internal Server Error'):
-                when('SSM is not working properly')
+                when(
+                    'SSM is not working properly',
+                    form=given | dict(name='DummyTokenName6')
+                )
                 assert status == '802 SSM internal error'
 
             with lion_status('400 Internal Server Error'):
-                when('SSM Returns 400 Bad request ')
+                when(
+                    'SSM Returns 400 Bad request ',
+                    form=given | dict(name='DummyTokenName7')
+                )
                 assert status == '802 SSM internal error'
 
-            when(
-                'Seed is duplicated, it\'s a very rare exception',
-                form=given | dict(phone=989122451010)
-            )
+            when('Seed is duplicated, it\'s a very rare exception')
             assert status == \
                 '666 Cannot generate and randomize seed, please try again'
 
