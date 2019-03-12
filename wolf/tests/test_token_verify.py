@@ -46,7 +46,7 @@ class TestVerifyToken(LocalApplicationTestCase):
 
         session.commit()
 
-        cls.pinblock = EncryptedISOPinBlock(active_token.id)
+        cls.pinblock = EncryptedISOPinBlock(active_token)
         cls.valid_time = 10001000
         cls.invalid_time = 123456
         cls.valid_otp_token1_time1 = cls.pinblock.encode('7110').decode()

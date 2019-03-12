@@ -41,7 +41,11 @@ class Wolf(Application):
       window: 2
 
     pinblock:
-      key: 1234567890ABCDEF1234567890ABCDEF
+      2:
+        key: 1234567890ABCDEF1234567890ABCDEF
+      3:
+        key: 1234567890ABCDEF1234567890ABCDEF
+
 
     '''
 

@@ -132,9 +132,10 @@ cached_cryptomodules = None
 class MiniToken:
     _redis = None
 
-    def __init__(self, id, seed, expire_date, is_active, cryptomodule_id,
+    def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
                  last_code=None, final=False):
         self.id = id
+        self.bank_id = bank_id
         self.seed = seed
         self.expire_date = expire_date
         self.is_active = is_active
@@ -163,6 +164,7 @@ class MiniToken:
     def load_from_database(cls, token_id):
         row = DBSession.query(
             Token.id,
+            Token.bank_id,
             Token.seed,
             extract('epoch', Token.expire_date),
             Token.activated_at.isnot(None),
@@ -217,7 +219,7 @@ class MiniToken:
 
         self.final = not primitive
 
-        pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
+        pinblock = cryptoutil.EncryptedISOPinBlock(self)
         otp = pinblock.decode(code)
         return TOTP(
             self.seed,
@@ -229,7 +231,8 @@ class MiniToken:
     def cache(self):  # pragma: no cover
         self.redis().set(
             str(self.id),
-            b'%s,%d,%d,%d,%s,%d' % (
+            b'%s,%s,%d,%d,%d,%s,%d' % (
+                str(self.bank_id).encode(),
                 binascii.hexlify(self.seed),
                 int(self.expire_date),
                 int(self.is_active),
@@ -247,12 +250,13 @@ class MiniToken:
             token = redis.get(cache_key).split(b',')
             return cls(
                 token_id,
-                binascii.unhexlify(token[0]),
-                float(token[1]),
-                bool(token[2]),
-                int(token[3]),
-                token[4],
-                int(token[5])
+                int(token[0]),
+                binascii.unhexlify(token[1]),
+                float(token[2]),
+                bool(token[3]),
+                int(token[4]),
+                token[5],
+                int(token[6])
             ) if token else None
         return None
 
