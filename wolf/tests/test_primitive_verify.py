@@ -39,38 +39,12 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
         active_token1.cryptomodule = mockup_cryptomodule_length_4
         session.add(active_token1)
 
-        cls.active_token2 = active_token2 = Token()
-        active_token2.name = 'name2'
-        active_token2.phone = 2
-        active_token2.bank_id = 2
-        active_token2.expire_date = datetime.now() + timedelta(minutes=1)
-        active_token2.seed = \
-            b'\x15\xfc\x00\x8bH\xb6j\xf4\x14\x88\x1fR\xb8\xa5\xe1%~3\xf4\x81'
-        active_token2.is_active = True
-        active_token2.cryptomodule = mockup_cryptomodule_length_4
-        session.add(active_token2)
-
-        cls.deactivated_token = deactivated_token = Token()
-        deactivated_token.name = 'DeactivatedToken'
-        deactivated_token.phone = 3
-        deactivated_token.bank_id = 2
-        deactivated_token.expire_date = datetime.now() + timedelta(minutes=1)
-        deactivated_token.seed = \
-            b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89'
-        deactivated_token.is_active = False
-        deactivated_token.cryptomodule = mockup_cryptomodule_length_4
-        session.add(deactivated_token)
-
         session.commit()
 
         cls.pinblock1 = EncryptedISOPinBlock(active_token1.id)
-        cls.pinblock2 = EncryptedISOPinBlock(active_token2.id)
         cls.valid_time = 10001000
-        cls.invalid_time = 123456
         cls.valid_otp_token1_time = cls.pinblock1.encode('7110').decode()
-        cls.valid_otp_token2_time = cls.pinblock2.encode('7110').decode()
         cls.invalid_otp_token1_time = cls.pinblock1.encode('123456').decode()
-        cls.invalid_otp_token2_time = cls.pinblock2.encode('123456').decode()
 
     @staticmethod
     def create_blocking_redis_client():
