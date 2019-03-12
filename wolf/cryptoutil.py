@@ -35,10 +35,10 @@ class PlainISO0PinBlock:
 
 class EncryptedISOPinBlock(PlainISO0PinBlock):
 
-    def __init__(self, token, key=None):
-        super().__init__(token.id)
+    def __init__(self, token_id, bank_id, key=None):
+        super().__init__(token_id)
         self.key = \
-            binascii.unhexlify(key or settings.pinblock[token.bank_id].key)
+            binascii.unhexlify(key or settings.pinblock[bank_id].key)
 
     def create_algorithm(self):
         return DES3.new(self.key, DES3.MODE_ECB)
