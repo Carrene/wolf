@@ -2,6 +2,8 @@ import time
 import unittest
 from datetime import datetime, timedelta
 
+import redis
+
 from nanohttp import settings
 from bddrest import when, response, status, given
 
@@ -11,10 +13,15 @@ from wolf.tests.helpers import TimeMonkeyPatch, LocalApplicationTestCase
 
 
 class TestVerifyPrimitive(LocalApplicationTestCase):
+    _redis = None
+
 
     __configuration__ = '''
       oath:
         window: 10
+      token:
+        redis:
+          enabled: true
     '''
 
     @classmethod
@@ -65,6 +72,26 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
         cls.invalid_otp_token1_time = cls.pinblock1.encode('123456').decode()
         cls.invalid_otp_token2_time = cls.pinblock2.encode('123456').decode()
 
+    @staticmethod
+    def create_blocking_redis_client():
+        return redis.StrictRedis(
+            host=settings.token.redis.host,
+            port=settings.token.redis.port,
+            db=settings.token.redis.db,
+            password=settings.token.redis.password,
+            max_connections=settings.token.redis.max_connections,
+            socket_timeout=settings.token.redis.socket_timeout
+        )
+
+    @classmethod
+    def redis(cls):
+        if cls._redis is None:
+            cls._redis = cls.create_blocking_redis_client()
+        return cls._redis
+
+    def setup(self):
+        self.redis().flushdb()
+
     def test_primitive_verify(self):
         with TimeMonkeyPatch(self.valid_time), self.given(
                 'Verifying time based OPT with primitive yes query', \
@@ -74,60 +101,6 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
                 query=dict(primitive='yes')
         ):
             assert status == 200
-
-            when(
-                'Trying to verify an invalid code',
-                url_parameters=given | dict(
-                    code=self.invalid_otp_token1_time,
-                )
-            )
-            assert status == '604 Invalid code'
-
-            when(
-                'When code has odd length',
-                url_parameters=given | dict(code='12345')
-            )
-            assert status == '604 Invalid code'
-
-            when(
-                'When code is malformed',
-                url_parameters=given | dict(code='Ma!f0rM3&')
-            )
-            assert status == '604 Invalid code'
-
-            when(
-                'Token not exists',
-                url_parameters=given | dict(
-                    token_id=0,
-                )
-            )
-            assert status == '404 Not Found'
-
-            with TimeMonkeyPatch(self.invalid_time):
-                when('Verifying a valid code within invalid time span')
-                assert status == '604 Invalid code'
-
-            session = self.create_session()
-            token = session.query(Token) \
-                .filter(Token.id == self.active_token1.id) \
-                .one()
-            token.expire_date = datetime(1970, 3, 1)
-            session.commit()
-            when('When token is expired')
-            assert status == '602 Token is expired'
-            token.expire_date = datetime.now() + timedelta(days=1)
-            session.commit()
-
-            when(
-                'Token is deactivated',
-                url_parameters=given | dict(
-                    token_id=self.deactivated_token.id
-                ),
-            )
-            assert status == '603 Token is deactivated'
-
-            when('Form is not empty', form=dict(a='b'))
-            assert status == '400 Form Not Allowed'
 
             when('Trying to verify with yes primitive query again')
             assert status == 200
@@ -157,66 +130,12 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
         with TimeMonkeyPatch(self.valid_time), self.given(
                 'Verifying time based OPT with no primitive query',
                 \
-                    f'/apiv1/tokens/token_id: {self.active_token2.id}/codes'
-                    f'/code: {self.valid_otp_token2_time}',
+                    f'/apiv1/tokens/token_id: {self.active_token1.id}/codes'
+                    f'/code: {self.valid_otp_token1_time}',
                 'VERIFY',
                 query=dict(primitive='no')
         ):
             assert status == 200
-
-            when(
-                'Trying to verify an invalid code',
-                url_parameters=given | dict(
-                    code=self.invalid_otp_token2_time,
-                )
-            )
-            assert status == '604 Invalid code'
-
-            when(
-                'When code has odd length',
-                url_parameters=given | dict(code='12345')
-            )
-            assert status == '604 Invalid code'
-
-            when(
-                'When code is malformed',
-                url_parameters=given | dict(code='Ma!f0rM3&')
-            )
-            assert status == '604 Invalid code'
-
-            when(
-                'Token not exists',
-                url_parameters=given | dict(
-                    token_id=0,
-                )
-            )
-            assert status == '404 Not Found'
-
-            with TimeMonkeyPatch(self.invalid_time):
-                when('Verifying a valid code within invalid time span')
-                assert status == '604 Invalid code'
-
-            session = self.create_session()
-            token = session.query(Token) \
-                .filter(Token.id == self.active_token2.id) \
-                .one()
-            token.expire_date = datetime(1970, 3, 1)
-            session.commit()
-            when('When token is expired')
-            assert status == '602 Token is expired'
-            token.expire_date = datetime.now() + timedelta(days=1)
-            session.commit()
-
-            when(
-                'Token is deactivated',
-                url_parameters=given | dict(
-                    token_id=self.deactivated_token.id
-                ),
-            )
-            assert status == '603 Token is deactivated'
-
-            when('Form is not empty', form=dict(a='b'))
-            assert status == '400 Form Not Allowed'
 
             when(
                 'Trying to verify with yes primitive query again',

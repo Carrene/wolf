@@ -115,6 +115,6 @@ class TestVerifyToken(LocalApplicationTestCase):
             when('Form is not empty', form=dict(a='b'))
             assert status == '400 Form Not Allowed'
 
-            when('Soft verify', query=dict(soft='yes'))
+            when('primitive verify', query=dict(primitive='yes'))
             assert status == 200
 
