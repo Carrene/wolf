@@ -26,14 +26,14 @@ class MiniToken:
     _redis = None
 
     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,
-                 same_code_verify_counter=0):
+                 final=None):
         self.id = id
         self.seed = seed
         self.expire_date = expire_date
         self.is_active = is_active
         self.cryptomodule_id = cryptomodule_id
         self.last_code = last_code
-        self.same_code_verify_counter = same_code_verify_counter
+        self.final=final
 
     @staticmethod
     def create_blocking_redis_client():
@@ -99,17 +99,15 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, code, window, soft=False):
+    def verify(self, code, window, primitive=False):
         if self.last_code == code:
-
-            if not soft:
-                self.same_code_verify_counter += 1
-
-            if settings.token.verify_limit <= self.same_code_verify_counter:
+            if self.final:
                 return False
-        elif not soft:
+
+        else:
             self.last_code = code
-            self.same_code_verify_counter = 1
+
+        self.final = not primitive
 
         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
         otp = pinblock.decode(code)
@@ -126,7 +124,7 @@ class MiniToken:
                 int(self.is_active),
                 self.cryptomodule_id,
                 self.last_code,
-                self.same_code_verify_counter
+                int(self.final)
             )
         )
 
@@ -179,12 +177,12 @@ class CodesController(RestController):
         if not token.is_active:
             raise DeactivatedTokenError()
 
-        soft = context.query_string.get('soft') == 'yes'
+        primitive = context.query_string.get('primitive') == 'yes'
         try:
             is_valid = token.verify(
                 code.encode(),
                 self.window,
-                soft=soft,
+                primitive=primitive,
             )
             token.cache()
         except ValueError:
@@ -239,10 +237,10 @@ class TokenController(ModelRestController):
         if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
             raise HttpBadRequest(info='Invalid cryptomodule id.')
 
-        token = Token.query.filter(
+        token = DBSession.query(Token).filter(
             Token.name == name,
             Token.cryptomodule_id == cryptomodule_id,
-            Token.phone == phone
+            Token.phone == phone,
         ).one_or_none()
 
         if token is None:
@@ -250,9 +248,12 @@ class TokenController(ModelRestController):
             token = Token()
             token.update_from_request()
             token.is_active = True
-            token.initialize_seed()
             DBSession.add(token)
+
+        token.initialize_seed()
+
         DBSession.flush()
+
         return token
 
     @json
