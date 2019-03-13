@@ -61,17 +61,14 @@ class EnsureTokenTestCase(BDDTestClass):
                 'bankId': 2,
             }
         )
-        with RandomMonkeyPatch(
-                b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\x0cF\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
+        with self.given(**call):
 
             then(response.status_code == 200)
             result = response.json
             and_('provisioning' in result)
             and_(result['expireDate'] == '2021-02-16')
             token = result['provisioning']
-            and_(token == 'mt://oath/totp/DUMMYTOKENNAME468E16B1772442C701A2F0C468E1F722EC53B78112F9B1AD7C46425A2EA'
-                         'E3371043A34342C84A7CAFCF82298A12F3440012102163515')
+            and_(token.startswith('mt://oath/totp/DUMMYTOKENNAME'))
 
             when(
                 'Ensure the same token again',
@@ -79,14 +76,14 @@ class EnsureTokenTestCase(BDDTestClass):
                     'phone': 989122451075,
                     'name': 'DummyTokenName',
                     'cryptomoduleId': self.mockup_cryptomodule_id,
-                    'expireDate': 1513434403,
+                    'expireDate': 1584012595,
                     'bankId': 2,
                 }
             )
             then(response.status_code == 200)
             result = response.json
             and_('provisioning' in result)
-            and_(result['provisioning'] == token)
+            and_(result['provisioning'] != token)
 
             when(
                 'Invalid bank id type',
@@ -115,9 +112,7 @@ class EnsureTokenTestCase(BDDTestClass):
                 'bankId': 2,
             },
         )
-        with RandomMonkeyPatch(
-                b'F\x8e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
+        with self.given(**call):
 
             then(response.status_code == 400)
             and_(self.assertDictEqual(response.json, dict(
@@ -139,9 +134,7 @@ class EnsureTokenTestCase(BDDTestClass):
             },
         )
 
-        with RandomMonkeyPatch(
-                b'F\x16\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
+        with self.given(**call):
 
             then(response.status_code == 400)
             and_(self.assertDictEqual(response.json, dict(
@@ -165,9 +158,7 @@ class EnsureTokenTestCase(BDDTestClass):
             },
         )
 
-        with RandomMonkeyPatch(
-            b'F\x9e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
+        with self.given(**call):
             then(response.status_code == 400)
             and_(self.assertDictEqual(response.json, dict(
                 message='Bad Request',
@@ -188,9 +179,7 @@ class EnsureTokenTestCase(BDDTestClass):
             },
         )
 
-        with RandomMonkeyPatch(
-            b'F\x2e\x16\xb1w$B\xc7\x01\xa2\xf0\xc4h\xe1\xf7"\xf8\x98w\xcf\xcf\x8e\x16\xb1t,p\x1a\xcfT!'
-        ), self.given(**call):
+        with self.given(**call):
 
             then(response.status_code == 400)
             and_(self.assertDictEqual(response.json, dict(

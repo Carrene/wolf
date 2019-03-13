@@ -1,9 +1,11 @@
 
 .PHONY: clean all
 
-all: clean
+all: 
 	python setup.py build_ext --inplace
 
 clean:
 	python setup.py clean
+	rm wolf/*.so
+	rm wolf/*.c
 
