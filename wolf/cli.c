@@ -1710,7 +1710,7 @@ static PyObject *__pyx_codeobj__19;
 static PyObject *__pyx_codeobj__22;
 /* Late includes */
 
-/* "wolf/cli.pyx":19
+/* "wolf/cli.pyx":18
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -1750,11 +1750,11 @@ static PyObject *__pyx_pw_4wolf_3cli_16PinBlockLauncher_1create_parser(PyObject 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_subparsers)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 19, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 18, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 19, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 18, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1767,7 +1767,7 @@ static PyObject *__pyx_pw_4wolf_3cli_16PinBlockLauncher_1create_parser(PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 19, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 18, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.cli.PinBlockLauncher.create_parser", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1791,99 +1791,99 @@ static PyObject *__pyx_pf_4wolf_3cli_16PinBlockLauncher_create_parser(CYTHON_UNU
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj_)
   __Pyx_RefNannySetupContext("create_parser", 0);
-  __Pyx_TraceCall("create_parser", __pyx_f[0], 19, 0, __PYX_ERR(0, 19, __pyx_L1_error));
+  __Pyx_TraceCall("create_parser", __pyx_f[0], 18, 0, __PYX_ERR(0, 18, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":20
+  /* "wolf/cli.pyx":19
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')             # <<<<<<<<<<<<<<
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')
  */
-  __Pyx_TraceLine(20,0,__PYX_ERR(0, 20, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_TraceLine(19,0,__PYX_ERR(0, 19, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_ISO_0_ANSI_Pin_Block_tools) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__2, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_ISO_0_ANSI_Pin_Block_tools) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__2, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_parser = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":21
+  /* "wolf/cli.pyx":20
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')             # <<<<<<<<<<<<<<
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')
  *         pinblock_subparsers = parser.add_subparsers(title="pinblock command", dest="pinblock_command")
  */
-  __Pyx_TraceLine(21,0,__PYX_ERR(0, 21, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_TraceLine(20,0,__PYX_ERR(0, 20, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_psk_to_en_de_crypt) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_psk_to_en_de_crypt) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":22
+  /* "wolf/cli.pyx":21
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')             # <<<<<<<<<<<<<<
  *         pinblock_subparsers = parser.add_subparsers(title="pinblock command", dest="pinblock_command")
  *         PinBlockEncodeLauncher.register(pinblock_subparsers)
  */
-  __Pyx_TraceLine(22,0,__PYX_ERR(0, 22, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_TraceLine(21,0,__PYX_ERR(0, 21, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_required, Py_True) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_token_id) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_required, Py_True) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_token_id) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":23
+  /* "wolf/cli.pyx":22
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')
  *         pinblock_subparsers = parser.add_subparsers(title="pinblock command", dest="pinblock_command")             # <<<<<<<<<<<<<<
  *         PinBlockEncodeLauncher.register(pinblock_subparsers)
  *         PinBlockDecodeLauncher.register(pinblock_subparsers)
  */
-  __Pyx_TraceLine(23,0,__PYX_ERR(0, 23, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_subparsers); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_TraceLine(22,0,__PYX_ERR(0, 22, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_subparsers); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_title, __pyx_kp_u_pinblock_command) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dest, __pyx_n_u_pinblock_command_2) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_title, __pyx_kp_u_pinblock_command) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dest, __pyx_n_u_pinblock_command_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_pinblock_subparsers = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":24
+  /* "wolf/cli.pyx":23
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')
  *         pinblock_subparsers = parser.add_subparsers(title="pinblock command", dest="pinblock_command")
  *         PinBlockEncodeLauncher.register(pinblock_subparsers)             # <<<<<<<<<<<<<<
  *         PinBlockDecodeLauncher.register(pinblock_subparsers)
  *         return parser
  */
-  __Pyx_TraceLine(24,0,__PYX_ERR(0, 24, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PinBlockEncodeLauncher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_TraceLine(23,0,__PYX_ERR(0, 23, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_PinBlockEncodeLauncher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1898,22 +1898,22 @@ static PyObject *__pyx_pf_4wolf_3cli_16PinBlockLauncher_create_parser(CYTHON_UNU
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_pinblock_subparsers) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_pinblock_subparsers);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":25
+  /* "wolf/cli.pyx":24
  *         pinblock_subparsers = parser.add_subparsers(title="pinblock command", dest="pinblock_command")
  *         PinBlockEncodeLauncher.register(pinblock_subparsers)
  *         PinBlockDecodeLauncher.register(pinblock_subparsers)             # <<<<<<<<<<<<<<
  *         return parser
  * 
  */
-  __Pyx_TraceLine(25,0,__PYX_ERR(0, 25, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_PinBlockDecodeLauncher); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_TraceLine(24,0,__PYX_ERR(0, 24, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_PinBlockDecodeLauncher); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_register); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_register); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -1928,25 +1928,25 @@ static PyObject *__pyx_pf_4wolf_3cli_16PinBlockLauncher_create_parser(CYTHON_UNU
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_pinblock_subparsers) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_pinblock_subparsers);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":26
+  /* "wolf/cli.pyx":25
  *         PinBlockEncodeLauncher.register(pinblock_subparsers)
  *         PinBlockDecodeLauncher.register(pinblock_subparsers)
  *         return parser             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(26,0,__PYX_ERR(0, 26, __pyx_L1_error))
+  __Pyx_TraceLine(25,0,__PYX_ERR(0, 25, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_parser);
   __pyx_r = __pyx_v_parser;
   goto __pyx_L0;
 
-  /* "wolf/cli.pyx":19
+  /* "wolf/cli.pyx":18
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -1970,7 +1970,7 @@ static PyObject *__pyx_pf_4wolf_3cli_16PinBlockLauncher_create_parser(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":32
+/* "wolf/cli.pyx":31
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -2010,11 +2010,11 @@ static PyObject *__pyx_pw_4wolf_3cli_22PinBlockEncodeLauncher_1create_parser(PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_subparsers)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 31, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 32, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 31, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2027,7 +2027,7 @@ static PyObject *__pyx_pw_4wolf_3cli_22PinBlockEncodeLauncher_1create_parser(PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 32, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 31, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.cli.PinBlockEncodeLauncher.create_parser", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2050,62 +2050,62 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_create_parser(CYTH
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__5)
   __Pyx_RefNannySetupContext("create_parser", 0);
-  __Pyx_TraceCall("create_parser", __pyx_f[0], 32, 0, __PYX_ERR(0, 32, __pyx_L1_error));
+  __Pyx_TraceCall("create_parser", __pyx_f[0], 31, 0, __PYX_ERR(0, 31, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":33
+  /* "wolf/cli.pyx":32
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')             # <<<<<<<<<<<<<<
  *         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
  *         return parser
  */
-  __Pyx_TraceLine(33,0,__PYX_ERR(0, 33, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_TraceLine(32,0,__PYX_ERR(0, 32, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_ISO_0_ANSI_Pin_Block_encode) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__6, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_ISO_0_ANSI_Pin_Block_encode) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__6, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_parser = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":34
+  /* "wolf/cli.pyx":33
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
  *         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')             # <<<<<<<<<<<<<<
  *         return parser
  * 
  */
-  __Pyx_TraceLine(34,0,__PYX_ERR(0, 34, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_TraceLine(33,0,__PYX_ERR(0, 33, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_nargs, __pyx_kp_u__8) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_code_to_encrypt_if_omitted_t) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__7, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_nargs, __pyx_kp_u__8) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_code_to_encrypt_if_omitted_t) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__7, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":35
+  /* "wolf/cli.pyx":34
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
  *         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
  *         return parser             # <<<<<<<<<<<<<<
  * 
  *     def launch(self):  # pragma: no cover
  */
-  __Pyx_TraceLine(35,0,__PYX_ERR(0, 35, __pyx_L1_error))
+  __Pyx_TraceLine(34,0,__PYX_ERR(0, 34, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_parser);
   __pyx_r = __pyx_v_parser;
   goto __pyx_L0;
 
-  /* "wolf/cli.pyx":32
+  /* "wolf/cli.pyx":31
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -2128,7 +2128,7 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_create_parser(CYTH
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":37
+/* "wolf/cli.pyx":36
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -2166,50 +2166,50 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_2launch(CYTHON_UNU
   PyObject *__pyx_t_9 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__9)
   __Pyx_RefNannySetupContext("launch", 0);
-  __Pyx_TraceCall("launch", __pyx_f[0], 37, 0, __PYX_ERR(0, 37, __pyx_L1_error));
+  __Pyx_TraceCall("launch", __pyx_f[0], 36, 0, __PYX_ERR(0, 36, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":38
+  /* "wolf/cli.pyx":37
  * 
  *     def launch(self):  # pragma: no cover
  *         code = self.args.code             # <<<<<<<<<<<<<<
  *         if not code:
  *             code = sys.stdin.read().strip()
  */
-  __Pyx_TraceLine(38,0,__PYX_ERR(0, 38, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_TraceLine(37,0,__PYX_ERR(0, 37, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_code); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_code); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_code = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":39
+  /* "wolf/cli.pyx":38
  *     def launch(self):  # pragma: no cover
  *         code = self.args.code
  *         if not code:             # <<<<<<<<<<<<<<
  *             code = sys.stdin.read().strip()
  *         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).encode(code).decode())
  */
-  __Pyx_TraceLine(39,0,__PYX_ERR(0, 39, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_code); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_TraceLine(38,0,__PYX_ERR(0, 38, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_code); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 38, __pyx_L1_error)
   __pyx_t_4 = ((!__pyx_t_3) != 0);
   if (__pyx_t_4) {
 
-    /* "wolf/cli.pyx":40
+    /* "wolf/cli.pyx":39
  *         code = self.args.code
  *         if not code:
  *             code = sys.stdin.read().strip()             # <<<<<<<<<<<<<<
  *         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).encode(code).decode())
  * 
  */
-    __Pyx_TraceLine(40,0,__PYX_ERR(0, 40, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_sys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __Pyx_TraceLine(39,0,__PYX_ERR(0, 39, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_sys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stdin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stdin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_read); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_read); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -2224,10 +2224,10 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_2launch(CYTHON_UNU
     }
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -2242,13 +2242,13 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_2launch(CYTHON_UNU
     }
     __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF_SET(__pyx_v_code, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "wolf/cli.pyx":39
+    /* "wolf/cli.pyx":38
  *     def launch(self):  # pragma: no cover
  *         code = self.args.code
  *         if not code:             # <<<<<<<<<<<<<<
@@ -2257,41 +2257,41 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_2launch(CYTHON_UNU
  */
   }
 
-  /* "wolf/cli.pyx":41
+  /* "wolf/cli.pyx":40
  *         if not code:
  *             code = sys.stdin.read().strip()
  *         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).encode(code).decode())             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(41,0,__PYX_ERR(0, 41, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __Pyx_TraceLine(40,0,__PYX_ERR(0, 40, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7);
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_key_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_key_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_key_2, __pyx_t_9) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_key_2, __pyx_t_9) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_encode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_encode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __pyx_t_9 = NULL;
@@ -2306,10 +2306,10 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_2launch(CYTHON_UNU
   }
   __pyx_t_5 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_9, __pyx_v_code) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_code);
   __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -2324,15 +2324,15 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_2launch(CYTHON_UNU
   }
   __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "wolf/cli.pyx":37
+  /* "wolf/cli.pyx":36
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -2361,7 +2361,7 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockEncodeLauncher_2launch(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":47
+/* "wolf/cli.pyx":46
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -2401,11 +2401,11 @@ static PyObject *__pyx_pw_4wolf_3cli_22PinBlockDecodeLauncher_1create_parser(PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_subparsers)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 47, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 46, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 47, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 46, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2418,7 +2418,7 @@ static PyObject *__pyx_pw_4wolf_3cli_22PinBlockDecodeLauncher_1create_parser(PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 47, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 46, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.cli.PinBlockDecodeLauncher.create_parser", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2441,62 +2441,62 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_create_parser(CYTH
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__10)
   __Pyx_RefNannySetupContext("create_parser", 0);
-  __Pyx_TraceCall("create_parser", __pyx_f[0], 47, 0, __PYX_ERR(0, 47, __pyx_L1_error));
+  __Pyx_TraceCall("create_parser", __pyx_f[0], 46, 0, __PYX_ERR(0, 46, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":48
+  /* "wolf/cli.pyx":47
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')             # <<<<<<<<<<<<<<
  *         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
  *         return parser
  */
-  __Pyx_TraceLine(48,0,__PYX_ERR(0, 48, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_TraceLine(47,0,__PYX_ERR(0, 47, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_ISO_0_ANSI_Pin_Block_decode) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__11, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_ISO_0_ANSI_Pin_Block_decode) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__11, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_parser = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":49
+  /* "wolf/cli.pyx":48
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')
  *         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')             # <<<<<<<<<<<<<<
  *         return parser
  * 
  */
-  __Pyx_TraceLine(49,0,__PYX_ERR(0, 49, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_TraceLine(48,0,__PYX_ERR(0, 48, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_nargs, __pyx_kp_u__8) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_code_to_decrypt_if_omitted_t) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__7, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_nargs, __pyx_kp_u__8) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_code_to_decrypt_if_omitted_t) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__7, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":50
+  /* "wolf/cli.pyx":49
  *         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')
  *         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
  *         return parser             # <<<<<<<<<<<<<<
  * 
  *     def launch(self):  # pragma: no cover
  */
-  __Pyx_TraceLine(50,0,__PYX_ERR(0, 50, __pyx_L1_error))
+  __Pyx_TraceLine(49,0,__PYX_ERR(0, 49, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_parser);
   __pyx_r = __pyx_v_parser;
   goto __pyx_L0;
 
-  /* "wolf/cli.pyx":47
+  /* "wolf/cli.pyx":46
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -2519,7 +2519,7 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_create_parser(CYTH
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":52
+/* "wolf/cli.pyx":51
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -2557,50 +2557,50 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_2launch(CYTHON_UNU
   PyObject *__pyx_t_9 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__12)
   __Pyx_RefNannySetupContext("launch", 0);
-  __Pyx_TraceCall("launch", __pyx_f[0], 52, 0, __PYX_ERR(0, 52, __pyx_L1_error));
+  __Pyx_TraceCall("launch", __pyx_f[0], 51, 0, __PYX_ERR(0, 51, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":53
+  /* "wolf/cli.pyx":52
  * 
  *     def launch(self):  # pragma: no cover
  *         code = self.args.code             # <<<<<<<<<<<<<<
  *         if not code:
  *             code = sys.stdin.read().strip()
  */
-  __Pyx_TraceLine(53,0,__PYX_ERR(0, 53, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_TraceLine(52,0,__PYX_ERR(0, 52, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_code); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_code); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_code = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":54
+  /* "wolf/cli.pyx":53
  *     def launch(self):  # pragma: no cover
  *         code = self.args.code
  *         if not code:             # <<<<<<<<<<<<<<
  *             code = sys.stdin.read().strip()
  *         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code).decode())
  */
-  __Pyx_TraceLine(54,0,__PYX_ERR(0, 54, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_code); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_TraceLine(53,0,__PYX_ERR(0, 53, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_code); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
   __pyx_t_4 = ((!__pyx_t_3) != 0);
   if (__pyx_t_4) {
 
-    /* "wolf/cli.pyx":55
+    /* "wolf/cli.pyx":54
  *         code = self.args.code
  *         if not code:
  *             code = sys.stdin.read().strip()             # <<<<<<<<<<<<<<
  *         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code).decode())
  * 
  */
-    __Pyx_TraceLine(55,0,__PYX_ERR(0, 55, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_sys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_TraceLine(54,0,__PYX_ERR(0, 54, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_sys); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stdin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stdin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_read); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_read); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -2615,10 +2615,10 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_2launch(CYTHON_UNU
     }
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = NULL;
@@ -2633,13 +2633,13 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_2launch(CYTHON_UNU
     }
     __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF_SET(__pyx_v_code, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "wolf/cli.pyx":54
+    /* "wolf/cli.pyx":53
  *     def launch(self):  # pragma: no cover
  *         code = self.args.code
  *         if not code:             # <<<<<<<<<<<<<<
@@ -2648,41 +2648,41 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_2launch(CYTHON_UNU
  */
   }
 
-  /* "wolf/cli.pyx":56
+  /* "wolf/cli.pyx":55
  *         if not code:
  *             code = sys.stdin.read().strip()
  *         print(EncryptedISOPinBlock(self.args.token_id, key=self.args.key).decode(code).decode())             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(56,0,__PYX_ERR(0, 56, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __Pyx_TraceLine(55,0,__PYX_ERR(0, 55, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7);
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_key_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_key_2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_key_2, __pyx_t_9) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_key_2, __pyx_t_9) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __pyx_t_9 = NULL;
@@ -2697,10 +2697,10 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_2launch(CYTHON_UNU
   }
   __pyx_t_5 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_9, __pyx_v_code) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_code);
   __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -2715,15 +2715,15 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_2launch(CYTHON_UNU
   }
   __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "wolf/cli.pyx":52
+  /* "wolf/cli.pyx":51
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -2752,7 +2752,7 @@ static PyObject *__pyx_pf_4wolf_3cli_22PinBlockDecodeLauncher_2launch(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":62
+/* "wolf/cli.pyx":61
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -2792,11 +2792,11 @@ static PyObject *__pyx_pw_4wolf_3cli_11OTPLauncher_1create_parser(PyObject *__py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_subparsers)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 62, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 61, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 62, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 61, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2809,7 +2809,7 @@ static PyObject *__pyx_pw_4wolf_3cli_11OTPLauncher_1create_parser(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 62, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 61, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.cli.OTPLauncher.create_parser", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2835,118 +2835,118 @@ static PyObject *__pyx_pf_4wolf_3cli_11OTPLauncher_create_parser(CYTHON_UNUSED P
   PyObject *__pyx_t_5 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__13)
   __Pyx_RefNannySetupContext("create_parser", 0);
-  __Pyx_TraceCall("create_parser", __pyx_f[0], 62, 0, __PYX_ERR(0, 62, __pyx_L1_error));
+  __Pyx_TraceCall("create_parser", __pyx_f[0], 61, 0, __PYX_ERR(0, 61, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":63
+  /* "wolf/cli.pyx":62
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'otp',
  *             help='One time password utilities'
  */
-  __Pyx_TraceLine(63,0,__PYX_ERR(0, 63, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_TraceLine(62,0,__PYX_ERR(0, 62, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":65
+  /* "wolf/cli.pyx":64
  *         parser = subparsers.add_parser(
  *             'otp',
  *             help='One time password utilities'             # <<<<<<<<<<<<<<
  *         )
  *         parser.add_argument(
  */
-  __Pyx_TraceLine(65,0,__PYX_ERR(0, 65, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __Pyx_TraceLine(64,0,__PYX_ERR(0, 64, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_One_time_password_utilities) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_One_time_password_utilities) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":63
+  /* "wolf/cli.pyx":62
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'otp',
  *             help='One time password utilities'
  */
-  __Pyx_TraceLine(63,0,__PYX_ERR(0, 63, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__14, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_TraceLine(62,0,__PYX_ERR(0, 62, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__14, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_parser = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":67
+  /* "wolf/cli.pyx":66
  *             help='One time password utilities'
  *         )
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-t',
  *             '--token-id',
  */
-  __Pyx_TraceLine(67,0,__PYX_ERR(0, 67, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_TraceLine(66,0,__PYX_ERR(0, 66, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/cli.pyx":70
+  /* "wolf/cli.pyx":69
  *             '-t',
  *             '--token-id',
  *             required=True,             # <<<<<<<<<<<<<<
  *             help='The token id'
  *         )
  */
-  __Pyx_TraceLine(70,0,__PYX_ERR(0, 70, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __Pyx_TraceLine(69,0,__PYX_ERR(0, 69, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_required, Py_True) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_token_id) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_required, Py_True) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_The_token_id) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":67
+  /* "wolf/cli.pyx":66
  *             help='One time password utilities'
  *         )
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-t',
  *             '--token-id',
  */
-  __Pyx_TraceLine(67,0,__PYX_ERR(0, 67, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_TraceLine(66,0,__PYX_ERR(0, 66, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":73
+  /* "wolf/cli.pyx":72
  *             help='The token id'
  *         )
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-u',
  *             '--unixtime',
  */
-  __Pyx_TraceLine(73,0,__PYX_ERR(0, 73, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __Pyx_TraceLine(72,0,__PYX_ERR(0, 72, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":76
+  /* "wolf/cli.pyx":75
  *             '-u',
  *             '--unixtime',
  *             type=int,             # <<<<<<<<<<<<<<
  *             default=int(time.time()),
  *             help='Unix time.'
  */
-  __Pyx_TraceLine(76,0,__PYX_ERR(0, 76, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_TraceLine(75,0,__PYX_ERR(0, 75, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_type, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":77
+  /* "wolf/cli.pyx":76
  *             '--unixtime',
  *             type=int,
  *             default=int(time.time()),             # <<<<<<<<<<<<<<
  *             help='Unix time.'
  *         )
  */
-  __Pyx_TraceLine(77,0,__PYX_ERR(0, 77, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __Pyx_TraceLine(76,0,__PYX_ERR(0, 76, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -2961,80 +2961,80 @@ static PyObject *__pyx_pf_4wolf_3cli_11OTPLauncher_create_parser(CYTHON_UNUSED P
   }
   __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_default, __pyx_t_5) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_default, __pyx_t_5) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_Unix_time) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_Unix_time) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":73
+  /* "wolf/cli.pyx":72
  *             help='The token id'
  *         )
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-u',
  *             '--unixtime',
  */
-  __Pyx_TraceLine(73,0,__PYX_ERR(0, 73, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__15, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __Pyx_TraceLine(72,0,__PYX_ERR(0, 72, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__15, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":81
+  /* "wolf/cli.pyx":80
  *         )
  * 
  *         otp_subparsers = parser.add_subparsers(             # <<<<<<<<<<<<<<
  *             title='OTP commands',
  *             dest='otp_command'
  */
-  __Pyx_TraceLine(81,0,__PYX_ERR(0, 81, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_subparsers); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_TraceLine(80,0,__PYX_ERR(0, 80, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_subparsers); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/cli.pyx":82
+  /* "wolf/cli.pyx":81
  * 
  *         otp_subparsers = parser.add_subparsers(
  *             title='OTP commands',             # <<<<<<<<<<<<<<
  *             dest='otp_command'
  *         )
  */
-  __Pyx_TraceLine(82,0,__PYX_ERR(0, 82, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __Pyx_TraceLine(81,0,__PYX_ERR(0, 81, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_title, __pyx_kp_u_OTP_commands) < 0) __PYX_ERR(0, 82, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dest, __pyx_n_u_otp_command) < 0) __PYX_ERR(0, 82, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_title, __pyx_kp_u_OTP_commands) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dest, __pyx_n_u_otp_command) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":81
+  /* "wolf/cli.pyx":80
  *         )
  * 
  *         otp_subparsers = parser.add_subparsers(             # <<<<<<<<<<<<<<
  *             title='OTP commands',
  *             dest='otp_command'
  */
-  __Pyx_TraceLine(81,0,__PYX_ERR(0, 81, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_TraceLine(80,0,__PYX_ERR(0, 80, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_otp_subparsers = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":85
+  /* "wolf/cli.pyx":84
  *             dest='otp_command'
  *         )
  *         OTPGenerateLauncher.register(otp_subparsers)             # <<<<<<<<<<<<<<
  *         OTPVerifyLauncher.register(otp_subparsers)
  *         return parser
  */
-  __Pyx_TraceLine(85,0,__PYX_ERR(0, 85, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_OTPGenerateLauncher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __Pyx_TraceLine(84,0,__PYX_ERR(0, 84, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_OTPGenerateLauncher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3049,22 +3049,22 @@ static PyObject *__pyx_pf_4wolf_3cli_11OTPLauncher_create_parser(CYTHON_UNUSED P
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_2, __pyx_v_otp_subparsers) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_otp_subparsers);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":86
+  /* "wolf/cli.pyx":85
  *         )
  *         OTPGenerateLauncher.register(otp_subparsers)
  *         OTPVerifyLauncher.register(otp_subparsers)             # <<<<<<<<<<<<<<
  *         return parser
  * 
  */
-  __Pyx_TraceLine(86,0,__PYX_ERR(0, 86, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_OTPVerifyLauncher); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_TraceLine(85,0,__PYX_ERR(0, 85, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_OTPVerifyLauncher); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_register); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_register); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -3079,25 +3079,25 @@ static PyObject *__pyx_pf_4wolf_3cli_11OTPLauncher_create_parser(CYTHON_UNUSED P
   }
   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_v_otp_subparsers) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_otp_subparsers);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":87
+  /* "wolf/cli.pyx":86
  *         OTPGenerateLauncher.register(otp_subparsers)
  *         OTPVerifyLauncher.register(otp_subparsers)
  *         return parser             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(87,0,__PYX_ERR(0, 87, __pyx_L1_error))
+  __Pyx_TraceLine(86,0,__PYX_ERR(0, 86, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_parser);
   __pyx_r = __pyx_v_parser;
   goto __pyx_L0;
 
-  /* "wolf/cli.pyx":62
+  /* "wolf/cli.pyx":61
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -3123,7 +3123,7 @@ static PyObject *__pyx_pf_4wolf_3cli_11OTPLauncher_create_parser(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":93
+/* "wolf/cli.pyx":92
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -3163,11 +3163,11 @@ static PyObject *__pyx_pw_4wolf_3cli_19OTPGenerateLauncher_1create_parser(PyObje
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_subparsers)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 93, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 92, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 93, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 92, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3180,7 +3180,7 @@ static PyObject *__pyx_pw_4wolf_3cli_19OTPGenerateLauncher_1create_parser(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 93, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 92, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.cli.OTPGenerateLauncher.create_parser", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3203,60 +3203,60 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_create_parser(CYTHON_
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__16)
   __Pyx_RefNannySetupContext("create_parser", 0);
-  __Pyx_TraceCall("create_parser", __pyx_f[0], 93, 0, __PYX_ERR(0, 93, __pyx_L1_error));
+  __Pyx_TraceCall("create_parser", __pyx_f[0], 92, 0, __PYX_ERR(0, 92, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":94
+  /* "wolf/cli.pyx":93
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'generate',
  *             help='Generate a new OTP'
  */
-  __Pyx_TraceLine(94,0,__PYX_ERR(0, 94, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_TraceLine(93,0,__PYX_ERR(0, 93, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":96
+  /* "wolf/cli.pyx":95
  *         parser = subparsers.add_parser(
  *             'generate',
  *             help='Generate a new OTP'             # <<<<<<<<<<<<<<
  *         )
  *         return parser
  */
-  __Pyx_TraceLine(96,0,__PYX_ERR(0, 96, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __Pyx_TraceLine(95,0,__PYX_ERR(0, 95, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_Generate_a_new_OTP) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_Generate_a_new_OTP) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":94
+  /* "wolf/cli.pyx":93
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'generate',
  *             help='Generate a new OTP'
  */
-  __Pyx_TraceLine(94,0,__PYX_ERR(0, 94, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__17, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_TraceLine(93,0,__PYX_ERR(0, 93, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__17, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_parser = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":98
+  /* "wolf/cli.pyx":97
  *             help='Generate a new OTP'
  *         )
  *         return parser             # <<<<<<<<<<<<<<
  * 
  *     def launch(self):  # pragma: no cover
  */
-  __Pyx_TraceLine(98,0,__PYX_ERR(0, 98, __pyx_L1_error))
+  __Pyx_TraceLine(97,0,__PYX_ERR(0, 97, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_parser);
   __pyx_r = __pyx_v_parser;
   goto __pyx_L0;
 
-  /* "wolf/cli.pyx":93
+  /* "wolf/cli.pyx":92
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -3279,7 +3279,7 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_create_parser(CYTHON_
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":100
+/* "wolf/cli.pyx":99
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -3319,22 +3319,22 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   PyObject *__pyx_t_11 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__18)
   __Pyx_RefNannySetupContext("launch", 0);
-  __Pyx_TraceCall("launch", __pyx_f[0], 100, 0, __PYX_ERR(0, 100, __pyx_L1_error));
+  __Pyx_TraceCall("launch", __pyx_f[0], 99, 0, __PYX_ERR(0, 99, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":101
+  /* "wolf/cli.pyx":100
  * 
  *     def launch(self):  # pragma: no cover
  *         token = DBSession.query(Token) \             # <<<<<<<<<<<<<<
  *             .filter(Token.id == self.args.token_id) \
  *             .one_or_none()
  */
-  __Pyx_TraceLine(101,0,__PYX_ERR(0, 101, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __Pyx_TraceLine(100,0,__PYX_ERR(0, 100, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_query); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_query); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -3349,32 +3349,32 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":102
+  /* "wolf/cli.pyx":101
  *     def launch(self):  # pragma: no cover
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \             # <<<<<<<<<<<<<<
  *             .one_or_none()
  * 
  */
-  __Pyx_TraceLine(102,0,__PYX_ERR(0, 102, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_filter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_TraceLine(101,0,__PYX_ERR(0, 101, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_filter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_4, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_4, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -3390,19 +3390,19 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":103
+  /* "wolf/cli.pyx":102
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \
  *             .one_or_none()             # <<<<<<<<<<<<<<
  * 
  *         if token is None:
  */
-  __Pyx_TraceLine(103,0,__PYX_ERR(0, 103, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_TraceLine(102,0,__PYX_ERR(0, 102, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3417,33 +3417,33 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_token = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":105
+  /* "wolf/cli.pyx":104
  *             .one_or_none()
  * 
  *         if token is None:             # <<<<<<<<<<<<<<
  *             print(
  *                 f'Token with id: {self.args.token_id} was not found',
  */
-  __Pyx_TraceLine(105,0,__PYX_ERR(0, 105, __pyx_L1_error))
+  __Pyx_TraceLine(104,0,__PYX_ERR(0, 104, __pyx_L1_error))
   __pyx_t_7 = (__pyx_v_token == Py_None);
   __pyx_t_8 = (__pyx_t_7 != 0);
   if (__pyx_t_8) {
 
-    /* "wolf/cli.pyx":107
+    /* "wolf/cli.pyx":106
  *         if token is None:
  *             print(
  *                 f'Token with id: {self.args.token_id} was not found',             # <<<<<<<<<<<<<<
  *                 file=sys.stderr
  *             )
  */
-    __Pyx_TraceLine(107,0,__PYX_ERR(0, 107, __pyx_L1_error))
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __Pyx_TraceLine(106,0,__PYX_ERR(0, 106, __pyx_L1_error))
+    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_9 = 0;
     __pyx_t_10 = 127;
@@ -3451,12 +3451,12 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
     __pyx_t_9 += 15;
     __Pyx_GIVEREF(__pyx_kp_u_Token_with_id);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_Token_with_id);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_10;
@@ -3468,70 +3468,70 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
     __pyx_t_9 += 14;
     __Pyx_GIVEREF(__pyx_kp_u_was_not_found);
     PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_was_not_found);
-    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "wolf/cli.pyx":106
+    /* "wolf/cli.pyx":105
  * 
  *         if token is None:
  *             print(             # <<<<<<<<<<<<<<
  *                 f'Token with id: {self.args.token_id} was not found',
  *                 file=sys.stderr
  */
-    __Pyx_TraceLine(106,0,__PYX_ERR(0, 106, __pyx_L1_error))
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __Pyx_TraceLine(105,0,__PYX_ERR(0, 105, __pyx_L1_error))
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "wolf/cli.pyx":108
+    /* "wolf/cli.pyx":107
  *             print(
  *                 f'Token with id: {self.args.token_id} was not found',
  *                 file=sys.stderr             # <<<<<<<<<<<<<<
  *             )
  *             return 1
  */
-    __Pyx_TraceLine(108,0,__PYX_ERR(0, 108, __pyx_L1_error))
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_TraceLine(107,0,__PYX_ERR(0, 107, __pyx_L1_error))
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_file, __pyx_t_3) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_file, __pyx_t_3) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "wolf/cli.pyx":106
+    /* "wolf/cli.pyx":105
  * 
  *         if token is None:
  *             print(             # <<<<<<<<<<<<<<
  *                 f'Token with id: {self.args.token_id} was not found',
  *                 file=sys.stderr
  */
-    __Pyx_TraceLine(106,0,__PYX_ERR(0, 106, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __Pyx_TraceLine(105,0,__PYX_ERR(0, 105, __pyx_L1_error))
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 105, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "wolf/cli.pyx":110
+    /* "wolf/cli.pyx":109
  *                 file=sys.stderr
  *             )
  *             return 1             # <<<<<<<<<<<<<<
  * 
  *         print(TOTP(
  */
-    __Pyx_TraceLine(110,0,__PYX_ERR(0, 110, __pyx_L1_error))
+    __Pyx_TraceLine(109,0,__PYX_ERR(0, 109, __pyx_L1_error))
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(__pyx_int_1);
     __pyx_r = __pyx_int_1;
     goto __pyx_L0;
 
-    /* "wolf/cli.pyx":105
+    /* "wolf/cli.pyx":104
  *             .one_or_none()
  * 
  *         if token is None:             # <<<<<<<<<<<<<<
@@ -3540,65 +3540,65 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
  */
   }
 
-  /* "wolf/cli.pyx":112
+  /* "wolf/cli.pyx":111
  *             return 1
  * 
  *         print(TOTP(             # <<<<<<<<<<<<<<
  *             token.seed,
  *             self.args.unixtime,
  */
-  __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":113
+  /* "wolf/cli.pyx":112
  * 
  *         print(TOTP(
  *             token.seed,             # <<<<<<<<<<<<<<
  *             self.args.unixtime,
  *             token.cryptomodule.one_time_password_length,
  */
-  __Pyx_TraceLine(113,0,__PYX_ERR(0, 113, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "wolf/cli.pyx":114
+  /* "wolf/cli.pyx":113
  *         print(TOTP(
  *             token.seed,
  *             self.args.unixtime,             # <<<<<<<<<<<<<<
  *             token.cryptomodule.one_time_password_length,
  *             step=token.cryptomodule.time_interval
  */
-  __Pyx_TraceLine(114,0,__PYX_ERR(0, 114, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __Pyx_TraceLine(113,0,__PYX_ERR(0, 113, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_unixtime_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_unixtime_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/cli.pyx":115
+  /* "wolf/cli.pyx":114
  *             token.seed,
  *             self.args.unixtime,
  *             token.cryptomodule.one_time_password_length,             # <<<<<<<<<<<<<<
  *             step=token.cryptomodule.time_interval
  *         ).generate().decode())
  */
-  __Pyx_TraceLine(115,0,__PYX_ERR(0, 115, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_TraceLine(114,0,__PYX_ERR(0, 114, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_one_time_password_length); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_one_time_password_length); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/cli.pyx":112
+  /* "wolf/cli.pyx":111
  *             return 1
  * 
  *         print(TOTP(             # <<<<<<<<<<<<<<
  *             token.seed,
  *             self.args.unixtime,
  */
-  __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
-  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
+  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
@@ -3610,47 +3610,47 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   __pyx_t_4 = 0;
   __pyx_t_11 = 0;
 
-  /* "wolf/cli.pyx":116
+  /* "wolf/cli.pyx":115
  *             self.args.unixtime,
  *             token.cryptomodule.one_time_password_length,
  *             step=token.cryptomodule.time_interval             # <<<<<<<<<<<<<<
  *         ).generate().decode())
  * 
  */
-  __Pyx_TraceLine(116,0,__PYX_ERR(0, 116, __pyx_L1_error))
-  __pyx_t_11 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __Pyx_TraceLine(115,0,__PYX_ERR(0, 115, __pyx_L1_error))
+  __pyx_t_11 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_time_interval); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_time_interval); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_step, __pyx_t_2) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_step, __pyx_t_2) < 0) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":112
+  /* "wolf/cli.pyx":111
  *             return 1
  * 
  *         print(TOTP(             # <<<<<<<<<<<<<<
  *             token.seed,
  *             self.args.unixtime,
  */
-  __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "wolf/cli.pyx":117
+  /* "wolf/cli.pyx":116
  *             token.cryptomodule.one_time_password_length,
  *             step=token.cryptomodule.time_interval
  *         ).generate().decode())             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(117,0,__PYX_ERR(0, 117, __pyx_L1_error))
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_generate); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_TraceLine(116,0,__PYX_ERR(0, 116, __pyx_L1_error))
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_generate); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3665,10 +3665,10 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   }
   __pyx_t_5 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -3683,24 +3683,24 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "wolf/cli.pyx":112
+  /* "wolf/cli.pyx":111
  *             return 1
  * 
  *         print(TOTP(             # <<<<<<<<<<<<<<
  *             token.seed,
  *             self.args.unixtime,
  */
-  __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
-  __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
+  __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "wolf/cli.pyx":100
+  /* "wolf/cli.pyx":99
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -3729,7 +3729,7 @@ static PyObject *__pyx_pf_4wolf_3cli_19OTPGenerateLauncher_2launch(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":123
+/* "wolf/cli.pyx":122
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -3769,11 +3769,11 @@ static PyObject *__pyx_pw_4wolf_3cli_17OTPVerifyLauncher_1create_parser(PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_subparsers)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 123, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, 1); __PYX_ERR(0, 122, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 123, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_parser") < 0)) __PYX_ERR(0, 122, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3786,7 +3786,7 @@ static PyObject *__pyx_pw_4wolf_3cli_17OTPVerifyLauncher_1create_parser(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 123, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 122, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.cli.OTPVerifyLauncher.create_parser", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3809,134 +3809,134 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_create_parser(CYTHON_UN
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__19)
   __Pyx_RefNannySetupContext("create_parser", 0);
-  __Pyx_TraceCall("create_parser", __pyx_f[0], 123, 0, __PYX_ERR(0, 123, __pyx_L1_error));
+  __Pyx_TraceCall("create_parser", __pyx_f[0], 122, 0, __PYX_ERR(0, 122, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":124
+  /* "wolf/cli.pyx":123
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'verify',
  *             help='Verify an OTP'
  */
-  __Pyx_TraceLine(124,0,__PYX_ERR(0, 124, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __Pyx_TraceLine(123,0,__PYX_ERR(0, 123, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_subparsers, __pyx_n_s_add_parser); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":126
+  /* "wolf/cli.pyx":125
  *         parser = subparsers.add_parser(
  *             'verify',
  *             help='Verify an OTP'             # <<<<<<<<<<<<<<
  *         )
  *         parser.add_argument(
  */
-  __Pyx_TraceLine(126,0,__PYX_ERR(0, 126, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __Pyx_TraceLine(125,0,__PYX_ERR(0, 125, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 125, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_Verify_an_OTP) < 0) __PYX_ERR(0, 126, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_Verify_an_OTP) < 0) __PYX_ERR(0, 125, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":124
+  /* "wolf/cli.pyx":123
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'verify',
  *             help='Verify an OTP'
  */
-  __Pyx_TraceLine(124,0,__PYX_ERR(0, 124, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__20, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __Pyx_TraceLine(123,0,__PYX_ERR(0, 123, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__20, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_parser = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":128
+  /* "wolf/cli.pyx":127
  *             help='Verify an OTP'
  *         )
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             'otp',
  *             help='OTP to verify'
  */
-  __Pyx_TraceLine(128,0,__PYX_ERR(0, 128, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_TraceLine(127,0,__PYX_ERR(0, 127, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/cli.pyx":130
+  /* "wolf/cli.pyx":129
  *         parser.add_argument(
  *             'otp',
  *             help='OTP to verify'             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __Pyx_TraceLine(130,0,__PYX_ERR(0, 130, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __Pyx_TraceLine(129,0,__PYX_ERR(0, 129, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_OTP_to_verify) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_OTP_to_verify) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":128
+  /* "wolf/cli.pyx":127
  *             help='Verify an OTP'
  *         )
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             'otp',
  *             help='OTP to verify'
  */
-  __Pyx_TraceLine(128,0,__PYX_ERR(0, 128, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__14, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_TraceLine(127,0,__PYX_ERR(0, 127, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__14, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":133
+  /* "wolf/cli.pyx":132
  *         )
  * 
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-w',
  *             '--window',
  */
-  __Pyx_TraceLine(133,0,__PYX_ERR(0, 133, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_TraceLine(132,0,__PYX_ERR(0, 132, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_add_argument); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":136
+  /* "wolf/cli.pyx":135
  *             '-w',
  *             '--window',
  *             help='If not given, value will be grabed from configuraion ' \             # <<<<<<<<<<<<<<
  *                 'infrastructure: oath.window'
  *         )
  */
-  __Pyx_TraceLine(136,0,__PYX_ERR(0, 136, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_TraceLine(135,0,__PYX_ERR(0, 135, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_If_not_given_value_will_be_grabe) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_help, __pyx_kp_u_If_not_given_value_will_be_grabe) < 0) __PYX_ERR(0, 135, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":133
+  /* "wolf/cli.pyx":132
  *         )
  * 
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-w',
  *             '--window',
  */
-  __Pyx_TraceLine(133,0,__PYX_ERR(0, 133, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__21, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_TraceLine(132,0,__PYX_ERR(0, 132, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__21, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":140
+  /* "wolf/cli.pyx":139
  *         )
  * 
  *         return parser             # <<<<<<<<<<<<<<
  * 
  *     def launch(self):  # pragma: no cover
  */
-  __Pyx_TraceLine(140,0,__PYX_ERR(0, 140, __pyx_L1_error))
+  __Pyx_TraceLine(139,0,__PYX_ERR(0, 139, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_parser);
   __pyx_r = __pyx_v_parser;
   goto __pyx_L0;
 
-  /* "wolf/cli.pyx":123
+  /* "wolf/cli.pyx":122
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
@@ -3959,7 +3959,7 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_create_parser(CYTHON_UN
   return __pyx_r;
 }
 
-/* "wolf/cli.pyx":142
+/* "wolf/cli.pyx":141
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -4000,22 +4000,22 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   int __pyx_t_11;
   __Pyx_TraceFrameInit(__pyx_codeobj__22)
   __Pyx_RefNannySetupContext("launch", 0);
-  __Pyx_TraceCall("launch", __pyx_f[0], 142, 0, __PYX_ERR(0, 142, __pyx_L1_error));
+  __Pyx_TraceCall("launch", __pyx_f[0], 141, 0, __PYX_ERR(0, 141, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":143
+  /* "wolf/cli.pyx":142
  * 
  *     def launch(self):  # pragma: no cover
  *         token = DBSession.query(Token) \             # <<<<<<<<<<<<<<
  *             .filter(Token.id == self.args.token_id) \
  *             .one_or_none()
  */
-  __Pyx_TraceLine(143,0,__PYX_ERR(0, 143, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_TraceLine(142,0,__PYX_ERR(0, 142, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_query); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_query); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -4030,32 +4030,32 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":144
+  /* "wolf/cli.pyx":143
  *     def launch(self):  # pragma: no cover
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \             # <<<<<<<<<<<<<<
  *             .one_or_none()
  * 
  */
-  __Pyx_TraceLine(144,0,__PYX_ERR(0, 144, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_filter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_TraceLine(143,0,__PYX_ERR(0, 143, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_filter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_4, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_4, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -4071,19 +4071,19 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":145
+  /* "wolf/cli.pyx":144
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \
  *             .one_or_none()             # <<<<<<<<<<<<<<
  * 
  *         if token is None:
  */
-  __Pyx_TraceLine(145,0,__PYX_ERR(0, 145, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __Pyx_TraceLine(144,0,__PYX_ERR(0, 144, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4098,33 +4098,33 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_token = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":147
+  /* "wolf/cli.pyx":146
  *             .one_or_none()
  * 
  *         if token is None:             # <<<<<<<<<<<<<<
  *             print(
  *                 f'Token with id: {self.args.token_id} was not found',
  */
-  __Pyx_TraceLine(147,0,__PYX_ERR(0, 147, __pyx_L1_error))
+  __Pyx_TraceLine(146,0,__PYX_ERR(0, 146, __pyx_L1_error))
   __pyx_t_7 = (__pyx_v_token == Py_None);
   __pyx_t_8 = (__pyx_t_7 != 0);
   if (__pyx_t_8) {
 
-    /* "wolf/cli.pyx":149
+    /* "wolf/cli.pyx":148
  *         if token is None:
  *             print(
  *                 f'Token with id: {self.args.token_id} was not found',             # <<<<<<<<<<<<<<
  *                 file=sys.stderr
  *             )
  */
-    __Pyx_TraceLine(149,0,__PYX_ERR(0, 149, __pyx_L1_error))
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __Pyx_TraceLine(148,0,__PYX_ERR(0, 148, __pyx_L1_error))
+    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_9 = 0;
     __pyx_t_10 = 127;
@@ -4132,12 +4132,12 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
     __pyx_t_9 += 15;
     __Pyx_GIVEREF(__pyx_kp_u_Token_with_id);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_Token_with_id);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_token_id_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_10;
@@ -4149,70 +4149,70 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
     __pyx_t_9 += 14;
     __Pyx_GIVEREF(__pyx_kp_u_was_not_found);
     PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_was_not_found);
-    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "wolf/cli.pyx":148
+    /* "wolf/cli.pyx":147
  * 
  *         if token is None:
  *             print(             # <<<<<<<<<<<<<<
  *                 f'Token with id: {self.args.token_id} was not found',
  *                 file=sys.stderr
  */
-    __Pyx_TraceLine(148,0,__PYX_ERR(0, 148, __pyx_L1_error))
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __Pyx_TraceLine(147,0,__PYX_ERR(0, 147, __pyx_L1_error))
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "wolf/cli.pyx":150
+    /* "wolf/cli.pyx":149
  *             print(
  *                 f'Token with id: {self.args.token_id} was not found',
  *                 file=sys.stderr             # <<<<<<<<<<<<<<
  *             )
  *             return 1
  */
-    __Pyx_TraceLine(150,0,__PYX_ERR(0, 150, __pyx_L1_error))
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 150, __pyx_L1_error)
+    __Pyx_TraceLine(149,0,__PYX_ERR(0, 149, __pyx_L1_error))
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 150, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_file, __pyx_t_3) < 0) __PYX_ERR(0, 150, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_file, __pyx_t_3) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "wolf/cli.pyx":148
+    /* "wolf/cli.pyx":147
  * 
  *         if token is None:
  *             print(             # <<<<<<<<<<<<<<
  *                 f'Token with id: {self.args.token_id} was not found',
  *                 file=sys.stderr
  */
-    __Pyx_TraceLine(148,0,__PYX_ERR(0, 148, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __Pyx_TraceLine(147,0,__PYX_ERR(0, 147, __pyx_L1_error))
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "wolf/cli.pyx":152
+    /* "wolf/cli.pyx":151
  *                 file=sys.stderr
  *             )
  *             return 1             # <<<<<<<<<<<<<<
  *         ok = TOTP(
  *             token.seed,
  */
-    __Pyx_TraceLine(152,0,__PYX_ERR(0, 152, __pyx_L1_error))
+    __Pyx_TraceLine(151,0,__PYX_ERR(0, 151, __pyx_L1_error))
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(__pyx_int_1);
     __pyx_r = __pyx_int_1;
     goto __pyx_L0;
 
-    /* "wolf/cli.pyx":147
+    /* "wolf/cli.pyx":146
  *             .one_or_none()
  * 
  *         if token is None:             # <<<<<<<<<<<<<<
@@ -4221,65 +4221,65 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
  */
   }
 
-  /* "wolf/cli.pyx":153
+  /* "wolf/cli.pyx":152
  *             )
  *             return 1
  *         ok = TOTP(             # <<<<<<<<<<<<<<
  *             token.seed,
  *             self.args.unixtime,
  */
-  __Pyx_TraceLine(153,0,__PYX_ERR(0, 153, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_TraceLine(152,0,__PYX_ERR(0, 152, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/cli.pyx":154
+  /* "wolf/cli.pyx":153
  *             return 1
  *         ok = TOTP(
  *             token.seed,             # <<<<<<<<<<<<<<
  *             self.args.unixtime,
  *             token.cryptomodule.one_time_password_length,
  */
-  __Pyx_TraceLine(154,0,__PYX_ERR(0, 154, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_seed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __Pyx_TraceLine(153,0,__PYX_ERR(0, 153, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_seed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":155
+  /* "wolf/cli.pyx":154
  *         ok = TOTP(
  *             token.seed,
  *             self.args.unixtime,             # <<<<<<<<<<<<<<
  *             token.cryptomodule.one_time_password_length,
  *             step=token.cryptomodule.time_interval
  */
-  __Pyx_TraceLine(155,0,__PYX_ERR(0, 155, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __Pyx_TraceLine(154,0,__PYX_ERR(0, 154, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_unixtime_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_unixtime_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":156
+  /* "wolf/cli.pyx":155
  *             token.seed,
  *             self.args.unixtime,
  *             token.cryptomodule.one_time_password_length,             # <<<<<<<<<<<<<<
  *             step=token.cryptomodule.time_interval
  *         ).verify(
  */
-  __Pyx_TraceLine(156,0,__PYX_ERR(0, 156, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_TraceLine(155,0,__PYX_ERR(0, 155, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_time_password_length); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_time_password_length); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":153
+  /* "wolf/cli.pyx":152
  *             )
  *             return 1
  *         ok = TOTP(             # <<<<<<<<<<<<<<
  *             token.seed,
  *             self.args.unixtime,
  */
-  __Pyx_TraceLine(153,0,__PYX_ERR(0, 153, __pyx_L1_error))
-  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_TraceLine(152,0,__PYX_ERR(0, 152, __pyx_L1_error))
+  __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -4291,64 +4291,64 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   __pyx_t_6 = 0;
   __pyx_t_4 = 0;
 
-  /* "wolf/cli.pyx":157
+  /* "wolf/cli.pyx":156
  *             self.args.unixtime,
  *             token.cryptomodule.one_time_password_length,
  *             step=token.cryptomodule.time_interval             # <<<<<<<<<<<<<<
  *         ).verify(
  *             self.args.otp.encode(),
  */
-  __Pyx_TraceLine(157,0,__PYX_ERR(0, 157, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __Pyx_TraceLine(156,0,__PYX_ERR(0, 156, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_time_interval); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_time_interval); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_step, __pyx_t_1) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_step, __pyx_t_1) < 0) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":153
+  /* "wolf/cli.pyx":152
  *             )
  *             return 1
  *         ok = TOTP(             # <<<<<<<<<<<<<<
  *             token.seed,
  *             self.args.unixtime,
  */
-  __Pyx_TraceLine(153,0,__PYX_ERR(0, 153, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_TraceLine(152,0,__PYX_ERR(0, 152, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/cli.pyx":158
+  /* "wolf/cli.pyx":157
  *             token.cryptomodule.one_time_password_length,
  *             step=token.cryptomodule.time_interval
  *         ).verify(             # <<<<<<<<<<<<<<
  *             self.args.otp.encode(),
  *             self.args.window if self.args.window
  */
-  __Pyx_TraceLine(158,0,__PYX_ERR(0, 158, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_verify); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __Pyx_TraceLine(157,0,__PYX_ERR(0, 157, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_verify); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":159
+  /* "wolf/cli.pyx":158
  *             step=token.cryptomodule.time_interval
  *         ).verify(
  *             self.args.otp.encode(),             # <<<<<<<<<<<<<<
  *             self.args.window if self.args.window
  *                  else settings.oath.window
  */
-  __Pyx_TraceLine(159,0,__PYX_ERR(0, 159, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_TraceLine(158,0,__PYX_ERR(0, 158, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_otp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_otp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -4363,49 +4363,49 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   }
   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":160
+  /* "wolf/cli.pyx":159
  *         ).verify(
  *             self.args.otp.encode(),
  *             self.args.window if self.args.window             # <<<<<<<<<<<<<<
  *                  else settings.oath.window
  *         )
  */
-  __Pyx_TraceLine(160,0,__PYX_ERR(0, 160, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __Pyx_TraceLine(159,0,__PYX_ERR(0, 159, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_window_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_window_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (__pyx_t_8) {
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 160, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_args); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_window_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 160, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_window_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_2 = __pyx_t_5;
     __pyx_t_5 = 0;
   } else {
 
-    /* "wolf/cli.pyx":161
+    /* "wolf/cli.pyx":160
  *             self.args.otp.encode(),
  *             self.args.window if self.args.window
  *                  else settings.oath.window             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-    __Pyx_TraceLine(161,0,__PYX_ERR(0, 161, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_settings); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __Pyx_TraceLine(160,0,__PYX_ERR(0, 160, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_settings); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_oath); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_oath); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_window_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 161, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_window_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_2 = __pyx_t_5;
@@ -4426,7 +4426,7 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_1, __pyx_t_2};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4436,7 +4436,7 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_1, __pyx_t_2};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4444,7 +4444,7 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -4455,7 +4455,7 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_11, __pyx_t_2);
     __pyx_t_1 = 0;
     __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -4463,53 +4463,53 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
   __pyx_v_ok = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":164
+  /* "wolf/cli.pyx":163
  *         )
  * 
  *         if not ok:             # <<<<<<<<<<<<<<
  *             print('Invalid code', file=sys.stderr)
  *             return 1
  */
-  __Pyx_TraceLine(164,0,__PYX_ERR(0, 164, __pyx_L1_error))
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_ok); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __Pyx_TraceLine(163,0,__PYX_ERR(0, 163, __pyx_L1_error))
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_ok); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
   __pyx_t_7 = ((!__pyx_t_8) != 0);
   if (__pyx_t_7) {
 
-    /* "wolf/cli.pyx":165
+    /* "wolf/cli.pyx":164
  * 
  *         if not ok:
  *             print('Invalid code', file=sys.stderr)             # <<<<<<<<<<<<<<
  *             return 1
  * 
  */
-    __Pyx_TraceLine(165,0,__PYX_ERR(0, 165, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __Pyx_TraceLine(164,0,__PYX_ERR(0, 164, __pyx_L1_error))
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_sys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_sys); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 164, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_stderr); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_stderr); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 164, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_file, __pyx_t_6) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_file, __pyx_t_6) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__23, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__23, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 164, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "wolf/cli.pyx":166
+    /* "wolf/cli.pyx":165
  *         if not ok:
  *             print('Invalid code', file=sys.stderr)
  *             return 1             # <<<<<<<<<<<<<<
  * 
  */
-    __Pyx_TraceLine(166,0,__PYX_ERR(0, 166, __pyx_L1_error))
+    __Pyx_TraceLine(165,0,__PYX_ERR(0, 165, __pyx_L1_error))
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(__pyx_int_1);
     __pyx_r = __pyx_int_1;
     goto __pyx_L0;
 
-    /* "wolf/cli.pyx":164
+    /* "wolf/cli.pyx":163
  *         )
  * 
  *         if not ok:             # <<<<<<<<<<<<<<
@@ -4518,7 +4518,7 @@ static PyObject *__pyx_pf_4wolf_3cli_17OTPVerifyLauncher_2launch(CYTHON_UNUSED P
  */
   }
 
-  /* "wolf/cli.pyx":142
+  /* "wolf/cli.pyx":141
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
@@ -4723,7 +4723,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 40, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -4733,257 +4733,257 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "wolf/cli.pyx":20
+  /* "wolf/cli.pyx":19
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')             # <<<<<<<<<<<<<<
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_n_u_pinblock); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_n_u_pinblock); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "wolf/cli.pyx":21
+  /* "wolf/cli.pyx":20
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')             # <<<<<<<<<<<<<<
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')
  *         pinblock_subparsers = parser.add_subparsers(title="pinblock command", dest="pinblock_command")
  */
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_kp_u_k, __pyx_kp_u_key); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_kp_u_k, __pyx_kp_u_key); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "wolf/cli.pyx":22
+  /* "wolf/cli.pyx":21
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')
  *         parser.add_argument('-t', '--token-id', required=True, help='The token id')             # <<<<<<<<<<<<<<
  *         pinblock_subparsers = parser.add_subparsers(title="pinblock command", dest="pinblock_command")
  *         PinBlockEncodeLauncher.register(pinblock_subparsers)
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_kp_u_t, __pyx_kp_u_token_id); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_kp_u_t, __pyx_kp_u_token_id); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "wolf/cli.pyx":33
+  /* "wolf/cli.pyx":32
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')             # <<<<<<<<<<<<<<
  *         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
  *         return parser
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_u_encode); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_u_encode); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "wolf/cli.pyx":34
+  /* "wolf/cli.pyx":33
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
  *         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')             # <<<<<<<<<<<<<<
  *         return parser
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_u_code); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_u_code); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "wolf/cli.pyx":48
+  /* "wolf/cli.pyx":47
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')             # <<<<<<<<<<<<<<
  *         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
  *         return parser
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_u_decode); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_u_decode); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "wolf/cli.pyx":63
+  /* "wolf/cli.pyx":62
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'otp',
  *             help='One time password utilities'
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_u_otp); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_u_otp); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
 
-  /* "wolf/cli.pyx":73
+  /* "wolf/cli.pyx":72
  *             help='The token id'
  *         )
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-u',
  *             '--unixtime',
  */
-  __pyx_tuple__15 = PyTuple_Pack(2, __pyx_kp_u_u, __pyx_kp_u_unixtime); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(2, __pyx_kp_u_u, __pyx_kp_u_unixtime); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
 
-  /* "wolf/cli.pyx":94
+  /* "wolf/cli.pyx":93
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'generate',
  *             help='Generate a new OTP'
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_u_generate); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_u_generate); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
-  /* "wolf/cli.pyx":124
+  /* "wolf/cli.pyx":123
  *     @classmethod
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(             # <<<<<<<<<<<<<<
  *             'verify',
  *             help='Verify an OTP'
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_u_verify); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_u_verify); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "wolf/cli.pyx":133
+  /* "wolf/cli.pyx":132
  *         )
  * 
  *         parser.add_argument(             # <<<<<<<<<<<<<<
  *             '-w',
  *             '--window',
  */
-  __pyx_tuple__21 = PyTuple_Pack(2, __pyx_kp_u_w, __pyx_kp_u_window); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(2, __pyx_kp_u_w, __pyx_kp_u_window); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
 
-  /* "wolf/cli.pyx":165
+  /* "wolf/cli.pyx":164
  * 
  *         if not ok:
  *             print('Invalid code', file=sys.stderr)             # <<<<<<<<<<<<<<
  *             return 1
  * 
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_Invalid_code); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_Invalid_code); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
-  /* "wolf/cli.pyx":19
+  /* "wolf/cli.pyx":18
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')
  */
-  __pyx_tuple__24 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser, __pyx_n_s_pinblock_subparsers); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser, __pyx_n_s_pinblock_subparsers); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
-  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 18, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":32
+  /* "wolf/cli.pyx":31
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
  *         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
  */
-  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 31, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":37
+  /* "wolf/cli.pyx":36
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         code = self.args.code
  *         if not code:
  */
-  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_code); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_code); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__26);
   __Pyx_GIVEREF(__pyx_tuple__26);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 37, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 36, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 36, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":47
+  /* "wolf/cli.pyx":46
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')
  *         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
  */
-  __pyx_tuple__27 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 47, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 46, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 46, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":52
+  /* "wolf/cli.pyx":51
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         code = self.args.code
  *         if not code:
  */
-  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_code); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_code); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 52, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 51, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":62
+  /* "wolf/cli.pyx":61
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser(
  *             'otp',
  */
-  __pyx_tuple__29 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser, __pyx_n_s_otp_subparsers); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser, __pyx_n_s_otp_subparsers); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 61, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 61, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":93
+  /* "wolf/cli.pyx":92
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser(
  *             'generate',
  */
-  __pyx_tuple__30 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 93, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 92, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 92, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":100
+  /* "wolf/cli.pyx":99
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \
  */
-  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_token); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_token); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 99, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":123
+  /* "wolf/cli.pyx":122
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser(
  *             'verify',
  */
-  __pyx_tuple__32 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_tuple__32 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_subparsers, __pyx_n_s_parser); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 123, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_create_parser, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 122, __pyx_L1_error)
 
-  /* "wolf/cli.pyx":142
+  /* "wolf/cli.pyx":141
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \
  */
-  __pyx_tuple__33 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_token, __pyx_n_s_ok); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_token, __pyx_n_s_ok); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 142, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_cli_pyx, __pyx_n_s_launch, 141, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -4992,8 +4992,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
-  if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
-  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -5181,30 +5181,30 @@ if (!__Pyx_RefNanny) {
 }
 #endif
   __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_cli(void)", 0);
-  if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
   #endif
-  __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_empty_unicode = PyUnicode_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_unicode)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_empty_unicode = PyUnicode_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_unicode)) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pyx_CyFunction_USED
-  if (__pyx_CyFunction_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_CyFunction_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_FusedFunction_USED
-  if (__pyx_FusedFunction_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_FusedFunction_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_Coroutine_USED
-  if (__pyx_Coroutine_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_Coroutine_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_Generator_USED
-  if (__pyx_Generator_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_Generator_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_AsyncGen_USED
-  if (__pyx_AsyncGen_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_AsyncGen_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   #ifdef __Pyx_StopAsyncIteration_USED
-  if (__pyx_StopAsyncIteration_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__pyx_StopAsyncIteration_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   /*--- Library function declarations ---*/
   /*--- Threads initialization code ---*/
@@ -5223,36 +5223,36 @@ if (!__Pyx_RefNanny) {
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
-  if (unlikely(!__pyx_m)) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (unlikely(!__pyx_m)) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __pyx_d = PyModule_GetDict(__pyx_m); if (unlikely(!__pyx_d)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_d = PyModule_GetDict(__pyx_m); if (unlikely(!__pyx_d)) __PYX_ERR(0, 1, __pyx_L1_error)
   Py_INCREF(__pyx_d);
-  __pyx_b = PyImport_AddModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_b)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_cython_runtime = PyImport_AddModule((char *) "cython_runtime"); if (unlikely(!__pyx_cython_runtime)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_b = PyImport_AddModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_b)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_cython_runtime = PyImport_AddModule((char *) "cython_runtime"); if (unlikely(!__pyx_cython_runtime)) __PYX_ERR(0, 1, __pyx_L1_error)
   #if CYTHON_COMPILING_IN_PYPY
   Py_INCREF(__pyx_b);
   #endif
-  if (PyObject_SetAttrString(__pyx_m, "__builtins__", __pyx_b) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
+  if (PyObject_SetAttrString(__pyx_m, "__builtins__", __pyx_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   /*--- Initialize various global constants etc. ---*/
-  if (__Pyx_InitGlobals() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitGlobals() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
-  if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
   if (__pyx_module_is_main_wolf__cli) {
-    if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+    if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
-    PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 2, __pyx_L1_error)
+    PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
     if (!PyDict_GetItemString(modules, "wolf.cli")) {
-      if (unlikely(PyDict_SetItemString(modules, "wolf.cli", __pyx_m) < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
+      if (unlikely(PyDict_SetItemString(modules, "wolf.cli", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
   /*--- Builtin init code ---*/
-  if (__Pyx_InitCachedBuiltins() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitCachedBuiltins() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   /*--- Constants init code ---*/
-  if (__Pyx_InitCachedConstants() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_InitCachedConstants() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   /*--- Global type/function init code ---*/
   (void)__Pyx_modinit_global_init_code();
   (void)__Pyx_modinit_variable_export_code();
@@ -5263,67 +5263,66 @@ if (!__Pyx_RefNanny) {
   (void)__Pyx_modinit_function_import_code();
   /*--- Execution code ---*/
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
-  if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_cli(void)", __pyx_f[0], 2, 0, __PYX_ERR(0, 2, __pyx_L1_error));
+  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_cli(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
-  /* "wolf/cli.pyx":3
- * 
+  /* "wolf/cli.pyx":2
  * # cython: language_level=3
  * import sys             # <<<<<<<<<<<<<<
  * import time
  * 
  */
-  __Pyx_TraceLine(3,0,__PYX_ERR(0, 3, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_TraceLine(2,0,__PYX_ERR(0, 2, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sys, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":4
+  /* "wolf/cli.pyx":3
  * # cython: language_level=3
  * import sys
  * import time             # <<<<<<<<<<<<<<
  * 
  * from nanohttp import settings
  */
-  __Pyx_TraceLine(4,0,__PYX_ERR(0, 4, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_TraceLine(3,0,__PYX_ERR(0, 3, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":6
+  /* "wolf/cli.pyx":5
  * import time
  * 
  * from nanohttp import settings             # <<<<<<<<<<<<<<
  * from restfulpy.cli import Launcher, RequireSubCommand
  * from restfulpy.orm import DBSession
  */
-  __Pyx_TraceLine(6,0,__PYX_ERR(0, 6, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_TraceLine(5,0,__PYX_ERR(0, 5, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_settings);
   __Pyx_GIVEREF(__pyx_n_s_settings);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_settings);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_nanohttp, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_nanohttp, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_settings, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_settings, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":7
+  /* "wolf/cli.pyx":6
  * 
  * from nanohttp import settings
  * from restfulpy.cli import Launcher, RequireSubCommand             # <<<<<<<<<<<<<<
  * from restfulpy.orm import DBSession
  * from oathcy.otp import TOTP
  */
-  __Pyx_TraceLine(7,0,__PYX_ERR(0, 7, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_TraceLine(6,0,__PYX_ERR(0, 6, __pyx_L1_error))
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_Launcher);
   __Pyx_GIVEREF(__pyx_n_s_Launcher);
@@ -5331,120 +5330,120 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_RequireSubCommand);
   __Pyx_GIVEREF(__pyx_n_s_RequireSubCommand);
   PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_RequireSubCommand);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_restfulpy_cli, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_restfulpy_cli, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Launcher, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Launcher, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_RequireSubCommand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_RequireSubCommand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RequireSubCommand, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RequireSubCommand, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":8
+  /* "wolf/cli.pyx":7
  * from nanohttp import settings
  * from restfulpy.cli import Launcher, RequireSubCommand
  * from restfulpy.orm import DBSession             # <<<<<<<<<<<<<<
  * from oathcy.otp import TOTP
  * 
  */
-  __Pyx_TraceLine(8,0,__PYX_ERR(0, 8, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_TraceLine(7,0,__PYX_ERR(0, 7, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_DBSession);
   __Pyx_GIVEREF(__pyx_n_s_DBSession);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_DBSession);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_orm, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_orm, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DBSession, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DBSession, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":9
+  /* "wolf/cli.pyx":8
  * from restfulpy.cli import Launcher, RequireSubCommand
  * from restfulpy.orm import DBSession
  * from oathcy.otp import TOTP             # <<<<<<<<<<<<<<
  * 
  * from wolf.cryptoutil import EncryptedISOPinBlock
  */
-  __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_TraceLine(8,0,__PYX_ERR(0, 8, __pyx_L1_error))
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_TOTP);
   __Pyx_GIVEREF(__pyx_n_s_TOTP);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_TOTP);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_oathcy_otp, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_oathcy_otp, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TOTP, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TOTP, __pyx_t_2) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":11
+  /* "wolf/cli.pyx":10
  * from oathcy.otp import TOTP
  * 
  * from wolf.cryptoutil import EncryptedISOPinBlock             # <<<<<<<<<<<<<<
  * from wolf.models import Token
  * 
  */
-  __Pyx_TraceLine(11,0,__PYX_ERR(0, 11, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_TraceLine(10,0,__PYX_ERR(0, 10, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_EncryptedISOPinBlock);
   __Pyx_GIVEREF(__pyx_n_s_EncryptedISOPinBlock);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_EncryptedISOPinBlock);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_wolf_cryptoutil, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_wolf_cryptoutil, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_EncryptedISOPinBlock, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_EncryptedISOPinBlock, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":12
+  /* "wolf/cli.pyx":11
  * 
  * from wolf.cryptoutil import EncryptedISOPinBlock
  * from wolf.models import Token             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(12,0,__PYX_ERR(0, 12, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_TraceLine(11,0,__PYX_ERR(0, 11, __pyx_L1_error))
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_Token);
   __Pyx_GIVEREF(__pyx_n_s_Token);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Token);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf_models, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf_models, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Token, __pyx_t_2) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Token, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":16
+  /* "wolf/cli.pyx":15
  * 
  * # noinspection PyAbstractClass
  * class PinBlockLauncher(Launcher, RequireSubCommand):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(16,0,__PYX_ERR(0, 16, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_TraceLine(15,0,__PYX_ERR(0, 15, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RequireSubCommand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RequireSubCommand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -5452,213 +5451,213 @@ if (!__Pyx_RefNanny) {
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_PinBlockLauncher, __pyx_n_s_PinBlockLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_PinBlockLauncher, __pyx_n_s_PinBlockLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":19
+  /* "wolf/cli.pyx":18
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')
  *         parser.add_argument('-k', '--key', help='The psk to (en/de)crypt.')
  */
-  __Pyx_TraceLine(19,0,__PYX_ERR(0, 19, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_16PinBlockLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_PinBlockLauncher_create_parser, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj_)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_TraceLine(18,0,__PYX_ERR(0, 18, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_16PinBlockLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_PinBlockLauncher_create_parser, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj_)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "wolf/cli.pyx":18
+  /* "wolf/cli.pyx":17
  * class PinBlockLauncher(Launcher, RequireSubCommand):
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('pinblock', help='ISO-0 ANSI Pin Block tools')
  */
-  __Pyx_TraceLine(18,0,__PYX_ERR(0, 18, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_parser, __pyx_t_5) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_parser, __pyx_t_5) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":16
+  /* "wolf/cli.pyx":15
  * 
  * # noinspection PyAbstractClass
  * class PinBlockLauncher(Launcher, RequireSubCommand):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(16,0,__PYX_ERR(0, 16, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_PinBlockLauncher, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_TraceLine(15,0,__PYX_ERR(0, 15, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_PinBlockLauncher, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PinBlockLauncher, __pyx_t_5) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PinBlockLauncher, __pyx_t_5) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":29
+  /* "wolf/cli.pyx":28
  * 
  * 
  * class PinBlockEncodeLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(29,0,__PYX_ERR(0, 29, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_TraceLine(28,0,__PYX_ERR(0, 28, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_3, __pyx_t_2, __pyx_n_s_PinBlockEncodeLauncher, __pyx_n_s_PinBlockEncodeLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_3, __pyx_t_2, __pyx_n_s_PinBlockEncodeLauncher, __pyx_n_s_PinBlockEncodeLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":32
+  /* "wolf/cli.pyx":31
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
  *         parser.add_argument('code', nargs='?', help='The code to encrypt. if omitted, the standard input will be used.')
  */
-  __Pyx_TraceLine(32,0,__PYX_ERR(0, 32, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockEncodeLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_PinBlockEncodeLauncher_create_pa, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_TraceLine(31,0,__PYX_ERR(0, 31, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockEncodeLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_PinBlockEncodeLauncher_create_pa, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/cli.pyx":31
+  /* "wolf/cli.pyx":30
  * class PinBlockEncodeLauncher(Launcher):
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('encode', help='ISO-0 ANSI Pin Block encode')
  */
-  __Pyx_TraceLine(31,0,__PYX_ERR(0, 31, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_TraceLine(30,0,__PYX_ERR(0, 30, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_parser, __pyx_t_4) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_parser, __pyx_t_4) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/cli.pyx":37
+  /* "wolf/cli.pyx":36
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         code = self.args.code
  *         if not code:
  */
-  __Pyx_TraceLine(37,0,__PYX_ERR(0, 37, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockEncodeLauncher_3launch, 0, __pyx_n_s_PinBlockEncodeLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __Pyx_TraceLine(36,0,__PYX_ERR(0, 36, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockEncodeLauncher_3launch, 0, __pyx_n_s_PinBlockEncodeLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_launch, __pyx_t_4) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_launch, __pyx_t_4) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/cli.pyx":29
+  /* "wolf/cli.pyx":28
  * 
  * 
  * class PinBlockEncodeLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(29,0,__PYX_ERR(0, 29, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_PinBlockEncodeLauncher, __pyx_t_2, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_TraceLine(28,0,__PYX_ERR(0, 28, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_PinBlockEncodeLauncher, __pyx_t_2, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PinBlockEncodeLauncher, __pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PinBlockEncodeLauncher, __pyx_t_4) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":44
+  /* "wolf/cli.pyx":43
  * 
  * 
  * class PinBlockDecodeLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(44,0,__PYX_ERR(0, 44, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_TraceLine(43,0,__PYX_ERR(0, 43, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_PinBlockDecodeLauncher, __pyx_n_s_PinBlockDecodeLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_PinBlockDecodeLauncher, __pyx_n_s_PinBlockDecodeLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/cli.pyx":47
+  /* "wolf/cli.pyx":46
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')
  *         parser.add_argument('code', nargs='?', help='The code to decrypt. if omitted, the standard input will be used.')
  */
-  __Pyx_TraceLine(47,0,__PYX_ERR(0, 47, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockDecodeLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_PinBlockDecodeLauncher_create_pa, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_TraceLine(46,0,__PYX_ERR(0, 46, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockDecodeLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_PinBlockDecodeLauncher_create_pa, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "wolf/cli.pyx":46
+  /* "wolf/cli.pyx":45
  * class PinBlockDecodeLauncher(Launcher):
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser('decode', help='ISO-0 ANSI Pin Block decode')
  */
-  __Pyx_TraceLine(46,0,__PYX_ERR(0, 46, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_TraceLine(45,0,__PYX_ERR(0, 45, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_parser, __pyx_t_5) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_create_parser, __pyx_t_5) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":52
+  /* "wolf/cli.pyx":51
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         code = self.args.code
  *         if not code:
  */
-  __Pyx_TraceLine(52,0,__PYX_ERR(0, 52, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockDecodeLauncher_3launch, 0, __pyx_n_s_PinBlockDecodeLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_TraceLine(51,0,__PYX_ERR(0, 51, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_22PinBlockDecodeLauncher_3launch, 0, __pyx_n_s_PinBlockDecodeLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_launch, __pyx_t_5) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_launch, __pyx_t_5) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":44
+  /* "wolf/cli.pyx":43
  * 
  * 
  * class PinBlockDecodeLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(44,0,__PYX_ERR(0, 44, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_PinBlockDecodeLauncher, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_TraceLine(43,0,__PYX_ERR(0, 43, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_PinBlockDecodeLauncher, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PinBlockDecodeLauncher, __pyx_t_5) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PinBlockDecodeLauncher, __pyx_t_5) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/cli.pyx":59
+  /* "wolf/cli.pyx":58
  * 
  * 
  * class OTPLauncher(Launcher, RequireSubCommand):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(59,0,__PYX_ERR(0, 59, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_TraceLine(58,0,__PYX_ERR(0, 58, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RequireSubCommand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_RequireSubCommand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
@@ -5666,210 +5665,209 @@ if (!__Pyx_RefNanny) {
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
   __pyx_t_3 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_OTPLauncher, __pyx_n_s_OTPLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_OTPLauncher, __pyx_n_s_OTPLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/cli.pyx":62
+  /* "wolf/cli.pyx":61
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser(
  *             'otp',
  */
-  __Pyx_TraceLine(62,0,__PYX_ERR(0, 62, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_11OTPLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_OTPLauncher_create_parser, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_TraceLine(61,0,__PYX_ERR(0, 61, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_11OTPLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_OTPLauncher_create_parser, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/cli.pyx":61
+  /* "wolf/cli.pyx":60
  * class OTPLauncher(Launcher, RequireSubCommand):
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(
  */
-  __Pyx_TraceLine(61,0,__PYX_ERR(0, 61, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __Pyx_TraceLine(60,0,__PYX_ERR(0, 60, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_create_parser, __pyx_t_4) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_create_parser, __pyx_t_4) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/cli.pyx":59
+  /* "wolf/cli.pyx":58
  * 
  * 
  * class OTPLauncher(Launcher, RequireSubCommand):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(59,0,__PYX_ERR(0, 59, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_OTPLauncher, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_TraceLine(58,0,__PYX_ERR(0, 58, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_OTPLauncher, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_OTPLauncher, __pyx_t_4) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_OTPLauncher, __pyx_t_4) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":90
+  /* "wolf/cli.pyx":89
  * 
  * 
  * class OTPGenerateLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(90,0,__PYX_ERR(0, 90, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_TraceLine(89,0,__PYX_ERR(0, 89, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_OTPGenerateLauncher, __pyx_n_s_OTPGenerateLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_OTPGenerateLauncher, __pyx_n_s_OTPGenerateLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/cli.pyx":93
+  /* "wolf/cli.pyx":92
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser(
  *             'generate',
  */
-  __Pyx_TraceLine(93,0,__PYX_ERR(0, 93, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_19OTPGenerateLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_OTPGenerateLauncher_create_parse, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_TraceLine(92,0,__PYX_ERR(0, 92, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_19OTPGenerateLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_OTPGenerateLauncher_create_parse, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "wolf/cli.pyx":92
+  /* "wolf/cli.pyx":91
  * class OTPGenerateLauncher(Launcher):
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(
  */
-  __Pyx_TraceLine(92,0,__PYX_ERR(0, 92, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __Pyx_TraceLine(91,0,__PYX_ERR(0, 91, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_Method_ClassMethod(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_create_parser, __pyx_t_5) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_create_parser, __pyx_t_5) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":100
+  /* "wolf/cli.pyx":99
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \
  */
-  __Pyx_TraceLine(100,0,__PYX_ERR(0, 100, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_19OTPGenerateLauncher_3launch, 0, __pyx_n_s_OTPGenerateLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_TraceLine(99,0,__PYX_ERR(0, 99, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_19OTPGenerateLauncher_3launch, 0, __pyx_n_s_OTPGenerateLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_launch, __pyx_t_5) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_launch, __pyx_t_5) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/cli.pyx":90
+  /* "wolf/cli.pyx":89
  * 
  * 
  * class OTPGenerateLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(90,0,__PYX_ERR(0, 90, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_OTPGenerateLauncher, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_TraceLine(89,0,__PYX_ERR(0, 89, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_OTPGenerateLauncher, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_OTPGenerateLauncher, __pyx_t_5) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_OTPGenerateLauncher, __pyx_t_5) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/cli.pyx":120
+  /* "wolf/cli.pyx":119
  * 
  * 
  * class OTPVerifyLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(120,0,__PYX_ERR(0, 120, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __Pyx_TraceLine(119,0,__PYX_ERR(0, 119, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Launcher); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_OTPVerifyLauncher, __pyx_n_s_OTPVerifyLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_OTPVerifyLauncher, __pyx_n_s_OTPVerifyLauncher, (PyObject *) NULL, __pyx_n_s_wolf_cli, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/cli.pyx":123
+  /* "wolf/cli.pyx":122
  * 
  *     @classmethod
  *     def create_parser(cls, subparsers):             # <<<<<<<<<<<<<<
  *         parser = subparsers.add_parser(
  *             'verify',
  */
-  __Pyx_TraceLine(123,0,__PYX_ERR(0, 123, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_17OTPVerifyLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_OTPVerifyLauncher_create_parser, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __Pyx_TraceLine(122,0,__PYX_ERR(0, 122, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_17OTPVerifyLauncher_1create_parser, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_OTPVerifyLauncher_create_parser, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/cli.pyx":122
+  /* "wolf/cli.pyx":121
  * class OTPVerifyLauncher(Launcher):
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def create_parser(cls, subparsers):
  *         parser = subparsers.add_parser(
  */
-  __Pyx_TraceLine(122,0,__PYX_ERR(0, 122, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __Pyx_TraceLine(121,0,__PYX_ERR(0, 121, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Method_ClassMethod(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_create_parser, __pyx_t_4) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_create_parser, __pyx_t_4) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/cli.pyx":142
+  /* "wolf/cli.pyx":141
  *         return parser
  * 
  *     def launch(self):  # pragma: no cover             # <<<<<<<<<<<<<<
  *         token = DBSession.query(Token) \
  *             .filter(Token.id == self.args.token_id) \
  */
-  __Pyx_TraceLine(142,0,__PYX_ERR(0, 142, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_17OTPVerifyLauncher_3launch, 0, __pyx_n_s_OTPVerifyLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_TraceLine(141,0,__PYX_ERR(0, 141, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_3cli_17OTPVerifyLauncher_3launch, 0, __pyx_n_s_OTPVerifyLauncher_launch, NULL, __pyx_n_s_wolf_cli, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_launch, __pyx_t_4) < 0) __PYX_ERR(0, 142, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_launch, __pyx_t_4) < 0) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/cli.pyx":120
+  /* "wolf/cli.pyx":119
  * 
  * 
  * class OTPVerifyLauncher(Launcher):             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(120,0,__PYX_ERR(0, 120, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_OTPVerifyLauncher, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __Pyx_TraceLine(119,0,__PYX_ERR(0, 119, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_OTPVerifyLauncher, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_OTPVerifyLauncher, __pyx_t_4) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_OTPVerifyLauncher, __pyx_t_4) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/cli.pyx":2
- * 
+  /* "wolf/cli.pyx":1
  * # cython: language_level=3             # <<<<<<<<<<<<<<
  * import sys
  * import time
  */
-  __Pyx_TraceLine(2,0,__PYX_ERR(0, 2, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_TraceLine(1,0,__PYX_ERR(0, 1, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_TraceReturn(Py_None, 0);
 

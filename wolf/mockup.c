@@ -3,12 +3,12 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "wolf.basedata",
+        "name": "wolf.mockup",
         "sources": [
-            "wolf/basedata.pyx"
+            "wolf/mockup.pyx"
         ]
     },
-    "module_name": "wolf.basedata"
+    "module_name": "wolf.mockup"
 }
 END: Cython Metadata */
 
@@ -597,8 +597,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__wolf__basedata
-#define __PYX_HAVE_API__wolf__basedata
+#define __PYX_HAVE__wolf__mockup
+#define __PYX_HAVE_API__wolf__mockup
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -808,7 +808,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "wolf/basedata.pyx",
+  "wolf/mockup.pyx",
 };
 
 /*--- Type declarations ---*/
@@ -876,6 +876,28 @@ static const char *__pyx_f[] = {
     } while (0)
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
+
+/* PyObjectGetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
+#else
+#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
+#endif
+
+/* GetBuiltinName.proto */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1115,16 +1137,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
   #define __Pyx_TraceLine(lineno, nogil, goto_error)   if ((1)); else goto_error;
 #endif
 
-/* PyObjectGetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
-#else
-#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
-#endif
-
-/* GetBuiltinName.proto */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 #define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
@@ -1172,6 +1184,13 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
 
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
 /* PyFunctionFastCall.proto */
 #if CYTHON_FAST_PYCALL
 #define __Pyx_PyFunction_FastCall(func, args, nargs)\
@@ -1202,10 +1221,16 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
 /* PyObjectCallMethO.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
 #endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1214,15 +1239,65 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
 #else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
 #endif
 
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+/* PyObjectLookupSpecial.proto */
+#if CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_LookupSpecial(PyObject* obj, PyObject* attr_name) {
+    PyObject *res;
+    PyTypeObject *tp = Py_TYPE(obj);
+#if PY_MAJOR_VERSION < 3
+    if (unlikely(PyInstance_Check(obj)))
+        return __Pyx_PyObject_GetAttrStr(obj, attr_name);
+#endif
+    res = _PyType_Lookup(tp, attr_name);
+    if (likely(res)) {
+        descrgetfunc f = Py_TYPE(res)->tp_descr_get;
+        if (!f) {
+            Py_INCREF(res);
+        } else {
+            res = f(res, obj, (PyObject *)tp);
+        }
+    } else {
+        PyErr_SetObject(PyExc_AttributeError, attr_name);
+    }
+    return res;
+}
+#else
+#define __Pyx_PyObject_LookupSpecial(o,n) __Pyx_PyObject_GetAttrStr(o,n)
+#endif
+
+/* RaiseTooManyValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
+
+/* RaiseNeedMoreValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
+
+/* IterFinish.proto */
+static CYTHON_INLINE int __Pyx_IterFinish(void);
+
+/* UnpackItemEndCheck.proto */
+static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
+
+/* PyObjectFormat.proto */
+#if CYTHON_USE_UNICODE_WRITER
+static PyObject* __Pyx_PyObject_Format(PyObject* s, PyObject* f);
+#else
+#define __Pyx_PyObject_Format(s, f) PyObject_Format(s, f)
+#endif
+
+/* IncludeStringH.proto */
+#include <string.h>
+
+/* JoinPyUnicode.proto */
+static PyObject* __Pyx_PyUnicode_Join(PyObject* value_tuple, Py_ssize_t value_count, Py_ssize_t result_ulength,
+                                      Py_UCS4 max_char);
 
 /* PyObjectSetAttrStr.proto */
 #if CYTHON_USE_TYPE_SLOTS
@@ -1233,8 +1308,29 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
 #define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
 #endif
 
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+/* GetTopmostException.proto */
+#if CYTHON_USE_EXC_INFO_STACK
+static _PyErr_StackItem * __Pyx_PyErr_GetTopmostException(PyThreadState *tstate);
+#endif
+
+/* SaveResetException.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_ExceptionSave(type, value, tb)  __Pyx__ExceptionSave(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#define __Pyx_ExceptionReset(type, value, tb)  __Pyx__ExceptionReset(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+#else
+#define __Pyx_ExceptionSave(type, value, tb)   PyErr_GetExcInfo(type, value, tb)
+#define __Pyx_ExceptionReset(type, value, tb)  PyErr_SetExcInfo(type, value, tb)
+#endif
+
+/* GetException.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_GetException(type, value, tb)  __Pyx__GetException(__pyx_tstate, type, value, tb)
+static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#else
+static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
+#endif
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -1297,279 +1393,958 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'wolf.basedata' */
-#define __Pyx_MODULE_NAME "wolf.basedata"
-extern int __pyx_module_is_main_wolf__basedata;
-int __pyx_module_is_main_wolf__basedata = 0;
+/* Module declarations from 'wolf.mockup' */
+#define __Pyx_MODULE_NAME "wolf.mockup"
+extern int __pyx_module_is_main_wolf__mockup;
+int __pyx_module_is_main_wolf__mockup = 0;
 
-/* Implementation of 'wolf.basedata' */
+/* Implementation of 'wolf.mockup' */
+static PyObject *__pyx_builtin_range;
+static const char __pyx_k_i[] = "i";
+static const char __pyx_k_02[] = "02";
+static const char __pyx_k_09[] = "09";
+static const char __pyx_k_id[] = "id";
+static const char __pyx_k_010[] = "010";
+static const char __pyx_k_989[] = "989";
 static const char __pyx_k_add[] = "add";
+static const char __pyx_k_all[] = "all";
+static const char __pyx_k_date[] = "date";
+static const char __pyx_k_days[] = "days";
+static const char __pyx_k_exit[] = "__exit__";
 static const char __pyx_k_main[] = "__main__";
-static const char __pyx_k_name[] = "__name__";
+static const char __pyx_k_name[] = "name";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_Token[] = "Token";
+static const char __pyx_k_enter[] = "__enter__";
+static const char __pyx_k_flush[] = "flush";
+static const char __pyx_k_phone[] = "phone";
+static const char __pyx_k_query[] = "query";
+static const char __pyx_k_range[] = "range";
+static const char __pyx_k_today[] = "today";
+static const char __pyx_k_token[] = "token";
 static const char __pyx_k_commit[] = "commit";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_insert[] = "insert";
+static const char __pyx_k_models[] = "models";
+static const char __pyx_k_name_2[] = "__name__";
+static const char __pyx_k_prefix[] = "prefix";
+static const char __pyx_k_datetime[] = "datetime";
+static const char __pyx_k_progress[] = "progress";
+static const char __pyx_k_quantity[] = "quantity";
 static const char __pyx_k_DBSession[] = "DBSession";
-static const char __pyx_k_wolf_models[] = "wolf.models";
+static const char __pyx_k_increment[] = "increment";
+static const char __pyx_k_is_active[] = "is_active";
+static const char __pyx_k_timedelta[] = "timedelta";
+static const char __pyx_k_ProgressBar[] = "ProgressBar";
+static const char __pyx_k_expire_date[] = "expire_date";
+static const char __pyx_k_wolf_mockup[] = "wolf.mockup";
 static const char __pyx_k_Cryptomodule[] = "Cryptomodule";
+static const char __pyx_k_restfulpy_cli[] = "restfulpy.cli";
 static const char __pyx_k_restfulpy_orm[] = "restfulpy.orm";
-static const char __pyx_k_wolf_basedata[] = "wolf.basedata";
-static const char __pyx_k_wolf_basedata_pyx[] = "wolf/basedata.pyx";
+static const char __pyx_k_cryptomodule_id[] = "cryptomodule_id";
+static const char __pyx_k_initialize_seed[] = "initialize_seed";
+static const char __pyx_k_wolf_mockup_pyx[] = "wolf/mockup.pyx";
+static const char __pyx_k_cryptomodule_ids[] = "cryptomodule_ids";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_mockup_cryptomodule1[] = "mockup_cryptomodule1";
-static const char __pyx_k_mockup_cryptomodule2[] = "mockup_cryptomodule2";
-static const char __pyx_k_one_time_password_length[] = "one_time_password_length";
-static const char __pyx_k_challenge_response_length[] = "challenge_response_length";
+static PyObject *__pyx_kp_u_010;
+static PyObject *__pyx_kp_u_02;
+static PyObject *__pyx_kp_u_09;
+static PyObject *__pyx_kp_u_989;
 static PyObject *__pyx_n_s_Cryptomodule;
 static PyObject *__pyx_n_s_DBSession;
+static PyObject *__pyx_n_s_ProgressBar;
+static PyObject *__pyx_n_s_Token;
 static PyObject *__pyx_n_s_add;
-static PyObject *__pyx_n_s_challenge_response_length;
+static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_commit;
+static PyObject *__pyx_n_s_cryptomodule_id;
+static PyObject *__pyx_n_s_cryptomodule_ids;
+static PyObject *__pyx_n_s_date;
+static PyObject *__pyx_n_s_datetime;
+static PyObject *__pyx_n_s_days;
+static PyObject *__pyx_n_s_enter;
+static PyObject *__pyx_n_s_exit;
+static PyObject *__pyx_n_s_expire_date;
+static PyObject *__pyx_n_s_flush;
+static PyObject *__pyx_n_s_i;
+static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_increment;
+static PyObject *__pyx_n_s_initialize_seed;
 static PyObject *__pyx_n_s_insert;
+static PyObject *__pyx_n_s_is_active;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_n_s_mockup_cryptomodule1;
-static PyObject *__pyx_n_s_mockup_cryptomodule2;
+static PyObject *__pyx_n_s_models;
 static PyObject *__pyx_n_s_name;
-static PyObject *__pyx_n_s_one_time_password_length;
+static PyObject *__pyx_n_s_name_2;
+static PyObject *__pyx_n_s_phone;
+static PyObject *__pyx_n_s_prefix;
+static PyObject *__pyx_n_s_progress;
+static PyObject *__pyx_n_s_quantity;
+static PyObject *__pyx_n_s_query;
+static PyObject *__pyx_n_s_range;
+static PyObject *__pyx_n_s_restfulpy_cli;
 static PyObject *__pyx_n_s_restfulpy_orm;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_wolf_basedata;
-static PyObject *__pyx_kp_s_wolf_basedata_pyx;
-static PyObject *__pyx_n_s_wolf_models;
-static PyObject *__pyx_pf_4wolf_8basedata_insert(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_int_4;
-static PyObject *__pyx_int_7;
+static PyObject *__pyx_n_s_timedelta;
+static PyObject *__pyx_n_s_today;
+static PyObject *__pyx_n_s_token;
+static PyObject *__pyx_n_s_wolf_mockup;
+static PyObject *__pyx_kp_s_wolf_mockup_pyx;
+static PyObject *__pyx_pf_4wolf_6mockup_insert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_quantity, PyObject *__pyx_v_prefix); /* proto */
+static PyObject *__pyx_int_0;
+static PyObject *__pyx_int_1;
+static PyObject *__pyx_int_2;
+static PyObject *__pyx_int_10;
+static PyObject *__pyx_int_20000;
 static PyObject *__pyx_codeobj_;
 static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_tuple__3;
 /* Late includes */
 
-/* "wolf/basedata.pyx":7
+/* "wolf/mockup.pyx":10
  * 
  * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
+ * def insert(quantity=10, prefix=0):             # <<<<<<<<<<<<<<
+ *     quantity = int(quantity)
+ *     prefix = int(prefix)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4wolf_8basedata_1insert(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyMethodDef __pyx_mdef_4wolf_8basedata_1insert = {"insert", (PyCFunction)__pyx_pw_4wolf_8basedata_1insert, METH_NOARGS, 0};
-static PyObject *__pyx_pw_4wolf_8basedata_1insert(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_4wolf_6mockup_1insert(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_4wolf_6mockup_1insert = {"insert", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_4wolf_6mockup_1insert, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_4wolf_6mockup_1insert(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_quantity = 0;
+  PyObject *__pyx_v_prefix = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("insert (wrapper)", 0);
-  __pyx_r = __pyx_pf_4wolf_8basedata_insert(__pyx_self);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_quantity,&__pyx_n_s_prefix,0};
+    PyObject* values[2] = {0,0};
+    values[0] = ((PyObject *)__pyx_int_10);
+    values[1] = ((PyObject *)__pyx_int_0);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_quantity);
+          if (value) { values[0] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_prefix);
+          if (value) { values[1] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "insert") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_quantity = values[0];
+    __pyx_v_prefix = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("insert", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 10, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("wolf.mockup.insert", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_4wolf_6mockup_insert(__pyx_self, __pyx_v_quantity, __pyx_v_prefix);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4wolf_8basedata_insert(CYTHON_UNUSED PyObject *__pyx_self) {
-  PyObject *__pyx_v_mockup_cryptomodule1 = NULL;
-  PyObject *__pyx_v_mockup_cryptomodule2 = NULL;
+static PyObject *__pyx_pf_4wolf_6mockup_insert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_quantity, PyObject *__pyx_v_prefix) {
+  PyObject *__pyx_v_cryptomodule_ids = NULL;
+  PyObject *__pyx_v_expire_date = NULL;
+  PyObject *__pyx_v_progress = NULL;
+  PyObject *__pyx_v_i = NULL;
+  PyObject *__pyx_v_cryptomodule_id = NULL;
+  PyObject *__pyx_v_token = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  Py_ssize_t __pyx_t_10;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  Py_ssize_t __pyx_t_12;
+  PyObject *(*__pyx_t_13)(PyObject *);
+  PyObject *(*__pyx_t_14)(PyObject *);
+  Py_ssize_t __pyx_t_15;
+  Py_UCS4 __pyx_t_16;
+  PyObject *__pyx_t_17 = NULL;
+  int __pyx_t_18;
+  int __pyx_t_19;
   __Pyx_TraceFrameInit(__pyx_codeobj_)
   __Pyx_RefNannySetupContext("insert", 0);
-  __Pyx_TraceCall("insert", __pyx_f[0], 7, 0, __PYX_ERR(0, 7, __pyx_L1_error));
+  __Pyx_TraceCall("insert", __pyx_f[0], 10, 0, __PYX_ERR(0, 10, __pyx_L1_error));
+  __Pyx_INCREF(__pyx_v_quantity);
+  __Pyx_INCREF(__pyx_v_prefix);
 
-  /* "wolf/basedata.pyx":8
+  /* "wolf/mockup.pyx":11
  * 
- * def insert():
- *     mockup_cryptomodule1 = Cryptomodule()             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1.challenge_response_length = 4
- *     mockup_cryptomodule1.one_time_password_length = 4
+ * def insert(quantity=10, prefix=0):
+ *     quantity = int(quantity)             # <<<<<<<<<<<<<<
+ *     prefix = int(prefix)
+ *     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()
  */
-  __Pyx_TraceLine(8,0,__PYX_ERR(0, 8, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_TraceLine(11,0,__PYX_ERR(0, 11, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_quantity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_mockup_cryptomodule1 = __pyx_t_1;
+  __Pyx_DECREF_SET(__pyx_v_quantity, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "wolf/basedata.pyx":9
- * def insert():
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1.one_time_password_length = 4
- * 
- */
-  __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule1, __pyx_n_s_challenge_response_length, __pyx_int_4) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":10
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
- *     mockup_cryptomodule1.one_time_password_length = 4             # <<<<<<<<<<<<<<
- * 
- *     mockup_cryptomodule2 = Cryptomodule()
- */
-  __Pyx_TraceLine(10,0,__PYX_ERR(0, 10, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule1, __pyx_n_s_one_time_password_length, __pyx_int_4) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":12
- *     mockup_cryptomodule1.one_time_password_length = 4
- * 
- *     mockup_cryptomodule2 = Cryptomodule()             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule2.challenge_response_length = 7
- *     mockup_cryptomodule2.one_time_password_length = 7
+  /* "wolf/mockup.pyx":12
+ * def insert(quantity=10, prefix=0):
+ *     quantity = int(quantity)
+ *     prefix = int(prefix)             # <<<<<<<<<<<<<<
+ *     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()
+ *     expire_date = date.today() + timedelta(days=20000)
  */
   __Pyx_TraceLine(12,0,__PYX_ERR(0, 12, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_prefix); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_mockup_cryptomodule2 = __pyx_t_1;
+  __Pyx_DECREF_SET(__pyx_v_prefix, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "wolf/basedata.pyx":13
- * 
- *     mockup_cryptomodule2 = Cryptomodule()
- *     mockup_cryptomodule2.challenge_response_length = 7             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule2.one_time_password_length = 7
- * 
+  /* "wolf/mockup.pyx":13
+ *     quantity = int(quantity)
+ *     prefix = int(prefix)
+ *     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()             # <<<<<<<<<<<<<<
+ *     expire_date = date.today() + timedelta(days=20000)
+ *     with ProgressBar(quantity*2+1) as progress:
  */
   __Pyx_TraceLine(13,0,__PYX_ERR(0, 13, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule2, __pyx_n_s_challenge_response_length, __pyx_int_7) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":14
- *     mockup_cryptomodule2 = Cryptomodule()
- *     mockup_cryptomodule2.challenge_response_length = 7
- *     mockup_cryptomodule2.one_time_password_length = 7             # <<<<<<<<<<<<<<
- * 
- *     DBSession.add(mockup_cryptomodule1)
- */
-  __Pyx_TraceLine(14,0,__PYX_ERR(0, 14, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule2, __pyx_n_s_one_time_password_length, __pyx_int_7) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":16
- *     mockup_cryptomodule2.one_time_password_length = 7
- * 
- *     DBSession.add(mockup_cryptomodule1)             # <<<<<<<<<<<<<<
- *     DBSession.add(mockup_cryptomodule2)
- *     DBSession.commit()
- */
-  __Pyx_TraceLine(16,0,__PYX_ERR(0, 16, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_mockup_cryptomodule1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_mockup_cryptomodule1);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "wolf/basedata.pyx":17
- * 
- *     DBSession.add(mockup_cryptomodule1)
- *     DBSession.add(mockup_cryptomodule2)             # <<<<<<<<<<<<<<
- *     DBSession.commit()
- */
-  __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_add); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
     if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
       __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_all); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_cryptomodule_ids = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "wolf/mockup.pyx":14
+ *     prefix = int(prefix)
+ *     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()
+ *     expire_date = date.today() + timedelta(days=20000)             # <<<<<<<<<<<<<<
+ *     with ProgressBar(quantity*2+1) as progress:
+ *         for i in range(quantity):
+ */
+  __Pyx_TraceLine(14,0,__PYX_ERR(0, 14, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_date); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_today); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_mockup_cryptomodule2) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_mockup_cryptomodule2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "wolf/basedata.pyx":18
- *     DBSession.add(mockup_cryptomodule1)
- *     DBSession.add(mockup_cryptomodule2)
- *     DBSession.commit()             # <<<<<<<<<<<<<<
- */
-  __Pyx_TraceLine(18,0,__PYX_ERR(0, 18, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_timedelta); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_commit); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_days, __pyx_int_20000) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_expire_date = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-  /* "wolf/basedata.pyx":7
+  /* "wolf/mockup.pyx":15
+ *     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()
+ *     expire_date = date.today() + timedelta(days=20000)
+ *     with ProgressBar(quantity*2+1) as progress:             # <<<<<<<<<<<<<<
+ *         for i in range(quantity):
+ *             for (cryptomodule_id, ) in cryptomodule_ids:
+ */
+  __Pyx_TraceLine(15,0,__PYX_ERR(0, 15, __pyx_L1_error))
+  /*with:*/ {
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_ProgressBar); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = PyNumber_Multiply(__pyx_v_quantity, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_1)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
+      }
+    }
+    __pyx_t_4 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_6 = __Pyx_PyObject_LookupSpecial(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_t_4, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L3_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_1)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+      }
+    }
+    __pyx_t_5 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L3_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __pyx_t_5;
+    __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    /*try:*/ {
+      {
+        __Pyx_PyThreadState_declare
+        __Pyx_PyThreadState_assign
+        __Pyx_ExceptionSave(&__pyx_t_7, &__pyx_t_8, &__pyx_t_9);
+        __Pyx_XGOTREF(__pyx_t_7);
+        __Pyx_XGOTREF(__pyx_t_8);
+        __Pyx_XGOTREF(__pyx_t_9);
+        /*try:*/ {
+          __pyx_v_progress = __pyx_t_2;
+          __pyx_t_2 = 0;
+
+          /* "wolf/mockup.pyx":16
+ *     expire_date = date.today() + timedelta(days=20000)
+ *     with ProgressBar(quantity*2+1) as progress:
+ *         for i in range(quantity):             # <<<<<<<<<<<<<<
+ *             for (cryptomodule_id, ) in cryptomodule_ids:
+ *                 token = Token()
+ */
+          __Pyx_TraceLine(16,0,__PYX_ERR(0, 16, __pyx_L7_error))
+          __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_quantity); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
+            __pyx_t_4 = __pyx_t_2; __Pyx_INCREF(__pyx_t_4); __pyx_t_10 = 0;
+            __pyx_t_11 = NULL;
+          } else {
+            __pyx_t_10 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L7_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __pyx_t_11 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 16, __pyx_L7_error)
+          }
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          for (;;) {
+            if (likely(!__pyx_t_11)) {
+              if (likely(PyList_CheckExact(__pyx_t_4))) {
+                if (__pyx_t_10 >= PyList_GET_SIZE(__pyx_t_4)) break;
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                __pyx_t_2 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_10); __Pyx_INCREF(__pyx_t_2); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 16, __pyx_L7_error)
+                #else
+                __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L7_error)
+                __Pyx_GOTREF(__pyx_t_2);
+                #endif
+              } else {
+                if (__pyx_t_10 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_10); __Pyx_INCREF(__pyx_t_2); __pyx_t_10++; if (unlikely(0 < 0)) __PYX_ERR(0, 16, __pyx_L7_error)
+                #else
+                __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_10); __pyx_t_10++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L7_error)
+                __Pyx_GOTREF(__pyx_t_2);
+                #endif
+              }
+            } else {
+              __pyx_t_2 = __pyx_t_11(__pyx_t_4);
+              if (unlikely(!__pyx_t_2)) {
+                PyObject* exc_type = PyErr_Occurred();
+                if (exc_type) {
+                  if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+                  else __PYX_ERR(0, 16, __pyx_L7_error)
+                }
+                break;
+              }
+              __Pyx_GOTREF(__pyx_t_2);
+            }
+            __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_2);
+            __pyx_t_2 = 0;
+
+            /* "wolf/mockup.pyx":17
+ *     with ProgressBar(quantity*2+1) as progress:
+ *         for i in range(quantity):
+ *             for (cryptomodule_id, ) in cryptomodule_ids:             # <<<<<<<<<<<<<<
+ *                 token = Token()
+ *                 token.name = f'{prefix:02}{i:010}{cryptomodule_id:02}'
+ */
+            __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L7_error))
+            if (likely(PyList_CheckExact(__pyx_v_cryptomodule_ids)) || PyTuple_CheckExact(__pyx_v_cryptomodule_ids)) {
+              __pyx_t_2 = __pyx_v_cryptomodule_ids; __Pyx_INCREF(__pyx_t_2); __pyx_t_12 = 0;
+              __pyx_t_13 = NULL;
+            } else {
+              __pyx_t_12 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_cryptomodule_ids); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_2);
+              __pyx_t_13 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 17, __pyx_L7_error)
+            }
+            for (;;) {
+              if (likely(!__pyx_t_13)) {
+                if (likely(PyList_CheckExact(__pyx_t_2))) {
+                  if (__pyx_t_12 >= PyList_GET_SIZE(__pyx_t_2)) break;
+                  #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                  __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_12); __Pyx_INCREF(__pyx_t_5); __pyx_t_12++; if (unlikely(0 < 0)) __PYX_ERR(0, 17, __pyx_L7_error)
+                  #else
+                  __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L7_error)
+                  __Pyx_GOTREF(__pyx_t_5);
+                  #endif
+                } else {
+                  if (__pyx_t_12 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+                  #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_12); __Pyx_INCREF(__pyx_t_5); __pyx_t_12++; if (unlikely(0 < 0)) __PYX_ERR(0, 17, __pyx_L7_error)
+                  #else
+                  __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_12); __pyx_t_12++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 17, __pyx_L7_error)
+                  __Pyx_GOTREF(__pyx_t_5);
+                  #endif
+                }
+              } else {
+                __pyx_t_5 = __pyx_t_13(__pyx_t_2);
+                if (unlikely(!__pyx_t_5)) {
+                  PyObject* exc_type = PyErr_Occurred();
+                  if (exc_type) {
+                    if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+                    else __PYX_ERR(0, 17, __pyx_L7_error)
+                  }
+                  break;
+                }
+                __Pyx_GOTREF(__pyx_t_5);
+              }
+              if ((likely(PyTuple_CheckExact(__pyx_t_5))) || (PyList_CheckExact(__pyx_t_5))) {
+                PyObject* sequence = __pyx_t_5;
+                Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+                if (unlikely(size != 1)) {
+                  if (size > 1) __Pyx_RaiseTooManyValuesError(1);
+                  else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+                  __PYX_ERR(0, 17, __pyx_L7_error)
+                }
+                #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+                if (likely(PyTuple_CheckExact(sequence))) {
+                  __pyx_t_1 = PyTuple_GET_ITEM(sequence, 0); 
+                } else {
+                  __pyx_t_1 = PyList_GET_ITEM(sequence, 0); 
+                }
+                __Pyx_INCREF(__pyx_t_1);
+                #else
+                __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L7_error)
+                __Pyx_GOTREF(__pyx_t_1);
+                #endif
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              } else {
+                Py_ssize_t index = -1;
+                __pyx_t_3 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L7_error)
+                __Pyx_GOTREF(__pyx_t_3);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_14 = Py_TYPE(__pyx_t_3)->tp_iternext;
+                index = 0; __pyx_t_1 = __pyx_t_14(__pyx_t_3); if (unlikely(!__pyx_t_1)) goto __pyx_L17_unpacking_failed;
+                __Pyx_GOTREF(__pyx_t_1);
+                if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_3), 1) < 0) __PYX_ERR(0, 17, __pyx_L7_error)
+                __pyx_t_14 = NULL;
+                __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+                goto __pyx_L18_unpacking_done;
+                __pyx_L17_unpacking_failed:;
+                __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+                __pyx_t_14 = NULL;
+                if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+                __PYX_ERR(0, 17, __pyx_L7_error)
+                __pyx_L18_unpacking_done:;
+              }
+              __Pyx_XDECREF_SET(__pyx_v_cryptomodule_id, __pyx_t_1);
+              __pyx_t_1 = 0;
+
+              /* "wolf/mockup.pyx":18
+ *         for i in range(quantity):
+ *             for (cryptomodule_id, ) in cryptomodule_ids:
+ *                 token = Token()             # <<<<<<<<<<<<<<
+ *                 token.name = f'{prefix:02}{i:010}{cryptomodule_id:02}'
+ *                 token.phone = int(f'989{i:09}')
+ */
+              __Pyx_TraceLine(18,0,__PYX_ERR(0, 18, __pyx_L7_error))
+              __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Token); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __pyx_t_3 = NULL;
+              if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
+                __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_1);
+                if (likely(__pyx_t_3)) {
+                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+                  __Pyx_INCREF(__pyx_t_3);
+                  __Pyx_INCREF(function);
+                  __Pyx_DECREF_SET(__pyx_t_1, function);
+                }
+              }
+              __pyx_t_5 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+              __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+              if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 18, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_token, __pyx_t_5);
+              __pyx_t_5 = 0;
+
+              /* "wolf/mockup.pyx":19
+ *             for (cryptomodule_id, ) in cryptomodule_ids:
+ *                 token = Token()
+ *                 token.name = f'{prefix:02}{i:010}{cryptomodule_id:02}'             # <<<<<<<<<<<<<<
+ *                 token.phone = int(f'989{i:09}')
+ *                 token.cryptomodule_id = cryptomodule_id
+ */
+              __Pyx_TraceLine(19,0,__PYX_ERR(0, 19, __pyx_L7_error))
+              __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_15 = 0;
+              __pyx_t_16 = 127;
+              __pyx_t_1 = __Pyx_PyObject_Format(__pyx_v_prefix, __pyx_kp_u_02); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __pyx_t_16 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_16) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_16;
+              __pyx_t_15 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+              __Pyx_GIVEREF(__pyx_t_1);
+              PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+              __pyx_t_1 = 0;
+              __pyx_t_1 = __Pyx_PyObject_Format(__pyx_v_i, __pyx_kp_u_010); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __pyx_t_16 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_16) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_16;
+              __pyx_t_15 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+              __Pyx_GIVEREF(__pyx_t_1);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
+              __pyx_t_1 = 0;
+              __pyx_t_1 = __Pyx_PyObject_Format(__pyx_v_cryptomodule_id, __pyx_kp_u_02); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __pyx_t_16 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_16) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_16;
+              __pyx_t_15 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
+              __Pyx_GIVEREF(__pyx_t_1);
+              PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_1);
+              __pyx_t_1 = 0;
+              __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 3, __pyx_t_15, __pyx_t_16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (__Pyx_PyObject_SetAttrStr(__pyx_v_token, __pyx_n_s_name, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L7_error)
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+              /* "wolf/mockup.pyx":20
+ *                 token = Token()
+ *                 token.name = f'{prefix:02}{i:010}{cryptomodule_id:02}'
+ *                 token.phone = int(f'989{i:09}')             # <<<<<<<<<<<<<<
+ *                 token.cryptomodule_id = cryptomodule_id
+ *                 token.initialize_seed()
+ */
+              __Pyx_TraceLine(20,0,__PYX_ERR(0, 20, __pyx_L7_error))
+              __pyx_t_1 = __Pyx_PyObject_Format(__pyx_v_i, __pyx_kp_u_09); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_kp_u_989, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+              __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (__Pyx_PyObject_SetAttrStr(__pyx_v_token, __pyx_n_s_phone, __pyx_t_1) < 0) __PYX_ERR(0, 20, __pyx_L7_error)
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+              /* "wolf/mockup.pyx":21
+ *                 token.name = f'{prefix:02}{i:010}{cryptomodule_id:02}'
+ *                 token.phone = int(f'989{i:09}')
+ *                 token.cryptomodule_id = cryptomodule_id             # <<<<<<<<<<<<<<
+ *                 token.initialize_seed()
+ *                 token.expire_date = expire_date
+ */
+              __Pyx_TraceLine(21,0,__PYX_ERR(0, 21, __pyx_L7_error))
+              if (__Pyx_PyObject_SetAttrStr(__pyx_v_token, __pyx_n_s_cryptomodule_id, __pyx_v_cryptomodule_id) < 0) __PYX_ERR(0, 21, __pyx_L7_error)
+
+              /* "wolf/mockup.pyx":22
+ *                 token.phone = int(f'989{i:09}')
+ *                 token.cryptomodule_id = cryptomodule_id
+ *                 token.initialize_seed()             # <<<<<<<<<<<<<<
+ *                 token.expire_date = expire_date
+ *                 token.is_active = True
+ */
+              __Pyx_TraceLine(22,0,__PYX_ERR(0, 22, __pyx_L7_error))
+              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_initialize_seed); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 22, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_3 = NULL;
+              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+                __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+                if (likely(__pyx_t_3)) {
+                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+                  __Pyx_INCREF(__pyx_t_3);
+                  __Pyx_INCREF(function);
+                  __Pyx_DECREF_SET(__pyx_t_5, function);
+                }
+              }
+              __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+              __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+              if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+              /* "wolf/mockup.pyx":23
+ *                 token.cryptomodule_id = cryptomodule_id
+ *                 token.initialize_seed()
+ *                 token.expire_date = expire_date             # <<<<<<<<<<<<<<
+ *                 token.is_active = True
+ *                 DBSession.add(token)
+ */
+              __Pyx_TraceLine(23,0,__PYX_ERR(0, 23, __pyx_L7_error))
+              if (__Pyx_PyObject_SetAttrStr(__pyx_v_token, __pyx_n_s_expire_date, __pyx_v_expire_date) < 0) __PYX_ERR(0, 23, __pyx_L7_error)
+
+              /* "wolf/mockup.pyx":24
+ *                 token.initialize_seed()
+ *                 token.expire_date = expire_date
+ *                 token.is_active = True             # <<<<<<<<<<<<<<
+ *                 DBSession.add(token)
+ *                 DBSession.flush()
+ */
+              __Pyx_TraceLine(24,0,__PYX_ERR(0, 24, __pyx_L7_error))
+              if (__Pyx_PyObject_SetAttrStr(__pyx_v_token, __pyx_n_s_is_active, Py_True) < 0) __PYX_ERR(0, 24, __pyx_L7_error)
+
+              /* "wolf/mockup.pyx":25
+ *                 token.expire_date = expire_date
+ *                 token.is_active = True
+ *                 DBSession.add(token)             # <<<<<<<<<<<<<<
+ *                 DBSession.flush()
+ *                 progress.increment()
+ */
+              __Pyx_TraceLine(25,0,__PYX_ERR(0, 25, __pyx_L7_error))
+              __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_add); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_3);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = NULL;
+              if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+                __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+                if (likely(__pyx_t_5)) {
+                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+                  __Pyx_INCREF(__pyx_t_5);
+                  __Pyx_INCREF(function);
+                  __Pyx_DECREF_SET(__pyx_t_3, function);
+                }
+              }
+              __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_v_token) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_token);
+              __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+              /* "wolf/mockup.pyx":26
+ *                 token.is_active = True
+ *                 DBSession.add(token)
+ *                 DBSession.flush()             # <<<<<<<<<<<<<<
+ *                 progress.increment()
+ *         DBSession.commit()
+ */
+              __Pyx_TraceLine(26,0,__PYX_ERR(0, 26, __pyx_L7_error))
+              __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 26, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_3);
+              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_flush); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+              __pyx_t_3 = NULL;
+              if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+                __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+                if (likely(__pyx_t_3)) {
+                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+                  __Pyx_INCREF(__pyx_t_3);
+                  __Pyx_INCREF(function);
+                  __Pyx_DECREF_SET(__pyx_t_5, function);
+                }
+              }
+              __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+              __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+              if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+              /* "wolf/mockup.pyx":27
+ *                 DBSession.add(token)
+ *                 DBSession.flush()
+ *                 progress.increment()             # <<<<<<<<<<<<<<
+ *         DBSession.commit()
+ *         progress.increment()
+ */
+              __Pyx_TraceLine(27,0,__PYX_ERR(0, 27, __pyx_L7_error))
+              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_progress, __pyx_n_s_increment); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 27, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_3 = NULL;
+              if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+                __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+                if (likely(__pyx_t_3)) {
+                  PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+                  __Pyx_INCREF(__pyx_t_3);
+                  __Pyx_INCREF(function);
+                  __Pyx_DECREF_SET(__pyx_t_5, function);
+                }
+              }
+              __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+              __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+              if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+              /* "wolf/mockup.pyx":17
+ *     with ProgressBar(quantity*2+1) as progress:
+ *         for i in range(quantity):
+ *             for (cryptomodule_id, ) in cryptomodule_ids:             # <<<<<<<<<<<<<<
+ *                 token = Token()
+ *                 token.name = f'{prefix:02}{i:010}{cryptomodule_id:02}'
+ */
+              __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L7_error))
+            }
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+            /* "wolf/mockup.pyx":16
+ *     expire_date = date.today() + timedelta(days=20000)
+ *     with ProgressBar(quantity*2+1) as progress:
+ *         for i in range(quantity):             # <<<<<<<<<<<<<<
+ *             for (cryptomodule_id, ) in cryptomodule_ids:
+ *                 token = Token()
+ */
+            __Pyx_TraceLine(16,0,__PYX_ERR(0, 16, __pyx_L7_error))
+          }
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+          /* "wolf/mockup.pyx":28
+ *                 DBSession.flush()
+ *                 progress.increment()
+ *         DBSession.commit()             # <<<<<<<<<<<<<<
+ *         progress.increment()
+ * 
+ */
+          __Pyx_TraceLine(28,0,__PYX_ERR(0, 28, __pyx_L7_error))
+          __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_commit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_2 = NULL;
+          if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
+            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
+            if (likely(__pyx_t_2)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+              __Pyx_INCREF(__pyx_t_2);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_1, function);
+            }
+          }
+          __pyx_t_4 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+          /* "wolf/mockup.pyx":29
+ *                 progress.increment()
+ *         DBSession.commit()
+ *         progress.increment()             # <<<<<<<<<<<<<<
+ * 
+ */
+          __Pyx_TraceLine(29,0,__PYX_ERR(0, 29, __pyx_L7_error))
+          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_progress, __pyx_n_s_increment); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_2 = NULL;
+          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
+            __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
+            if (likely(__pyx_t_2)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+              __Pyx_INCREF(__pyx_t_2);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_1, function);
+            }
+          }
+          __pyx_t_4 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+          /* "wolf/mockup.pyx":15
+ *     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()
+ *     expire_date = date.today() + timedelta(days=20000)
+ *     with ProgressBar(quantity*2+1) as progress:             # <<<<<<<<<<<<<<
+ *         for i in range(quantity):
+ *             for (cryptomodule_id, ) in cryptomodule_ids:
+ */
+        }
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+        goto __pyx_L12_try_end;
+        __pyx_L7_error:;
+        __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+        /*except:*/ {
+          __Pyx_AddTraceback("wolf.mockup.insert", __pyx_clineno, __pyx_lineno, __pyx_filename);
+          if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_1, &__pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L9_except_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_5 = PyTuple_Pack(3, __pyx_t_4, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L9_except_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_17 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 15, __pyx_L9_except_error)
+          __Pyx_GOTREF(__pyx_t_17);
+          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_17);
+          __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
+          if (__pyx_t_18 < 0) __PYX_ERR(0, 15, __pyx_L9_except_error)
+          __pyx_t_19 = ((!(__pyx_t_18 != 0)) != 0);
+          if (__pyx_t_19) {
+            __Pyx_GIVEREF(__pyx_t_4);
+            __Pyx_GIVEREF(__pyx_t_1);
+            __Pyx_XGIVEREF(__pyx_t_2);
+            __Pyx_ErrRestoreWithState(__pyx_t_4, __pyx_t_1, __pyx_t_2);
+            __pyx_t_4 = 0; __pyx_t_1 = 0; __pyx_t_2 = 0; 
+            __PYX_ERR(0, 15, __pyx_L9_except_error)
+          }
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          goto __pyx_L8_exception_handled;
+        }
+        __pyx_L9_except_error:;
+        __Pyx_XGIVEREF(__pyx_t_7);
+        __Pyx_XGIVEREF(__pyx_t_8);
+        __Pyx_XGIVEREF(__pyx_t_9);
+        __Pyx_ExceptionReset(__pyx_t_7, __pyx_t_8, __pyx_t_9);
+        goto __pyx_L1_error;
+        __pyx_L8_exception_handled:;
+        __Pyx_XGIVEREF(__pyx_t_7);
+        __Pyx_XGIVEREF(__pyx_t_8);
+        __Pyx_XGIVEREF(__pyx_t_9);
+        __Pyx_ExceptionReset(__pyx_t_7, __pyx_t_8, __pyx_t_9);
+        __pyx_L12_try_end:;
+      }
+    }
+    /*finally:*/ {
+      /*normal exit:*/{
+        if (__pyx_t_6) {
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__2, NULL);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 15, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+        }
+        goto __pyx_L6;
+      }
+      __pyx_L6:;
+    }
+    goto __pyx_L22;
+    __pyx_L3_error:;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    goto __pyx_L1_error;
+    __pyx_L22:;
+  }
+
+  /* "wolf/mockup.pyx":10
  * 
  * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
+ * def insert(quantity=10, prefix=0):             # <<<<<<<<<<<<<<
+ *     quantity = int(quantity)
+ *     prefix = int(prefix)
  */
 
   /* function exit code */
@@ -1579,11 +2354,19 @@ static PyObject *__pyx_pf_4wolf_8basedata_insert(CYTHON_UNUSED PyObject *__pyx_s
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("wolf.basedata.insert", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("wolf.mockup.insert", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_mockup_cryptomodule1);
-  __Pyx_XDECREF(__pyx_v_mockup_cryptomodule2);
+  __Pyx_XDECREF(__pyx_v_cryptomodule_ids);
+  __Pyx_XDECREF(__pyx_v_expire_date);
+  __Pyx_XDECREF(__pyx_v_progress);
+  __Pyx_XDECREF(__pyx_v_i);
+  __Pyx_XDECREF(__pyx_v_cryptomodule_id);
+  __Pyx_XDECREF(__pyx_v_token);
+  __Pyx_XDECREF(__pyx_v_quantity);
+  __Pyx_XDECREF(__pyx_v_prefix);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
@@ -1597,17 +2380,17 @@ static PyMethodDef __pyx_methods[] = {
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_basedata(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_mockup(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_basedata},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_mockup},
   {0, NULL}
 };
 #endif
 
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
-    "basedata",
+    "mockup",
     0, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
@@ -1636,45 +2419,87 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_u_010, __pyx_k_010, sizeof(__pyx_k_010), 0, 1, 0, 0},
+  {&__pyx_kp_u_02, __pyx_k_02, sizeof(__pyx_k_02), 0, 1, 0, 0},
+  {&__pyx_kp_u_09, __pyx_k_09, sizeof(__pyx_k_09), 0, 1, 0, 0},
+  {&__pyx_kp_u_989, __pyx_k_989, sizeof(__pyx_k_989), 0, 1, 0, 0},
   {&__pyx_n_s_Cryptomodule, __pyx_k_Cryptomodule, sizeof(__pyx_k_Cryptomodule), 0, 0, 1, 1},
   {&__pyx_n_s_DBSession, __pyx_k_DBSession, sizeof(__pyx_k_DBSession), 0, 0, 1, 1},
+  {&__pyx_n_s_ProgressBar, __pyx_k_ProgressBar, sizeof(__pyx_k_ProgressBar), 0, 0, 1, 1},
+  {&__pyx_n_s_Token, __pyx_k_Token, sizeof(__pyx_k_Token), 0, 0, 1, 1},
   {&__pyx_n_s_add, __pyx_k_add, sizeof(__pyx_k_add), 0, 0, 1, 1},
-  {&__pyx_n_s_challenge_response_length, __pyx_k_challenge_response_length, sizeof(__pyx_k_challenge_response_length), 0, 0, 1, 1},
+  {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_commit, __pyx_k_commit, sizeof(__pyx_k_commit), 0, 0, 1, 1},
+  {&__pyx_n_s_cryptomodule_id, __pyx_k_cryptomodule_id, sizeof(__pyx_k_cryptomodule_id), 0, 0, 1, 1},
+  {&__pyx_n_s_cryptomodule_ids, __pyx_k_cryptomodule_ids, sizeof(__pyx_k_cryptomodule_ids), 0, 0, 1, 1},
+  {&__pyx_n_s_date, __pyx_k_date, sizeof(__pyx_k_date), 0, 0, 1, 1},
+  {&__pyx_n_s_datetime, __pyx_k_datetime, sizeof(__pyx_k_datetime), 0, 0, 1, 1},
+  {&__pyx_n_s_days, __pyx_k_days, sizeof(__pyx_k_days), 0, 0, 1, 1},
+  {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
+  {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
+  {&__pyx_n_s_expire_date, __pyx_k_expire_date, sizeof(__pyx_k_expire_date), 0, 0, 1, 1},
+  {&__pyx_n_s_flush, __pyx_k_flush, sizeof(__pyx_k_flush), 0, 0, 1, 1},
+  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
+  {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_increment, __pyx_k_increment, sizeof(__pyx_k_increment), 0, 0, 1, 1},
+  {&__pyx_n_s_initialize_seed, __pyx_k_initialize_seed, sizeof(__pyx_k_initialize_seed), 0, 0, 1, 1},
   {&__pyx_n_s_insert, __pyx_k_insert, sizeof(__pyx_k_insert), 0, 0, 1, 1},
+  {&__pyx_n_s_is_active, __pyx_k_is_active, sizeof(__pyx_k_is_active), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_n_s_mockup_cryptomodule1, __pyx_k_mockup_cryptomodule1, sizeof(__pyx_k_mockup_cryptomodule1), 0, 0, 1, 1},
-  {&__pyx_n_s_mockup_cryptomodule2, __pyx_k_mockup_cryptomodule2, sizeof(__pyx_k_mockup_cryptomodule2), 0, 0, 1, 1},
+  {&__pyx_n_s_models, __pyx_k_models, sizeof(__pyx_k_models), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
-  {&__pyx_n_s_one_time_password_length, __pyx_k_one_time_password_length, sizeof(__pyx_k_one_time_password_length), 0, 0, 1, 1},
+  {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
+  {&__pyx_n_s_phone, __pyx_k_phone, sizeof(__pyx_k_phone), 0, 0, 1, 1},
+  {&__pyx_n_s_prefix, __pyx_k_prefix, sizeof(__pyx_k_prefix), 0, 0, 1, 1},
+  {&__pyx_n_s_progress, __pyx_k_progress, sizeof(__pyx_k_progress), 0, 0, 1, 1},
+  {&__pyx_n_s_quantity, __pyx_k_quantity, sizeof(__pyx_k_quantity), 0, 0, 1, 1},
+  {&__pyx_n_s_query, __pyx_k_query, sizeof(__pyx_k_query), 0, 0, 1, 1},
+  {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
+  {&__pyx_n_s_restfulpy_cli, __pyx_k_restfulpy_cli, sizeof(__pyx_k_restfulpy_cli), 0, 0, 1, 1},
   {&__pyx_n_s_restfulpy_orm, __pyx_k_restfulpy_orm, sizeof(__pyx_k_restfulpy_orm), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_wolf_basedata, __pyx_k_wolf_basedata, sizeof(__pyx_k_wolf_basedata), 0, 0, 1, 1},
-  {&__pyx_kp_s_wolf_basedata_pyx, __pyx_k_wolf_basedata_pyx, sizeof(__pyx_k_wolf_basedata_pyx), 0, 0, 1, 0},
-  {&__pyx_n_s_wolf_models, __pyx_k_wolf_models, sizeof(__pyx_k_wolf_models), 0, 0, 1, 1},
+  {&__pyx_n_s_timedelta, __pyx_k_timedelta, sizeof(__pyx_k_timedelta), 0, 0, 1, 1},
+  {&__pyx_n_s_today, __pyx_k_today, sizeof(__pyx_k_today), 0, 0, 1, 1},
+  {&__pyx_n_s_token, __pyx_k_token, sizeof(__pyx_k_token), 0, 0, 1, 1},
+  {&__pyx_n_s_wolf_mockup, __pyx_k_wolf_mockup, sizeof(__pyx_k_wolf_mockup), 0, 0, 1, 1},
+  {&__pyx_kp_s_wolf_mockup_pyx, __pyx_k_wolf_mockup_pyx, sizeof(__pyx_k_wolf_mockup_pyx), 0, 0, 1, 0},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 16, __pyx_L1_error)
   return 0;
+  __pyx_L1_error:;
+  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "wolf/basedata.pyx":7
- * 
- * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
+  /* "wolf/mockup.pyx":15
+ *     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()
+ *     expire_date = date.today() + timedelta(days=20000)
+ *     with ProgressBar(quantity*2+1) as progress:             # <<<<<<<<<<<<<<
+ *         for i in range(quantity):
+ *             for (cryptomodule_id, ) in cryptomodule_ids:
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_mockup_cryptomodule1, __pyx_n_s_mockup_cryptomodule2); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_basedata_pyx, __pyx_n_s_insert, 7, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 7, __pyx_L1_error)
+
+  /* "wolf/mockup.pyx":10
+ * 
+ * 
+ * def insert(quantity=10, prefix=0):             # <<<<<<<<<<<<<<
+ *     quantity = int(quantity)
+ *     prefix = int(prefix)
+ */
+  __pyx_tuple__3 = PyTuple_Pack(8, __pyx_n_s_quantity, __pyx_n_s_prefix, __pyx_n_s_cryptomodule_ids, __pyx_n_s_expire_date, __pyx_n_s_progress, __pyx_n_s_i, __pyx_n_s_cryptomodule_id, __pyx_n_s_token); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_mockup_pyx, __pyx_n_s_insert, 10, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1684,8 +2509,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  __pyx_int_4 = PyInt_FromLong(4); if (unlikely(!__pyx_int_4)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_7 = PyInt_FromLong(7); if (unlikely(!__pyx_int_7)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_10 = PyInt_FromLong(10); if (unlikely(!__pyx_int_10)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_20000 = PyInt_FromLong(20000L); if (unlikely(!__pyx_int_20000)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -1772,11 +2600,11 @@ static int __Pyx_modinit_function_import_code(void) {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC initbasedata(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC initbasedata(void)
+__Pyx_PyMODINIT_FUNC initmockup(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC initmockup(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit_basedata(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_basedata(void)
+__Pyx_PyMODINIT_FUNC PyInit_mockup(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_mockup(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -1843,7 +2671,7 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_basedata(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_mockup(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
@@ -1854,7 +2682,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_basedata(PyObject *__pyx_pyinit_mo
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'basedata' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'mockup' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -1869,7 +2697,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_basedata(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_mockup(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -1908,7 +2736,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("basedata", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("mockup", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -1927,14 +2755,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_wolf__basedata) {
-    if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__pyx_module_is_main_wolf__mockup) {
+    if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name_2, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "wolf.basedata")) {
-      if (unlikely(PyDict_SetItemString(modules, "wolf.basedata", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "wolf.mockup")) {
+      if (unlikely(PyDict_SetItemString(modules, "wolf.mockup", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -1954,67 +2782,125 @@ if (!__Pyx_RefNanny) {
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_basedata(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
+  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_mockup(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
-  /* "wolf/basedata.pyx":2
+  /* "wolf/mockup.pyx":2
  * # cython: language_level=3
- * from restfulpy.orm import DBSession             # <<<<<<<<<<<<<<
+ * from datetime import timedelta, date             # <<<<<<<<<<<<<<
  * 
- * from wolf.models import Cryptomodule
+ * from restfulpy.orm import DBSession
  */
   __Pyx_TraceLine(2,0,__PYX_ERR(0, 2, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_DBSession);
-  __Pyx_GIVEREF(__pyx_n_s_DBSession);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_DBSession);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_orm, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_timedelta);
+  __Pyx_GIVEREF(__pyx_n_s_timedelta);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_timedelta);
+  __Pyx_INCREF(__pyx_n_s_date);
+  __Pyx_GIVEREF(__pyx_n_s_date);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_date);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_datetime, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_timedelta); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DBSession, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_timedelta, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_date, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/basedata.pyx":4
- * from restfulpy.orm import DBSession
+  /* "wolf/mockup.pyx":4
+ * from datetime import timedelta, date
  * 
- * from wolf.models import Cryptomodule             # <<<<<<<<<<<<<<
- * 
+ * from restfulpy.orm import DBSession             # <<<<<<<<<<<<<<
+ * from restfulpy.cli import ProgressBar
  * 
  */
   __Pyx_TraceLine(4,0,__PYX_ERR(0, 4, __pyx_L1_error))
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_Cryptomodule);
-  __Pyx_GIVEREF(__pyx_n_s_Cryptomodule);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Cryptomodule);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf_models, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_DBSession);
+  __Pyx_GIVEREF(__pyx_n_s_DBSession);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_DBSession);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_restfulpy_orm, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Cryptomodule, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DBSession, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/basedata.pyx":7
+  /* "wolf/mockup.pyx":5
+ * 
+ * from restfulpy.orm import DBSession
+ * from restfulpy.cli import ProgressBar             # <<<<<<<<<<<<<<
+ * 
+ * from .models import Token, Cryptomodule
+ */
+  __Pyx_TraceLine(5,0,__PYX_ERR(0, 5, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_n_s_ProgressBar);
+  __Pyx_GIVEREF(__pyx_n_s_ProgressBar);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_ProgressBar);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_cli, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ProgressBar); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ProgressBar, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "wolf/mockup.pyx":7
+ * from restfulpy.cli import ProgressBar
+ * 
+ * from .models import Token, Cryptomodule             # <<<<<<<<<<<<<<
  * 
  * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
  */
   __Pyx_TraceLine(7,0,__PYX_ERR(0, 7, __pyx_L1_error))
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4wolf_8basedata_1insert, NULL, __pyx_n_s_wolf_basedata); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_Token);
+  __Pyx_GIVEREF(__pyx_n_s_Token);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Token);
+  __Pyx_INCREF(__pyx_n_s_Cryptomodule);
+  __Pyx_GIVEREF(__pyx_n_s_Cryptomodule);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_Cryptomodule);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_models, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_insert, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Token, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Cryptomodule, __pyx_t_2) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/basedata.pyx":1
+  /* "wolf/mockup.pyx":10
+ * 
+ * 
+ * def insert(quantity=10, prefix=0):             # <<<<<<<<<<<<<<
+ *     quantity = int(quantity)
+ *     prefix = int(prefix)
+ */
+  __Pyx_TraceLine(10,0,__PYX_ERR(0, 10, __pyx_L1_error))
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4wolf_6mockup_1insert, NULL, __pyx_n_s_wolf_mockup); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_insert, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "wolf/mockup.pyx":1
  * # cython: language_level=3             # <<<<<<<<<<<<<<
- * from restfulpy.orm import DBSession
+ * from datetime import timedelta, date
  * 
  */
   __Pyx_TraceLine(1,0,__PYX_ERR(0, 1, __pyx_L1_error))
@@ -2032,11 +2918,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init wolf.basedata", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init wolf.mockup", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init wolf.basedata");
+    PyErr_SetString(PyExc_ImportError, "init wolf.mockup");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -2066,6 +2952,176 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
+
+/* PyObjectGetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
+}
+#endif
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
 
 /* PyErrFetchRestore */
 #if CYTHON_FAST_THREAD_STATE
@@ -2184,34 +3240,6 @@ bad:
 }
 #endif
 
-/* PyObjectGetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_getattro))
-        return tp->tp_getattro(obj, attr_name);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_getattr))
-        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
-#endif
-    return PyObject_GetAttr(obj, attr_name);
-}
-#endif
-
-/* GetBuiltinName */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
-
 /* PyDictVersioning */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
@@ -2272,6 +3300,29 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
 #endif
     return __Pyx_GetBuiltinName(name);
 }
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
+}
+#endif
 
 /* PyFunctionFastCall */
 #if CYTHON_FAST_PYCALL
@@ -2412,6 +3463,35 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 }
 #endif
 
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
+}
+
 /* PyObjectCallMethO */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
@@ -2429,51 +3509,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
             "NULL result without error in PyObject_Call");
     }
     return result;
-}
-#endif
-
-/* PyObjectCallNoArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
-#else
-    if (likely(PyCFunction_Check(func)))
-#endif
-    {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
 }
 #endif
 
@@ -2517,6 +3552,310 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 }
 #endif
 
+/* PyObjectCallNoArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
+#else
+    if (likely(PyCFunction_Check(func)))
+#endif
+    {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
+/* PyIntBinop */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
+    (void)inplace;
+    (void)zerodivision_check;
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long x;
+        long a = PyInt_AS_LONG(op1);
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        const long b = intval;
+        long a, x;
+#ifdef HAVE_LONG_LONG
+        const PY_LONG_LONG llb = intval;
+        PY_LONG_LONG lla, llx;
+#endif
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            a = likely(size) ? digits[0] : 0;
+            if (size == -1) a = -a;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+#ifdef HAVE_LONG_LONG
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+#endif
+        
+        
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+            double result;
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
+
+/* RaiseTooManyValuesToUnpack */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
+    PyErr_Format(PyExc_ValueError,
+                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
+}
+
+/* RaiseNeedMoreValuesToUnpack */
+static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
+    PyErr_Format(PyExc_ValueError,
+                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
+                 index, (index == 1) ? "" : "s");
+}
+
+/* IterFinish */
+static CYTHON_INLINE int __Pyx_IterFinish(void) {
+#if CYTHON_FAST_THREAD_STATE
+    PyThreadState *tstate = __Pyx_PyThreadState_Current;
+    PyObject* exc_type = tstate->curexc_type;
+    if (unlikely(exc_type)) {
+        if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) {
+            PyObject *exc_value, *exc_tb;
+            exc_value = tstate->curexc_value;
+            exc_tb = tstate->curexc_traceback;
+            tstate->curexc_type = 0;
+            tstate->curexc_value = 0;
+            tstate->curexc_traceback = 0;
+            Py_DECREF(exc_type);
+            Py_XDECREF(exc_value);
+            Py_XDECREF(exc_tb);
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#else
+    if (unlikely(PyErr_Occurred())) {
+        if (likely(PyErr_ExceptionMatches(PyExc_StopIteration))) {
+            PyErr_Clear();
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#endif
+}
+
+/* UnpackItemEndCheck */
+static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
+    if (unlikely(retval)) {
+        Py_DECREF(retval);
+        __Pyx_RaiseTooManyValuesError(expected);
+        return -1;
+    } else {
+        return __Pyx_IterFinish();
+    }
+    return 0;
+}
+
+/* PyObjectFormat */
+#if CYTHON_USE_UNICODE_WRITER
+static PyObject* __Pyx_PyObject_Format(PyObject* obj, PyObject* format_spec) {
+    int ret;
+    _PyUnicodeWriter writer;
+    if (likely(PyFloat_CheckExact(obj))) {
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX < 0x03040000
+        _PyUnicodeWriter_Init(&writer, 0);
+#else
+        _PyUnicodeWriter_Init(&writer);
+#endif
+        ret = _PyFloat_FormatAdvancedWriter(
+            &writer,
+            obj,
+            format_spec, 0, PyUnicode_GET_LENGTH(format_spec));
+    } else if (likely(PyLong_CheckExact(obj))) {
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX < 0x03040000
+        _PyUnicodeWriter_Init(&writer, 0);
+#else
+        _PyUnicodeWriter_Init(&writer);
+#endif
+        ret = _PyLong_FormatAdvancedWriter(
+            &writer,
+            obj,
+            format_spec, 0, PyUnicode_GET_LENGTH(format_spec));
+    } else {
+        return PyObject_Format(obj, format_spec);
+    }
+    if (unlikely(ret == -1)) {
+        _PyUnicodeWriter_Dealloc(&writer);
+        return NULL;
+    }
+    return _PyUnicodeWriter_Finish(&writer);
+}
+#endif
+
+/* JoinPyUnicode */
+static PyObject* __Pyx_PyUnicode_Join(PyObject* value_tuple, Py_ssize_t value_count, Py_ssize_t result_ulength,
+                                      CYTHON_UNUSED Py_UCS4 max_char) {
+#if CYTHON_USE_UNICODE_INTERNALS && CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    PyObject *result_uval;
+    int result_ukind;
+    Py_ssize_t i, char_pos;
+    void *result_udata;
+#if CYTHON_PEP393_ENABLED
+    result_uval = PyUnicode_New(result_ulength, max_char);
+    if (unlikely(!result_uval)) return NULL;
+    result_ukind = (max_char <= 255) ? PyUnicode_1BYTE_KIND : (max_char <= 65535) ? PyUnicode_2BYTE_KIND : PyUnicode_4BYTE_KIND;
+    result_udata = PyUnicode_DATA(result_uval);
+#else
+    result_uval = PyUnicode_FromUnicode(NULL, result_ulength);
+    if (unlikely(!result_uval)) return NULL;
+    result_ukind = sizeof(Py_UNICODE);
+    result_udata = PyUnicode_AS_UNICODE(result_uval);
+#endif
+    char_pos = 0;
+    for (i=0; i < value_count; i++) {
+        int ukind;
+        Py_ssize_t ulength;
+        void *udata;
+        PyObject *uval = PyTuple_GET_ITEM(value_tuple, i);
+        if (unlikely(__Pyx_PyUnicode_READY(uval)))
+            goto bad;
+        ulength = __Pyx_PyUnicode_GET_LENGTH(uval);
+        if (unlikely(!ulength))
+            continue;
+        if (unlikely(char_pos + ulength < 0))
+            goto overflow;
+        ukind = __Pyx_PyUnicode_KIND(uval);
+        udata = __Pyx_PyUnicode_DATA(uval);
+        if (!CYTHON_PEP393_ENABLED || ukind == result_ukind) {
+            memcpy((char *)result_udata + char_pos * result_ukind, udata, (size_t) (ulength * result_ukind));
+        } else {
+            #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030300F0 || defined(_PyUnicode_FastCopyCharacters)
+            _PyUnicode_FastCopyCharacters(result_uval, char_pos, uval, 0, ulength);
+            #else
+            Py_ssize_t j;
+            for (j=0; j < ulength; j++) {
+                Py_UCS4 uchar = __Pyx_PyUnicode_READ(ukind, udata, j);
+                __Pyx_PyUnicode_WRITE(result_ukind, result_udata, char_pos+j, uchar);
+            }
+            #endif
+        }
+        char_pos += ulength;
+    }
+    return result_uval;
+overflow:
+    PyErr_SetString(PyExc_OverflowError, "join() result is too long for a Python string");
+bad:
+    Py_DECREF(result_uval);
+    return NULL;
+#else
+    result_ulength++;
+    value_count++;
+    return PyUnicode_Join(__pyx_empty_unicode, value_tuple);
+#endif
+}
+
 /* PyObjectSetAttrStr */
 #if CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
@@ -2531,33 +3870,134 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
 }
 #endif
 
-/* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-    PyObject *args, *result = NULL;
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyFunction_FastCall(function, args, 2);
+/* GetTopmostException */
+#if CYTHON_USE_EXC_INFO_STACK
+static _PyErr_StackItem *
+__Pyx_PyErr_GetTopmostException(PyThreadState *tstate)
+{
+    _PyErr_StackItem *exc_info = tstate->exc_info;
+    while ((exc_info->exc_type == NULL || exc_info->exc_type == Py_None) &&
+           exc_info->previous_item != NULL)
+    {
+        exc_info = exc_info->previous_item;
+    }
+    return exc_info;
+}
+#endif
+
+/* SaveResetException */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    #if CYTHON_USE_EXC_INFO_STACK
+    _PyErr_StackItem *exc_info = __Pyx_PyErr_GetTopmostException(tstate);
+    *type = exc_info->exc_type;
+    *value = exc_info->exc_value;
+    *tb = exc_info->exc_traceback;
+    #else
+    *type = tstate->exc_type;
+    *value = tstate->exc_value;
+    *tb = tstate->exc_traceback;
+    #endif
+    Py_XINCREF(*type);
+    Py_XINCREF(*value);
+    Py_XINCREF(*tb);
+}
+static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    #if CYTHON_USE_EXC_INFO_STACK
+    _PyErr_StackItem *exc_info = tstate->exc_info;
+    tmp_type = exc_info->exc_type;
+    tmp_value = exc_info->exc_value;
+    tmp_tb = exc_info->exc_traceback;
+    exc_info->exc_type = type;
+    exc_info->exc_value = value;
+    exc_info->exc_traceback = tb;
+    #else
+    tmp_type = tstate->exc_type;
+    tmp_value = tstate->exc_value;
+    tmp_tb = tstate->exc_traceback;
+    tstate->exc_type = type;
+    tstate->exc_value = value;
+    tstate->exc_traceback = tb;
+    #endif
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+#endif
+
+/* GetException */
+#if CYTHON_FAST_THREAD_STATE
+static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb)
+#else
+static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb)
+#endif
+{
+    PyObject *local_type, *local_value, *local_tb;
+#if CYTHON_FAST_THREAD_STATE
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    local_type = tstate->curexc_type;
+    local_value = tstate->curexc_value;
+    local_tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+#else
+    PyErr_Fetch(&local_type, &local_value, &local_tb);
+#endif
+    PyErr_NormalizeException(&local_type, &local_value, &local_tb);
+#if CYTHON_FAST_THREAD_STATE
+    if (unlikely(tstate->curexc_type))
+#else
+    if (unlikely(PyErr_Occurred()))
+#endif
+        goto bad;
+    #if PY_MAJOR_VERSION >= 3
+    if (local_tb) {
+        if (unlikely(PyException_SetTraceback(local_value, local_tb) < 0))
+            goto bad;
     }
     #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    Py_XINCREF(local_tb);
+    Py_XINCREF(local_type);
+    Py_XINCREF(local_value);
+    *type = local_type;
+    *value = local_value;
+    *tb = local_tb;
+#if CYTHON_FAST_THREAD_STATE
+    #if CYTHON_USE_EXC_INFO_STACK
+    {
+        _PyErr_StackItem *exc_info = tstate->exc_info;
+        tmp_type = exc_info->exc_type;
+        tmp_value = exc_info->exc_value;
+        tmp_tb = exc_info->exc_traceback;
+        exc_info->exc_type = local_type;
+        exc_info->exc_value = local_value;
+        exc_info->exc_traceback = local_tb;
     }
+    #else
+    tmp_type = tstate->exc_type;
+    tmp_value = tstate->exc_value;
+    tmp_tb = tstate->exc_traceback;
+    tstate->exc_type = local_type;
+    tstate->exc_value = local_value;
+    tstate->exc_traceback = local_tb;
     #endif
-    args = PyTuple_New(2);
-    if (unlikely(!args)) goto done;
-    Py_INCREF(arg1);
-    PyTuple_SET_ITEM(args, 0, arg1);
-    Py_INCREF(arg2);
-    PyTuple_SET_ITEM(args, 1, arg2);
-    Py_INCREF(function);
-    result = __Pyx_PyObject_Call(function, args, NULL);
-    Py_DECREF(args);
-    Py_DECREF(function);
-done:
-    return result;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+#else
+    PyErr_SetExcInfo(local_type, local_value, local_tb);
+#endif
+    return 0;
+bad:
+    *type = 0;
+    *value = 0;
+    *tb = 0;
+    Py_XDECREF(local_type);
+    Py_XDECREF(local_value);
+    Py_XDECREF(local_tb);
+    return -1;
 }
 
 /* Import */

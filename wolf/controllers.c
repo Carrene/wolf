@@ -21,7 +21,7 @@ END: Cython Metadata */
 #else
 #define CYTHON_ABI "0_29_6"
 #define CYTHON_HEX_VERSION 0x001D06F0
-#define CYTHON_FUTURE_DIVISION 0
+#define CYTHON_FUTURE_DIVISION 1
 #include <stddef.h>
 #ifndef offsetof
   #define offsetof(type, member) ( (size_t) & ((type*)0) -> member )
@@ -1355,13 +1355,6 @@ static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int eq
 /* UnicodeEquals.proto */
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* SliceTupleAndList.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyList_GetSlice(PyObject* src, Py_ssize_t start, Py_ssize_t stop);
@@ -1501,16 +1494,6 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
-
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
@@ -1545,6 +1528,7 @@ int __pyx_module_is_main_wolf__controllers = 0;
 /* Implementation of 'wolf.controllers' */
 static PyObject *__pyx_builtin_staticmethod;
 static PyObject *__pyx_builtin_property;
+static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_super;
 static const char __pyx_k_m[] = "m";
@@ -1554,7 +1538,6 @@ static const char __pyx_k__14[] = ",";
 static const char __pyx_k_add[] = "add";
 static const char __pyx_k_cls[] = "cls";
 static const char __pyx_k_doc[] = "__doc__";
-static const char __pyx_k_end[] = "end";
 static const char __pyx_k_get[] = "get";
 static const char __pyx_k_otp[] = "otp";
 static const char __pyx_k_row[] = "row";
@@ -1564,7 +1547,6 @@ static const char __pyx_k_Root[] = "Root";
 static const char __pyx_k_TOTP[] = "TOTP";
 static const char __pyx_k_call[] = "__call__";
 static const char __pyx_k_code[] = "code";
-static const char __pyx_k_file[] = "file";
 static const char __pyx_k_form[] = "form";
 static const char __pyx_k_host[] = "host";
 static const char __pyx_k_info[] = "info";
@@ -1780,8 +1762,8 @@ static PyObject *__pyx_n_s_EncryptedISOPinBlock;
 static PyObject *__pyx_n_s_ExpiredTokenError;
 static PyObject *__pyx_n_s_HttpBadRequest;
 static PyObject *__pyx_n_s_HttpNotFound;
-static PyObject *__pyx_kp_s_Invalid_Code;
-static PyObject *__pyx_kp_s_Invalid_cryptomodule_id;
+static PyObject *__pyx_kp_u_Invalid_Code;
+static PyObject *__pyx_kp_u_Invalid_cryptomodule_id;
 static PyObject *__pyx_n_s_LazyAttribute;
 static PyObject *__pyx_n_s_MiniToken;
 static PyObject *__pyx_n_s_MiniToken___init;
@@ -1803,7 +1785,7 @@ static PyObject *__pyx_n_s_ModelRestController;
 static PyObject *__pyx_n_s_RestController;
 static PyObject *__pyx_n_s_Root;
 static PyObject *__pyx_n_s_RootController;
-static PyObject *__pyx_kp_s_SELECT_id_time_interval_one_time;
+static PyObject *__pyx_kp_u_SELECT_id_time_interval_one_time;
 static PyObject *__pyx_n_s_StrictRedis;
 static PyObject *__pyx_n_s_TOTP;
 static PyObject *__pyx_n_s_Token;
@@ -1817,13 +1799,14 @@ static PyObject *__pyx_n_s_TokenController_ensure;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_u_Verifying_token_id;
 static PyObject *__pyx_kp_b__14;
-static PyObject *__pyx_kp_s_a_zA_Z0_9_5_25;
+static PyObject *__pyx_kp_u_a_zA_Z0_9_5_25;
 static PyObject *__pyx_n_s_action;
 static PyObject *__pyx_n_s_activated_at;
 static PyObject *__pyx_n_s_add;
 static PyObject *__pyx_n_s_after_update;
+static PyObject *__pyx_n_u_after_update;
 static PyObject *__pyx_n_s_apiv1;
-static PyObject *__pyx_n_s_bankId;
+static PyObject *__pyx_n_u_bankId;
 static PyObject *__pyx_n_s_binascii;
 static PyObject *__pyx_n_s_cache;
 static PyObject *__pyx_n_s_cache_key;
@@ -1834,7 +1817,7 @@ static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_cls;
 static PyObject *__pyx_n_s_code;
 static PyObject *__pyx_kp_u_code_2;
-static PyObject *__pyx_n_s_codes;
+static PyObject *__pyx_n_u_codes;
 static PyObject *__pyx_n_s_codes_controller;
 static PyObject *__pyx_n_s_commit;
 static PyObject *__pyx_n_s_connection;
@@ -1842,11 +1825,11 @@ static PyObject *__pyx_n_s_context;
 static PyObject *__pyx_n_s_count;
 static PyObject *__pyx_n_s_create_blocking_redis_client;
 static PyObject *__pyx_n_s_cryptomodule;
-static PyObject *__pyx_n_s_cryptomoduleId;
+static PyObject *__pyx_n_u_cryptomoduleId;
 static PyObject *__pyx_n_s_cryptomodule_id;
 static PyObject *__pyx_n_s_cryptomodules;
 static PyObject *__pyx_n_s_cryptoutil;
-static PyObject *__pyx_kp_s_d_4_d_2_d_2;
+static PyObject *__pyx_kp_u_d_4_d_2_d_2;
 static PyObject *__pyx_n_s_db;
 static PyObject *__pyx_n_s_decode;
 static PyObject *__pyx_n_s_delete;
@@ -1856,19 +1839,17 @@ static PyObject *__pyx_n_s_dklen;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_enabled;
 static PyObject *__pyx_n_s_encode;
-static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_ensure;
 static PyObject *__pyx_n_s_ensure_device;
-static PyObject *__pyx_n_s_epoch;
+static PyObject *__pyx_n_u_epoch;
 static PyObject *__pyx_n_s_event;
 static PyObject *__pyx_n_s_exact;
 static PyObject *__pyx_n_s_execute;
 static PyObject *__pyx_n_s_exists;
-static PyObject *__pyx_n_s_expireDate;
+static PyObject *__pyx_n_u_expireDate;
 static PyObject *__pyx_n_s_expire_date;
 static PyObject *__pyx_n_s_expose;
 static PyObject *__pyx_n_s_extract;
-static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_filter;
 static PyObject *__pyx_n_s_find_or_create_token;
 static PyObject *__pyx_n_s_flush;
@@ -1904,6 +1885,7 @@ static PyObject *__pyx_n_s_model;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_modules;
 static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_n_u_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_nanohttp;
 static PyObject *__pyx_n_s_oath;
@@ -1915,6 +1897,7 @@ static PyObject *__pyx_n_s_password;
 static PyObject *__pyx_n_s_pattern;
 static PyObject *__pyx_n_s_pbkdf2_hmac;
 static PyObject *__pyx_n_s_phone;
+static PyObject *__pyx_n_u_phone;
 static PyObject *__pyx_n_s_pinblock;
 static PyObject *__pyx_n_s_port;
 static PyObject *__pyx_n_s_prepare;
@@ -1922,7 +1905,7 @@ static PyObject *__pyx_n_s_prevent_form;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_property;
 static PyObject *__pyx_n_s_provision;
-static PyObject *__pyx_n_s_provisioning;
+static PyObject *__pyx_n_u_provisioning;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_query;
 static PyObject *__pyx_n_s_query_string;
@@ -1944,9 +1927,10 @@ static PyObject *__pyx_n_s_seed;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_set;
 static PyObject *__pyx_n_s_settings;
-static PyObject *__pyx_n_s_sha256;
+static PyObject *__pyx_n_u_sha256;
 static PyObject *__pyx_n_s_socket_timeout;
 static PyObject *__pyx_n_s_soft;
+static PyObject *__pyx_n_u_soft;
 static PyObject *__pyx_n_s_split;
 static PyObject *__pyx_n_s_sqlalchemy;
 static PyObject *__pyx_n_s_staticmethod;
@@ -1963,6 +1947,7 @@ static PyObject *__pyx_n_s_token_id;
 static PyObject *__pyx_n_s_tokens;
 static PyObject *__pyx_n_s_types;
 static PyObject *__pyx_n_s_udid;
+static PyObject *__pyx_n_u_udid;
 static PyObject *__pyx_n_s_unhexlify;
 static PyObject *__pyx_n_s_update_from_request;
 static PyObject *__pyx_n_s_validate_form;
@@ -1971,6 +1956,7 @@ static PyObject *__pyx_n_s_validate_token;
 static PyObject *__pyx_n_s_verify;
 static PyObject *__pyx_n_s_verify_limit;
 static PyObject *__pyx_n_s_version;
+static PyObject *__pyx_n_u_version;
 static PyObject *__pyx_n_s_version_2;
 static PyObject *__pyx_n_s_window;
 static PyObject *__pyx_n_s_wolf;
@@ -1978,7 +1964,7 @@ static PyObject *__pyx_n_s_wolf_controllers;
 static PyObject *__pyx_kp_s_wolf_controllers_pyx;
 static PyObject *__pyx_n_s_wolf_exceptions;
 static PyObject *__pyx_n_s_wolf_models;
-static PyObject *__pyx_n_s_yes;
+static PyObject *__pyx_n_u_yes;
 static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_id, PyObject *__pyx_v_seed, PyObject *__pyx_v_expire_date, PyObject *__pyx_v_is_active, PyObject *__pyx_v_cryptomodule_id, PyObject *__pyx_v_last_code, PyObject *__pyx_v_same_code_verify_counter); /* proto */
 static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_client(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_4redis(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls); /* proto */
@@ -2062,7 +2048,7 @@ static PyObject *__pyx_codeobj__25;
 static PyObject *__pyx_codeobj__26;
 /* Late includes */
 
-/* "wolf/controllers.pyx":28
+/* "wolf/controllers.pyx":30
  *     _redis = None
  * 
  *     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,             # <<<<<<<<<<<<<<
@@ -2122,31 +2108,31 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_1__init__(PyObject *__p
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 1); __PYX_ERR(0, 28, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 1); __PYX_ERR(0, 30, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_seed)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 2); __PYX_ERR(0, 28, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 2); __PYX_ERR(0, 30, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_expire_date)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 3); __PYX_ERR(0, 28, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 3); __PYX_ERR(0, 30, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_is_active)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 4); __PYX_ERR(0, 28, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 4); __PYX_ERR(0, 30, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cryptomodule_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 5); __PYX_ERR(0, 28, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, 5); __PYX_ERR(0, 30, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
@@ -2162,7 +2148,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_1__init__(PyObject *__p
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 28, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 30, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2191,7 +2177,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_1__init__(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 28, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 30, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.MiniToken.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2210,79 +2196,79 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken___init__(CYTHON_UNUSED 
   __Pyx_RefNannyDeclarations
   __Pyx_TraceFrameInit(__pyx_codeobj_)
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 28, 0, __PYX_ERR(0, 28, __pyx_L1_error));
+  __Pyx_TraceCall("__init__", __pyx_f[0], 30, 0, __PYX_ERR(0, 30, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":30
+  /* "wolf/controllers.pyx":32
  *     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,
  *                  same_code_verify_counter=0):
  *         self.id = id             # <<<<<<<<<<<<<<
  *         self.seed = seed
  *         self.expire_date = expire_date
  */
-  __Pyx_TraceLine(30,0,__PYX_ERR(0, 30, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_id, __pyx_v_id) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_TraceLine(32,0,__PYX_ERR(0, 32, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_id, __pyx_v_id) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":31
+  /* "wolf/controllers.pyx":33
  *                  same_code_verify_counter=0):
  *         self.id = id
  *         self.seed = seed             # <<<<<<<<<<<<<<
  *         self.expire_date = expire_date
  *         self.is_active = is_active
  */
-  __Pyx_TraceLine(31,0,__PYX_ERR(0, 31, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_seed, __pyx_v_seed) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_TraceLine(33,0,__PYX_ERR(0, 33, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_seed, __pyx_v_seed) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":32
+  /* "wolf/controllers.pyx":34
  *         self.id = id
  *         self.seed = seed
  *         self.expire_date = expire_date             # <<<<<<<<<<<<<<
  *         self.is_active = is_active
  *         self.cryptomodule_id = cryptomodule_id
  */
-  __Pyx_TraceLine(32,0,__PYX_ERR(0, 32, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_expire_date, __pyx_v_expire_date) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_TraceLine(34,0,__PYX_ERR(0, 34, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_expire_date, __pyx_v_expire_date) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":33
+  /* "wolf/controllers.pyx":35
  *         self.seed = seed
  *         self.expire_date = expire_date
  *         self.is_active = is_active             # <<<<<<<<<<<<<<
  *         self.cryptomodule_id = cryptomodule_id
  *         self.last_code = last_code
  */
-  __Pyx_TraceLine(33,0,__PYX_ERR(0, 33, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_is_active, __pyx_v_is_active) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_TraceLine(35,0,__PYX_ERR(0, 35, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_is_active, __pyx_v_is_active) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":34
+  /* "wolf/controllers.pyx":36
  *         self.expire_date = expire_date
  *         self.is_active = is_active
  *         self.cryptomodule_id = cryptomodule_id             # <<<<<<<<<<<<<<
  *         self.last_code = last_code
  *         self.same_code_verify_counter = same_code_verify_counter
  */
-  __Pyx_TraceLine(34,0,__PYX_ERR(0, 34, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule_id, __pyx_v_cryptomodule_id) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_TraceLine(36,0,__PYX_ERR(0, 36, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule_id, __pyx_v_cryptomodule_id) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":35
+  /* "wolf/controllers.pyx":37
  *         self.is_active = is_active
  *         self.cryptomodule_id = cryptomodule_id
  *         self.last_code = last_code             # <<<<<<<<<<<<<<
  *         self.same_code_verify_counter = same_code_verify_counter
  * 
  */
-  __Pyx_TraceLine(35,0,__PYX_ERR(0, 35, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_last_code, __pyx_v_last_code) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_TraceLine(37,0,__PYX_ERR(0, 37, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_last_code, __pyx_v_last_code) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":36
+  /* "wolf/controllers.pyx":38
  *         self.cryptomodule_id = cryptomodule_id
  *         self.last_code = last_code
  *         self.same_code_verify_counter = same_code_verify_counter             # <<<<<<<<<<<<<<
  * 
  *     @staticmethod
  */
-  __Pyx_TraceLine(36,0,__PYX_ERR(0, 36, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_v_same_code_verify_counter) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_TraceLine(38,0,__PYX_ERR(0, 38, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_v_same_code_verify_counter) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":28
+  /* "wolf/controllers.pyx":30
  *     _redis = None
  * 
  *     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,             # <<<<<<<<<<<<<<
@@ -2303,7 +2289,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken___init__(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":39
+/* "wolf/controllers.pyx":41
  * 
  *     @staticmethod
  *     def create_blocking_redis_client():             # <<<<<<<<<<<<<<
@@ -2335,77 +2321,33 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_
   PyObject *__pyx_t_4 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__2)
   __Pyx_RefNannySetupContext("create_blocking_redis_client", 0);
-  __Pyx_TraceCall("create_blocking_redis_client", __pyx_f[0], 39, 0, __PYX_ERR(0, 39, __pyx_L1_error));
+  __Pyx_TraceCall("create_blocking_redis_client", __pyx_f[0], 41, 0, __PYX_ERR(0, 41, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":40
+  /* "wolf/controllers.pyx":42
  *     @staticmethod
  *     def create_blocking_redis_client():
  *         return redis.StrictRedis(             # <<<<<<<<<<<<<<
  *             host=settings.token.redis.host,
  *             port=settings.token.redis.port,
  */
-  __Pyx_TraceLine(40,0,__PYX_ERR(0, 40, __pyx_L1_error))
+  __Pyx_TraceLine(42,0,__PYX_ERR(0, 42, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_redis); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_redis); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_StrictRedis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_StrictRedis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":41
+  /* "wolf/controllers.pyx":43
  *     def create_blocking_redis_client():
  *         return redis.StrictRedis(
  *             host=settings.token.redis.host,             # <<<<<<<<<<<<<<
  *             port=settings.token.redis.port,
  *             db=settings.token.redis.db,
  */
-  __Pyx_TraceLine(41,0,__PYX_ERR(0, 41, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_settings); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_host); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_host, __pyx_t_4) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "wolf/controllers.pyx":42
- *         return redis.StrictRedis(
- *             host=settings.token.redis.host,
- *             port=settings.token.redis.port,             # <<<<<<<<<<<<<<
- *             db=settings.token.redis.db,
- *             password=settings.token.redis.password,
- */
-  __Pyx_TraceLine(42,0,__PYX_ERR(0, 42, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_settings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_redis); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_port); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_port, __pyx_t_3) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "wolf/controllers.pyx":43
- *             host=settings.token.redis.host,
- *             port=settings.token.redis.port,
- *             db=settings.token.redis.db,             # <<<<<<<<<<<<<<
- *             password=settings.token.redis.password,
- *             max_connections=settings.token.redis.max_connections,
- */
   __Pyx_TraceLine(43,0,__PYX_ERR(0, 43, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_settings); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
@@ -2414,18 +2356,18 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_db); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_host); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_db, __pyx_t_4) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_host, __pyx_t_4) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "wolf/controllers.pyx":44
- *             port=settings.token.redis.port,
+ *         return redis.StrictRedis(
+ *             host=settings.token.redis.host,
+ *             port=settings.token.redis.port,             # <<<<<<<<<<<<<<
  *             db=settings.token.redis.db,
- *             password=settings.token.redis.password,             # <<<<<<<<<<<<<<
- *             max_connections=settings.token.redis.max_connections,
- *             socket_timeout=settings.token.redis.socket_timeout
+ *             password=settings.token.redis.password,
  */
   __Pyx_TraceLine(44,0,__PYX_ERR(0, 44, __pyx_L1_error))
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_settings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
@@ -2436,18 +2378,18 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_redis); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_password); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_port); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_password, __pyx_t_3) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_port, __pyx_t_3) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "wolf/controllers.pyx":45
- *             db=settings.token.redis.db,
+ *             host=settings.token.redis.host,
+ *             port=settings.token.redis.port,
+ *             db=settings.token.redis.db,             # <<<<<<<<<<<<<<
  *             password=settings.token.redis.password,
- *             max_connections=settings.token.redis.max_connections,             # <<<<<<<<<<<<<<
- *             socket_timeout=settings.token.redis.socket_timeout
- *         )
+ *             max_connections=settings.token.redis.max_connections,
  */
   __Pyx_TraceLine(45,0,__PYX_ERR(0, 45, __pyx_L1_error))
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_settings); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
@@ -2458,18 +2400,18 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_max_connections); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_db); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_max_connections, __pyx_t_4) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_db, __pyx_t_4) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "wolf/controllers.pyx":46
- *             password=settings.token.redis.password,
+ *             port=settings.token.redis.port,
+ *             db=settings.token.redis.db,
+ *             password=settings.token.redis.password,             # <<<<<<<<<<<<<<
  *             max_connections=settings.token.redis.max_connections,
- *             socket_timeout=settings.token.redis.socket_timeout             # <<<<<<<<<<<<<<
- *         )
- * 
+ *             socket_timeout=settings.token.redis.socket_timeout
  */
   __Pyx_TraceLine(46,0,__PYX_ERR(0, 46, __pyx_L1_error))
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_settings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
@@ -2480,21 +2422,65 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_redis); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_socket_timeout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_password); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_socket_timeout, __pyx_t_3) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_password, __pyx_t_3) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":40
+  /* "wolf/controllers.pyx":47
+ *             db=settings.token.redis.db,
+ *             password=settings.token.redis.password,
+ *             max_connections=settings.token.redis.max_connections,             # <<<<<<<<<<<<<<
+ *             socket_timeout=settings.token.redis.socket_timeout
+ *         )
+ */
+  __Pyx_TraceLine(47,0,__PYX_ERR(0, 47, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_settings); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_max_connections); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_max_connections, __pyx_t_4) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "wolf/controllers.pyx":48
+ *             password=settings.token.redis.password,
+ *             max_connections=settings.token.redis.max_connections,
+ *             socket_timeout=settings.token.redis.socket_timeout             # <<<<<<<<<<<<<<
+ *         )
+ * 
+ */
+  __Pyx_TraceLine(48,0,__PYX_ERR(0, 48, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_settings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_redis); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_socket_timeout); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_socket_timeout, __pyx_t_3) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "wolf/controllers.pyx":42
  *     @staticmethod
  *     def create_blocking_redis_client():
  *         return redis.StrictRedis(             # <<<<<<<<<<<<<<
  *             host=settings.token.redis.host,
  *             port=settings.token.redis.port,
  */
-  __Pyx_TraceLine(40,0,__PYX_ERR(0, 40, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __Pyx_TraceLine(42,0,__PYX_ERR(0, 42, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -2502,7 +2488,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":39
+  /* "wolf/controllers.pyx":41
  * 
  *     @staticmethod
  *     def create_blocking_redis_client():             # <<<<<<<<<<<<<<
@@ -2525,7 +2511,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_2create_blocking_redis_
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":50
+/* "wolf/controllers.pyx":52
  * 
  *     @classmethod
  *     def redis(cls):             # <<<<<<<<<<<<<<
@@ -2558,32 +2544,32 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_4redis(CYTHON_UNUSED Py
   PyObject *__pyx_t_5 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__3)
   __Pyx_RefNannySetupContext("redis", 0);
-  __Pyx_TraceCall("redis", __pyx_f[0], 50, 0, __PYX_ERR(0, 50, __pyx_L1_error));
+  __Pyx_TraceCall("redis", __pyx_f[0], 52, 0, __PYX_ERR(0, 52, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":51
+  /* "wolf/controllers.pyx":53
  *     @classmethod
  *     def redis(cls):
  *         if cls._redis is None:             # <<<<<<<<<<<<<<
  *             cls._redis = cls.create_blocking_redis_client()
  *         return cls._redis
  */
-  __Pyx_TraceLine(51,0,__PYX_ERR(0, 51, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_TraceLine(53,0,__PYX_ERR(0, 53, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "wolf/controllers.pyx":52
+    /* "wolf/controllers.pyx":54
  *     def redis(cls):
  *         if cls._redis is None:
  *             cls._redis = cls.create_blocking_redis_client()             # <<<<<<<<<<<<<<
  *         return cls._redis
  * 
  */
-    __Pyx_TraceLine(52,0,__PYX_ERR(0, 52, __pyx_L1_error))
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_create_blocking_redis_client); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __Pyx_TraceLine(54,0,__PYX_ERR(0, 54, __pyx_L1_error))
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_create_blocking_redis_client); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -2597,13 +2583,13 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_4redis(CYTHON_UNUSED Py
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_redis_2, __pyx_t_1) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_cls, __pyx_n_s_redis_2, __pyx_t_1) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "wolf/controllers.pyx":51
+    /* "wolf/controllers.pyx":53
  *     @classmethod
  *     def redis(cls):
  *         if cls._redis is None:             # <<<<<<<<<<<<<<
@@ -2612,22 +2598,22 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_4redis(CYTHON_UNUSED Py
  */
   }
 
-  /* "wolf/controllers.pyx":53
+  /* "wolf/controllers.pyx":55
  *         if cls._redis is None:
  *             cls._redis = cls.create_blocking_redis_client()
  *         return cls._redis             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(53,0,__PYX_ERR(0, 53, __pyx_L1_error))
+  __Pyx_TraceLine(55,0,__PYX_ERR(0, 55, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":50
+  /* "wolf/controllers.pyx":52
  * 
  *     @classmethod
  *     def redis(cls):             # <<<<<<<<<<<<<<
@@ -2649,7 +2635,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_4redis(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":56
+/* "wolf/controllers.pyx":58
  * 
  *     @classmethod
  *     def load_from_database(cls, token_id):             # <<<<<<<<<<<<<<
@@ -2689,11 +2675,11 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_7load_from_database(PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_token_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("load_from_database", 1, 2, 2, 1); __PYX_ERR(0, 56, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("load_from_database", 1, 2, 2, 1); __PYX_ERR(0, 58, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_from_database") < 0)) __PYX_ERR(0, 56, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_from_database") < 0)) __PYX_ERR(0, 58, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2706,7 +2692,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_7load_from_database(PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("load_from_database", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 56, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("load_from_database", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 58, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.MiniToken.load_from_database", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2739,63 +2725,63 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   int __pyx_t_13;
   __Pyx_TraceFrameInit(__pyx_codeobj__4)
   __Pyx_RefNannySetupContext("load_from_database", 0);
-  __Pyx_TraceCall("load_from_database", __pyx_f[0], 56, 0, __PYX_ERR(0, 56, __pyx_L1_error));
+  __Pyx_TraceCall("load_from_database", __pyx_f[0], 58, 0, __PYX_ERR(0, 58, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":57
+  /* "wolf/controllers.pyx":59
  *     @classmethod
  *     def load_from_database(cls, token_id):
  *         row = DBSession.query(             # <<<<<<<<<<<<<<
  *             Token.id,
  *             Token.seed,
  */
-  __Pyx_TraceLine(57,0,__PYX_ERR(0, 57, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __Pyx_TraceLine(59,0,__PYX_ERR(0, 59, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_query); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_query); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/controllers.pyx":58
+  /* "wolf/controllers.pyx":60
  *     def load_from_database(cls, token_id):
  *         row = DBSession.query(
  *             Token.id,             # <<<<<<<<<<<<<<
  *             Token.seed,
  *             extract('epoch', Token.expire_date),
  */
-  __Pyx_TraceLine(58,0,__PYX_ERR(0, 58, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_TraceLine(60,0,__PYX_ERR(0, 60, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_id); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_id); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/controllers.pyx":59
+  /* "wolf/controllers.pyx":61
  *         row = DBSession.query(
  *             Token.id,
  *             Token.seed,             # <<<<<<<<<<<<<<
  *             extract('epoch', Token.expire_date),
  *             Token.activated_at.isnot(None),
  */
-  __Pyx_TraceLine(59,0,__PYX_ERR(0, 59, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_TraceLine(61,0,__PYX_ERR(0, 61, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_seed); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_seed); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/controllers.pyx":60
+  /* "wolf/controllers.pyx":62
  *             Token.id,
  *             Token.seed,
  *             extract('epoch', Token.expire_date),             # <<<<<<<<<<<<<<
  *             Token.activated_at.isnot(None),
  *             Token.cryptomodule_id,
  */
-  __Pyx_TraceLine(60,0,__PYX_ERR(0, 60, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_extract); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __Pyx_TraceLine(62,0,__PYX_ERR(0, 62, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_extract); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_Token); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_Token); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_expire_date); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_expire_date); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __pyx_t_9 = NULL;
@@ -2812,8 +2798,8 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_8)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_n_s_epoch, __pyx_t_10};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
+    PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_n_u_epoch, __pyx_t_10};
+    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -2821,45 +2807,45 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_n_s_epoch, __pyx_t_10};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
+    PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_n_u_epoch, __pyx_t_10};
+    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   } else
   #endif
   {
-    __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     if (__pyx_t_9) {
       __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_9); __pyx_t_9 = NULL;
     }
-    __Pyx_INCREF(__pyx_n_s_epoch);
-    __Pyx_GIVEREF(__pyx_n_s_epoch);
-    PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_11, __pyx_n_s_epoch);
+    __Pyx_INCREF(__pyx_n_u_epoch);
+    __Pyx_GIVEREF(__pyx_n_u_epoch);
+    PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_11, __pyx_n_u_epoch);
     __Pyx_GIVEREF(__pyx_t_10);
     PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_11, __pyx_t_10);
     __pyx_t_10 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_12, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 60, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_12, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   }
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "wolf/controllers.pyx":61
+  /* "wolf/controllers.pyx":63
  *             Token.seed,
  *             extract('epoch', Token.expire_date),
  *             Token.activated_at.isnot(None),             # <<<<<<<<<<<<<<
  *             Token.cryptomodule_id,
  *         ).filter(Token.id == token_id).one_or_none()
  */
-  __Pyx_TraceLine(61,0,__PYX_ERR(0, 61, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_Token); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __Pyx_TraceLine(63,0,__PYX_ERR(0, 63, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_Token); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_activated_at); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_activated_at); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_isnot); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_isnot); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __pyx_t_10 = NULL;
@@ -2874,21 +2860,21 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   }
   __pyx_t_8 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_12, __pyx_t_10, Py_None) : __Pyx_PyObject_CallOneArg(__pyx_t_12, Py_None);
   __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-  /* "wolf/controllers.pyx":62
+  /* "wolf/controllers.pyx":64
  *             extract('epoch', Token.expire_date),
  *             Token.activated_at.isnot(None),
  *             Token.cryptomodule_id,             # <<<<<<<<<<<<<<
  *         ).filter(Token.id == token_id).one_or_none()
  *         return cls(*row) if row else None
  */
-  __Pyx_TraceLine(62,0,__PYX_ERR(0, 62, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_Token); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_TraceLine(64,0,__PYX_ERR(0, 64, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_Token); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __pyx_t_12 = NULL;
@@ -2906,7 +2892,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[6] = {__pyx_t_12, __pyx_t_6, __pyx_t_7, __pyx_t_4, __pyx_t_8, __pyx_t_10};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 5+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 5+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2919,7 +2905,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[6] = {__pyx_t_12, __pyx_t_6, __pyx_t_7, __pyx_t_4, __pyx_t_8, __pyx_t_10};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 5+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 5+__pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2930,7 +2916,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   } else
   #endif
   {
-    __pyx_t_9 = PyTuple_New(5+__pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_9 = PyTuple_New(5+__pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     if (__pyx_t_12) {
       __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -2950,29 +2936,29 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
     __pyx_t_4 = 0;
     __pyx_t_8 = 0;
     __pyx_t_10 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":63
+  /* "wolf/controllers.pyx":65
  *             Token.activated_at.isnot(None),
  *             Token.cryptomodule_id,
  *         ).filter(Token.id == token_id).one_or_none()             # <<<<<<<<<<<<<<
  *         return cls(*row) if row else None
  * 
  */
-  __Pyx_TraceLine(63,0,__PYX_ERR(0, 63, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_filter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_TraceLine(65,0,__PYX_ERR(0, 65, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_filter); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_id); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_id); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_9, __pyx_v_token_id, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_9, __pyx_v_token_id, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __pyx_t_9 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -2987,10 +2973,10 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   __pyx_t_2 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_9, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3005,26 +2991,26 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_row = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":64
+  /* "wolf/controllers.pyx":66
  *             Token.cryptomodule_id,
  *         ).filter(Token.id == token_id).one_or_none()
  *         return cls(*row) if row else None             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(64,0,__PYX_ERR(0, 64, __pyx_L1_error))
+  __Pyx_TraceLine(66,0,__PYX_ERR(0, 66, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_v_row); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_v_row); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 66, __pyx_L1_error)
   if (__pyx_t_13) {
-    __pyx_t_5 = __Pyx_PySequence_Tuple(__pyx_v_row); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PySequence_Tuple(__pyx_v_row); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_v_cls, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_v_cls, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_1 = __pyx_t_2;
@@ -3037,7 +3023,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":56
+  /* "wolf/controllers.pyx":58
  * 
  *     @classmethod
  *     def load_from_database(cls, token_id):             # <<<<<<<<<<<<<<
@@ -3068,7 +3054,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_6load_from_database(CYT
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":67
+/* "wolf/controllers.pyx":69
  * 
  *     @classmethod
  *     def load(cls, token_id, cache=False):             # <<<<<<<<<<<<<<
@@ -3112,7 +3098,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_9load(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_token_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("load", 0, 2, 3, 1); __PYX_ERR(0, 67, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("load", 0, 2, 3, 1); __PYX_ERR(0, 69, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -3122,7 +3108,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_9load(PyObject *__pyx_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load") < 0)) __PYX_ERR(0, 67, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load") < 0)) __PYX_ERR(0, 69, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3140,7 +3126,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_9load(PyObject *__pyx_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("load", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 67, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("load", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 69, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.MiniToken.load", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3165,28 +3151,28 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_8load(CYTHON_UNUSED PyO
   int __pyx_t_5;
   __Pyx_TraceFrameInit(__pyx_codeobj__5)
   __Pyx_RefNannySetupContext("load", 0);
-  __Pyx_TraceCall("load", __pyx_f[0], 67, 0, __PYX_ERR(0, 67, __pyx_L1_error));
+  __Pyx_TraceCall("load", __pyx_f[0], 69, 0, __PYX_ERR(0, 69, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":68
+  /* "wolf/controllers.pyx":70
  *     @classmethod
  *     def load(cls, token_id, cache=False):
  *         if cache:             # <<<<<<<<<<<<<<
  *             token = cls.load_from_cache(token_id)
  *             if token is not None:
  */
-  __Pyx_TraceLine(68,0,__PYX_ERR(0, 68, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_cache); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __Pyx_TraceLine(70,0,__PYX_ERR(0, 70, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_cache); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 70, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "wolf/controllers.pyx":69
+    /* "wolf/controllers.pyx":71
  *     def load(cls, token_id, cache=False):
  *         if cache:
  *             token = cls.load_from_cache(token_id)             # <<<<<<<<<<<<<<
  *             if token is not None:
  *                 return token
  */
-    __Pyx_TraceLine(69,0,__PYX_ERR(0, 69, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_load_from_cache); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __Pyx_TraceLine(71,0,__PYX_ERR(0, 71, __pyx_L1_error))
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_load_from_cache); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3200,38 +3186,38 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_8load(CYTHON_UNUSED PyO
     }
     __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_token_id) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_token_id);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_token = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "wolf/controllers.pyx":70
+    /* "wolf/controllers.pyx":72
  *         if cache:
  *             token = cls.load_from_cache(token_id)
  *             if token is not None:             # <<<<<<<<<<<<<<
  *                 return token
  *         return cls.load_from_database(token_id)
  */
-    __Pyx_TraceLine(70,0,__PYX_ERR(0, 70, __pyx_L1_error))
+    __Pyx_TraceLine(72,0,__PYX_ERR(0, 72, __pyx_L1_error))
     __pyx_t_1 = (__pyx_v_token != Py_None);
     __pyx_t_5 = (__pyx_t_1 != 0);
     if (__pyx_t_5) {
 
-      /* "wolf/controllers.pyx":71
+      /* "wolf/controllers.pyx":73
  *             token = cls.load_from_cache(token_id)
  *             if token is not None:
  *                 return token             # <<<<<<<<<<<<<<
  *         return cls.load_from_database(token_id)
  * 
  */
-      __Pyx_TraceLine(71,0,__PYX_ERR(0, 71, __pyx_L1_error))
+      __Pyx_TraceLine(73,0,__PYX_ERR(0, 73, __pyx_L1_error))
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_v_token);
       __pyx_r = __pyx_v_token;
       goto __pyx_L0;
 
-      /* "wolf/controllers.pyx":70
+      /* "wolf/controllers.pyx":72
  *         if cache:
  *             token = cls.load_from_cache(token_id)
  *             if token is not None:             # <<<<<<<<<<<<<<
@@ -3240,7 +3226,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_8load(CYTHON_UNUSED PyO
  */
     }
 
-    /* "wolf/controllers.pyx":68
+    /* "wolf/controllers.pyx":70
  *     @classmethod
  *     def load(cls, token_id, cache=False):
  *         if cache:             # <<<<<<<<<<<<<<
@@ -3249,16 +3235,16 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_8load(CYTHON_UNUSED PyO
  */
   }
 
-  /* "wolf/controllers.pyx":72
+  /* "wolf/controllers.pyx":74
  *             if token is not None:
  *                 return token
  *         return cls.load_from_database(token_id)             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __Pyx_TraceLine(72,0,__PYX_ERR(0, 72, __pyx_L1_error))
+  __Pyx_TraceLine(74,0,__PYX_ERR(0, 74, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_load_from_database); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_load_from_database); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3272,14 +3258,14 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_8load(CYTHON_UNUSED PyO
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_token_id) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_token_id);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":67
+  /* "wolf/controllers.pyx":69
  * 
  *     @classmethod
  *     def load(cls, token_id, cache=False):             # <<<<<<<<<<<<<<
@@ -3302,7 +3288,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_8load(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":75
+/* "wolf/controllers.pyx":77
  * 
  *     @property
  *     def is_expired(self):             # <<<<<<<<<<<<<<
@@ -3334,22 +3320,22 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_10is_expired(CYTHON_UNU
   PyObject *__pyx_t_4 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__6)
   __Pyx_RefNannySetupContext("is_expired", 0);
-  __Pyx_TraceCall("is_expired", __pyx_f[0], 75, 0, __PYX_ERR(0, 75, __pyx_L1_error));
+  __Pyx_TraceCall("is_expired", __pyx_f[0], 77, 0, __PYX_ERR(0, 77, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":76
+  /* "wolf/controllers.pyx":78
  *     @property
  *     def is_expired(self):
  *         return self.expire_date <= time.time()             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __Pyx_TraceLine(76,0,__PYX_ERR(0, 76, __pyx_L1_error))
+  __Pyx_TraceLine(78,0,__PYX_ERR(0, 78, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_expire_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_expire_date); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -3364,17 +3350,17 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_10is_expired(CYTHON_UNU
   }
   __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":75
+  /* "wolf/controllers.pyx":77
  * 
  *     @property
  *     def is_expired(self):             # <<<<<<<<<<<<<<
@@ -3397,7 +3383,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_10is_expired(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":79
+/* "wolf/controllers.pyx":81
  * 
  *     @property
  *     def cryptomodules(self):             # <<<<<<<<<<<<<<
@@ -3436,50 +3422,50 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
   PyObject *(*__pyx_t_9)(PyObject *);
   __Pyx_TraceFrameInit(__pyx_codeobj__7)
   __Pyx_RefNannySetupContext("cryptomodules", 0);
-  __Pyx_TraceCall("cryptomodules", __pyx_f[0], 79, 0, __PYX_ERR(0, 79, __pyx_L1_error));
+  __Pyx_TraceCall("cryptomodules", __pyx_f[0], 81, 0, __PYX_ERR(0, 81, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":81
+  /* "wolf/controllers.pyx":83
  *     def cryptomodules(self):
  *         global cached_cryptomodules
  *         if cached_cryptomodules is None:             # <<<<<<<<<<<<<<
  *             modules = {}
  *             for m in DBSession.execute(text(
  */
-  __Pyx_TraceLine(81,0,__PYX_ERR(0, 81, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_cached_cryptomodules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __Pyx_TraceLine(83,0,__PYX_ERR(0, 83, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_cached_cryptomodules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "wolf/controllers.pyx":82
+    /* "wolf/controllers.pyx":84
  *         global cached_cryptomodules
  *         if cached_cryptomodules is None:
  *             modules = {}             # <<<<<<<<<<<<<<
  *             for m in DBSession.execute(text(
  *                 'SELECT id, time_interval, one_time_password_length FROM cryptomodule'
  */
-    __Pyx_TraceLine(82,0,__PYX_ERR(0, 82, __pyx_L1_error))
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __Pyx_TraceLine(84,0,__PYX_ERR(0, 84, __pyx_L1_error))
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_v_modules = ((PyObject*)__pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "wolf/controllers.pyx":83
+    /* "wolf/controllers.pyx":85
  *         if cached_cryptomodules is None:
  *             modules = {}
  *             for m in DBSession.execute(text(             # <<<<<<<<<<<<<<
  *                 'SELECT id, time_interval, one_time_password_length FROM cryptomodule'
  *                 )):
  */
-    __Pyx_TraceLine(83,0,__PYX_ERR(0, 83, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __Pyx_TraceLine(85,0,__PYX_ERR(0, 85, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_execute); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_execute); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_text); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_text); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -3491,9 +3477,9 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_kp_s_SELECT_id_time_interval_one_time) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_SELECT_id_time_interval_one_time);
+    __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_kp_u_SELECT_id_time_interval_one_time) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_u_SELECT_id_time_interval_one_time);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -3509,16 +3495,16 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
       __pyx_t_5 = __pyx_t_1; __Pyx_INCREF(__pyx_t_5); __pyx_t_8 = 0;
       __pyx_t_9 = NULL;
     } else {
-      __pyx_t_8 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_8 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_9 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 85, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     for (;;) {
@@ -3526,17 +3512,17 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 83, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_8 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 83, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_8); __Pyx_INCREF(__pyx_t_1); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -3546,7 +3532,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 83, __pyx_L1_error)
+            else __PYX_ERR(0, 85, __pyx_L1_error)
           }
           break;
         }
@@ -3555,41 +3541,41 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
       __Pyx_XDECREF_SET(__pyx_v_m, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "wolf/controllers.pyx":86
+      /* "wolf/controllers.pyx":88
  *                 'SELECT id, time_interval, one_time_password_length FROM cryptomodule'
  *                 )):
  *                 modules[m[0]] = m             # <<<<<<<<<<<<<<
  *             cached_cryptomodules = modules
  *         return cached_cryptomodules
  */
-      __Pyx_TraceLine(86,0,__PYX_ERR(0, 86, __pyx_L1_error))
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_m, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+      __Pyx_TraceLine(88,0,__PYX_ERR(0, 88, __pyx_L1_error))
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_m, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (unlikely(PyDict_SetItem(__pyx_v_modules, __pyx_t_1, __pyx_v_m) < 0)) __PYX_ERR(0, 86, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_modules, __pyx_t_1, __pyx_v_m) < 0)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "wolf/controllers.pyx":83
+      /* "wolf/controllers.pyx":85
  *         if cached_cryptomodules is None:
  *             modules = {}
  *             for m in DBSession.execute(text(             # <<<<<<<<<<<<<<
  *                 'SELECT id, time_interval, one_time_password_length FROM cryptomodule'
  *                 )):
  */
-      __Pyx_TraceLine(83,0,__PYX_ERR(0, 83, __pyx_L1_error))
+      __Pyx_TraceLine(85,0,__PYX_ERR(0, 85, __pyx_L1_error))
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "wolf/controllers.pyx":87
+    /* "wolf/controllers.pyx":89
  *                 )):
  *                 modules[m[0]] = m
  *             cached_cryptomodules = modules             # <<<<<<<<<<<<<<
  *         return cached_cryptomodules
  * 
  */
-    __Pyx_TraceLine(87,0,__PYX_ERR(0, 87, __pyx_L1_error))
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_cached_cryptomodules, __pyx_v_modules) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+    __Pyx_TraceLine(89,0,__PYX_ERR(0, 89, __pyx_L1_error))
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_cached_cryptomodules, __pyx_v_modules) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":81
+    /* "wolf/controllers.pyx":83
  *     def cryptomodules(self):
  *         global cached_cryptomodules
  *         if cached_cryptomodules is None:             # <<<<<<<<<<<<<<
@@ -3598,22 +3584,22 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
  */
   }
 
-  /* "wolf/controllers.pyx":88
+  /* "wolf/controllers.pyx":90
  *                 modules[m[0]] = m
  *             cached_cryptomodules = modules
  *         return cached_cryptomodules             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __Pyx_TraceLine(88,0,__PYX_ERR(0, 88, __pyx_L1_error))
+  __Pyx_TraceLine(90,0,__PYX_ERR(0, 90, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_cached_cryptomodules); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_cached_cryptomodules); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":79
+  /* "wolf/controllers.pyx":81
  * 
  *     @property
  *     def cryptomodules(self):             # <<<<<<<<<<<<<<
@@ -3639,7 +3625,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_12cryptomodules(CYTHON_
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":91
+/* "wolf/controllers.pyx":93
  * 
  *     @property
  *     def cryptomodule(self):             # <<<<<<<<<<<<<<
@@ -3670,22 +3656,22 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_14cryptomodule(CYTHON_U
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__8)
   __Pyx_RefNannySetupContext("cryptomodule", 0);
-  __Pyx_TraceCall("cryptomodule", __pyx_f[0], 91, 0, __PYX_ERR(0, 91, __pyx_L1_error));
+  __Pyx_TraceCall("cryptomodule", __pyx_f[0], 93, 0, __PYX_ERR(0, 93, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":92
+  /* "wolf/controllers.pyx":94
  *     @property
  *     def cryptomodule(self):
  *         return self.cryptomodules[self.cryptomodule_id]             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __Pyx_TraceLine(92,0,__PYX_ERR(0, 92, __pyx_L1_error))
+  __Pyx_TraceLine(94,0,__PYX_ERR(0, 94, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodules); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3693,7 +3679,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_14cryptomodule(CYTHON_U
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":91
+  /* "wolf/controllers.pyx":93
  * 
  *     @property
  *     def cryptomodule(self):             # <<<<<<<<<<<<<<
@@ -3715,7 +3701,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_14cryptomodule(CYTHON_U
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":95
+/* "wolf/controllers.pyx":97
  * 
  *     @property
  *     def time_interval(self):             # <<<<<<<<<<<<<<
@@ -3745,27 +3731,27 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_16time_interval(CYTHON_
   PyObject *__pyx_t_2 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__9)
   __Pyx_RefNannySetupContext("time_interval", 0);
-  __Pyx_TraceCall("time_interval", __pyx_f[0], 95, 0, __PYX_ERR(0, 95, __pyx_L1_error));
+  __Pyx_TraceCall("time_interval", __pyx_f[0], 97, 0, __PYX_ERR(0, 97, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":96
+  /* "wolf/controllers.pyx":98
  *     @property
  *     def time_interval(self):
  *         return self.cryptomodule[1]             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __Pyx_TraceLine(96,0,__PYX_ERR(0, 96, __pyx_L1_error))
+  __Pyx_TraceLine(98,0,__PYX_ERR(0, 98, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":95
+  /* "wolf/controllers.pyx":97
  * 
  *     @property
  *     def time_interval(self):             # <<<<<<<<<<<<<<
@@ -3786,7 +3772,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_16time_interval(CYTHON_
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":99
+/* "wolf/controllers.pyx":101
  * 
  *     @property
  *     def length(self):             # <<<<<<<<<<<<<<
@@ -3816,27 +3802,27 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_18length(CYTHON_UNUSED 
   PyObject *__pyx_t_2 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__10)
   __Pyx_RefNannySetupContext("length", 0);
-  __Pyx_TraceCall("length", __pyx_f[0], 99, 0, __PYX_ERR(0, 99, __pyx_L1_error));
+  __Pyx_TraceCall("length", __pyx_f[0], 101, 0, __PYX_ERR(0, 101, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":100
+  /* "wolf/controllers.pyx":102
  *     @property
  *     def length(self):
  *         return self.cryptomodule[2]             # <<<<<<<<<<<<<<
  * 
  *     def verify(self, code, window, soft=False):
  */
-  __Pyx_TraceLine(100,0,__PYX_ERR(0, 100, __pyx_L1_error))
+  __Pyx_TraceLine(102,0,__PYX_ERR(0, 102, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":99
+  /* "wolf/controllers.pyx":101
  * 
  *     @property
  *     def length(self):             # <<<<<<<<<<<<<<
@@ -3857,7 +3843,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_18length(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":102
+/* "wolf/controllers.pyx":104
  *         return self.cryptomodule[2]
  * 
  *     def verify(self, code, window, soft=False):             # <<<<<<<<<<<<<<
@@ -3904,13 +3890,13 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_21verify(PyObject *__py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_code)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("verify", 0, 3, 4, 1); __PYX_ERR(0, 102, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("verify", 0, 3, 4, 1); __PYX_ERR(0, 104, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_window)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("verify", 0, 3, 4, 2); __PYX_ERR(0, 102, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("verify", 0, 3, 4, 2); __PYX_ERR(0, 104, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -3920,7 +3906,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_21verify(PyObject *__py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "verify") < 0)) __PYX_ERR(0, 102, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "verify") < 0)) __PYX_ERR(0, 104, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3940,7 +3926,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_21verify(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("verify", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 102, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("verify", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 104, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.MiniToken.verify", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3970,53 +3956,53 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   int __pyx_t_9;
   __Pyx_TraceFrameInit(__pyx_codeobj__11)
   __Pyx_RefNannySetupContext("verify", 0);
-  __Pyx_TraceCall("verify", __pyx_f[0], 102, 0, __PYX_ERR(0, 102, __pyx_L1_error));
+  __Pyx_TraceCall("verify", __pyx_f[0], 104, 0, __PYX_ERR(0, 104, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":103
+  /* "wolf/controllers.pyx":105
  * 
  *     def verify(self, code, window, soft=False):
  *         if self.last_code == code:             # <<<<<<<<<<<<<<
  * 
  *             if not soft:
  */
-  __Pyx_TraceLine(103,0,__PYX_ERR(0, 103, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_last_code); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __Pyx_TraceLine(105,0,__PYX_ERR(0, 105, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_last_code); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_v_code, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_v_code, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 105, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "wolf/controllers.pyx":105
+    /* "wolf/controllers.pyx":107
  *         if self.last_code == code:
  * 
  *             if not soft:             # <<<<<<<<<<<<<<
  *                 self.same_code_verify_counter += 1
  * 
  */
-    __Pyx_TraceLine(105,0,__PYX_ERR(0, 105, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_soft); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __Pyx_TraceLine(107,0,__PYX_ERR(0, 107, __pyx_L1_error))
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_soft); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 107, __pyx_L1_error)
     __pyx_t_4 = ((!__pyx_t_3) != 0);
     if (__pyx_t_4) {
 
-      /* "wolf/controllers.pyx":106
+      /* "wolf/controllers.pyx":108
  * 
  *             if not soft:
  *                 self.same_code_verify_counter += 1             # <<<<<<<<<<<<<<
  * 
  *             if settings.token.verify_limit <= self.same_code_verify_counter:
  */
-      __Pyx_TraceLine(106,0,__PYX_ERR(0, 106, __pyx_L1_error))
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __Pyx_TraceLine(108,0,__PYX_ERR(0, 108, __pyx_L1_error))
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_t_1) < 0) __PYX_ERR(0, 106, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_t_1) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "wolf/controllers.pyx":105
+      /* "wolf/controllers.pyx":107
  *         if self.last_code == code:
  * 
  *             if not soft:             # <<<<<<<<<<<<<<
@@ -4025,45 +4011,45 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
  */
     }
 
-    /* "wolf/controllers.pyx":108
+    /* "wolf/controllers.pyx":110
  *                 self.same_code_verify_counter += 1
  * 
  *             if settings.token.verify_limit <= self.same_code_verify_counter:             # <<<<<<<<<<<<<<
  *                 return False
  *         elif not soft:
  */
-    __Pyx_TraceLine(108,0,__PYX_ERR(0, 108, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __Pyx_TraceLine(110,0,__PYX_ERR(0, 110, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_verify_limit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_verify_limit); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_4) {
 
-      /* "wolf/controllers.pyx":109
+      /* "wolf/controllers.pyx":111
  * 
  *             if settings.token.verify_limit <= self.same_code_verify_counter:
  *                 return False             # <<<<<<<<<<<<<<
  *         elif not soft:
  *             self.last_code = code
  */
-      __Pyx_TraceLine(109,0,__PYX_ERR(0, 109, __pyx_L1_error))
+      __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(Py_False);
       __pyx_r = Py_False;
       goto __pyx_L0;
 
-      /* "wolf/controllers.pyx":108
+      /* "wolf/controllers.pyx":110
  *                 self.same_code_verify_counter += 1
  * 
  *             if settings.token.verify_limit <= self.same_code_verify_counter:             # <<<<<<<<<<<<<<
@@ -4072,7 +4058,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
  */
     }
 
-    /* "wolf/controllers.pyx":103
+    /* "wolf/controllers.pyx":105
  * 
  *     def verify(self, code, window, soft=False):
  *         if self.last_code == code:             # <<<<<<<<<<<<<<
@@ -4082,39 +4068,39 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
     goto __pyx_L3;
   }
 
-  /* "wolf/controllers.pyx":110
+  /* "wolf/controllers.pyx":112
  *             if settings.token.verify_limit <= self.same_code_verify_counter:
  *                 return False
  *         elif not soft:             # <<<<<<<<<<<<<<
  *             self.last_code = code
  *             self.same_code_verify_counter = 1
  */
-  __Pyx_TraceLine(110,0,__PYX_ERR(0, 110, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_soft); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_soft); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
   __pyx_t_3 = ((!__pyx_t_4) != 0);
   if (__pyx_t_3) {
 
-    /* "wolf/controllers.pyx":111
+    /* "wolf/controllers.pyx":113
  *                 return False
  *         elif not soft:
  *             self.last_code = code             # <<<<<<<<<<<<<<
  *             self.same_code_verify_counter = 1
  * 
  */
-    __Pyx_TraceLine(111,0,__PYX_ERR(0, 111, __pyx_L1_error))
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_last_code, __pyx_v_code) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+    __Pyx_TraceLine(113,0,__PYX_ERR(0, 113, __pyx_L1_error))
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_last_code, __pyx_v_code) < 0) __PYX_ERR(0, 113, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":112
+    /* "wolf/controllers.pyx":114
  *         elif not soft:
  *             self.last_code = code
  *             self.same_code_verify_counter = 1             # <<<<<<<<<<<<<<
  * 
  *         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
  */
-    __Pyx_TraceLine(112,0,__PYX_ERR(0, 112, __pyx_L1_error))
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_int_1) < 0) __PYX_ERR(0, 112, __pyx_L1_error)
+    __Pyx_TraceLine(114,0,__PYX_ERR(0, 114, __pyx_L1_error))
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter, __pyx_int_1) < 0) __PYX_ERR(0, 114, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":110
+    /* "wolf/controllers.pyx":112
  *             if settings.token.verify_limit <= self.same_code_verify_counter:
  *                 return False
  *         elif not soft:             # <<<<<<<<<<<<<<
@@ -4124,20 +4110,20 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   }
   __pyx_L3:;
 
-  /* "wolf/controllers.pyx":114
+  /* "wolf/controllers.pyx":116
  *             self.same_code_verify_counter = 1
  * 
  *         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)             # <<<<<<<<<<<<<<
  *         otp = pinblock.decode(code)
  *         return \
  */
-  __Pyx_TraceLine(114,0,__PYX_ERR(0, 114, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_cryptoutil); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __Pyx_TraceLine(116,0,__PYX_ERR(0, 116, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_cryptoutil); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_EncryptedISOPinBlock); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
@@ -4152,21 +4138,21 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_6, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_pinblock = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":115
+  /* "wolf/controllers.pyx":117
  * 
  *         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
  *         otp = pinblock.decode(code)             # <<<<<<<<<<<<<<
  *         return \
  *             TOTP(self.seed, time.time(), self.length, step=self.time_interval)\
  */
-  __Pyx_TraceLine(115,0,__PYX_ERR(0, 115, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_pinblock, __pyx_n_s_decode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __Pyx_TraceLine(117,0,__PYX_ERR(0, 117, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_pinblock, __pyx_n_s_decode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -4180,37 +4166,37 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   }
   __pyx_t_5 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, __pyx_v_code) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_code);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 115, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_otp = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":116
+  /* "wolf/controllers.pyx":118
  *         pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
  *         otp = pinblock.decode(code)
  *         return \             # <<<<<<<<<<<<<<
  *             TOTP(self.seed, time.time(), self.length, step=self.time_interval)\
  *             .verify(otp, window)
  */
-  __Pyx_TraceLine(116,0,__PYX_ERR(0, 116, __pyx_L1_error))
+  __Pyx_TraceLine(118,0,__PYX_ERR(0, 118, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
 
-  /* "wolf/controllers.pyx":117
+  /* "wolf/controllers.pyx":119
  *         otp = pinblock.decode(code)
  *         return \
  *             TOTP(self.seed, time.time(), self.length, step=self.time_interval)\             # <<<<<<<<<<<<<<
  *             .verify(otp, window)
  * 
  */
-  __Pyx_TraceLine(117,0,__PYX_ERR(0, 117, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_TraceLine(119,0,__PYX_ERR(0, 119, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_time); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_time); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_time); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_time); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = NULL;
@@ -4225,12 +4211,12 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   }
   __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_length); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_length); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2);
@@ -4241,27 +4227,27 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   __pyx_t_2 = 0;
   __pyx_t_6 = 0;
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_time_interval); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_time_interval); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_step, __pyx_t_6) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_step, __pyx_t_6) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "wolf/controllers.pyx":118
+  /* "wolf/controllers.pyx":120
  *         return \
  *             TOTP(self.seed, time.time(), self.length, step=self.time_interval)\
  *             .verify(otp, window)             # <<<<<<<<<<<<<<
  * 
  *     def cache(self):
  */
-  __Pyx_TraceLine(118,0,__PYX_ERR(0, 118, __pyx_L1_error))
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_verify); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __Pyx_TraceLine(120,0,__PYX_ERR(0, 120, __pyx_L1_error))
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_verify); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 120, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -4279,7 +4265,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_8)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_otp, __pyx_v_window};
-    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else
@@ -4287,13 +4273,13 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_otp, __pyx_v_window};
-    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -4304,7 +4290,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
     __Pyx_INCREF(__pyx_v_window);
     __Pyx_GIVEREF(__pyx_v_window);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_9, __pyx_v_window);
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -4313,7 +4299,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":102
+  /* "wolf/controllers.pyx":104
  *         return self.cryptomodule[2]
  * 
  *     def verify(self, code, window, soft=False):             # <<<<<<<<<<<<<<
@@ -4340,7 +4326,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_20verify(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":120
+/* "wolf/controllers.pyx":122
  *             .verify(otp, window)
  * 
  *     def cache(self):             # <<<<<<<<<<<<<<
@@ -4379,17 +4365,17 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   int __pyx_t_11;
   __Pyx_TraceFrameInit(__pyx_codeobj__12)
   __Pyx_RefNannySetupContext("cache", 0);
-  __Pyx_TraceCall("cache", __pyx_f[0], 120, 0, __PYX_ERR(0, 120, __pyx_L1_error));
+  __Pyx_TraceCall("cache", __pyx_f[0], 122, 0, __PYX_ERR(0, 122, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":121
+  /* "wolf/controllers.pyx":123
  * 
  *     def cache(self):
  *         self.redis().set(             # <<<<<<<<<<<<<<
  *             str(self.id),
  *             b'%s,%d,%d,%d,%s,%d' % (
  */
-  __Pyx_TraceLine(121,0,__PYX_ERR(0, 121, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __Pyx_TraceLine(123,0,__PYX_ERR(0, 123, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4403,41 +4389,41 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_set); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_set); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":122
+  /* "wolf/controllers.pyx":124
  *     def cache(self):
  *         self.redis().set(
  *             str(self.id),             # <<<<<<<<<<<<<<
  *             b'%s,%d,%d,%d,%s,%d' % (
  *                 binascii.hexlify(self.seed),
  */
-  __Pyx_TraceLine(122,0,__PYX_ERR(0, 122, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __Pyx_TraceLine(124,0,__PYX_ERR(0, 124, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_id); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":124
+  /* "wolf/controllers.pyx":126
  *             str(self.id),
  *             b'%s,%d,%d,%d,%s,%d' % (
  *                 binascii.hexlify(self.seed),             # <<<<<<<<<<<<<<
  *                 int(self.expire_date),
  *                 int(self.is_active),
  */
-  __Pyx_TraceLine(124,0,__PYX_ERR(0, 124, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_binascii); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __Pyx_TraceLine(126,0,__PYX_ERR(0, 126, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_binascii); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_hexlify); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_hexlify); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_seed); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_seed); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -4452,80 +4438,80 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":125
+  /* "wolf/controllers.pyx":127
  *             b'%s,%d,%d,%d,%s,%d' % (
  *                 binascii.hexlify(self.seed),
  *                 int(self.expire_date),             # <<<<<<<<<<<<<<
  *                 int(self.is_active),
  *                 self.cryptomodule_id,
  */
-  __Pyx_TraceLine(125,0,__PYX_ERR(0, 125, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_expire_date); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __Pyx_TraceLine(127,0,__PYX_ERR(0, 127, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_expire_date); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":126
+  /* "wolf/controllers.pyx":128
  *                 binascii.hexlify(self.seed),
  *                 int(self.expire_date),
  *                 int(self.is_active),             # <<<<<<<<<<<<<<
  *                 self.cryptomodule_id,
  *                 self.last_code,
  */
-  __Pyx_TraceLine(126,0,__PYX_ERR(0, 126, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_is_active); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __Pyx_TraceLine(128,0,__PYX_ERR(0, 128, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_is_active); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyNumber_Int(__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":127
+  /* "wolf/controllers.pyx":129
  *                 int(self.expire_date),
  *                 int(self.is_active),
  *                 self.cryptomodule_id,             # <<<<<<<<<<<<<<
  *                 self.last_code,
  *                 self.same_code_verify_counter
  */
-  __Pyx_TraceLine(127,0,__PYX_ERR(0, 127, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __Pyx_TraceLine(129,0,__PYX_ERR(0, 129, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
-  /* "wolf/controllers.pyx":128
+  /* "wolf/controllers.pyx":130
  *                 int(self.is_active),
  *                 self.cryptomodule_id,
  *                 self.last_code,             # <<<<<<<<<<<<<<
  *                 self.same_code_verify_counter
  *             )
  */
-  __Pyx_TraceLine(128,0,__PYX_ERR(0, 128, __pyx_L1_error))
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_last_code); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __Pyx_TraceLine(130,0,__PYX_ERR(0, 130, __pyx_L1_error))
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_last_code); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "wolf/controllers.pyx":129
+  /* "wolf/controllers.pyx":131
  *                 self.cryptomodule_id,
  *                 self.last_code,
  *                 self.same_code_verify_counter             # <<<<<<<<<<<<<<
  *             )
  *         )
  */
-  __Pyx_TraceLine(129,0,__PYX_ERR(0, 129, __pyx_L1_error))
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_TraceLine(131,0,__PYX_ERR(0, 131, __pyx_L1_error))
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
 
-  /* "wolf/controllers.pyx":124
+  /* "wolf/controllers.pyx":126
  *             str(self.id),
  *             b'%s,%d,%d,%d,%s,%d' % (
  *                 binascii.hexlify(self.seed),             # <<<<<<<<<<<<<<
  *                 int(self.expire_date),
  *                 int(self.is_active),
  */
-  __Pyx_TraceLine(124,0,__PYX_ERR(0, 124, __pyx_L1_error))
-  __pyx_t_10 = PyTuple_New(6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __Pyx_TraceLine(126,0,__PYX_ERR(0, 126, __pyx_L1_error))
+  __pyx_t_10 = PyTuple_New(6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_2);
@@ -4546,15 +4532,15 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   __pyx_t_8 = 0;
   __pyx_t_9 = 0;
 
-  /* "wolf/controllers.pyx":123
+  /* "wolf/controllers.pyx":125
  *         self.redis().set(
  *             str(self.id),
  *             b'%s,%d,%d,%d,%s,%d' % (             # <<<<<<<<<<<<<<
  *                 binascii.hexlify(self.seed),
  *                 int(self.expire_date),
  */
-  __Pyx_TraceLine(123,0,__PYX_ERR(0, 123, __pyx_L1_error))
-  __pyx_t_9 = PyNumber_Remainder(__pyx_kp_b_s_d_d_d_s_d, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __Pyx_TraceLine(125,0,__PYX_ERR(0, 125, __pyx_L1_error))
+  __pyx_t_9 = PyNumber_Remainder(__pyx_kp_b_s_d_d_d_s_d, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 125, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __pyx_t_10 = NULL;
@@ -4572,7 +4558,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_t_4, __pyx_t_9};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4582,7 +4568,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_t_4, __pyx_t_9};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4590,7 +4576,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_10) {
       __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -4601,14 +4587,14 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_11, __pyx_t_9);
     __pyx_t_4 = 0;
     __pyx_t_9 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":120
+  /* "wolf/controllers.pyx":122
  *             .verify(otp, window)
  * 
  *     def cache(self):             # <<<<<<<<<<<<<<
@@ -4639,7 +4625,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_22cache(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":134
+/* "wolf/controllers.pyx":136
  * 
  *     @classmethod
  *     def load_from_cache(cls, token_id):             # <<<<<<<<<<<<<<
@@ -4679,11 +4665,11 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_25load_from_cache(PyObj
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_token_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("load_from_cache", 1, 2, 2, 1); __PYX_ERR(0, 134, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("load_from_cache", 1, 2, 2, 1); __PYX_ERR(0, 136, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_from_cache") < 0)) __PYX_ERR(0, 134, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "load_from_cache") < 0)) __PYX_ERR(0, 136, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4696,7 +4682,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_25load_from_cache(PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("load_from_cache", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 134, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("load_from_cache", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 136, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.MiniToken.load_from_cache", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4732,30 +4718,30 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
   PyObject *__pyx_t_14 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__13)
   __Pyx_RefNannySetupContext("load_from_cache", 0);
-  __Pyx_TraceCall("load_from_cache", __pyx_f[0], 134, 0, __PYX_ERR(0, 134, __pyx_L1_error));
+  __Pyx_TraceCall("load_from_cache", __pyx_f[0], 136, 0, __PYX_ERR(0, 136, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":135
+  /* "wolf/controllers.pyx":137
  *     @classmethod
  *     def load_from_cache(cls, token_id):
  *         cache_key = str(token_id)             # <<<<<<<<<<<<<<
  *         redis = cls.redis()
  *         if redis.exists(cache_key):
  */
-  __Pyx_TraceLine(135,0,__PYX_ERR(0, 135, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_token_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __Pyx_TraceLine(137,0,__PYX_ERR(0, 137, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_v_token_id); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_cache_key = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":136
+  /* "wolf/controllers.pyx":138
  *     def load_from_cache(cls, token_id):
  *         cache_key = str(token_id)
  *         redis = cls.redis()             # <<<<<<<<<<<<<<
  *         if redis.exists(cache_key):
  *             token = redis.get(cache_key).split(b',')
  */
-  __Pyx_TraceLine(136,0,__PYX_ERR(0, 136, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_TraceLine(138,0,__PYX_ERR(0, 138, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4769,21 +4755,21 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_redis = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":137
+  /* "wolf/controllers.pyx":139
  *         cache_key = str(token_id)
  *         redis = cls.redis()
  *         if redis.exists(cache_key):             # <<<<<<<<<<<<<<
  *             token = redis.get(cache_key).split(b',')
  *             return cls(
  */
-  __Pyx_TraceLine(137,0,__PYX_ERR(0, 137, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_redis, __pyx_n_s_exists); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __Pyx_TraceLine(139,0,__PYX_ERR(0, 139, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_redis, __pyx_n_s_exists); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4797,22 +4783,22 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_cache_key) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_cache_key);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "wolf/controllers.pyx":138
+    /* "wolf/controllers.pyx":140
  *         redis = cls.redis()
  *         if redis.exists(cache_key):
  *             token = redis.get(cache_key).split(b',')             # <<<<<<<<<<<<<<
  *             return cls(
  *                 token_id,
  */
-    __Pyx_TraceLine(138,0,__PYX_ERR(0, 138, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_redis, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
+    __Pyx_TraceLine(140,0,__PYX_ERR(0, 140, __pyx_L1_error))
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_redis, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4826,10 +4812,10 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
     }
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_v_cache_key) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_cache_key);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_split); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_split); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = NULL;
@@ -4844,47 +4830,47 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
     }
     __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_kp_b__14) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_b__14);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_token = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "wolf/controllers.pyx":139
+    /* "wolf/controllers.pyx":141
  *         if redis.exists(cache_key):
  *             token = redis.get(cache_key).split(b',')
  *             return cls(             # <<<<<<<<<<<<<<
  *                 token_id,
  *                 binascii.unhexlify(token[0]),
  */
-    __Pyx_TraceLine(139,0,__PYX_ERR(0, 139, __pyx_L1_error))
+    __Pyx_TraceLine(141,0,__PYX_ERR(0, 141, __pyx_L1_error))
     __Pyx_XDECREF(__pyx_r);
 
-    /* "wolf/controllers.pyx":147
+    /* "wolf/controllers.pyx":149
  *                 token[4],
  *                 int(token[5])
  *             ) if token else None             # <<<<<<<<<<<<<<
  *         return None
  * 
  */
-    __Pyx_TraceLine(147,0,__PYX_ERR(0, 147, __pyx_L1_error))
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_token); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 147, __pyx_L1_error)
+    __Pyx_TraceLine(149,0,__PYX_ERR(0, 149, __pyx_L1_error))
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_token); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 149, __pyx_L1_error)
     if (__pyx_t_4) {
 
-      /* "wolf/controllers.pyx":141
+      /* "wolf/controllers.pyx":143
  *             return cls(
  *                 token_id,
  *                 binascii.unhexlify(token[0]),             # <<<<<<<<<<<<<<
  *                 float(token[1]),
  *                 bool(token[2]),
  */
-      __Pyx_TraceLine(141,0,__PYX_ERR(0, 141, __pyx_L1_error))
-      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_binascii); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L1_error)
+      __Pyx_TraceLine(143,0,__PYX_ERR(0, 143, __pyx_L1_error))
+      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_binascii); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 143, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_unhexlify); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 141, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_unhexlify); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_token, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_token, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 143, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_7 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -4899,75 +4885,75 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
       __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5);
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "wolf/controllers.pyx":142
+      /* "wolf/controllers.pyx":144
  *                 token_id,
  *                 binascii.unhexlify(token[0]),
  *                 float(token[1]),             # <<<<<<<<<<<<<<
  *                 bool(token[2]),
  *                 int(token[3]),
  */
-      __Pyx_TraceLine(142,0,__PYX_ERR(0, 142, __pyx_L1_error))
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_token, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __Pyx_TraceLine(144,0,__PYX_ERR(0, 144, __pyx_L1_error))
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_token, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = __Pyx_PyNumber_Float(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyNumber_Float(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "wolf/controllers.pyx":143
+      /* "wolf/controllers.pyx":145
  *                 binascii.unhexlify(token[0]),
  *                 float(token[1]),
  *                 bool(token[2]),             # <<<<<<<<<<<<<<
  *                 int(token[3]),
  *                 token[4],
  */
-      __Pyx_TraceLine(143,0,__PYX_ERR(0, 143, __pyx_L1_error))
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_token, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
+      __Pyx_TraceLine(145,0,__PYX_ERR(0, 145, __pyx_L1_error))
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_token, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 143, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyBool_FromLong((!(!__pyx_t_8))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyBool_FromLong((!(!__pyx_t_8))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
 
-      /* "wolf/controllers.pyx":144
+      /* "wolf/controllers.pyx":146
  *                 float(token[1]),
  *                 bool(token[2]),
  *                 int(token[3]),             # <<<<<<<<<<<<<<
  *                 token[4],
  *                 int(token[5])
  */
-      __Pyx_TraceLine(144,0,__PYX_ERR(0, 144, __pyx_L1_error))
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_token, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
+      __Pyx_TraceLine(146,0,__PYX_ERR(0, 146, __pyx_L1_error))
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_token, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 146, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_9 = __Pyx_PyNumber_Int(__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 144, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyNumber_Int(__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 146, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "wolf/controllers.pyx":145
+      /* "wolf/controllers.pyx":147
  *                 bool(token[2]),
  *                 int(token[3]),
  *                 token[4],             # <<<<<<<<<<<<<<
  *                 int(token[5])
  *             ) if token else None
  */
-      __Pyx_TraceLine(145,0,__PYX_ERR(0, 145, __pyx_L1_error))
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_token, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __Pyx_TraceLine(147,0,__PYX_ERR(0, 147, __pyx_L1_error))
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_token, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 147, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
 
-      /* "wolf/controllers.pyx":146
+      /* "wolf/controllers.pyx":148
  *                 int(token[3]),
  *                 token[4],
  *                 int(token[5])             # <<<<<<<<<<<<<<
  *             ) if token else None
  *         return None
  */
-      __Pyx_TraceLine(146,0,__PYX_ERR(0, 146, __pyx_L1_error))
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_token, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 146, __pyx_L1_error)
+      __Pyx_TraceLine(148,0,__PYX_ERR(0, 148, __pyx_L1_error))
+      __pyx_t_10 = __Pyx_GetItemInt(__pyx_v_token, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 148, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = __Pyx_PyNumber_Int(__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 146, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyNumber_Int(__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 148, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_INCREF(__pyx_v_cls);
@@ -4986,7 +4972,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_10)) {
         PyObject *__pyx_temp[8] = {__pyx_t_12, __pyx_v_token_id, __pyx_t_2, __pyx_t_5, __pyx_t_6, __pyx_t_9, __pyx_t_7, __pyx_t_11};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_13, 7+__pyx_t_13); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_13, 7+__pyx_t_13); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5000,7 +4986,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
         PyObject *__pyx_temp[8] = {__pyx_t_12, __pyx_v_token_id, __pyx_t_2, __pyx_t_5, __pyx_t_6, __pyx_t_9, __pyx_t_7, __pyx_t_11};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_13, 7+__pyx_t_13); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_13, 7+__pyx_t_13); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5012,7 +4998,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
       } else
       #endif
       {
-        __pyx_t_14 = PyTuple_New(7+__pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_14 = PyTuple_New(7+__pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         if (__pyx_t_12) {
           __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -5038,7 +5024,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
         __pyx_t_9 = 0;
         __pyx_t_7 = 0;
         __pyx_t_11 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       }
@@ -5047,14 +5033,14 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
       __pyx_t_3 = 0;
     } else {
 
-      /* "wolf/controllers.pyx":147
+      /* "wolf/controllers.pyx":149
  *                 token[4],
  *                 int(token[5])
  *             ) if token else None             # <<<<<<<<<<<<<<
  *         return None
  * 
  */
-      __Pyx_TraceLine(147,0,__PYX_ERR(0, 147, __pyx_L1_error))
+      __Pyx_TraceLine(149,0,__PYX_ERR(0, 149, __pyx_L1_error))
       __Pyx_INCREF(Py_None);
       __pyx_t_1 = Py_None;
     }
@@ -5062,7 +5048,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "wolf/controllers.pyx":137
+    /* "wolf/controllers.pyx":139
  *         cache_key = str(token_id)
  *         redis = cls.redis()
  *         if redis.exists(cache_key):             # <<<<<<<<<<<<<<
@@ -5071,19 +5057,19 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
  */
   }
 
-  /* "wolf/controllers.pyx":148
+  /* "wolf/controllers.pyx":150
  *                 int(token[5])
  *             ) if token else None
  *         return None             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(148,0,__PYX_ERR(0, 148, __pyx_L1_error))
+  __Pyx_TraceLine(150,0,__PYX_ERR(0, 150, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":134
+  /* "wolf/controllers.pyx":136
  * 
  *     @classmethod
  *     def load_from_cache(cls, token_id):             # <<<<<<<<<<<<<<
@@ -5116,7 +5102,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_24load_from_cache(CYTHO
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":151
+/* "wolf/controllers.pyx":153
  * 
  *     @classmethod
  *     def invalidate(cls, token_id):             # <<<<<<<<<<<<<<
@@ -5156,11 +5142,11 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_27invalidate(PyObject *
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_token_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("invalidate", 1, 2, 2, 1); __PYX_ERR(0, 151, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("invalidate", 1, 2, 2, 1); __PYX_ERR(0, 153, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "invalidate") < 0)) __PYX_ERR(0, 151, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "invalidate") < 0)) __PYX_ERR(0, 153, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5173,7 +5159,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_27invalidate(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("invalidate", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 151, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("invalidate", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 153, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.MiniToken.invalidate", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5196,17 +5182,17 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_26invalidate(CYTHON_UNU
   PyObject *__pyx_t_4 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__15)
   __Pyx_RefNannySetupContext("invalidate", 0);
-  __Pyx_TraceCall("invalidate", __pyx_f[0], 151, 0, __PYX_ERR(0, 151, __pyx_L1_error));
+  __Pyx_TraceCall("invalidate", __pyx_f[0], 153, 0, __PYX_ERR(0, 153, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":152
+  /* "wolf/controllers.pyx":154
  *     @classmethod
  *     def invalidate(cls, token_id):
  *         cls.redis().delete(token_id)             # <<<<<<<<<<<<<<
  * 
  *     @classmethod
  */
-  __Pyx_TraceLine(152,0,__PYX_ERR(0, 152, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __Pyx_TraceLine(154,0,__PYX_ERR(0, 154, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_redis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5220,10 +5206,10 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_26invalidate(CYTHON_UNU
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 152, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_delete); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_delete); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -5238,12 +5224,12 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_26invalidate(CYTHON_UNU
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_token_id) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_token_id);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":151
+  /* "wolf/controllers.pyx":153
  * 
  *     @classmethod
  *     def invalidate(cls, token_id):             # <<<<<<<<<<<<<<
@@ -5268,7 +5254,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_26invalidate(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":155
+/* "wolf/controllers.pyx":157
  * 
  *     @classmethod
  *     def after_update(cls, mapper, connection, target):             # <<<<<<<<<<<<<<
@@ -5314,23 +5300,23 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_29after_update(PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mapper)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, 1); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, 1); __PYX_ERR(0, 157, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_connection)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, 2); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, 2); __PYX_ERR(0, 157, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_target)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, 3); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, 3); __PYX_ERR(0, 157, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "after_update") < 0)) __PYX_ERR(0, 155, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "after_update") < 0)) __PYX_ERR(0, 157, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5347,7 +5333,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_9MiniToken_29after_update(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 155, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("after_update", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 157, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.MiniToken.after_update", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5371,42 +5357,42 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_28after_update(CYTHON_U
   PyObject *__pyx_t_5 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__16)
   __Pyx_RefNannySetupContext("after_update", 0);
-  __Pyx_TraceCall("after_update", __pyx_f[0], 155, 0, __PYX_ERR(0, 155, __pyx_L1_error));
+  __Pyx_TraceCall("after_update", __pyx_f[0], 157, 0, __PYX_ERR(0, 157, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":156
+  /* "wolf/controllers.pyx":158
  *     @classmethod
  *     def after_update(cls, mapper, connection, target):
  *         if settings.token.redis.enabled:             # <<<<<<<<<<<<<<
  *             cls.invalidate(target.id)
  * 
  */
-  __Pyx_TraceLine(156,0,__PYX_ERR(0, 156, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_TraceLine(158,0,__PYX_ERR(0, 158, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_redis); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_redis); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_enabled); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_enabled); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "wolf/controllers.pyx":157
+    /* "wolf/controllers.pyx":159
  *     def after_update(cls, mapper, connection, target):
  *         if settings.token.redis.enabled:
  *             cls.invalidate(target.id)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __Pyx_TraceLine(157,0,__PYX_ERR(0, 157, __pyx_L1_error))
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_invalidate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __Pyx_TraceLine(159,0,__PYX_ERR(0, 159, __pyx_L1_error))
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_invalidate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_target, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_target, __pyx_n_s_id); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -5421,12 +5407,12 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_28after_update(CYTHON_U
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "wolf/controllers.pyx":156
+    /* "wolf/controllers.pyx":158
  *     @classmethod
  *     def after_update(cls, mapper, connection, target):
  *         if settings.token.redis.enabled:             # <<<<<<<<<<<<<<
@@ -5435,7 +5421,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_28after_update(CYTHON_U
  */
   }
 
-  /* "wolf/controllers.pyx":155
+  /* "wolf/controllers.pyx":157
  * 
  *     @classmethod
  *     def after_update(cls, mapper, connection, target):             # <<<<<<<<<<<<<<
@@ -5460,7 +5446,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_9MiniToken_28after_update(CYTHON_U
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":166
+/* "wolf/controllers.pyx":168
  * 
  *     @LazyAttribute
  *     def window(self):             # <<<<<<<<<<<<<<
@@ -5490,30 +5476,30 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_window(CYTHON_UN
   PyObject *__pyx_t_2 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__17)
   __Pyx_RefNannySetupContext("window", 0);
-  __Pyx_TraceCall("window", __pyx_f[0], 166, 0, __PYX_ERR(0, 166, __pyx_L1_error));
+  __Pyx_TraceCall("window", __pyx_f[0], 168, 0, __PYX_ERR(0, 168, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":167
+  /* "wolf/controllers.pyx":169
  *     @LazyAttribute
  *     def window(self):
  *         return settings.oath.window             # <<<<<<<<<<<<<<
  * 
  *     @action
  */
-  __Pyx_TraceLine(167,0,__PYX_ERR(0, 167, __pyx_L1_error))
+  __Pyx_TraceLine(169,0,__PYX_ERR(0, 169, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_oath); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_oath); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_window); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_window); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":166
+  /* "wolf/controllers.pyx":168
  * 
  *     @LazyAttribute
  *     def window(self):             # <<<<<<<<<<<<<<
@@ -5534,7 +5520,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_window(CYTHON_UN
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":170
+/* "wolf/controllers.pyx":172
  * 
  *     @action
  *     def verify(self, token_id, code):             # <<<<<<<<<<<<<<
@@ -5577,17 +5563,17 @@ static PyObject *__pyx_pw_4wolf_11controllers_15CodesController_3verify(PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_token_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("verify", 1, 3, 3, 1); __PYX_ERR(0, 170, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("verify", 1, 3, 3, 1); __PYX_ERR(0, 172, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_code)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("verify", 1, 3, 3, 2); __PYX_ERR(0, 170, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("verify", 1, 3, 3, 2); __PYX_ERR(0, 172, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "verify") < 0)) __PYX_ERR(0, 170, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "verify") < 0)) __PYX_ERR(0, 172, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5602,7 +5588,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_15CodesController_3verify(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("verify", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 170, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("verify", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 172, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("wolf.controllers.CodesController.verify", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5637,17 +5623,17 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
   int __pyx_t_13;
   __Pyx_TraceFrameInit(__pyx_codeobj__18)
   __Pyx_RefNannySetupContext("verify", 0);
-  __Pyx_TraceCall("verify", __pyx_f[0], 170, 0, __PYX_ERR(0, 170, __pyx_L1_error));
+  __Pyx_TraceCall("verify", __pyx_f[0], 172, 0, __PYX_ERR(0, 172, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":171
+  /* "wolf/controllers.pyx":173
  *     @action
  *     def verify(self, token_id, code):
  *         print(f'Verifying token_id={token_id} code={code}')             # <<<<<<<<<<<<<<
  *         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
  *         if token is None:
  */
-  __Pyx_TraceLine(171,0,__PYX_ERR(0, 171, __pyx_L1_error))
-  __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __Pyx_TraceLine(173,0,__PYX_ERR(0, 173, __pyx_L1_error))
+  __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = 0;
   __pyx_t_3 = 127;
@@ -5655,7 +5641,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
   __pyx_t_2 += 19;
   __Pyx_GIVEREF(__pyx_kp_u_Verifying_token_id);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_Verifying_token_id);
-  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_token_id, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_token_id, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
@@ -5666,102 +5652,104 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
   __pyx_t_2 += 6;
   __Pyx_GIVEREF(__pyx_kp_u_code_2);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_code_2);
-  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_code, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_code, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_1, 3, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_1, 4, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_1, 4, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_4) < 0) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":172
+  /* "wolf/controllers.pyx":174
  *     def verify(self, token_id, code):
  *         print(f'Verifying token_id={token_id} code={code}')
  *         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)             # <<<<<<<<<<<<<<
  *         if token is None:
  *             raise HttpNotFound()
  */
-  __Pyx_TraceLine(172,0,__PYX_ERR(0, 172, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_MiniToken); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_load); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __Pyx_TraceLine(174,0,__PYX_ERR(0, 174, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_MiniToken); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_load); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_token_id);
   __Pyx_GIVEREF(__pyx_v_token_id);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_token_id);
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 172, __pyx_L1_error)
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_token_id);
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_settings); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_settings); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_token); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_token); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_redis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_redis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_enabled); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_enabled); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_cache, __pyx_t_7) < 0) __PYX_ERR(0, 172, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_cache, __pyx_t_7) < 0) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_token = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "wolf/controllers.pyx":173
+  /* "wolf/controllers.pyx":175
  *         print(f'Verifying token_id={token_id} code={code}')
  *         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
  *         if token is None:             # <<<<<<<<<<<<<<
  *             raise HttpNotFound()
  * 
  */
-  __Pyx_TraceLine(173,0,__PYX_ERR(0, 173, __pyx_L1_error))
+  __Pyx_TraceLine(175,0,__PYX_ERR(0, 175, __pyx_L1_error))
   __pyx_t_8 = (__pyx_v_token == Py_None);
   __pyx_t_9 = (__pyx_t_8 != 0);
   if (unlikely(__pyx_t_9)) {
 
-    /* "wolf/controllers.pyx":174
+    /* "wolf/controllers.pyx":176
  *         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
  *         if token is None:
  *             raise HttpNotFound()             # <<<<<<<<<<<<<<
  * 
  *         if token.is_expired:
  */
-    __Pyx_TraceLine(174,0,__PYX_ERR(0, 174, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_HttpNotFound); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 174, __pyx_L1_error)
+    __Pyx_TraceLine(176,0,__PYX_ERR(0, 176, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_HttpNotFound); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = NULL;
+    __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_4)) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_1)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 174, __pyx_L1_error)
+    __pyx_t_7 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 176, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_Raise(__pyx_t_7, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __PYX_ERR(0, 174, __pyx_L1_error)
+    __PYX_ERR(0, 176, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":173
+    /* "wolf/controllers.pyx":175
  *         print(f'Verifying token_id={token_id} code={code}')
  *         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
  *         if token is None:             # <<<<<<<<<<<<<<
@@ -5770,50 +5758,50 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
  */
   }
 
-  /* "wolf/controllers.pyx":176
+  /* "wolf/controllers.pyx":178
  *             raise HttpNotFound()
  * 
  *         if token.is_expired:             # <<<<<<<<<<<<<<
  *             raise ExpiredTokenError()
  * 
  */
-  __Pyx_TraceLine(176,0,__PYX_ERR(0, 176, __pyx_L1_error))
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_expired); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __Pyx_TraceLine(178,0,__PYX_ERR(0, 178, __pyx_L1_error))
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_expired); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   if (unlikely(__pyx_t_9)) {
 
-    /* "wolf/controllers.pyx":177
+    /* "wolf/controllers.pyx":179
  * 
  *         if token.is_expired:
  *             raise ExpiredTokenError()             # <<<<<<<<<<<<<<
  * 
  *         if not token.is_active:
  */
-    __Pyx_TraceLine(177,0,__PYX_ERR(0, 177, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_ExpiredTokenError); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __Pyx_TraceLine(179,0,__PYX_ERR(0, 179, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_ExpiredTokenError); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 179, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = NULL;
+    __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_4)) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_1)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_7 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 179, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_Raise(__pyx_t_7, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __PYX_ERR(0, 177, __pyx_L1_error)
+    __PYX_ERR(0, 179, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":176
+    /* "wolf/controllers.pyx":178
  *             raise HttpNotFound()
  * 
  *         if token.is_expired:             # <<<<<<<<<<<<<<
@@ -5822,51 +5810,51 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
  */
   }
 
-  /* "wolf/controllers.pyx":179
+  /* "wolf/controllers.pyx":181
  *             raise ExpiredTokenError()
  * 
  *         if not token.is_active:             # <<<<<<<<<<<<<<
  *             raise DeactivatedTokenError()
  * 
  */
-  __Pyx_TraceLine(179,0,__PYX_ERR(0, 179, __pyx_L1_error))
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_active); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __Pyx_TraceLine(181,0,__PYX_ERR(0, 181, __pyx_L1_error))
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_active); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_8 = ((!__pyx_t_9) != 0);
   if (unlikely(__pyx_t_8)) {
 
-    /* "wolf/controllers.pyx":180
+    /* "wolf/controllers.pyx":182
  * 
  *         if not token.is_active:
  *             raise DeactivatedTokenError()             # <<<<<<<<<<<<<<
  * 
  *         soft = context.query_string.get('soft') == 'yes'
  */
-    __Pyx_TraceLine(180,0,__PYX_ERR(0, 180, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DeactivatedTokenError); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __Pyx_TraceLine(182,0,__PYX_ERR(0, 182, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DeactivatedTokenError); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = NULL;
+    __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_4)) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_1)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __pyx_t_7 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_Raise(__pyx_t_7, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __PYX_ERR(0, 180, __pyx_L1_error)
+    __PYX_ERR(0, 182, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":179
+    /* "wolf/controllers.pyx":181
  *             raise ExpiredTokenError()
  * 
  *         if not token.is_active:             # <<<<<<<<<<<<<<
@@ -5875,50 +5863,50 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
  */
   }
 
-  /* "wolf/controllers.pyx":182
+  /* "wolf/controllers.pyx":184
  *             raise DeactivatedTokenError()
  * 
  *         soft = context.query_string.get('soft') == 'yes'             # <<<<<<<<<<<<<<
  *         try:
  *             is_valid = token.verify(
  */
-  __Pyx_TraceLine(182,0,__PYX_ERR(0, 182, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_context); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __Pyx_TraceLine(184,0,__PYX_ERR(0, 184, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_context); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_query_string); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_query_string); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_get); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_get); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = NULL;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_4)) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_1)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_7 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_4, __pyx_n_s_soft) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_n_s_soft);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_7 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_1, __pyx_n_u_soft) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_n_u_soft);
+  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_n_s_yes, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_n_u_yes, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_soft = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":183
+  /* "wolf/controllers.pyx":185
  * 
  *         soft = context.query_string.get('soft') == 'yes'
  *         try:             # <<<<<<<<<<<<<<
  *             is_valid = token.verify(
  *                 code.encode(),
  */
-  __Pyx_TraceLine(183,0,__PYX_ERR(0, 183, __pyx_L1_error))
+  __Pyx_TraceLine(185,0,__PYX_ERR(0, 185, __pyx_L1_error))
   {
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
@@ -5928,127 +5916,127 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
     __Pyx_XGOTREF(__pyx_t_12);
     /*try:*/ {
 
-      /* "wolf/controllers.pyx":184
+      /* "wolf/controllers.pyx":186
  *         soft = context.query_string.get('soft') == 'yes'
  *         try:
  *             is_valid = token.verify(             # <<<<<<<<<<<<<<
  *                 code.encode(),
  *                 self.window,
  */
-      __Pyx_TraceLine(184,0,__PYX_ERR(0, 184, __pyx_L6_error))
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_verify); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 184, __pyx_L6_error)
+      __Pyx_TraceLine(186,0,__PYX_ERR(0, 186, __pyx_L6_error))
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_verify); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 186, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_5);
 
-      /* "wolf/controllers.pyx":185
+      /* "wolf/controllers.pyx":187
  *         try:
  *             is_valid = token.verify(
  *                 code.encode(),             # <<<<<<<<<<<<<<
  *                 self.window,
  *                 soft=soft,
  */
-      __Pyx_TraceLine(185,0,__PYX_ERR(0, 185, __pyx_L6_error))
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_code, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 185, __pyx_L6_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_1);
+      __Pyx_TraceLine(187,0,__PYX_ERR(0, 187, __pyx_L6_error))
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_code, __pyx_n_s_encode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L6_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_1);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+          __Pyx_INCREF(__pyx_t_4);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __Pyx_DECREF_SET(__pyx_t_1, function);
         }
       }
-      __pyx_t_7 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 185, __pyx_L6_error)
+      __pyx_t_7 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 187, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "wolf/controllers.pyx":186
+      /* "wolf/controllers.pyx":188
  *             is_valid = token.verify(
  *                 code.encode(),
  *                 self.window,             # <<<<<<<<<<<<<<
  *                 soft=soft,
  *             )
  */
-      __Pyx_TraceLine(186,0,__PYX_ERR(0, 186, __pyx_L6_error))
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_window); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 186, __pyx_L6_error)
-      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_TraceLine(188,0,__PYX_ERR(0, 188, __pyx_L6_error))
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_window); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L6_error)
+      __Pyx_GOTREF(__pyx_t_1);
 
-      /* "wolf/controllers.pyx":184
+      /* "wolf/controllers.pyx":186
  *         soft = context.query_string.get('soft') == 'yes'
  *         try:
  *             is_valid = token.verify(             # <<<<<<<<<<<<<<
  *                 code.encode(),
  *                 self.window,
  */
-      __Pyx_TraceLine(184,0,__PYX_ERR(0, 184, __pyx_L6_error))
-      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L6_error)
-      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_TraceLine(186,0,__PYX_ERR(0, 186, __pyx_L6_error))
+      __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 186, __pyx_L6_error)
+      __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
       __pyx_t_7 = 0;
-      __pyx_t_4 = 0;
+      __pyx_t_1 = 0;
 
-      /* "wolf/controllers.pyx":187
+      /* "wolf/controllers.pyx":189
  *                 code.encode(),
  *                 self.window,
  *                 soft=soft,             # <<<<<<<<<<<<<<
  *             )
  *             token.cache()
  */
-      __Pyx_TraceLine(187,0,__PYX_ERR(0, 187, __pyx_L6_error))
-      __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L6_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_soft, __pyx_v_soft) < 0) __PYX_ERR(0, 187, __pyx_L6_error)
+      __Pyx_TraceLine(189,0,__PYX_ERR(0, 189, __pyx_L6_error))
+      __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L6_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_soft, __pyx_v_soft) < 0) __PYX_ERR(0, 189, __pyx_L6_error)
 
-      /* "wolf/controllers.pyx":184
+      /* "wolf/controllers.pyx":186
  *         soft = context.query_string.get('soft') == 'yes'
  *         try:
  *             is_valid = token.verify(             # <<<<<<<<<<<<<<
  *                 code.encode(),
  *                 self.window,
  */
-      __Pyx_TraceLine(184,0,__PYX_ERR(0, 184, __pyx_L6_error))
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 184, __pyx_L6_error)
+      __Pyx_TraceLine(186,0,__PYX_ERR(0, 186, __pyx_L6_error))
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 186, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_is_valid = __pyx_t_7;
       __pyx_t_7 = 0;
 
-      /* "wolf/controllers.pyx":189
+      /* "wolf/controllers.pyx":191
  *                 soft=soft,
  *             )
  *             token.cache()             # <<<<<<<<<<<<<<
  *         except ValueError:
  *             is_valid = False
  */
-      __Pyx_TraceLine(189,0,__PYX_ERR(0, 189, __pyx_L6_error))
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cache); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L6_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_1);
+      __Pyx_TraceLine(191,0,__PYX_ERR(0, 191, __pyx_L6_error))
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_cache); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L6_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_1);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+          __Pyx_INCREF(__pyx_t_4);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __Pyx_DECREF_SET(__pyx_t_1, function);
         }
       }
-      __pyx_t_7 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 189, __pyx_L6_error)
+      __pyx_t_7 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 191, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "wolf/controllers.pyx":183
+      /* "wolf/controllers.pyx":185
  * 
  *         soft = context.query_string.get('soft') == 'yes'
  *         try:             # <<<<<<<<<<<<<<
@@ -6067,41 +6055,41 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "wolf/controllers.pyx":190
+    /* "wolf/controllers.pyx":192
  *             )
  *             token.cache()
  *         except ValueError:             # <<<<<<<<<<<<<<
  *             is_valid = False
  * 
  */
-    __Pyx_TraceLine(190,0,__PYX_ERR(0, 190, __pyx_L8_except_error))
+    __Pyx_TraceLine(192,0,__PYX_ERR(0, 192, __pyx_L8_except_error))
     __pyx_t_13 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_ValueError);
     if (__pyx_t_13) {
       __Pyx_AddTraceback("wolf.controllers.CodesController.verify", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_7, &__pyx_t_4, &__pyx_t_1) < 0) __PYX_ERR(0, 190, __pyx_L8_except_error)
+      if (__Pyx_GetException(&__pyx_t_7, &__pyx_t_1, &__pyx_t_4) < 0) __PYX_ERR(0, 192, __pyx_L8_except_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GOTREF(__pyx_t_4);
 
-      /* "wolf/controllers.pyx":191
+      /* "wolf/controllers.pyx":193
  *             token.cache()
  *         except ValueError:
  *             is_valid = False             # <<<<<<<<<<<<<<
  * 
  *         if not is_valid:
  */
-      __Pyx_TraceLine(191,0,__PYX_ERR(0, 191, __pyx_L8_except_error))
+      __Pyx_TraceLine(193,0,__PYX_ERR(0, 193, __pyx_L8_except_error))
       __Pyx_INCREF(Py_False);
       __Pyx_XDECREF_SET(__pyx_v_is_valid, Py_False);
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       goto __pyx_L7_exception_handled;
     }
     goto __pyx_L8_except_error;
     __pyx_L8_except_error:;
 
-    /* "wolf/controllers.pyx":183
+    /* "wolf/controllers.pyx":185
  * 
  *         soft = context.query_string.get('soft') == 'yes'
  *         try:             # <<<<<<<<<<<<<<
@@ -6121,48 +6109,48 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
     __pyx_L11_try_end:;
   }
 
-  /* "wolf/controllers.pyx":193
+  /* "wolf/controllers.pyx":195
  *             is_valid = False
  * 
  *         if not is_valid:             # <<<<<<<<<<<<<<
  *             raise HttpBadRequest('Invalid Code')
  * 
  */
-  __Pyx_TraceLine(193,0,__PYX_ERR(0, 193, __pyx_L1_error))
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_is_valid); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __Pyx_TraceLine(195,0,__PYX_ERR(0, 195, __pyx_L1_error))
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_is_valid); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 195, __pyx_L1_error)
   __pyx_t_9 = ((!__pyx_t_8) != 0);
   if (unlikely(__pyx_t_9)) {
 
-    /* "wolf/controllers.pyx":194
+    /* "wolf/controllers.pyx":196
  * 
  *         if not is_valid:
  *             raise HttpBadRequest('Invalid Code')             # <<<<<<<<<<<<<<
  * 
  * validate_submit = functools.partial(
  */
-    __Pyx_TraceLine(194,0,__PYX_ERR(0, 194, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_HttpBadRequest); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 194, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_TraceLine(196,0,__PYX_ERR(0, 196, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_HttpBadRequest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_7 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_1);
       if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
         __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
+        __Pyx_DECREF_SET(__pyx_t_1, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_kp_s_Invalid_Code) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_Invalid_Code);
+    __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_7, __pyx_kp_u_Invalid_Code) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_kp_u_Invalid_Code);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 194, __pyx_L1_error)
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __PYX_ERR(0, 196, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":193
+    /* "wolf/controllers.pyx":195
  *             is_valid = False
  * 
  *         if not is_valid:             # <<<<<<<<<<<<<<
@@ -6171,7 +6159,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
  */
   }
 
-  /* "wolf/controllers.pyx":170
+  /* "wolf/controllers.pyx":172
  * 
  *     @action
  *     def verify(self, token_id, code):             # <<<<<<<<<<<<<<
@@ -6200,7 +6188,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15CodesController_2verify(CYTHON_U
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":206
+/* "wolf/controllers.pyx":208
  *     __model__ = Token
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -6231,20 +6219,20 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController___init__(CYTHON_
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__19)
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 206, 0, __PYX_ERR(0, 206, __pyx_L1_error));
+  __Pyx_TraceCall("__init__", __pyx_f[0], 208, 0, __PYX_ERR(0, 208, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":207
+  /* "wolf/controllers.pyx":209
  * 
  *     def __init__(self):
  *         super().__init__()             # <<<<<<<<<<<<<<
  *         self.codes_controller = CodesController()
  * 
  */
-  __Pyx_TraceLine(207,0,__PYX_ERR(0, 207, __pyx_L1_error))
+  __Pyx_TraceLine(209,0,__PYX_ERR(0, 209, __pyx_L1_error))
   __pyx_t_2 = __Pyx_CyFunction_GetClassObj(__pyx_self);
-  if (!__pyx_t_2) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 207, __pyx_L1_error) }
+  if (!__pyx_t_2) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 209, __pyx_L1_error) }
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
@@ -6252,10 +6240,10 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController___init__(CYTHON_
   __Pyx_GIVEREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_self);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -6270,20 +6258,20 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController___init__(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":208
+  /* "wolf/controllers.pyx":210
  *     def __init__(self):
  *         super().__init__()
  *         self.codes_controller = CodesController()             # <<<<<<<<<<<<<<
  * 
  *     def __call__(self, *remaining_paths):
  */
-  __Pyx_TraceLine(208,0,__PYX_ERR(0, 208, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_CodesController); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_TraceLine(210,0,__PYX_ERR(0, 210, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_CodesController); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -6297,13 +6285,13 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController___init__(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_codes_controller, __pyx_t_1) < 0) __PYX_ERR(0, 208, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_codes_controller, __pyx_t_1) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":206
+  /* "wolf/controllers.pyx":208
  *     __model__ = Token
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -6327,7 +6315,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController___init__(CYTHON_
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":210
+/* "wolf/controllers.pyx":212
  *         self.codes_controller = CodesController()
  * 
  *     def __call__(self, *remaining_paths):             # <<<<<<<<<<<<<<
@@ -6374,7 +6362,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_15TokenController_3__call__(PyObje
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "__call__") < 0)) __PYX_ERR(0, 210, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, used_pos_args, "__call__") < 0)) __PYX_ERR(0, 212, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -6385,7 +6373,7 @@ static PyObject *__pyx_pw_4wolf_11controllers_15TokenController_3__call__(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__call__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 210, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__call__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 212, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_remaining_paths); __pyx_v_remaining_paths = 0;
   __Pyx_AddTraceback("wolf.controllers.TokenController.__call__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -6413,56 +6401,56 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_2__call__(CYTHON
   PyObject *__pyx_t_7 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__20)
   __Pyx_RefNannySetupContext("__call__", 0);
-  __Pyx_TraceCall("__call__", __pyx_f[0], 210, 0, __PYX_ERR(0, 210, __pyx_L1_error));
+  __Pyx_TraceCall("__call__", __pyx_f[0], 212, 0, __PYX_ERR(0, 212, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":211
+  /* "wolf/controllers.pyx":213
  * 
  *     def __call__(self, *remaining_paths):
  *         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':             # <<<<<<<<<<<<<<
  *             return self.codes_controller(remaining_paths[0], *remaining_paths[2:])
  *         return super().__call__(*remaining_paths)
  */
-  __Pyx_TraceLine(211,0,__PYX_ERR(0, 211, __pyx_L1_error))
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_remaining_paths); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 211, __pyx_L1_error)
+  __Pyx_TraceLine(213,0,__PYX_ERR(0, 213, __pyx_L1_error))
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_remaining_paths); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 213, __pyx_L1_error)
   __pyx_t_3 = ((__pyx_t_2 > 1) != 0);
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_remaining_paths, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt_Tuple(__pyx_v_remaining_paths, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_4, __pyx_n_s_codes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_t_4, __pyx_n_u_codes, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_1 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "wolf/controllers.pyx":212
+    /* "wolf/controllers.pyx":214
  *     def __call__(self, *remaining_paths):
  *         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
  *             return self.codes_controller(remaining_paths[0], *remaining_paths[2:])             # <<<<<<<<<<<<<<
  *         return super().__call__(*remaining_paths)
  * 
  */
-    __Pyx_TraceLine(212,0,__PYX_ERR(0, 212, __pyx_L1_error))
+    __Pyx_TraceLine(214,0,__PYX_ERR(0, 214, __pyx_L1_error))
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_codes_controller); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_codes_controller); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_remaining_paths, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_remaining_paths, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyTuple_GetSlice(__pyx_v_remaining_paths, 2, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyTuple_GetSlice(__pyx_v_remaining_paths, 2, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PyNumber_Add(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -6470,7 +6458,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_2__call__(CYTHON
     __pyx_t_5 = 0;
     goto __pyx_L0;
 
-    /* "wolf/controllers.pyx":211
+    /* "wolf/controllers.pyx":213
  * 
  *     def __call__(self, *remaining_paths):
  *         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':             # <<<<<<<<<<<<<<
@@ -6479,19 +6467,19 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_2__call__(CYTHON
  */
   }
 
-  /* "wolf/controllers.pyx":213
+  /* "wolf/controllers.pyx":215
  *         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
  *             return self.codes_controller(remaining_paths[0], *remaining_paths[2:])
  *         return super().__call__(*remaining_paths)             # <<<<<<<<<<<<<<
  * 
  *     @staticmethod
  */
-  __Pyx_TraceLine(213,0,__PYX_ERR(0, 213, __pyx_L1_error))
+  __Pyx_TraceLine(215,0,__PYX_ERR(0, 215, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_5 = __Pyx_CyFunction_GetClassObj(__pyx_self);
-  if (!__pyx_t_5) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 213, __pyx_L1_error) }
+  if (!__pyx_t_5) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 215, __pyx_L1_error) }
   __Pyx_INCREF(__pyx_t_5);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5);
@@ -6499,20 +6487,20 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_2__call__(CYTHON
   __Pyx_GIVEREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_self);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_call); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_call); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_v_remaining_paths, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_v_remaining_paths, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":210
+  /* "wolf/controllers.pyx":212
  *         self.codes_controller = CodesController()
  * 
  *     def __call__(self, *remaining_paths):             # <<<<<<<<<<<<<<
@@ -6535,7 +6523,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_2__call__(CYTHON
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":216
+/* "wolf/controllers.pyx":218
  * 
  *     @staticmethod
  *     def _validate_token(token):             # <<<<<<<<<<<<<<
@@ -6568,31 +6556,31 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_4_validate_token
   int __pyx_t_5;
   __Pyx_TraceFrameInit(__pyx_codeobj__21)
   __Pyx_RefNannySetupContext("_validate_token", 0);
-  __Pyx_TraceCall("_validate_token", __pyx_f[0], 216, 0, __PYX_ERR(0, 216, __pyx_L1_error));
+  __Pyx_TraceCall("_validate_token", __pyx_f[0], 218, 0, __PYX_ERR(0, 218, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":217
+  /* "wolf/controllers.pyx":219
  *     @staticmethod
  *     def _validate_token(token):
  *         if token.is_expired:             # <<<<<<<<<<<<<<
  *             raise ExpiredTokenError()
  * 
  */
-  __Pyx_TraceLine(217,0,__PYX_ERR(0, 217, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_expired); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __Pyx_TraceLine(219,0,__PYX_ERR(0, 219, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_expired); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_t_2)) {
 
-    /* "wolf/controllers.pyx":218
+    /* "wolf/controllers.pyx":220
  *     def _validate_token(token):
  *         if token.is_expired:
  *             raise ExpiredTokenError()             # <<<<<<<<<<<<<<
  * 
  *         if not token.is_active:
  */
-    __Pyx_TraceLine(218,0,__PYX_ERR(0, 218, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ExpiredTokenError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 218, __pyx_L1_error)
+    __Pyx_TraceLine(220,0,__PYX_ERR(0, 220, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ExpiredTokenError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -6606,14 +6594,14 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_4_validate_token
     }
     __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 218, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 218, __pyx_L1_error)
+    __PYX_ERR(0, 220, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":217
+    /* "wolf/controllers.pyx":219
  *     @staticmethod
  *     def _validate_token(token):
  *         if token.is_expired:             # <<<<<<<<<<<<<<
@@ -6622,30 +6610,30 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_4_validate_token
  */
   }
 
-  /* "wolf/controllers.pyx":220
+  /* "wolf/controllers.pyx":222
  *             raise ExpiredTokenError()
  * 
  *         if not token.is_active:             # <<<<<<<<<<<<<<
  *             raise DeactivatedTokenError()
  * 
  */
-  __Pyx_TraceLine(220,0,__PYX_ERR(0, 220, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_active); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 220, __pyx_L1_error)
+  __Pyx_TraceLine(222,0,__PYX_ERR(0, 222, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_is_active); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 220, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_5 = ((!__pyx_t_2) != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "wolf/controllers.pyx":221
+    /* "wolf/controllers.pyx":223
  * 
  *         if not token.is_active:
  *             raise DeactivatedTokenError()             # <<<<<<<<<<<<<<
  * 
  *     @staticmethod
  */
-    __Pyx_TraceLine(221,0,__PYX_ERR(0, 221, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DeactivatedTokenError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __Pyx_TraceLine(223,0,__PYX_ERR(0, 223, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DeactivatedTokenError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -6659,14 +6647,14 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_4_validate_token
     }
     __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 221, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 221, __pyx_L1_error)
+    __PYX_ERR(0, 223, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":220
+    /* "wolf/controllers.pyx":222
  *             raise ExpiredTokenError()
  * 
  *         if not token.is_active:             # <<<<<<<<<<<<<<
@@ -6675,7 +6663,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_4_validate_token
  */
   }
 
-  /* "wolf/controllers.pyx":216
+  /* "wolf/controllers.pyx":218
  * 
  *     @staticmethod
  *     def _validate_token(token):             # <<<<<<<<<<<<<<
@@ -6699,7 +6687,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_4_validate_token
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":224
+/* "wolf/controllers.pyx":226
  * 
  *     @staticmethod
  *     def _ensure_device():             # <<<<<<<<<<<<<<
@@ -6736,52 +6724,52 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_6_ensure_device(
   int __pyx_t_7;
   __Pyx_TraceFrameInit(__pyx_codeobj__22)
   __Pyx_RefNannySetupContext("_ensure_device", 0);
-  __Pyx_TraceCall("_ensure_device", __pyx_f[0], 224, 0, __PYX_ERR(0, 224, __pyx_L1_error));
+  __Pyx_TraceCall("_ensure_device", __pyx_f[0], 226, 0, __PYX_ERR(0, 226, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":225
+  /* "wolf/controllers.pyx":227
  *     @staticmethod
  *     def _ensure_device():
  *         phone = int(context.form['phone'])             # <<<<<<<<<<<<<<
  *         # Checking the device
  *         device = Device.query.filter(Device.phone == phone).one_or_none()
  */
-  __Pyx_TraceLine(225,0,__PYX_ERR(0, 225, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __Pyx_TraceLine(227,0,__PYX_ERR(0, 227, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_s_phone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_phone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 225, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_phone = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":227
+  /* "wolf/controllers.pyx":229
  *         phone = int(context.form['phone'])
  *         # Checking the device
  *         device = Device.query.filter(Device.phone == phone).one_or_none()             # <<<<<<<<<<<<<<
  *         # Adding a device also
  *         if device is None:
  */
-  __Pyx_TraceLine(227,0,__PYX_ERR(0, 227, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Device); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __Pyx_TraceLine(229,0,__PYX_ERR(0, 229, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Device); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Device); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Device); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_phone); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_phone); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_phone, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_phone, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -6796,10 +6784,10 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_6_ensure_device(
   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -6814,33 +6802,33 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_6_ensure_device(
   }
   __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 227, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_device = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":229
+  /* "wolf/controllers.pyx":231
  *         device = Device.query.filter(Device.phone == phone).one_or_none()
  *         # Adding a device also
  *         if device is None:             # <<<<<<<<<<<<<<
  *             raise DeviceNotFoundError()
  *         return device
  */
-  __Pyx_TraceLine(229,0,__PYX_ERR(0, 229, __pyx_L1_error))
+  __Pyx_TraceLine(231,0,__PYX_ERR(0, 231, __pyx_L1_error))
   __pyx_t_6 = (__pyx_v_device == Py_None);
   __pyx_t_7 = (__pyx_t_6 != 0);
   if (unlikely(__pyx_t_7)) {
 
-    /* "wolf/controllers.pyx":230
+    /* "wolf/controllers.pyx":232
  *         # Adding a device also
  *         if device is None:
  *             raise DeviceNotFoundError()             # <<<<<<<<<<<<<<
  *         return device
  * 
  */
-    __Pyx_TraceLine(230,0,__PYX_ERR(0, 230, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DeviceNotFoundError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __Pyx_TraceLine(232,0,__PYX_ERR(0, 232, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DeviceNotFoundError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 232, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -6854,14 +6842,14 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_6_ensure_device(
     }
     __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 232, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 230, __pyx_L1_error)
+    __PYX_ERR(0, 232, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":229
+    /* "wolf/controllers.pyx":231
  *         device = Device.query.filter(Device.phone == phone).one_or_none()
  *         # Adding a device also
  *         if device is None:             # <<<<<<<<<<<<<<
@@ -6870,20 +6858,20 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_6_ensure_device(
  */
   }
 
-  /* "wolf/controllers.pyx":231
+  /* "wolf/controllers.pyx":233
  *         if device is None:
  *             raise DeviceNotFoundError()
  *         return device             # <<<<<<<<<<<<<<
  * 
  *     @staticmethod
  */
-  __Pyx_TraceLine(231,0,__PYX_ERR(0, 231, __pyx_L1_error))
+  __Pyx_TraceLine(233,0,__PYX_ERR(0, 233, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_device);
   __pyx_r = __pyx_v_device;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":224
+  /* "wolf/controllers.pyx":226
  * 
  *     @staticmethod
  *     def _ensure_device():             # <<<<<<<<<<<<<<
@@ -6909,7 +6897,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_6_ensure_device(
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":234
+/* "wolf/controllers.pyx":236
  * 
  *     @staticmethod
  *     def _find_or_create_token():             # <<<<<<<<<<<<<<
@@ -6952,52 +6940,14 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   int __pyx_t_11;
   __Pyx_TraceFrameInit(__pyx_codeobj__23)
   __Pyx_RefNannySetupContext("_find_or_create_token", 0);
-  __Pyx_TraceCall("_find_or_create_token", __pyx_f[0], 234, 0, __PYX_ERR(0, 234, __pyx_L1_error));
+  __Pyx_TraceCall("_find_or_create_token", __pyx_f[0], 236, 0, __PYX_ERR(0, 236, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":235
+  /* "wolf/controllers.pyx":237
  *     @staticmethod
  *     def _find_or_create_token():
  *         name = context.form['name']             # <<<<<<<<<<<<<<
  *         phone = context.form['phone']
  *         cryptomodule_id = context.form['cryptomoduleId']
- */
-  __Pyx_TraceLine(235,0,__PYX_ERR(0, 235, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_name = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "wolf/controllers.pyx":236
- *     def _find_or_create_token():
- *         name = context.form['name']
- *         phone = context.form['phone']             # <<<<<<<<<<<<<<
- *         cryptomodule_id = context.form['cryptomoduleId']
- * 
- */
-  __Pyx_TraceLine(236,0,__PYX_ERR(0, 236, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_s_phone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_phone = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "wolf/controllers.pyx":237
- *         name = context.form['name']
- *         phone = context.form['phone']
- *         cryptomodule_id = context.form['cryptomoduleId']             # <<<<<<<<<<<<<<
- * 
- *         if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
  */
   __Pyx_TraceLine(237,0,__PYX_ERR(0, 237, __pyx_L1_error))
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
@@ -7005,34 +6955,72 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_s_cryptomoduleId); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_name = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "wolf/controllers.pyx":238
+ *     def _find_or_create_token():
+ *         name = context.form['name']
+ *         phone = context.form['phone']             # <<<<<<<<<<<<<<
+ *         cryptomodule_id = context.form['cryptomoduleId']
+ * 
+ */
+  __Pyx_TraceLine(238,0,__PYX_ERR(0, 238, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_phone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_phone = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "wolf/controllers.pyx":239
+ *         name = context.form['name']
+ *         phone = context.form['phone']
+ *         cryptomodule_id = context.form['cryptomoduleId']             # <<<<<<<<<<<<<<
+ * 
+ *         if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
+ */
+  __Pyx_TraceLine(239,0,__PYX_ERR(0, 239, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_cryptomoduleId); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_cryptomodule_id = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":239
+  /* "wolf/controllers.pyx":241
  *         cryptomodule_id = context.form['cryptomoduleId']
  * 
  *         if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:             # <<<<<<<<<<<<<<
  *             raise HttpBadRequest(info='Invalid cryptomodule id.')
  * 
  */
-  __Pyx_TraceLine(239,0,__PYX_ERR(0, 239, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __Pyx_TraceLine(241,0,__PYX_ERR(0, 241, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_id); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_cryptomodule_id, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_cryptomodule_id, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7047,10 +7035,10 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_count); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_count); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7065,37 +7053,37 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_t_6)) {
 
-    /* "wolf/controllers.pyx":240
+    /* "wolf/controllers.pyx":242
  * 
  *         if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
  *             raise HttpBadRequest(info='Invalid cryptomodule id.')             # <<<<<<<<<<<<<<
  * 
  *         token = Token.query.filter(
  */
-    __Pyx_TraceLine(240,0,__PYX_ERR(0, 240, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_HttpBadRequest); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __Pyx_TraceLine(242,0,__PYX_ERR(0, 242, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_HttpBadRequest); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_info, __pyx_kp_s_Invalid_cryptomodule_id) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_info, __pyx_kp_u_Invalid_cryptomodule_id) < 0) __PYX_ERR(0, 242, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 240, __pyx_L1_error)
+    __PYX_ERR(0, 242, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":239
+    /* "wolf/controllers.pyx":241
  *         cryptomodule_id = context.form['cryptomoduleId']
  * 
  *         if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:             # <<<<<<<<<<<<<<
@@ -7104,69 +7092,69 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
  */
   }
 
-  /* "wolf/controllers.pyx":242
+  /* "wolf/controllers.pyx":244
  *             raise HttpBadRequest(info='Invalid cryptomodule id.')
  * 
  *         token = Token.query.filter(             # <<<<<<<<<<<<<<
  *             Token.name == name,
  *             Token.cryptomodule_id == cryptomodule_id,
  */
-  __Pyx_TraceLine(242,0,__PYX_ERR(0, 242, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __Pyx_TraceLine(244,0,__PYX_ERR(0, 244, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 244, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/controllers.pyx":243
+  /* "wolf/controllers.pyx":245
  * 
  *         token = Token.query.filter(
  *             Token.name == name,             # <<<<<<<<<<<<<<
  *             Token.cryptomodule_id == cryptomodule_id,
  *             Token.phone == phone
  */
-  __Pyx_TraceLine(243,0,__PYX_ERR(0, 243, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L1_error)
+  __Pyx_TraceLine(245,0,__PYX_ERR(0, 245, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Token); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 243, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_name, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_name, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":244
+  /* "wolf/controllers.pyx":246
  *         token = Token.query.filter(
  *             Token.name == name,
  *             Token.cryptomodule_id == cryptomodule_id,             # <<<<<<<<<<<<<<
  *             Token.phone == phone
  *         ).one_or_none()
  */
-  __Pyx_TraceLine(244,0,__PYX_ERR(0, 244, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Token); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __Pyx_TraceLine(246,0,__PYX_ERR(0, 246, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Token); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_cryptomodule_id); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_v_cryptomodule_id, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_v_cryptomodule_id, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 246, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "wolf/controllers.pyx":245
+  /* "wolf/controllers.pyx":247
  *             Token.name == name,
  *             Token.cryptomodule_id == cryptomodule_id,
  *             Token.phone == phone             # <<<<<<<<<<<<<<
  *         ).one_or_none()
  * 
  */
-  __Pyx_TraceLine(245,0,__PYX_ERR(0, 245, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Token); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __Pyx_TraceLine(247,0,__PYX_ERR(0, 247, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Token); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_phone); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_phone); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyObject_RichCompare(__pyx_t_8, __pyx_v_phone, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_t_7 = PyObject_RichCompare(__pyx_t_8, __pyx_v_phone, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_t_8 = NULL;
   __pyx_t_9 = 0;
@@ -7183,7 +7171,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_8, __pyx_t_4, __pyx_t_5, __pyx_t_7};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7194,7 +7182,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_8, __pyx_t_4, __pyx_t_5, __pyx_t_7};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 3+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7203,7 +7191,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   } else
   #endif
   {
-    __pyx_t_10 = PyTuple_New(3+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(3+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     if (__pyx_t_8) {
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -7217,21 +7205,21 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
     __pyx_t_4 = 0;
     __pyx_t_5 = 0;
     __pyx_t_7 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":246
+  /* "wolf/controllers.pyx":248
  *             Token.cryptomodule_id == cryptomodule_id,
  *             Token.phone == phone
  *         ).one_or_none()             # <<<<<<<<<<<<<<
  * 
  *         if token is None:
  */
-  __Pyx_TraceLine(246,0,__PYX_ERR(0, 246, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __Pyx_TraceLine(248,0,__PYX_ERR(0, 248, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -7246,33 +7234,33 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   }
   __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_token = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":248
+  /* "wolf/controllers.pyx":250
  *         ).one_or_none()
  * 
  *         if token is None:             # <<<<<<<<<<<<<<
  *             # Creating a new token
  *             token = Token()
  */
-  __Pyx_TraceLine(248,0,__PYX_ERR(0, 248, __pyx_L1_error))
+  __Pyx_TraceLine(250,0,__PYX_ERR(0, 250, __pyx_L1_error))
   __pyx_t_6 = (__pyx_v_token == Py_None);
   __pyx_t_11 = (__pyx_t_6 != 0);
   if (__pyx_t_11) {
 
-    /* "wolf/controllers.pyx":250
+    /* "wolf/controllers.pyx":252
  *         if token is None:
  *             # Creating a new token
  *             token = Token()             # <<<<<<<<<<<<<<
  *             token.update_from_request()
  *             token.is_active = True
  */
-    __Pyx_TraceLine(250,0,__PYX_ERR(0, 250, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __Pyx_TraceLine(252,0,__PYX_ERR(0, 252, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Token); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 252, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -7286,58 +7274,21 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
     }
     __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 250, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 252, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_token, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "wolf/controllers.pyx":251
+    /* "wolf/controllers.pyx":253
  *             # Creating a new token
  *             token = Token()
  *             token.update_from_request()             # <<<<<<<<<<<<<<
  *             token.is_active = True
  *             token.initialize_seed()
  */
-    __Pyx_TraceLine(251,0,__PYX_ERR(0, 251, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_update_from_request); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_1)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_1);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "wolf/controllers.pyx":252
- *             token = Token()
- *             token.update_from_request()
- *             token.is_active = True             # <<<<<<<<<<<<<<
- *             token.initialize_seed()
- *             DBSession.add(token)
- */
-    __Pyx_TraceLine(252,0,__PYX_ERR(0, 252, __pyx_L1_error))
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_token, __pyx_n_s_is_active, Py_True) < 0) __PYX_ERR(0, 252, __pyx_L1_error)
-
-    /* "wolf/controllers.pyx":253
- *             token.update_from_request()
- *             token.is_active = True
- *             token.initialize_seed()             # <<<<<<<<<<<<<<
- *             DBSession.add(token)
- *         DBSession.flush()
- */
     __Pyx_TraceLine(253,0,__PYX_ERR(0, 253, __pyx_L1_error))
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_initialize_seed); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_update_from_request); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7357,16 +7308,53 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "wolf/controllers.pyx":254
+ *             token = Token()
+ *             token.update_from_request()
+ *             token.is_active = True             # <<<<<<<<<<<<<<
+ *             token.initialize_seed()
+ *             DBSession.add(token)
+ */
+    __Pyx_TraceLine(254,0,__PYX_ERR(0, 254, __pyx_L1_error))
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_token, __pyx_n_s_is_active, Py_True) < 0) __PYX_ERR(0, 254, __pyx_L1_error)
+
+    /* "wolf/controllers.pyx":255
+ *             token.update_from_request()
+ *             token.is_active = True
+ *             token.initialize_seed()             # <<<<<<<<<<<<<<
+ *             DBSession.add(token)
+ *         DBSession.flush()
+ */
+    __Pyx_TraceLine(255,0,__PYX_ERR(0, 255, __pyx_L1_error))
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_initialize_seed); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_1)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+    /* "wolf/controllers.pyx":256
  *             token.is_active = True
  *             token.initialize_seed()
  *             DBSession.add(token)             # <<<<<<<<<<<<<<
  *         DBSession.flush()
  *         return token
  */
-    __Pyx_TraceLine(254,0,__PYX_ERR(0, 254, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 254, __pyx_L1_error)
+    __Pyx_TraceLine(256,0,__PYX_ERR(0, 256, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_add); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 254, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_add); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -7381,12 +7369,12 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
     }
     __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_3, __pyx_v_token) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_token);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 254, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "wolf/controllers.pyx":248
+    /* "wolf/controllers.pyx":250
  *         ).one_or_none()
  * 
  *         if token is None:             # <<<<<<<<<<<<<<
@@ -7395,17 +7383,17 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
  */
   }
 
-  /* "wolf/controllers.pyx":255
+  /* "wolf/controllers.pyx":257
  *             token.initialize_seed()
  *             DBSession.add(token)
  *         DBSession.flush()             # <<<<<<<<<<<<<<
  *         return token
  * 
  */
-  __Pyx_TraceLine(255,0,__PYX_ERR(0, 255, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __Pyx_TraceLine(257,0,__PYX_ERR(0, 257, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_flush); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_flush); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -7420,25 +7408,25 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   }
   __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":256
+  /* "wolf/controllers.pyx":258
  *             DBSession.add(token)
  *         DBSession.flush()
  *         return token             # <<<<<<<<<<<<<<
  * 
  *     @json
  */
-  __Pyx_TraceLine(256,0,__PYX_ERR(0, 256, __pyx_L1_error))
+  __Pyx_TraceLine(258,0,__PYX_ERR(0, 258, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_token);
   __pyx_r = __pyx_v_token;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":234
+  /* "wolf/controllers.pyx":236
  * 
  *     @staticmethod
  *     def _find_or_create_token():             # <<<<<<<<<<<<<<
@@ -7469,7 +7457,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_8_find_or_create
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":265
+/* "wolf/controllers.pyx":267
  *     @Token.expose
  *     @commit
  *     def ensure(self):             # <<<<<<<<<<<<<<
@@ -7504,17 +7492,17 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   PyObject *__pyx_t_4 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__24)
   __Pyx_RefNannySetupContext("ensure", 0);
-  __Pyx_TraceCall("ensure", __pyx_f[0], 265, 0, __PYX_ERR(0, 265, __pyx_L1_error));
+  __Pyx_TraceCall("ensure", __pyx_f[0], 267, 0, __PYX_ERR(0, 267, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":267
+  /* "wolf/controllers.pyx":269
  *     def ensure(self):
  *         # TODO: type validation
  *         device = self._ensure_device()             # <<<<<<<<<<<<<<
  *         token = self._find_or_create_token()
  *         self._validate_token(token)
  */
-  __Pyx_TraceLine(267,0,__PYX_ERR(0, 267, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_ensure_device); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_TraceLine(269,0,__PYX_ERR(0, 269, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_ensure_device); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 269, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -7528,21 +7516,21 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 269, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_device = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":268
+  /* "wolf/controllers.pyx":270
  *         # TODO: type validation
  *         device = self._ensure_device()
  *         token = self._find_or_create_token()             # <<<<<<<<<<<<<<
  *         self._validate_token(token)
  *         DBSession.flush()
  */
-  __Pyx_TraceLine(268,0,__PYX_ERR(0, 268, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_find_or_create_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __Pyx_TraceLine(270,0,__PYX_ERR(0, 270, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_find_or_create_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -7556,21 +7544,21 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 268, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_token = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":269
+  /* "wolf/controllers.pyx":271
  *         device = self._ensure_device()
  *         token = self._find_or_create_token()
  *         self._validate_token(token)             # <<<<<<<<<<<<<<
  *         DBSession.flush()
  *         result = token.to_dict()
  */
-  __Pyx_TraceLine(269,0,__PYX_ERR(0, 269, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validate_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 269, __pyx_L1_error)
+  __Pyx_TraceLine(271,0,__PYX_ERR(0, 271, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validate_token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 271, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -7584,22 +7572,22 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_token) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_token);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 269, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 271, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":270
+  /* "wolf/controllers.pyx":272
  *         token = self._find_or_create_token()
  *         self._validate_token(token)
  *         DBSession.flush()             # <<<<<<<<<<<<<<
  *         result = token.to_dict()
  *         result['provisioning'] = token.provision(device.secret)
  */
-  __Pyx_TraceLine(270,0,__PYX_ERR(0, 270, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 270, __pyx_L1_error)
+  __Pyx_TraceLine(272,0,__PYX_ERR(0, 272, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_flush); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 270, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_flush); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7614,20 +7602,20 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":271
+  /* "wolf/controllers.pyx":273
  *         self._validate_token(token)
  *         DBSession.flush()
  *         result = token.to_dict()             # <<<<<<<<<<<<<<
  *         result['provisioning'] = token.provision(device.secret)
  *         return result
  */
-  __Pyx_TraceLine(271,0,__PYX_ERR(0, 271, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_to_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 271, __pyx_L1_error)
+  __Pyx_TraceLine(273,0,__PYX_ERR(0, 273, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_to_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7641,23 +7629,23 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 271, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_result = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":272
+  /* "wolf/controllers.pyx":274
  *         DBSession.flush()
  *         result = token.to_dict()
  *         result['provisioning'] = token.provision(device.secret)             # <<<<<<<<<<<<<<
  *         return result
  * 
  */
-  __Pyx_TraceLine(272,0,__PYX_ERR(0, 272, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_provision); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 272, __pyx_L1_error)
+  __Pyx_TraceLine(274,0,__PYX_ERR(0, 274, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_token, __pyx_n_s_provision); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_device, __pyx_n_s_secret); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 272, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_device, __pyx_n_s_secret); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7672,26 +7660,26 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 272, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(PyObject_SetItem(__pyx_v_result, __pyx_n_s_provisioning, __pyx_t_1) < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_result, __pyx_n_u_provisioning, __pyx_t_1) < 0)) __PYX_ERR(0, 274, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":273
+  /* "wolf/controllers.pyx":275
  *         result = token.to_dict()
  *         result['provisioning'] = token.provision(device.secret)
  *         return result             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(273,0,__PYX_ERR(0, 273, __pyx_L1_error))
+  __Pyx_TraceLine(275,0,__PYX_ERR(0, 275, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_result);
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":265
+  /* "wolf/controllers.pyx":267
  *     @Token.expose
  *     @commit
  *     def ensure(self):             # <<<<<<<<<<<<<<
@@ -7717,7 +7705,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_15TokenController_10ensure(CYTHON_
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":287
+/* "wolf/controllers.pyx":289
  *     @Device.expose
  *     @commit
  *     def register(self):             # <<<<<<<<<<<<<<
@@ -7756,68 +7744,68 @@ static PyObject *__pyx_pf_4wolf_11controllers_16DeviceController_register(CYTHON
   int __pyx_t_7;
   __Pyx_TraceFrameInit(__pyx_codeobj__25)
   __Pyx_RefNannySetupContext("register", 0);
-  __Pyx_TraceCall("register", __pyx_f[0], 287, 0, __PYX_ERR(0, 287, __pyx_L1_error));
+  __Pyx_TraceCall("register", __pyx_f[0], 289, 0, __PYX_ERR(0, 289, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":288
+  /* "wolf/controllers.pyx":290
  *     @commit
  *     def register(self):
  *         phone = context.form['phone']             # <<<<<<<<<<<<<<
  *         udid = context.form['udid']
  *         device = Device.query.filter(Device.phone == phone).one_or_none()
  */
-  __Pyx_TraceLine(288,0,__PYX_ERR(0, 288, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __Pyx_TraceLine(290,0,__PYX_ERR(0, 290, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_s_phone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_phone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_phone = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":289
+  /* "wolf/controllers.pyx":291
  *     def register(self):
  *         phone = context.form['phone']
  *         udid = context.form['udid']             # <<<<<<<<<<<<<<
  *         device = Device.query.filter(Device.phone == phone).one_or_none()
  * 
  */
-  __Pyx_TraceLine(289,0,__PYX_ERR(0, 289, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __Pyx_TraceLine(291,0,__PYX_ERR(0, 291, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_form); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_s_udid); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_t_2, __pyx_n_u_udid); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_udid = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":290
+  /* "wolf/controllers.pyx":292
  *         phone = context.form['phone']
  *         udid = context.form['udid']
  *         device = Device.query.filter(Device.phone == phone).one_or_none()             # <<<<<<<<<<<<<<
  * 
  *         if device is None:
  */
-  __Pyx_TraceLine(290,0,__PYX_ERR(0, 290, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Device); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __Pyx_TraceLine(292,0,__PYX_ERR(0, 292, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Device); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_query); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_filter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Device); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Device); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_phone); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_phone); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_phone, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_5, __pyx_v_phone, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7832,10 +7820,10 @@ static PyObject *__pyx_pf_4wolf_11controllers_16DeviceController_register(CYTHON
   __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_one_or_none); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7850,33 +7838,33 @@ static PyObject *__pyx_pf_4wolf_11controllers_16DeviceController_register(CYTHON
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_device = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":292
+  /* "wolf/controllers.pyx":294
  *         device = Device.query.filter(Device.phone == phone).one_or_none()
  * 
  *         if device is None:             # <<<<<<<<<<<<<<
  *             device = Device()
  *             DBSession.add(device)
  */
-  __Pyx_TraceLine(292,0,__PYX_ERR(0, 292, __pyx_L1_error))
+  __Pyx_TraceLine(294,0,__PYX_ERR(0, 294, __pyx_L1_error))
   __pyx_t_6 = (__pyx_v_device == Py_None);
   __pyx_t_7 = (__pyx_t_6 != 0);
   if (__pyx_t_7) {
 
-    /* "wolf/controllers.pyx":293
+    /* "wolf/controllers.pyx":295
  * 
  *         if device is None:
  *             device = Device()             # <<<<<<<<<<<<<<
  *             DBSession.add(device)
  *             device.phone = phone
  */
-    __Pyx_TraceLine(293,0,__PYX_ERR(0, 293, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Device); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 293, __pyx_L1_error)
+    __Pyx_TraceLine(295,0,__PYX_ERR(0, 295, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Device); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 295, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_2 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -7890,23 +7878,23 @@ static PyObject *__pyx_pf_4wolf_11controllers_16DeviceController_register(CYTHON
     }
     __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 293, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 295, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_device, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "wolf/controllers.pyx":294
+    /* "wolf/controllers.pyx":296
  *         if device is None:
  *             device = Device()
  *             DBSession.add(device)             # <<<<<<<<<<<<<<
  *             device.phone = phone
  * 
  */
-    __Pyx_TraceLine(294,0,__PYX_ERR(0, 294, __pyx_L1_error))
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __Pyx_TraceLine(296,0,__PYX_ERR(0, 296, __pyx_L1_error))
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 296, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_add); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_add); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 296, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -7921,22 +7909,22 @@ static PyObject *__pyx_pf_4wolf_11controllers_16DeviceController_register(CYTHON
     }
     __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_device) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_device);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 296, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "wolf/controllers.pyx":295
+    /* "wolf/controllers.pyx":297
  *             device = Device()
  *             DBSession.add(device)
  *             device.phone = phone             # <<<<<<<<<<<<<<
  * 
  *         secret_key = hashlib.pbkdf2_hmac(
  */
-    __Pyx_TraceLine(295,0,__PYX_ERR(0, 295, __pyx_L1_error))
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_device, __pyx_n_s_phone, __pyx_v_phone) < 0) __PYX_ERR(0, 295, __pyx_L1_error)
+    __Pyx_TraceLine(297,0,__PYX_ERR(0, 297, __pyx_L1_error))
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_device, __pyx_n_s_phone, __pyx_v_phone) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
 
-    /* "wolf/controllers.pyx":292
+    /* "wolf/controllers.pyx":294
  *         device = Device.query.filter(Device.phone == phone).one_or_none()
  * 
  *         if device is None:             # <<<<<<<<<<<<<<
@@ -7945,174 +7933,159 @@ static PyObject *__pyx_pf_4wolf_11controllers_16DeviceController_register(CYTHON
  */
   }
 
-  /* "wolf/controllers.pyx":297
+  /* "wolf/controllers.pyx":299
  *             device.phone = phone
  * 
  *         secret_key = hashlib.pbkdf2_hmac(             # <<<<<<<<<<<<<<
  *             'sha256',
  *             str(phone).encode() + udid.encode(),
  */
-  __Pyx_TraceLine(297,0,__PYX_ERR(0, 297, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_hashlib); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __Pyx_TraceLine(299,0,__PYX_ERR(0, 299, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_hashlib); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_pbkdf2_hmac); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_pbkdf2_hmac); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":299
+  /* "wolf/controllers.pyx":301
  *         secret_key = hashlib.pbkdf2_hmac(
  *             'sha256',
  *             str(phone).encode() + udid.encode(),             # <<<<<<<<<<<<<<
  *             cryptoutil.random(32),
  *             100000,
  */
-  __Pyx_TraceLine(299,0,__PYX_ERR(0, 299, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_phone); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_TraceLine(301,0,__PYX_ERR(0, 301, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_v_phone); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = PyUnicode_AsEncodedString(((PyObject*)__pyx_t_1), NULL, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_udid, __pyx_n_s_encode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
+  __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_3)) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_5)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_udid, __pyx_n_s_encode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 299, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 299, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/controllers.pyx":300
+  /* "wolf/controllers.pyx":302
  *             'sha256',
  *             str(phone).encode() + udid.encode(),
  *             cryptoutil.random(32),             # <<<<<<<<<<<<<<
  *             100000,
  *             dklen=32
  */
-  __Pyx_TraceLine(300,0,__PYX_ERR(0, 300, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_cryptoutil); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __Pyx_TraceLine(302,0,__PYX_ERR(0, 302, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_cryptoutil); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = NULL;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_1)) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_3)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_4 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_1, __pyx_int_32) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_int_32);
-  __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_3, __pyx_int_32) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_int_32);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":297
+  /* "wolf/controllers.pyx":299
  *             device.phone = phone
  * 
  *         secret_key = hashlib.pbkdf2_hmac(             # <<<<<<<<<<<<<<
  *             'sha256',
  *             str(phone).encode() + udid.encode(),
  */
-  __Pyx_TraceLine(297,0,__PYX_ERR(0, 297, __pyx_L1_error))
-  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __Pyx_TraceLine(299,0,__PYX_ERR(0, 299, __pyx_L1_error))
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_INCREF(__pyx_n_s_sha256);
-  __Pyx_GIVEREF(__pyx_n_s_sha256);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_n_s_sha256);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_3);
+  __Pyx_INCREF(__pyx_n_u_sha256);
+  __Pyx_GIVEREF(__pyx_n_u_sha256);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_n_u_sha256);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_1);
   __Pyx_INCREF(__pyx_int_100000);
   __Pyx_GIVEREF(__pyx_int_100000);
   PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_int_100000);
-  __pyx_t_3 = 0;
   __pyx_t_4 = 0;
+  __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":302
+  /* "wolf/controllers.pyx":304
  *             cryptoutil.random(32),
  *             100000,
  *             dklen=32             # <<<<<<<<<<<<<<
  *         )
  *         device.secret = secret_key
  */
-  __Pyx_TraceLine(302,0,__PYX_ERR(0, 302, __pyx_L1_error))
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dklen, __pyx_int_32) < 0) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_TraceLine(304,0,__PYX_ERR(0, 304, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 304, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dklen, __pyx_int_32) < 0) __PYX_ERR(0, 304, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":297
+  /* "wolf/controllers.pyx":299
  *             device.phone = phone
  * 
  *         secret_key = hashlib.pbkdf2_hmac(             # <<<<<<<<<<<<<<
  *             'sha256',
  *             str(phone).encode() + udid.encode(),
  */
-  __Pyx_TraceLine(297,0,__PYX_ERR(0, 297, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 297, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_TraceLine(299,0,__PYX_ERR(0, 299, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_secret_key = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_secret_key = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-  /* "wolf/controllers.pyx":304
+  /* "wolf/controllers.pyx":306
  *             dklen=32
  *         )
  *         device.secret = secret_key             # <<<<<<<<<<<<<<
  *         return device
  * 
  */
-  __Pyx_TraceLine(304,0,__PYX_ERR(0, 304, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_device, __pyx_n_s_secret, __pyx_v_secret_key) < 0) __PYX_ERR(0, 304, __pyx_L1_error)
+  __Pyx_TraceLine(306,0,__PYX_ERR(0, 306, __pyx_L1_error))
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_device, __pyx_n_s_secret, __pyx_v_secret_key) < 0) __PYX_ERR(0, 306, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":305
+  /* "wolf/controllers.pyx":307
  *         )
  *         device.secret = secret_key
  *         return device             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(305,0,__PYX_ERR(0, 305, __pyx_L1_error))
+  __Pyx_TraceLine(307,0,__PYX_ERR(0, 307, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_device);
   __pyx_r = __pyx_v_device;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":287
+  /* "wolf/controllers.pyx":289
  *     @Device.expose
  *     @commit
  *     def register(self):             # <<<<<<<<<<<<<<
@@ -8140,7 +8113,7 @@ static PyObject *__pyx_pf_4wolf_11controllers_16DeviceController_register(CYTHON
   return __pyx_r;
 }
 
-/* "wolf/controllers.pyx":313
+/* "wolf/controllers.pyx":315
  * 
  *     @json
  *     def version(self):             # <<<<<<<<<<<<<<
@@ -8171,40 +8144,40 @@ static PyObject *__pyx_pf_4wolf_11controllers_5ApiV1_version(CYTHON_UNUSED PyObj
   PyObject *__pyx_t_3 = NULL;
   __Pyx_TraceFrameInit(__pyx_codeobj__26)
   __Pyx_RefNannySetupContext("version", 0);
-  __Pyx_TraceCall("version", __pyx_f[0], 313, 0, __PYX_ERR(0, 313, __pyx_L1_error));
+  __Pyx_TraceCall("version", __pyx_f[0], 315, 0, __PYX_ERR(0, 315, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":314
+  /* "wolf/controllers.pyx":316
  *     @json
  *     def version(self):
  *         return {             # <<<<<<<<<<<<<<
  *             'version': wolf.__version__
  *         }
  */
-  __Pyx_TraceLine(314,0,__PYX_ERR(0, 314, __pyx_L1_error))
+  __Pyx_TraceLine(316,0,__PYX_ERR(0, 316, __pyx_L1_error))
   __Pyx_XDECREF(__pyx_r);
 
-  /* "wolf/controllers.pyx":315
+  /* "wolf/controllers.pyx":317
  *     def version(self):
  *         return {
  *             'version': wolf.__version__             # <<<<<<<<<<<<<<
  *         }
  * 
  */
-  __Pyx_TraceLine(315,0,__PYX_ERR(0, 315, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __Pyx_TraceLine(317,0,__PYX_ERR(0, 317, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_wolf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_wolf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_version_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_version_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_version, __pyx_t_3) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_version, __pyx_t_3) < 0) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "wolf/controllers.pyx":313
+  /* "wolf/controllers.pyx":315
  * 
  *     @json
  *     def version(self):             # <<<<<<<<<<<<<<
@@ -8289,8 +8262,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ExpiredTokenError, __pyx_k_ExpiredTokenError, sizeof(__pyx_k_ExpiredTokenError), 0, 0, 1, 1},
   {&__pyx_n_s_HttpBadRequest, __pyx_k_HttpBadRequest, sizeof(__pyx_k_HttpBadRequest), 0, 0, 1, 1},
   {&__pyx_n_s_HttpNotFound, __pyx_k_HttpNotFound, sizeof(__pyx_k_HttpNotFound), 0, 0, 1, 1},
-  {&__pyx_kp_s_Invalid_Code, __pyx_k_Invalid_Code, sizeof(__pyx_k_Invalid_Code), 0, 0, 1, 0},
-  {&__pyx_kp_s_Invalid_cryptomodule_id, __pyx_k_Invalid_cryptomodule_id, sizeof(__pyx_k_Invalid_cryptomodule_id), 0, 0, 1, 0},
+  {&__pyx_kp_u_Invalid_Code, __pyx_k_Invalid_Code, sizeof(__pyx_k_Invalid_Code), 0, 1, 0, 0},
+  {&__pyx_kp_u_Invalid_cryptomodule_id, __pyx_k_Invalid_cryptomodule_id, sizeof(__pyx_k_Invalid_cryptomodule_id), 0, 1, 0, 0},
   {&__pyx_n_s_LazyAttribute, __pyx_k_LazyAttribute, sizeof(__pyx_k_LazyAttribute), 0, 0, 1, 1},
   {&__pyx_n_s_MiniToken, __pyx_k_MiniToken, sizeof(__pyx_k_MiniToken), 0, 0, 1, 1},
   {&__pyx_n_s_MiniToken___init, __pyx_k_MiniToken___init, sizeof(__pyx_k_MiniToken___init), 0, 0, 1, 1},
@@ -8312,7 +8285,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_RestController, __pyx_k_RestController, sizeof(__pyx_k_RestController), 0, 0, 1, 1},
   {&__pyx_n_s_Root, __pyx_k_Root, sizeof(__pyx_k_Root), 0, 0, 1, 1},
   {&__pyx_n_s_RootController, __pyx_k_RootController, sizeof(__pyx_k_RootController), 0, 0, 1, 1},
-  {&__pyx_kp_s_SELECT_id_time_interval_one_time, __pyx_k_SELECT_id_time_interval_one_time, sizeof(__pyx_k_SELECT_id_time_interval_one_time), 0, 0, 1, 0},
+  {&__pyx_kp_u_SELECT_id_time_interval_one_time, __pyx_k_SELECT_id_time_interval_one_time, sizeof(__pyx_k_SELECT_id_time_interval_one_time), 0, 1, 0, 0},
   {&__pyx_n_s_StrictRedis, __pyx_k_StrictRedis, sizeof(__pyx_k_StrictRedis), 0, 0, 1, 1},
   {&__pyx_n_s_TOTP, __pyx_k_TOTP, sizeof(__pyx_k_TOTP), 0, 0, 1, 1},
   {&__pyx_n_s_Token, __pyx_k_Token, sizeof(__pyx_k_Token), 0, 0, 1, 1},
@@ -8326,13 +8299,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_kp_u_Verifying_token_id, __pyx_k_Verifying_token_id, sizeof(__pyx_k_Verifying_token_id), 0, 1, 0, 0},
   {&__pyx_kp_b__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 0, 0, 0},
-  {&__pyx_kp_s_a_zA_Z0_9_5_25, __pyx_k_a_zA_Z0_9_5_25, sizeof(__pyx_k_a_zA_Z0_9_5_25), 0, 0, 1, 0},
+  {&__pyx_kp_u_a_zA_Z0_9_5_25, __pyx_k_a_zA_Z0_9_5_25, sizeof(__pyx_k_a_zA_Z0_9_5_25), 0, 1, 0, 0},
   {&__pyx_n_s_action, __pyx_k_action, sizeof(__pyx_k_action), 0, 0, 1, 1},
   {&__pyx_n_s_activated_at, __pyx_k_activated_at, sizeof(__pyx_k_activated_at), 0, 0, 1, 1},
   {&__pyx_n_s_add, __pyx_k_add, sizeof(__pyx_k_add), 0, 0, 1, 1},
   {&__pyx_n_s_after_update, __pyx_k_after_update, sizeof(__pyx_k_after_update), 0, 0, 1, 1},
+  {&__pyx_n_u_after_update, __pyx_k_after_update, sizeof(__pyx_k_after_update), 0, 1, 0, 1},
   {&__pyx_n_s_apiv1, __pyx_k_apiv1, sizeof(__pyx_k_apiv1), 0, 0, 1, 1},
-  {&__pyx_n_s_bankId, __pyx_k_bankId, sizeof(__pyx_k_bankId), 0, 0, 1, 1},
+  {&__pyx_n_u_bankId, __pyx_k_bankId, sizeof(__pyx_k_bankId), 0, 1, 0, 1},
   {&__pyx_n_s_binascii, __pyx_k_binascii, sizeof(__pyx_k_binascii), 0, 0, 1, 1},
   {&__pyx_n_s_cache, __pyx_k_cache, sizeof(__pyx_k_cache), 0, 0, 1, 1},
   {&__pyx_n_s_cache_key, __pyx_k_cache_key, sizeof(__pyx_k_cache_key), 0, 0, 1, 1},
@@ -8343,7 +8317,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cls, __pyx_k_cls, sizeof(__pyx_k_cls), 0, 0, 1, 1},
   {&__pyx_n_s_code, __pyx_k_code, sizeof(__pyx_k_code), 0, 0, 1, 1},
   {&__pyx_kp_u_code_2, __pyx_k_code_2, sizeof(__pyx_k_code_2), 0, 1, 0, 0},
-  {&__pyx_n_s_codes, __pyx_k_codes, sizeof(__pyx_k_codes), 0, 0, 1, 1},
+  {&__pyx_n_u_codes, __pyx_k_codes, sizeof(__pyx_k_codes), 0, 1, 0, 1},
   {&__pyx_n_s_codes_controller, __pyx_k_codes_controller, sizeof(__pyx_k_codes_controller), 0, 0, 1, 1},
   {&__pyx_n_s_commit, __pyx_k_commit, sizeof(__pyx_k_commit), 0, 0, 1, 1},
   {&__pyx_n_s_connection, __pyx_k_connection, sizeof(__pyx_k_connection), 0, 0, 1, 1},
@@ -8351,11 +8325,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_count, __pyx_k_count, sizeof(__pyx_k_count), 0, 0, 1, 1},
   {&__pyx_n_s_create_blocking_redis_client, __pyx_k_create_blocking_redis_client, sizeof(__pyx_k_create_blocking_redis_client), 0, 0, 1, 1},
   {&__pyx_n_s_cryptomodule, __pyx_k_cryptomodule, sizeof(__pyx_k_cryptomodule), 0, 0, 1, 1},
-  {&__pyx_n_s_cryptomoduleId, __pyx_k_cryptomoduleId, sizeof(__pyx_k_cryptomoduleId), 0, 0, 1, 1},
+  {&__pyx_n_u_cryptomoduleId, __pyx_k_cryptomoduleId, sizeof(__pyx_k_cryptomoduleId), 0, 1, 0, 1},
   {&__pyx_n_s_cryptomodule_id, __pyx_k_cryptomodule_id, sizeof(__pyx_k_cryptomodule_id), 0, 0, 1, 1},
   {&__pyx_n_s_cryptomodules, __pyx_k_cryptomodules, sizeof(__pyx_k_cryptomodules), 0, 0, 1, 1},
   {&__pyx_n_s_cryptoutil, __pyx_k_cryptoutil, sizeof(__pyx_k_cryptoutil), 0, 0, 1, 1},
-  {&__pyx_kp_s_d_4_d_2_d_2, __pyx_k_d_4_d_2_d_2, sizeof(__pyx_k_d_4_d_2_d_2), 0, 0, 1, 0},
+  {&__pyx_kp_u_d_4_d_2_d_2, __pyx_k_d_4_d_2_d_2, sizeof(__pyx_k_d_4_d_2_d_2), 0, 1, 0, 0},
   {&__pyx_n_s_db, __pyx_k_db, sizeof(__pyx_k_db), 0, 0, 1, 1},
   {&__pyx_n_s_decode, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
   {&__pyx_n_s_delete, __pyx_k_delete, sizeof(__pyx_k_delete), 0, 0, 1, 1},
@@ -8365,19 +8339,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_enabled, __pyx_k_enabled, sizeof(__pyx_k_enabled), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_ensure, __pyx_k_ensure, sizeof(__pyx_k_ensure), 0, 0, 1, 1},
   {&__pyx_n_s_ensure_device, __pyx_k_ensure_device, sizeof(__pyx_k_ensure_device), 0, 0, 1, 1},
-  {&__pyx_n_s_epoch, __pyx_k_epoch, sizeof(__pyx_k_epoch), 0, 0, 1, 1},
+  {&__pyx_n_u_epoch, __pyx_k_epoch, sizeof(__pyx_k_epoch), 0, 1, 0, 1},
   {&__pyx_n_s_event, __pyx_k_event, sizeof(__pyx_k_event), 0, 0, 1, 1},
   {&__pyx_n_s_exact, __pyx_k_exact, sizeof(__pyx_k_exact), 0, 0, 1, 1},
   {&__pyx_n_s_execute, __pyx_k_execute, sizeof(__pyx_k_execute), 0, 0, 1, 1},
   {&__pyx_n_s_exists, __pyx_k_exists, sizeof(__pyx_k_exists), 0, 0, 1, 1},
-  {&__pyx_n_s_expireDate, __pyx_k_expireDate, sizeof(__pyx_k_expireDate), 0, 0, 1, 1},
+  {&__pyx_n_u_expireDate, __pyx_k_expireDate, sizeof(__pyx_k_expireDate), 0, 1, 0, 1},
   {&__pyx_n_s_expire_date, __pyx_k_expire_date, sizeof(__pyx_k_expire_date), 0, 0, 1, 1},
   {&__pyx_n_s_expose, __pyx_k_expose, sizeof(__pyx_k_expose), 0, 0, 1, 1},
   {&__pyx_n_s_extract, __pyx_k_extract, sizeof(__pyx_k_extract), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_filter, __pyx_k_filter, sizeof(__pyx_k_filter), 0, 0, 1, 1},
   {&__pyx_n_s_find_or_create_token, __pyx_k_find_or_create_token, sizeof(__pyx_k_find_or_create_token), 0, 0, 1, 1},
   {&__pyx_n_s_flush, __pyx_k_flush, sizeof(__pyx_k_flush), 0, 0, 1, 1},
@@ -8413,6 +8385,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_modules, __pyx_k_modules, sizeof(__pyx_k_modules), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_n_u_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 1, 0, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_nanohttp, __pyx_k_nanohttp, sizeof(__pyx_k_nanohttp), 0, 0, 1, 1},
   {&__pyx_n_s_oath, __pyx_k_oath, sizeof(__pyx_k_oath), 0, 0, 1, 1},
@@ -8424,6 +8397,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pattern, __pyx_k_pattern, sizeof(__pyx_k_pattern), 0, 0, 1, 1},
   {&__pyx_n_s_pbkdf2_hmac, __pyx_k_pbkdf2_hmac, sizeof(__pyx_k_pbkdf2_hmac), 0, 0, 1, 1},
   {&__pyx_n_s_phone, __pyx_k_phone, sizeof(__pyx_k_phone), 0, 0, 1, 1},
+  {&__pyx_n_u_phone, __pyx_k_phone, sizeof(__pyx_k_phone), 0, 1, 0, 1},
   {&__pyx_n_s_pinblock, __pyx_k_pinblock, sizeof(__pyx_k_pinblock), 0, 0, 1, 1},
   {&__pyx_n_s_port, __pyx_k_port, sizeof(__pyx_k_port), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
@@ -8431,7 +8405,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_property, __pyx_k_property, sizeof(__pyx_k_property), 0, 0, 1, 1},
   {&__pyx_n_s_provision, __pyx_k_provision, sizeof(__pyx_k_provision), 0, 0, 1, 1},
-  {&__pyx_n_s_provisioning, __pyx_k_provisioning, sizeof(__pyx_k_provisioning), 0, 0, 1, 1},
+  {&__pyx_n_u_provisioning, __pyx_k_provisioning, sizeof(__pyx_k_provisioning), 0, 1, 0, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_query, __pyx_k_query, sizeof(__pyx_k_query), 0, 0, 1, 1},
   {&__pyx_n_s_query_string, __pyx_k_query_string, sizeof(__pyx_k_query_string), 0, 0, 1, 1},
@@ -8453,9 +8427,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_set, __pyx_k_set, sizeof(__pyx_k_set), 0, 0, 1, 1},
   {&__pyx_n_s_settings, __pyx_k_settings, sizeof(__pyx_k_settings), 0, 0, 1, 1},
-  {&__pyx_n_s_sha256, __pyx_k_sha256, sizeof(__pyx_k_sha256), 0, 0, 1, 1},
+  {&__pyx_n_u_sha256, __pyx_k_sha256, sizeof(__pyx_k_sha256), 0, 1, 0, 1},
   {&__pyx_n_s_socket_timeout, __pyx_k_socket_timeout, sizeof(__pyx_k_socket_timeout), 0, 0, 1, 1},
   {&__pyx_n_s_soft, __pyx_k_soft, sizeof(__pyx_k_soft), 0, 0, 1, 1},
+  {&__pyx_n_u_soft, __pyx_k_soft, sizeof(__pyx_k_soft), 0, 1, 0, 1},
   {&__pyx_n_s_split, __pyx_k_split, sizeof(__pyx_k_split), 0, 0, 1, 1},
   {&__pyx_n_s_sqlalchemy, __pyx_k_sqlalchemy, sizeof(__pyx_k_sqlalchemy), 0, 0, 1, 1},
   {&__pyx_n_s_staticmethod, __pyx_k_staticmethod, sizeof(__pyx_k_staticmethod), 0, 0, 1, 1},
@@ -8472,6 +8447,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_tokens, __pyx_k_tokens, sizeof(__pyx_k_tokens), 0, 0, 1, 1},
   {&__pyx_n_s_types, __pyx_k_types, sizeof(__pyx_k_types), 0, 0, 1, 1},
   {&__pyx_n_s_udid, __pyx_k_udid, sizeof(__pyx_k_udid), 0, 0, 1, 1},
+  {&__pyx_n_u_udid, __pyx_k_udid, sizeof(__pyx_k_udid), 0, 1, 0, 1},
   {&__pyx_n_s_unhexlify, __pyx_k_unhexlify, sizeof(__pyx_k_unhexlify), 0, 0, 1, 1},
   {&__pyx_n_s_update_from_request, __pyx_k_update_from_request, sizeof(__pyx_k_update_from_request), 0, 0, 1, 1},
   {&__pyx_n_s_validate_form, __pyx_k_validate_form, sizeof(__pyx_k_validate_form), 0, 0, 1, 1},
@@ -8480,6 +8456,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_verify, __pyx_k_verify, sizeof(__pyx_k_verify), 0, 0, 1, 1},
   {&__pyx_n_s_verify_limit, __pyx_k_verify_limit, sizeof(__pyx_k_verify_limit), 0, 0, 1, 1},
   {&__pyx_n_s_version, __pyx_k_version, sizeof(__pyx_k_version), 0, 0, 1, 1},
+  {&__pyx_n_u_version, __pyx_k_version, sizeof(__pyx_k_version), 0, 1, 0, 1},
   {&__pyx_n_s_version_2, __pyx_k_version_2, sizeof(__pyx_k_version_2), 0, 0, 1, 1},
   {&__pyx_n_s_window, __pyx_k_window, sizeof(__pyx_k_window), 0, 0, 1, 1},
   {&__pyx_n_s_wolf, __pyx_k_wolf, sizeof(__pyx_k_wolf), 0, 0, 1, 1},
@@ -8487,14 +8464,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_wolf_controllers_pyx, __pyx_k_wolf_controllers_pyx, sizeof(__pyx_k_wolf_controllers_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_wolf_exceptions, __pyx_k_wolf_exceptions, sizeof(__pyx_k_wolf_exceptions), 0, 0, 1, 1},
   {&__pyx_n_s_wolf_models, __pyx_k_wolf_models, sizeof(__pyx_k_wolf_models), 0, 0, 1, 1},
-  {&__pyx_n_s_yes, __pyx_k_yes, sizeof(__pyx_k_yes), 0, 0, 1, 1},
+  {&__pyx_n_u_yes, __pyx_k_yes, sizeof(__pyx_k_yes), 0, 1, 0, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_staticmethod = __Pyx_GetBuiltinName(__pyx_n_s_staticmethod); if (!__pyx_builtin_staticmethod) __PYX_ERR(0, 38, __pyx_L1_error)
-  __pyx_builtin_property = __Pyx_GetBuiltinName(__pyx_n_s_property); if (!__pyx_builtin_property) __PYX_ERR(0, 74, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 190, __pyx_L1_error)
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_builtin_staticmethod = __Pyx_GetBuiltinName(__pyx_n_s_staticmethod); if (!__pyx_builtin_staticmethod) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_builtin_property = __Pyx_GetBuiltinName(__pyx_n_s_property); if (!__pyx_builtin_property) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 209, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -8504,311 +8482,311 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "wolf/controllers.pyx":28
+  /* "wolf/controllers.pyx":30
  *     _redis = None
  * 
  *     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,             # <<<<<<<<<<<<<<
  *                  same_code_verify_counter=0):
  *         self.id = id
  */
-  __pyx_tuple__27 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_id, __pyx_n_s_seed, __pyx_n_s_expire_date, __pyx_n_s_is_active, __pyx_n_s_cryptomodule_id, __pyx_n_s_last_code, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_id, __pyx_n_s_seed, __pyx_n_s_expire_date, __pyx_n_s_is_active, __pyx_n_s_cryptomodule_id, __pyx_n_s_last_code, __pyx_n_s_same_code_verify_counter); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_init, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 28, __pyx_L1_error)
-  __pyx_tuple__28 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_init, 30, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(2, ((PyObject *)Py_None), ((PyObject *)__pyx_int_0)); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
-  /* "wolf/controllers.pyx":39
+  /* "wolf/controllers.pyx":41
  * 
  *     @staticmethod
  *     def create_blocking_redis_client():             # <<<<<<<<<<<<<<
  *         return redis.StrictRedis(
  *             host=settings.token.redis.host,
  */
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_create_blocking_redis_client, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_create_blocking_redis_client, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 41, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":50
+  /* "wolf/controllers.pyx":52
  * 
  *     @classmethod
  *     def redis(cls):             # <<<<<<<<<<<<<<
  *         if cls._redis is None:
  *             cls._redis = cls.create_blocking_redis_client()
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_n_s_cls); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_redis, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_redis, 52, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 52, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":56
+  /* "wolf/controllers.pyx":58
  * 
  *     @classmethod
  *     def load_from_database(cls, token_id):             # <<<<<<<<<<<<<<
  *         row = DBSession.query(
  *             Token.id,
  */
-  __pyx_tuple__30 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_token_id, __pyx_n_s_row); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(3, __pyx_n_s_cls, __pyx_n_s_token_id, __pyx_n_s_row); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_load_from_database, 56, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_load_from_database, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 58, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":67
+  /* "wolf/controllers.pyx":69
  * 
  *     @classmethod
  *     def load(cls, token_id, cache=False):             # <<<<<<<<<<<<<<
  *         if cache:
  *             token = cls.load_from_cache(token_id)
  */
-  __pyx_tuple__31 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_token_id, __pyx_n_s_cache, __pyx_n_s_token); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_token_id, __pyx_n_s_cache, __pyx_n_s_token); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_load, 67, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 67, __pyx_L1_error)
-  __pyx_tuple__32 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_load, 69, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_tuple__32 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
 
-  /* "wolf/controllers.pyx":75
+  /* "wolf/controllers.pyx":77
  * 
  *     @property
  *     def is_expired(self):             # <<<<<<<<<<<<<<
  *         return self.expire_date <= time.time()
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_is_expired, 75, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_is_expired, 77, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 77, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":79
+  /* "wolf/controllers.pyx":81
  * 
  *     @property
  *     def cryptomodules(self):             # <<<<<<<<<<<<<<
  *         global cached_cryptomodules
  *         if cached_cryptomodules is None:
  */
-  __pyx_tuple__34 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_modules, __pyx_n_s_m); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_tuple__34 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_modules, __pyx_n_s_m); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__34);
   __Pyx_GIVEREF(__pyx_tuple__34);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_cryptomodules, 79, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_cryptomodules, 81, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 81, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":91
+  /* "wolf/controllers.pyx":93
  * 
  *     @property
  *     def cryptomodule(self):             # <<<<<<<<<<<<<<
  *         return self.cryptomodules[self.cryptomodule_id]
  * 
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_cryptomodule, 91, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_cryptomodule, 93, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 93, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":95
+  /* "wolf/controllers.pyx":97
  * 
  *     @property
  *     def time_interval(self):             # <<<<<<<<<<<<<<
  *         return self.cryptomodule[1]
  * 
  */
-  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_time_interval, 95, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_time_interval, 97, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 97, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":99
+  /* "wolf/controllers.pyx":101
  * 
  *     @property
  *     def length(self):             # <<<<<<<<<<<<<<
  *         return self.cryptomodule[2]
  * 
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_length, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_length, 101, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 101, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":102
+  /* "wolf/controllers.pyx":104
  *         return self.cryptomodule[2]
  * 
  *     def verify(self, code, window, soft=False):             # <<<<<<<<<<<<<<
  *         if self.last_code == code:
  * 
  */
-  __pyx_tuple__38 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_code, __pyx_n_s_window, __pyx_n_s_soft, __pyx_n_s_pinblock, __pyx_n_s_otp); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_code, __pyx_n_s_window, __pyx_n_s_soft, __pyx_n_s_pinblock, __pyx_n_s_otp); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_verify, 102, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 102, __pyx_L1_error)
-  __pyx_tuple__39 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_verify, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(1, ((PyObject *)Py_False)); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
 
-  /* "wolf/controllers.pyx":120
+  /* "wolf/controllers.pyx":122
  *             .verify(otp, window)
  * 
  *     def cache(self):             # <<<<<<<<<<<<<<
  *         self.redis().set(
  *             str(self.id),
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_cache, 120, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_cache, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 122, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":134
+  /* "wolf/controllers.pyx":136
  * 
  *     @classmethod
  *     def load_from_cache(cls, token_id):             # <<<<<<<<<<<<<<
  *         cache_key = str(token_id)
  *         redis = cls.redis()
  */
-  __pyx_tuple__41 = PyTuple_Pack(5, __pyx_n_s_cls, __pyx_n_s_token_id, __pyx_n_s_cache_key, __pyx_n_s_redis, __pyx_n_s_token); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(5, __pyx_n_s_cls, __pyx_n_s_token_id, __pyx_n_s_cache_key, __pyx_n_s_redis, __pyx_n_s_token); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_load_from_cache, 134, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_load_from_cache, 136, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 136, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":151
+  /* "wolf/controllers.pyx":153
  * 
  *     @classmethod
  *     def invalidate(cls, token_id):             # <<<<<<<<<<<<<<
  *         cls.redis().delete(token_id)
  * 
  */
-  __pyx_tuple__42 = PyTuple_Pack(2, __pyx_n_s_cls, __pyx_n_s_token_id); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(2, __pyx_n_s_cls, __pyx_n_s_token_id); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_invalidate, 151, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_invalidate, 153, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 153, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":155
+  /* "wolf/controllers.pyx":157
  * 
  *     @classmethod
  *     def after_update(cls, mapper, connection, target):             # <<<<<<<<<<<<<<
  *         if settings.token.redis.enabled:
  *             cls.invalidate(target.id)
  */
-  __pyx_tuple__43 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_mapper, __pyx_n_s_connection, __pyx_n_s_target); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(4, __pyx_n_s_cls, __pyx_n_s_mapper, __pyx_n_s_connection, __pyx_n_s_target); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_after_update, 155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_after_update, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 157, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":166
+  /* "wolf/controllers.pyx":168
  * 
  *     @LazyAttribute
  *     def window(self):             # <<<<<<<<<<<<<<
  *         return settings.oath.window
  * 
  */
-  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_window, 166, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_window, 168, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 168, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":170
+  /* "wolf/controllers.pyx":172
  * 
  *     @action
  *     def verify(self, token_id, code):             # <<<<<<<<<<<<<<
  *         print(f'Verifying token_id={token_id} code={code}')
  *         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
  */
-  __pyx_tuple__45 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_token_id, __pyx_n_s_code, __pyx_n_s_token, __pyx_n_s_soft, __pyx_n_s_is_valid); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_token_id, __pyx_n_s_code, __pyx_n_s_token, __pyx_n_s_soft, __pyx_n_s_is_valid); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_verify, 170, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_verify, 172, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 172, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":206
+  /* "wolf/controllers.pyx":208
  *     __model__ = Token
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
  *         super().__init__()
  *         self.codes_controller = CodesController()
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_init, 206, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_init, 208, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 208, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":210
+  /* "wolf/controllers.pyx":212
  *         self.codes_controller = CodesController()
  * 
  *     def __call__(self, *remaining_paths):             # <<<<<<<<<<<<<<
  *         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
  *             return self.codes_controller(remaining_paths[0], *remaining_paths[2:])
  */
-  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_remaining_paths); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_remaining_paths); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__47);
   __Pyx_GIVEREF(__pyx_tuple__47);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_call, 210, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_call, 212, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 212, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":216
+  /* "wolf/controllers.pyx":218
  * 
  *     @staticmethod
  *     def _validate_token(token):             # <<<<<<<<<<<<<<
  *         if token.is_expired:
  *             raise ExpiredTokenError()
  */
-  __pyx_tuple__48 = PyTuple_Pack(1, __pyx_n_s_token); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_tuple__48 = PyTuple_Pack(1, __pyx_n_s_token); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__48);
   __Pyx_GIVEREF(__pyx_tuple__48);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_validate_token, 216, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_validate_token, 218, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 218, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":224
+  /* "wolf/controllers.pyx":226
  * 
  *     @staticmethod
  *     def _ensure_device():             # <<<<<<<<<<<<<<
  *         phone = int(context.form['phone'])
  *         # Checking the device
  */
-  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_n_s_phone, __pyx_n_s_device); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_n_s_phone, __pyx_n_s_device); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__49);
   __Pyx_GIVEREF(__pyx_tuple__49);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_ensure_device, 224, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_ensure_device, 226, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 226, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":234
+  /* "wolf/controllers.pyx":236
  * 
  *     @staticmethod
  *     def _find_or_create_token():             # <<<<<<<<<<<<<<
  *         name = context.form['name']
  *         phone = context.form['phone']
  */
-  __pyx_tuple__50 = PyTuple_Pack(4, __pyx_n_s_name, __pyx_n_s_phone, __pyx_n_s_cryptomodule_id, __pyx_n_s_token); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __pyx_tuple__50 = PyTuple_Pack(4, __pyx_n_s_name, __pyx_n_s_phone, __pyx_n_s_cryptomodule_id, __pyx_n_s_token); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__50);
   __Pyx_GIVEREF(__pyx_tuple__50);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_find_or_create_token, 234, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_find_or_create_token, 236, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 236, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":265
+  /* "wolf/controllers.pyx":267
  *     @Token.expose
  *     @commit
  *     def ensure(self):             # <<<<<<<<<<<<<<
  *         # TODO: type validation
  *         device = self._ensure_device()
  */
-  __pyx_tuple__51 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_device, __pyx_n_s_token, __pyx_n_s_result); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_tuple__51 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_device, __pyx_n_s_token, __pyx_n_s_result); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__51);
   __Pyx_GIVEREF(__pyx_tuple__51);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_ensure, 265, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_ensure, 267, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 267, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":287
+  /* "wolf/controllers.pyx":289
  *     @Device.expose
  *     @commit
  *     def register(self):             # <<<<<<<<<<<<<<
  *         phone = context.form['phone']
  *         udid = context.form['udid']
  */
-  __pyx_tuple__52 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_phone, __pyx_n_s_udid, __pyx_n_s_device, __pyx_n_s_secret_key); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_phone, __pyx_n_s_udid, __pyx_n_s_device, __pyx_n_s_secret_key); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__52);
   __Pyx_GIVEREF(__pyx_tuple__52);
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_register, 287, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_register, 289, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 289, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":313
+  /* "wolf/controllers.pyx":315
  * 
  *     @json
  *     def version(self):             # <<<<<<<<<<<<<<
  *         return {
  *             'version': wolf.__version__
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__53);
   __Pyx_GIVEREF(__pyx_tuple__53);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_version, 313, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_controllers_pyx, __pyx_n_s_version, 315, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -9104,77 +9082,80 @@ if (!__Pyx_RefNanny) {
   #endif
   __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_controllers(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
-  /* "wolf/controllers.pyx":1
+  /* "wolf/controllers.pyx":3
+ * # cython: language_level=3
+ * 
  * import functools             # <<<<<<<<<<<<<<
  * import hashlib
  * import time
  */
-  __Pyx_TraceLine(1,0,__PYX_ERR(0, 1, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_TraceLine(3,0,__PYX_ERR(0, 3, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_functools, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_functools, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":2
+  /* "wolf/controllers.pyx":4
+ * 
  * import functools
  * import hashlib             # <<<<<<<<<<<<<<
  * import time
  * import binascii
  */
-  __Pyx_TraceLine(2,0,__PYX_ERR(0, 2, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_hashlib, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_TraceLine(4,0,__PYX_ERR(0, 4, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_hashlib, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_hashlib, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_hashlib, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":3
+  /* "wolf/controllers.pyx":5
  * import functools
  * import hashlib
  * import time             # <<<<<<<<<<<<<<
  * import binascii
  * 
  */
-  __Pyx_TraceLine(3,0,__PYX_ERR(0, 3, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_TraceLine(5,0,__PYX_ERR(0, 5, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":4
+  /* "wolf/controllers.pyx":6
  * import hashlib
  * import time
  * import binascii             # <<<<<<<<<<<<<<
  * 
  * import redis
  */
-  __Pyx_TraceLine(4,0,__PYX_ERR(0, 4, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_binascii, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_TraceLine(6,0,__PYX_ERR(0, 6, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_binascii, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_binascii, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_binascii, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":6
+  /* "wolf/controllers.pyx":8
  * import binascii
  * 
  * import redis             # <<<<<<<<<<<<<<
  * from nanohttp import json, context, action, settings, RestController, \
  *     HttpBadRequest, HttpNotFound, LazyAttribute, Controller
  */
-  __Pyx_TraceLine(6,0,__PYX_ERR(0, 6, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_redis, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_TraceLine(8,0,__PYX_ERR(0, 8, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_redis, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_redis, __pyx_t_1) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_redis, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":7
+  /* "wolf/controllers.pyx":9
  * 
  * import redis
  * from nanohttp import json, context, action, settings, RestController, \             # <<<<<<<<<<<<<<
  *     HttpBadRequest, HttpNotFound, LazyAttribute, Controller
  * from oathcy.otp import TOTP
  */
-  __Pyx_TraceLine(7,0,__PYX_ERR(0, 7, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_json);
   __Pyx_GIVEREF(__pyx_n_s_json);
@@ -9203,78 +9184,78 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_Controller);
   __Pyx_GIVEREF(__pyx_n_s_Controller);
   PyList_SET_ITEM(__pyx_t_1, 8, __pyx_n_s_Controller);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_nanohttp, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_nanohttp, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_json); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_json); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_json, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_context); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_context, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_context, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_action); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_action); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_action, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_action, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_settings); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_settings, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_settings, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_RestController); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_RestController); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RestController, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RestController, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HttpBadRequest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HttpBadRequest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_HttpBadRequest, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_HttpBadRequest, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HttpNotFound); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HttpNotFound); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_HttpNotFound, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_HttpNotFound, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_LazyAttribute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_LazyAttribute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LazyAttribute, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LazyAttribute, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Controller); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Controller); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Controller, __pyx_t_1) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Controller, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":9
+  /* "wolf/controllers.pyx":11
  * from nanohttp import json, context, action, settings, RestController, \
  *     HttpBadRequest, HttpNotFound, LazyAttribute, Controller
  * from oathcy.otp import TOTP             # <<<<<<<<<<<<<<
  * from restfulpy.controllers import ModelRestController, RootController
  * from restfulpy.orm import commit, DBSession
  */
-  __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_TraceLine(11,0,__PYX_ERR(0, 11, __pyx_L1_error))
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_TOTP);
   __Pyx_GIVEREF(__pyx_n_s_TOTP);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_TOTP);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_oathcy_otp, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_oathcy_otp, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_TOTP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TOTP, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TOTP, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":10
+  /* "wolf/controllers.pyx":12
  *     HttpBadRequest, HttpNotFound, LazyAttribute, Controller
  * from oathcy.otp import TOTP
  * from restfulpy.controllers import ModelRestController, RootController             # <<<<<<<<<<<<<<
  * from restfulpy.orm import commit, DBSession
  * from restfulpy.validation import validate_form, prevent_form
  */
-  __Pyx_TraceLine(10,0,__PYX_ERR(0, 10, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_TraceLine(12,0,__PYX_ERR(0, 12, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_ModelRestController);
   __Pyx_GIVEREF(__pyx_n_s_ModelRestController);
@@ -9282,28 +9263,28 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_RootController);
   __Pyx_GIVEREF(__pyx_n_s_RootController);
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_RootController);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_controllers, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_controllers, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ModelRestController); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ModelRestController); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ModelRestController, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ModelRestController, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_RootController); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_RootController); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RootController, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RootController, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":11
+  /* "wolf/controllers.pyx":13
  * from oathcy.otp import TOTP
  * from restfulpy.controllers import ModelRestController, RootController
  * from restfulpy.orm import commit, DBSession             # <<<<<<<<<<<<<<
  * from restfulpy.validation import validate_form, prevent_form
  * from sqlalchemy import text, extract, event
  */
-  __Pyx_TraceLine(11,0,__PYX_ERR(0, 11, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_TraceLine(13,0,__PYX_ERR(0, 13, __pyx_L1_error))
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_commit);
   __Pyx_GIVEREF(__pyx_n_s_commit);
@@ -9311,28 +9292,28 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_DBSession);
   __Pyx_GIVEREF(__pyx_n_s_DBSession);
   PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_DBSession);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_restfulpy_orm, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_restfulpy_orm, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_commit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_commit); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_commit, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_commit, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DBSession, __pyx_t_2) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DBSession, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":12
+  /* "wolf/controllers.pyx":14
  * from restfulpy.controllers import ModelRestController, RootController
  * from restfulpy.orm import commit, DBSession
  * from restfulpy.validation import validate_form, prevent_form             # <<<<<<<<<<<<<<
  * from sqlalchemy import text, extract, event
  * 
  */
-  __Pyx_TraceLine(12,0,__PYX_ERR(0, 12, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_TraceLine(14,0,__PYX_ERR(0, 14, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_validate_form);
   __Pyx_GIVEREF(__pyx_n_s_validate_form);
@@ -9340,28 +9321,28 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_prevent_form);
   __Pyx_GIVEREF(__pyx_n_s_prevent_form);
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_prevent_form);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_validation, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_validation, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_validate_form, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_validate_form, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_prevent_form); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_prevent_form); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_prevent_form, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_prevent_form, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":13
+  /* "wolf/controllers.pyx":15
  * from restfulpy.orm import commit, DBSession
  * from restfulpy.validation import validate_form, prevent_form
  * from sqlalchemy import text, extract, event             # <<<<<<<<<<<<<<
  * 
  * import wolf
  */
-  __Pyx_TraceLine(13,0,__PYX_ERR(0, 13, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_TraceLine(15,0,__PYX_ERR(0, 15, __pyx_L1_error))
+  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_text);
   __Pyx_GIVEREF(__pyx_n_s_text);
@@ -9372,67 +9353,67 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_event);
   __Pyx_GIVEREF(__pyx_n_s_event);
   PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_event);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sqlalchemy, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_sqlalchemy, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_text, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_text, __pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_extract); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_extract); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_extract, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_extract, __pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_event); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_event); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_event, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_event, __pyx_t_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":15
+  /* "wolf/controllers.pyx":17
  * from sqlalchemy import text, extract, event
  * 
  * import wolf             # <<<<<<<<<<<<<<
  * from wolf import cryptoutil
  * from wolf.exceptions import DeviceNotFoundError, DeactivatedTokenError, \
  */
-  __Pyx_TraceLine(15,0,__PYX_ERR(0, 15, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_wolf, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_wolf, __pyx_t_1) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":16
+  /* "wolf/controllers.pyx":18
  * 
  * import wolf
  * from wolf import cryptoutil             # <<<<<<<<<<<<<<
  * from wolf.exceptions import DeviceNotFoundError, DeactivatedTokenError, \
  *     ExpiredTokenError
  */
-  __Pyx_TraceLine(16,0,__PYX_ERR(0, 16, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_TraceLine(18,0,__PYX_ERR(0, 18, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_cryptoutil);
   __Pyx_GIVEREF(__pyx_n_s_cryptoutil);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_cryptoutil);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_wolf, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_wolf, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_cryptoutil); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_cryptoutil); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cryptoutil, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cryptoutil, __pyx_t_1) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":17
+  /* "wolf/controllers.pyx":19
  * import wolf
  * from wolf import cryptoutil
  * from wolf.exceptions import DeviceNotFoundError, DeactivatedTokenError, \             # <<<<<<<<<<<<<<
  *     ExpiredTokenError
  * from wolf.models import Device, Cryptomodule, Token
  */
-  __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_TraceLine(19,0,__PYX_ERR(0, 19, __pyx_L1_error))
+  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_DeviceNotFoundError);
   __Pyx_GIVEREF(__pyx_n_s_DeviceNotFoundError);
@@ -9443,32 +9424,32 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_ExpiredTokenError);
   __Pyx_GIVEREF(__pyx_n_s_ExpiredTokenError);
   PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_ExpiredTokenError);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf_exceptions, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf_exceptions, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_DeviceNotFoundError); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_DeviceNotFoundError); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeviceNotFoundError, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeviceNotFoundError, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_DeactivatedTokenError); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_DeactivatedTokenError); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeactivatedTokenError, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeactivatedTokenError, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_ExpiredTokenError); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_ExpiredTokenError); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ExpiredTokenError, __pyx_t_2) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ExpiredTokenError, __pyx_t_2) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":19
+  /* "wolf/controllers.pyx":21
  * from wolf.exceptions import DeviceNotFoundError, DeactivatedTokenError, \
  *     ExpiredTokenError
  * from wolf.models import Device, Cryptomodule, Token             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(19,0,__PYX_ERR(0, 19, __pyx_L1_error))
-  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_TraceLine(21,0,__PYX_ERR(0, 21, __pyx_L1_error))
+  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_Device);
   __Pyx_GIVEREF(__pyx_n_s_Device);
@@ -9479,487 +9460,487 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_Token);
   __Pyx_GIVEREF(__pyx_n_s_Token);
   PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_Token);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_wolf_models, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_wolf_models, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Device); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Device); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Device, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Device, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Cryptomodule, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Cryptomodule, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Token); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Token); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Token, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Token, __pyx_t_1) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":22
+  /* "wolf/controllers.pyx":24
  * 
  * 
  * cached_cryptomodules = None             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(22,0,__PYX_ERR(0, 22, __pyx_L1_error))
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cached_cryptomodules, Py_None) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_TraceLine(24,0,__PYX_ERR(0, 24, __pyx_L1_error))
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cached_cryptomodules, Py_None) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":25
+  /* "wolf/controllers.pyx":27
  * 
  * 
  * class MiniToken:             # <<<<<<<<<<<<<<
  *     _redis = None
  * 
  */
-  __Pyx_TraceLine(25,0,__PYX_ERR(0, 25, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_MiniToken, __pyx_n_s_MiniToken, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_TraceLine(27,0,__PYX_ERR(0, 27, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_MiniToken, __pyx_n_s_MiniToken, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "wolf/controllers.pyx":26
+  /* "wolf/controllers.pyx":28
  * 
  * class MiniToken:
  *     _redis = None             # <<<<<<<<<<<<<<
  * 
  *     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,
  */
-  __Pyx_TraceLine(26,0,__PYX_ERR(0, 26, __pyx_L1_error))
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_redis_2, Py_None) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_TraceLine(28,0,__PYX_ERR(0, 28, __pyx_L1_error))
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_redis_2, Py_None) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":28
+  /* "wolf/controllers.pyx":30
  *     _redis = None
  * 
  *     def __init__(self, id, seed, expire_date, is_active, cryptomodule_id, last_code=None,             # <<<<<<<<<<<<<<
  *                  same_code_verify_counter=0):
  *         self.id = id
  */
-  __Pyx_TraceLine(28,0,__PYX_ERR(0, 28, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_1__init__, 0, __pyx_n_s_MiniToken___init, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj_)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_TraceLine(30,0,__PYX_ERR(0, 30, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_1__init__, 0, __pyx_n_s_MiniToken___init, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj_)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_1, __pyx_tuple__28);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_1) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_init, __pyx_t_1) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":39
+  /* "wolf/controllers.pyx":41
  * 
  *     @staticmethod
  *     def create_blocking_redis_client():             # <<<<<<<<<<<<<<
  *         return redis.StrictRedis(
  *             host=settings.token.redis.host,
  */
-  __Pyx_TraceLine(39,0,__PYX_ERR(0, 39, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_3create_blocking_redis_client, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_MiniToken_create_blocking_redis, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __Pyx_TraceLine(41,0,__PYX_ERR(0, 41, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_3create_blocking_redis_client, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_MiniToken_create_blocking_redis, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":38
+  /* "wolf/controllers.pyx":40
  *         self.same_code_verify_counter = same_code_verify_counter
  * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def create_blocking_redis_client():
  *         return redis.StrictRedis(
  */
-  __Pyx_TraceLine(38,0,__PYX_ERR(0, 38, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_TraceLine(40,0,__PYX_ERR(0, 40, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_create_blocking_redis_client, __pyx_t_3) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_create_blocking_redis_client, __pyx_t_3) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":50
+  /* "wolf/controllers.pyx":52
  * 
  *     @classmethod
  *     def redis(cls):             # <<<<<<<<<<<<<<
  *         if cls._redis is None:
  *             cls._redis = cls.create_blocking_redis_client()
  */
-  __Pyx_TraceLine(50,0,__PYX_ERR(0, 50, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_5redis, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_redis, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __Pyx_TraceLine(52,0,__PYX_ERR(0, 52, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_5redis, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_redis, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/controllers.pyx":49
+  /* "wolf/controllers.pyx":51
  *         )
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def redis(cls):
  *         if cls._redis is None:
  */
-  __Pyx_TraceLine(49,0,__PYX_ERR(0, 49, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_TraceLine(51,0,__PYX_ERR(0, 51, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_redis, __pyx_t_1) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_redis, __pyx_t_1) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":56
+  /* "wolf/controllers.pyx":58
  * 
  *     @classmethod
  *     def load_from_database(cls, token_id):             # <<<<<<<<<<<<<<
  *         row = DBSession.query(
  *             Token.id,
  */
-  __Pyx_TraceLine(56,0,__PYX_ERR(0, 56, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_7load_from_database, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_load_from_database, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __Pyx_TraceLine(58,0,__PYX_ERR(0, 58, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_7load_from_database, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_load_from_database, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":55
+  /* "wolf/controllers.pyx":57
  *         return cls._redis
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def load_from_database(cls, token_id):
  *         row = DBSession.query(
  */
-  __Pyx_TraceLine(55,0,__PYX_ERR(0, 55, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_Method_ClassMethod(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_TraceLine(57,0,__PYX_ERR(0, 57, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_Method_ClassMethod(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_load_from_database, __pyx_t_3) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_load_from_database, __pyx_t_3) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":67
+  /* "wolf/controllers.pyx":69
  * 
  *     @classmethod
  *     def load(cls, token_id, cache=False):             # <<<<<<<<<<<<<<
  *         if cache:
  *             token = cls.load_from_cache(token_id)
  */
-  __Pyx_TraceLine(67,0,__PYX_ERR(0, 67, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_9load, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_load, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __Pyx_TraceLine(69,0,__PYX_ERR(0, 69, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_9load, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_load, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__32);
 
-  /* "wolf/controllers.pyx":66
+  /* "wolf/controllers.pyx":68
  *         return cls(*row) if row else None
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def load(cls, token_id, cache=False):
  *         if cache:
  */
-  __Pyx_TraceLine(66,0,__PYX_ERR(0, 66, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __Pyx_TraceLine(68,0,__PYX_ERR(0, 68, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_load, __pyx_t_1) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_load, __pyx_t_1) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":75
+  /* "wolf/controllers.pyx":77
  * 
  *     @property
  *     def is_expired(self):             # <<<<<<<<<<<<<<
  *         return self.expire_date <= time.time()
  * 
  */
-  __Pyx_TraceLine(75,0,__PYX_ERR(0, 75, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_11is_expired, 0, __pyx_n_s_MiniToken_is_expired, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __Pyx_TraceLine(77,0,__PYX_ERR(0, 77, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_11is_expired, 0, __pyx_n_s_MiniToken_is_expired, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":74
+  /* "wolf/controllers.pyx":76
  *         return cls.load_from_database(token_id)
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def is_expired(self):
  *         return self.expire_date <= time.time()
  */
-  __Pyx_TraceLine(74,0,__PYX_ERR(0, 74, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __Pyx_TraceLine(76,0,__PYX_ERR(0, 76, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_is_expired, __pyx_t_3) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_is_expired, __pyx_t_3) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":79
+  /* "wolf/controllers.pyx":81
  * 
  *     @property
  *     def cryptomodules(self):             # <<<<<<<<<<<<<<
  *         global cached_cryptomodules
  *         if cached_cryptomodules is None:
  */
-  __Pyx_TraceLine(79,0,__PYX_ERR(0, 79, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_13cryptomodules, 0, __pyx_n_s_MiniToken_cryptomodules, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __Pyx_TraceLine(81,0,__PYX_ERR(0, 81, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_13cryptomodules, 0, __pyx_n_s_MiniToken_cryptomodules, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/controllers.pyx":78
+  /* "wolf/controllers.pyx":80
  *         return self.expire_date <= time.time()
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def cryptomodules(self):
  *         global cached_cryptomodules
  */
-  __Pyx_TraceLine(78,0,__PYX_ERR(0, 78, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_TraceLine(80,0,__PYX_ERR(0, 80, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cryptomodules, __pyx_t_1) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cryptomodules, __pyx_t_1) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":91
+  /* "wolf/controllers.pyx":93
  * 
  *     @property
  *     def cryptomodule(self):             # <<<<<<<<<<<<<<
  *         return self.cryptomodules[self.cryptomodule_id]
  * 
  */
-  __Pyx_TraceLine(91,0,__PYX_ERR(0, 91, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_15cryptomodule, 0, __pyx_n_s_MiniToken_cryptomodule, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __Pyx_TraceLine(93,0,__PYX_ERR(0, 93, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_15cryptomodule, 0, __pyx_n_s_MiniToken_cryptomodule, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":90
+  /* "wolf/controllers.pyx":92
  *         return cached_cryptomodules
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def cryptomodule(self):
  *         return self.cryptomodules[self.cryptomodule_id]
  */
-  __Pyx_TraceLine(90,0,__PYX_ERR(0, 90, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_TraceLine(92,0,__PYX_ERR(0, 92, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cryptomodule, __pyx_t_3) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cryptomodule, __pyx_t_3) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":95
+  /* "wolf/controllers.pyx":97
  * 
  *     @property
  *     def time_interval(self):             # <<<<<<<<<<<<<<
  *         return self.cryptomodule[1]
  * 
  */
-  __Pyx_TraceLine(95,0,__PYX_ERR(0, 95, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_17time_interval, 0, __pyx_n_s_MiniToken_time_interval, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __Pyx_TraceLine(97,0,__PYX_ERR(0, 97, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_17time_interval, 0, __pyx_n_s_MiniToken_time_interval, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/controllers.pyx":94
+  /* "wolf/controllers.pyx":96
  *         return self.cryptomodules[self.cryptomodule_id]
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def time_interval(self):
  *         return self.cryptomodule[1]
  */
-  __Pyx_TraceLine(94,0,__PYX_ERR(0, 94, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_TraceLine(96,0,__PYX_ERR(0, 96, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_time_interval, __pyx_t_1) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_time_interval, __pyx_t_1) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":99
+  /* "wolf/controllers.pyx":101
  * 
  *     @property
  *     def length(self):             # <<<<<<<<<<<<<<
  *         return self.cryptomodule[2]
  * 
  */
-  __Pyx_TraceLine(99,0,__PYX_ERR(0, 99, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_19length, 0, __pyx_n_s_MiniToken_length, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_TraceLine(101,0,__PYX_ERR(0, 101, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_19length, 0, __pyx_n_s_MiniToken_length, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":98
+  /* "wolf/controllers.pyx":100
  *         return self.cryptomodule[1]
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def length(self):
  *         return self.cryptomodule[2]
  */
-  __Pyx_TraceLine(98,0,__PYX_ERR(0, 98, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __Pyx_TraceLine(100,0,__PYX_ERR(0, 100, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_property, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_length, __pyx_t_3) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_length, __pyx_t_3) < 0) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":102
+  /* "wolf/controllers.pyx":104
  *         return self.cryptomodule[2]
  * 
  *     def verify(self, code, window, soft=False):             # <<<<<<<<<<<<<<
  *         if self.last_code == code:
  * 
  */
-  __Pyx_TraceLine(102,0,__PYX_ERR(0, 102, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_21verify, 0, __pyx_n_s_MiniToken_verify, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__11)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_TraceLine(104,0,__PYX_ERR(0, 104, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_21verify, 0, __pyx_n_s_MiniToken_verify, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__11)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_3, __pyx_tuple__39);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_verify, __pyx_t_3) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_verify, __pyx_t_3) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":120
+  /* "wolf/controllers.pyx":122
  *             .verify(otp, window)
  * 
  *     def cache(self):             # <<<<<<<<<<<<<<
  *         self.redis().set(
  *             str(self.id),
  */
-  __Pyx_TraceLine(120,0,__PYX_ERR(0, 120, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_23cache, 0, __pyx_n_s_MiniToken_cache, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __Pyx_TraceLine(122,0,__PYX_ERR(0, 122, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_23cache, 0, __pyx_n_s_MiniToken_cache, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cache, __pyx_t_3) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_cache, __pyx_t_3) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":134
+  /* "wolf/controllers.pyx":136
  * 
  *     @classmethod
  *     def load_from_cache(cls, token_id):             # <<<<<<<<<<<<<<
  *         cache_key = str(token_id)
  *         redis = cls.redis()
  */
-  __Pyx_TraceLine(134,0,__PYX_ERR(0, 134, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_25load_from_cache, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_load_from_cache, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 134, __pyx_L1_error)
+  __Pyx_TraceLine(136,0,__PYX_ERR(0, 136, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_25load_from_cache, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_load_from_cache, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/controllers.pyx":133
+  /* "wolf/controllers.pyx":135
  *         )
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def load_from_cache(cls, token_id):
  *         cache_key = str(token_id)
  */
-  __Pyx_TraceLine(133,0,__PYX_ERR(0, 133, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_TraceLine(135,0,__PYX_ERR(0, 135, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_load_from_cache, __pyx_t_1) < 0) __PYX_ERR(0, 134, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_load_from_cache, __pyx_t_1) < 0) __PYX_ERR(0, 136, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":151
+  /* "wolf/controllers.pyx":153
  * 
  *     @classmethod
  *     def invalidate(cls, token_id):             # <<<<<<<<<<<<<<
  *         cls.redis().delete(token_id)
  * 
  */
-  __Pyx_TraceLine(151,0,__PYX_ERR(0, 151, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_27invalidate, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_invalidate, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __Pyx_TraceLine(153,0,__PYX_ERR(0, 153, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_27invalidate, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_invalidate, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__15)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":150
+  /* "wolf/controllers.pyx":152
  *         return None
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def invalidate(cls, token_id):
  *         cls.redis().delete(token_id)
  */
-  __Pyx_TraceLine(150,0,__PYX_ERR(0, 150, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_Method_ClassMethod(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __Pyx_TraceLine(152,0,__PYX_ERR(0, 152, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_Method_ClassMethod(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_invalidate, __pyx_t_3) < 0) __PYX_ERR(0, 151, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_invalidate, __pyx_t_3) < 0) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":155
+  /* "wolf/controllers.pyx":157
  * 
  *     @classmethod
  *     def after_update(cls, mapper, connection, target):             # <<<<<<<<<<<<<<
  *         if settings.token.redis.enabled:
  *             cls.invalidate(target.id)
  */
-  __Pyx_TraceLine(155,0,__PYX_ERR(0, 155, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_29after_update, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_after_update, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __Pyx_TraceLine(157,0,__PYX_ERR(0, 157, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_9MiniToken_29after_update, __Pyx_CYFUNCTION_CLASSMETHOD, __pyx_n_s_MiniToken_after_update, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/controllers.pyx":154
+  /* "wolf/controllers.pyx":156
  *         cls.redis().delete(token_id)
  * 
  *     @classmethod             # <<<<<<<<<<<<<<
  *     def after_update(cls, mapper, connection, target):
  *         if settings.token.redis.enabled:
  */
-  __Pyx_TraceLine(154,0,__PYX_ERR(0, 154, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __Pyx_TraceLine(156,0,__PYX_ERR(0, 156, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Method_ClassMethod(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_after_update, __pyx_t_1) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_2, __pyx_n_s_after_update, __pyx_t_1) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/controllers.pyx":25
+  /* "wolf/controllers.pyx":27
  * 
  * 
  * class MiniToken:             # <<<<<<<<<<<<<<
  *     _redis = None
  * 
  */
-  __Pyx_TraceLine(25,0,__PYX_ERR(0, 25, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_MiniToken, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_TraceLine(27,0,__PYX_ERR(0, 27, __pyx_L1_error))
+  __pyx_t_1 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_MiniToken, __pyx_empty_tuple, __pyx_t_2, NULL, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_MiniToken, __pyx_t_1) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_MiniToken, __pyx_t_1) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":160
+  /* "wolf/controllers.pyx":162
  * 
  * 
  * event.listen(Token, 'after_update', MiniToken.after_update)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(160,0,__PYX_ERR(0, 160, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_event); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __Pyx_TraceLine(162,0,__PYX_ERR(0, 162, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_event); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_listen); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_listen); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Token); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_MiniToken); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_MiniToken); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_after_update); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_after_update); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_after_update);
-  __Pyx_GIVEREF(__pyx_n_s_after_update);
-  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_after_update);
+  __Pyx_INCREF(__pyx_n_u_after_update);
+  __Pyx_GIVEREF(__pyx_n_u_after_update);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_n_u_after_update);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_t_4);
   __pyx_t_2 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "wolf/controllers.pyx":163
+  /* "wolf/controllers.pyx":165
  * 
  * 
  * class CodesController(RestController):             # <<<<<<<<<<<<<<
  * 
  *     @LazyAttribute
  */
-  __Pyx_TraceLine(163,0,__PYX_ERR(0, 163, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RestController); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __Pyx_TraceLine(165,0,__PYX_ERR(0, 165, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_RestController); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_4, __pyx_t_3, __pyx_n_s_CodesController, __pyx_n_s_CodesController, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_4, __pyx_t_3, __pyx_n_s_CodesController, __pyx_n_s_CodesController, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":165
+  /* "wolf/controllers.pyx":167
  * class CodesController(RestController):
  * 
  *     @LazyAttribute             # <<<<<<<<<<<<<<
  *     def window(self):
  *         return settings.oath.window
  */
-  __Pyx_TraceLine(165,0,__PYX_ERR(0, 165, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_LazyAttribute); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_TraceLine(167,0,__PYX_ERR(0, 167, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_LazyAttribute); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/controllers.pyx":166
+  /* "wolf/controllers.pyx":168
  * 
  *     @LazyAttribute
  *     def window(self):             # <<<<<<<<<<<<<<
  *         return settings.oath.window
  * 
  */
-  __Pyx_TraceLine(166,0,__PYX_ERR(0, 166, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15CodesController_1window, 0, __pyx_n_s_CodesController_window, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_TraceLine(168,0,__PYX_ERR(0, 168, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15CodesController_1window, 0, __pyx_n_s_CodesController_window, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__17)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -9974,32 +9955,32 @@ if (!__Pyx_RefNanny) {
   __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 165, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_window, __pyx_t_2) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_window, __pyx_t_2) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":169
+  /* "wolf/controllers.pyx":171
  *         return settings.oath.window
  * 
  *     @action             # <<<<<<<<<<<<<<
  *     def verify(self, token_id, code):
  *         print(f'Verifying token_id={token_id} code={code}')
  */
-  __Pyx_TraceLine(169,0,__PYX_ERR(0, 169, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_action); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_TraceLine(171,0,__PYX_ERR(0, 171, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_action); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/controllers.pyx":170
+  /* "wolf/controllers.pyx":172
  * 
  *     @action
  *     def verify(self, token_id, code):             # <<<<<<<<<<<<<<
  *         print(f'Verifying token_id={token_id} code={code}')
  *         token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
  */
-  __Pyx_TraceLine(170,0,__PYX_ERR(0, 170, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15CodesController_3verify, 0, __pyx_n_s_CodesController_verify, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __Pyx_TraceLine(172,0,__PYX_ERR(0, 172, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15CodesController_3verify, 0, __pyx_n_s_CodesController_verify, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10014,374 +9995,374 @@ if (!__Pyx_RefNanny) {
   __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_verify, __pyx_t_2) < 0) __PYX_ERR(0, 170, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_verify, __pyx_t_2) < 0) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":163
+  /* "wolf/controllers.pyx":165
  * 
  * 
  * class CodesController(RestController):             # <<<<<<<<<<<<<<
  * 
  *     @LazyAttribute
  */
-  __Pyx_TraceLine(163,0,__PYX_ERR(0, 163, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_Py3ClassCreate(__pyx_t_4, __pyx_n_s_CodesController, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __Pyx_TraceLine(165,0,__PYX_ERR(0, 165, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_Py3ClassCreate(__pyx_t_4, __pyx_n_s_CodesController, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CodesController, __pyx_t_2) < 0) __PYX_ERR(0, 163, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CodesController, __pyx_t_2) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":196
+  /* "wolf/controllers.pyx":198
  *             raise HttpBadRequest('Invalid Code')
  * 
  * validate_submit = functools.partial(             # <<<<<<<<<<<<<<
  *     validate_form,
  *     types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
  */
-  __Pyx_TraceLine(196,0,__PYX_ERR(0, 196, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_functools); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __Pyx_TraceLine(198,0,__PYX_ERR(0, 198, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_functools); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_partial); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_partial); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":197
+  /* "wolf/controllers.pyx":199
  * 
  * validate_submit = functools.partial(
  *     validate_form,             # <<<<<<<<<<<<<<
  *     types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
  *     pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}
  */
-  __Pyx_TraceLine(197,0,__PYX_ERR(0, 197, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __Pyx_TraceLine(199,0,__PYX_ERR(0, 199, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "wolf/controllers.pyx":196
+  /* "wolf/controllers.pyx":198
  *             raise HttpBadRequest('Invalid Code')
  * 
  * validate_submit = functools.partial(             # <<<<<<<<<<<<<<
  *     validate_form,
  *     types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
  */
-  __Pyx_TraceLine(196,0,__PYX_ERR(0, 196, __pyx_L1_error))
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __Pyx_TraceLine(198,0,__PYX_ERR(0, 198, __pyx_L1_error))
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":198
+  /* "wolf/controllers.pyx":200
  * validate_submit = functools.partial(
  *     validate_form,
  *     types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},             # <<<<<<<<<<<<<<
  *     pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}
  * )
  */
-  __Pyx_TraceLine(198,0,__PYX_ERR(0, 198, __pyx_L1_error))
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __Pyx_TraceLine(200,0,__PYX_ERR(0, 200, __pyx_L1_error))
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, ((PyObject *)(&PyString_Type))) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_phone, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_cryptomoduleId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_expireDate, ((PyObject *)(&PyString_Type))) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_types, __pyx_t_2) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_name, ((PyObject *)(&PyUnicode_Type))) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_phone, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_cryptomoduleId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_expireDate, ((PyObject *)(&PyUnicode_Type))) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_types, __pyx_t_2) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":199
+  /* "wolf/controllers.pyx":201
  *     validate_form,
  *     types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
  *     pattern={'expireDate': '^\d{4}-\d{2}-\d{2}$'}             # <<<<<<<<<<<<<<
  * )
  * 
  */
-  __Pyx_TraceLine(199,0,__PYX_ERR(0, 199, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_TraceLine(201,0,__PYX_ERR(0, 201, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_expireDate, __pyx_kp_s_d_4_d_2_d_2) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_pattern, __pyx_t_2) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_expireDate, __pyx_kp_u_d_4_d_2_d_2) < 0) __PYX_ERR(0, 201, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_pattern, __pyx_t_2) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":196
+  /* "wolf/controllers.pyx":198
  *             raise HttpBadRequest('Invalid Code')
  * 
  * validate_submit = functools.partial(             # <<<<<<<<<<<<<<
  *     validate_form,
  *     types={'name': str, 'phone': int, 'cryptomoduleId': int, 'expireDate': str},
  */
-  __Pyx_TraceLine(196,0,__PYX_ERR(0, 196, __pyx_L1_error))
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __Pyx_TraceLine(198,0,__PYX_ERR(0, 198, __pyx_L1_error))
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_validate_submit, __pyx_t_2) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_validate_submit, __pyx_t_2) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":203
+  /* "wolf/controllers.pyx":205
  * 
  * 
  * class TokenController(ModelRestController):             # <<<<<<<<<<<<<<
  *     __model__ = Token
  * 
  */
-  __Pyx_TraceLine(203,0,__PYX_ERR(0, 203, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ModelRestController); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __Pyx_TraceLine(205,0,__PYX_ERR(0, 205, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ModelRestController); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_TokenController, __pyx_n_s_TokenController, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_TokenController, __pyx_n_s_TokenController, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "wolf/controllers.pyx":204
+  /* "wolf/controllers.pyx":206
  * 
  * class TokenController(ModelRestController):
  *     __model__ = Token             # <<<<<<<<<<<<<<
  * 
  *     def __init__(self):
  */
-  __Pyx_TraceLine(204,0,__PYX_ERR(0, 204, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Token); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __Pyx_TraceLine(206,0,__PYX_ERR(0, 206, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Token); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_model, __pyx_t_5) < 0) __PYX_ERR(0, 204, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_model, __pyx_t_5) < 0) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":206
+  /* "wolf/controllers.pyx":208
  *     __model__ = Token
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
  *         super().__init__()
  *         self.codes_controller = CodesController()
  */
-  __Pyx_TraceLine(206,0,__PYX_ERR(0, 206, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_1__init__, 0, __pyx_n_s_TokenController___init, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
+  __Pyx_TraceLine(208,0,__PYX_ERR(0, 208, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_1__init__, 0, __pyx_n_s_TokenController___init, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__19)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_t_5);
   PyList_Append(__pyx_t_4, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_5) < 0) __PYX_ERR(0, 206, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_5) < 0) __PYX_ERR(0, 208, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":210
+  /* "wolf/controllers.pyx":212
  *         self.codes_controller = CodesController()
  * 
  *     def __call__(self, *remaining_paths):             # <<<<<<<<<<<<<<
  *         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
  *             return self.codes_controller(remaining_paths[0], *remaining_paths[2:])
  */
-  __Pyx_TraceLine(210,0,__PYX_ERR(0, 210, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_3__call__, 0, __pyx_n_s_TokenController___call, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __Pyx_TraceLine(212,0,__PYX_ERR(0, 212, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_3__call__, 0, __pyx_n_s_TokenController___call, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_t_5);
   PyList_Append(__pyx_t_4, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_call, __pyx_t_5) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_call, __pyx_t_5) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":216
+  /* "wolf/controllers.pyx":218
  * 
  *     @staticmethod
  *     def _validate_token(token):             # <<<<<<<<<<<<<<
  *         if token.is_expired:
  *             raise ExpiredTokenError()
  */
-  __Pyx_TraceLine(216,0,__PYX_ERR(0, 216, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_5_validate_token, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_TokenController__validate_token, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __Pyx_TraceLine(218,0,__PYX_ERR(0, 218, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_5_validate_token, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_TokenController__validate_token, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/controllers.pyx":215
+  /* "wolf/controllers.pyx":217
  *         return super().__call__(*remaining_paths)
  * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def _validate_token(token):
  *         if token.is_expired:
  */
-  __Pyx_TraceLine(215,0,__PYX_ERR(0, 215, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __Pyx_TraceLine(217,0,__PYX_ERR(0, 217, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_validate_token, __pyx_t_6) < 0) __PYX_ERR(0, 216, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_validate_token, __pyx_t_6) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":224
+  /* "wolf/controllers.pyx":226
  * 
  *     @staticmethod
  *     def _ensure_device():             # <<<<<<<<<<<<<<
  *         phone = int(context.form['phone'])
  *         # Checking the device
  */
-  __Pyx_TraceLine(224,0,__PYX_ERR(0, 224, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_7_ensure_device, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_TokenController__ensure_device, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 224, __pyx_L1_error)
+  __Pyx_TraceLine(226,0,__PYX_ERR(0, 226, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_7_ensure_device, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_TokenController__ensure_device, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
 
-  /* "wolf/controllers.pyx":223
+  /* "wolf/controllers.pyx":225
  *             raise DeactivatedTokenError()
  * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def _ensure_device():
  *         phone = int(context.form['phone'])
  */
-  __Pyx_TraceLine(223,0,__PYX_ERR(0, 223, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __Pyx_TraceLine(225,0,__PYX_ERR(0, 225, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 225, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_ensure_device, __pyx_t_5) < 0) __PYX_ERR(0, 224, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_ensure_device, __pyx_t_5) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wolf/controllers.pyx":234
+  /* "wolf/controllers.pyx":236
  * 
  *     @staticmethod
  *     def _find_or_create_token():             # <<<<<<<<<<<<<<
  *         name = context.form['name']
  *         phone = context.form['phone']
  */
-  __Pyx_TraceLine(234,0,__PYX_ERR(0, 234, __pyx_L1_error))
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_9_find_or_create_token, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_TokenController__find_or_create, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __Pyx_TraceLine(236,0,__PYX_ERR(0, 236, __pyx_L1_error))
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_9_find_or_create_token, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_TokenController__find_or_create, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/controllers.pyx":233
+  /* "wolf/controllers.pyx":235
  *         return device
  * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def _find_or_create_token():
  *         name = context.form['name']
  */
-  __Pyx_TraceLine(233,0,__PYX_ERR(0, 233, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __Pyx_TraceLine(235,0,__PYX_ERR(0, 235, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_find_or_create_token, __pyx_t_6) < 0) __PYX_ERR(0, 234, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_find_or_create_token, __pyx_t_6) < 0) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":258
+  /* "wolf/controllers.pyx":260
  *         return token
  * 
  *     @json             # <<<<<<<<<<<<<<
  *     @validate_form(
  *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
  */
-  __Pyx_TraceLine(258,0,__PYX_ERR(0, 258, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_json); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
+  __Pyx_TraceLine(260,0,__PYX_ERR(0, 260, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_json); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/controllers.pyx":259
+  /* "wolf/controllers.pyx":261
  * 
  *     @json
  *     @validate_form(             # <<<<<<<<<<<<<<
  *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
  *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  */
-  __Pyx_TraceLine(259,0,__PYX_ERR(0, 259, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 259, __pyx_L1_error)
+  __Pyx_TraceLine(261,0,__PYX_ERR(0, 261, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
 
-  /* "wolf/controllers.pyx":260
+  /* "wolf/controllers.pyx":262
  *     @json
  *     @validate_form(
  *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],             # <<<<<<<<<<<<<<
  *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  *     )
  */
-  __Pyx_TraceLine(260,0,__PYX_ERR(0, 260, __pyx_L1_error))
-  __pyx_t_9 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 260, __pyx_L1_error)
+  __Pyx_TraceLine(262,0,__PYX_ERR(0, 262, __pyx_L1_error))
+  __pyx_t_9 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = PyList_New(5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 260, __pyx_L1_error)
+  __pyx_t_10 = PyList_New(5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_INCREF(__pyx_n_s_name);
-  __Pyx_GIVEREF(__pyx_n_s_name);
-  PyList_SET_ITEM(__pyx_t_10, 0, __pyx_n_s_name);
-  __Pyx_INCREF(__pyx_n_s_phone);
-  __Pyx_GIVEREF(__pyx_n_s_phone);
-  PyList_SET_ITEM(__pyx_t_10, 1, __pyx_n_s_phone);
-  __Pyx_INCREF(__pyx_n_s_cryptomoduleId);
-  __Pyx_GIVEREF(__pyx_n_s_cryptomoduleId);
-  PyList_SET_ITEM(__pyx_t_10, 2, __pyx_n_s_cryptomoduleId);
-  __Pyx_INCREF(__pyx_n_s_expireDate);
-  __Pyx_GIVEREF(__pyx_n_s_expireDate);
-  PyList_SET_ITEM(__pyx_t_10, 3, __pyx_n_s_expireDate);
-  __Pyx_INCREF(__pyx_n_s_bankId);
-  __Pyx_GIVEREF(__pyx_n_s_bankId);
-  PyList_SET_ITEM(__pyx_t_10, 4, __pyx_n_s_bankId);
-  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_exact, __pyx_t_10) < 0) __PYX_ERR(0, 260, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_u_name);
+  __Pyx_GIVEREF(__pyx_n_u_name);
+  PyList_SET_ITEM(__pyx_t_10, 0, __pyx_n_u_name);
+  __Pyx_INCREF(__pyx_n_u_phone);
+  __Pyx_GIVEREF(__pyx_n_u_phone);
+  PyList_SET_ITEM(__pyx_t_10, 1, __pyx_n_u_phone);
+  __Pyx_INCREF(__pyx_n_u_cryptomoduleId);
+  __Pyx_GIVEREF(__pyx_n_u_cryptomoduleId);
+  PyList_SET_ITEM(__pyx_t_10, 2, __pyx_n_u_cryptomoduleId);
+  __Pyx_INCREF(__pyx_n_u_expireDate);
+  __Pyx_GIVEREF(__pyx_n_u_expireDate);
+  PyList_SET_ITEM(__pyx_t_10, 3, __pyx_n_u_expireDate);
+  __Pyx_INCREF(__pyx_n_u_bankId);
+  __Pyx_GIVEREF(__pyx_n_u_bankId);
+  PyList_SET_ITEM(__pyx_t_10, 4, __pyx_n_u_bankId);
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_exact, __pyx_t_10) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "wolf/controllers.pyx":261
+  /* "wolf/controllers.pyx":263
  *     @validate_form(
  *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
  *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}             # <<<<<<<<<<<<<<
  *     )
  *     @Token.expose
  */
-  __Pyx_TraceLine(261,0,__PYX_ERR(0, 261, __pyx_L1_error))
-  __pyx_t_10 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __Pyx_TraceLine(263,0,__PYX_ERR(0, 263, __pyx_L1_error))
+  __pyx_t_10 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_cryptomoduleId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_expireDate, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_phone, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_bankId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 261, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_types, __pyx_t_10) < 0) __PYX_ERR(0, 260, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_u_cryptomoduleId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_u_expireDate, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_u_phone, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_u_bankId, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_types, __pyx_t_10) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "wolf/controllers.pyx":259
+  /* "wolf/controllers.pyx":261
  * 
  *     @json
  *     @validate_form(             # <<<<<<<<<<<<<<
  *         exact=['name', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
  *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  */
-  __Pyx_TraceLine(259,0,__PYX_ERR(0, 259, __pyx_L1_error))
-  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 259, __pyx_L1_error)
+  __Pyx_TraceLine(261,0,__PYX_ERR(0, 261, __pyx_L1_error))
+  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "wolf/controllers.pyx":263
+  /* "wolf/controllers.pyx":265
  *         types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
  *     )
  *     @Token.expose             # <<<<<<<<<<<<<<
  *     @commit
  *     def ensure(self):
  */
-  __Pyx_TraceLine(263,0,__PYX_ERR(0, 263, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_Token); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __Pyx_TraceLine(265,0,__PYX_ERR(0, 265, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_Token); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_expose); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_expose); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "wolf/controllers.pyx":264
+  /* "wolf/controllers.pyx":266
  *     )
  *     @Token.expose
  *     @commit             # <<<<<<<<<<<<<<
  *     def ensure(self):
  *         # TODO: type validation
  */
-  __Pyx_TraceLine(264,0,__PYX_ERR(0, 264, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_commit); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __Pyx_TraceLine(266,0,__PYX_ERR(0, 266, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_commit); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
 
-  /* "wolf/controllers.pyx":265
+  /* "wolf/controllers.pyx":267
  *     @Token.expose
  *     @commit
  *     def ensure(self):             # <<<<<<<<<<<<<<
  *         # TODO: type validation
  *         device = self._ensure_device()
  */
-  __Pyx_TraceLine(265,0,__PYX_ERR(0, 265, __pyx_L1_error))
-  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_11ensure, 0, __pyx_n_s_TokenController_ensure, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __Pyx_TraceLine(267,0,__PYX_ERR(0, 267, __pyx_L1_error))
+  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_15TokenController_11ensure, 0, __pyx_n_s_TokenController_ensure, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -10396,7 +10377,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_8 = (__pyx_t_14) ? __Pyx_PyObject_Call2Args(__pyx_t_12, __pyx_t_14, __pyx_t_13) : __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 264, __pyx_L1_error)
+  if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __pyx_t_12 = NULL;
@@ -10412,7 +10393,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_9 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_12, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_8);
   __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __pyx_t_11 = NULL;
@@ -10428,7 +10409,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_7 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_11, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_9);
   __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 259, __pyx_L1_error)
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __pyx_t_10 = NULL;
@@ -10444,150 +10425,150 @@ if (!__Pyx_RefNanny) {
   __pyx_t_6 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_10, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 258, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_ensure, __pyx_t_6) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_ensure, __pyx_t_6) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":203
+  /* "wolf/controllers.pyx":205
  * 
  * 
  * class TokenController(ModelRestController):             # <<<<<<<<<<<<<<
  *     __model__ = Token
  * 
  */
-  __Pyx_TraceLine(203,0,__PYX_ERR(0, 203, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_TokenController, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __Pyx_TraceLine(205,0,__PYX_ERR(0, 205, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_TokenController, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_6) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
+  if (__Pyx_CyFunction_InitClassCell(__pyx_t_4, __pyx_t_6) < 0) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TokenController, __pyx_t_6) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TokenController, __pyx_t_6) < 0) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":276
+  /* "wolf/controllers.pyx":278
  * 
  * 
  * challenge_pattern = r'^[a-zA-Z0-9]{5,25}$'             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(276,0,__PYX_ERR(0, 276, __pyx_L1_error))
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_challenge_pattern, __pyx_kp_s_a_zA_Z0_9_5_25) < 0) __PYX_ERR(0, 276, __pyx_L1_error)
+  __Pyx_TraceLine(278,0,__PYX_ERR(0, 278, __pyx_L1_error))
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_challenge_pattern, __pyx_kp_u_a_zA_Z0_9_5_25) < 0) __PYX_ERR(0, 278, __pyx_L1_error)
 
-  /* "wolf/controllers.pyx":279
+  /* "wolf/controllers.pyx":281
  * 
  * 
  * class DeviceController(ModelRestController):             # <<<<<<<<<<<<<<
  *     __model__ = Device
  * 
  */
-  __Pyx_TraceLine(279,0,__PYX_ERR(0, 279, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ModelRestController); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __Pyx_TraceLine(281,0,__PYX_ERR(0, 281, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ModelRestController); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_3, __pyx_t_2, __pyx_n_s_DeviceController, __pyx_n_s_DeviceController, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_3, __pyx_t_2, __pyx_n_s_DeviceController, __pyx_n_s_DeviceController, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":280
+  /* "wolf/controllers.pyx":282
  * 
  * class DeviceController(ModelRestController):
  *     __model__ = Device             # <<<<<<<<<<<<<<
  * 
  *     # FIXME Rename it to register
  */
-  __Pyx_TraceLine(280,0,__PYX_ERR(0, 280, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Device); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
+  __Pyx_TraceLine(282,0,__PYX_ERR(0, 282, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Device); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 282, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_model, __pyx_t_6) < 0) __PYX_ERR(0, 280, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_model, __pyx_t_6) < 0) __PYX_ERR(0, 282, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":283
+  /* "wolf/controllers.pyx":285
  * 
  *     # FIXME Rename it to register
  *     @json             # <<<<<<<<<<<<<<
  *     @validate_form(exact=['phone', 'udid'], types={'phone': int})
  *     @Device.expose
  */
-  __Pyx_TraceLine(283,0,__PYX_ERR(0, 283, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_json); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 283, __pyx_L1_error)
+  __Pyx_TraceLine(285,0,__PYX_ERR(0, 285, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_json); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 285, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/controllers.pyx":284
+  /* "wolf/controllers.pyx":286
  *     # FIXME Rename it to register
  *     @json
  *     @validate_form(exact=['phone', 'udid'], types={'phone': int})             # <<<<<<<<<<<<<<
  *     @Device.expose
  *     @commit
  */
-  __Pyx_TraceLine(284,0,__PYX_ERR(0, 284, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __Pyx_TraceLine(286,0,__PYX_ERR(0, 286, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_validate_form); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_9 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_11 = PyList_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_t_11 = PyList_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_INCREF(__pyx_n_s_phone);
-  __Pyx_GIVEREF(__pyx_n_s_phone);
-  PyList_SET_ITEM(__pyx_t_11, 0, __pyx_n_s_phone);
-  __Pyx_INCREF(__pyx_n_s_udid);
-  __Pyx_GIVEREF(__pyx_n_s_udid);
-  PyList_SET_ITEM(__pyx_t_11, 1, __pyx_n_s_udid);
-  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_exact, __pyx_t_11) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_u_phone);
+  __Pyx_GIVEREF(__pyx_n_u_phone);
+  PyList_SET_ITEM(__pyx_t_11, 0, __pyx_n_u_phone);
+  __Pyx_INCREF(__pyx_n_u_udid);
+  __Pyx_GIVEREF(__pyx_n_u_udid);
+  PyList_SET_ITEM(__pyx_t_11, 1, __pyx_n_u_udid);
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_exact, __pyx_t_11) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __pyx_t_11 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_phone, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_types, __pyx_t_11) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_11, __pyx_n_u_phone, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_types, __pyx_t_11) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_empty_tuple, __pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_empty_tuple, __pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "wolf/controllers.pyx":285
+  /* "wolf/controllers.pyx":287
  *     @json
  *     @validate_form(exact=['phone', 'udid'], types={'phone': int})
  *     @Device.expose             # <<<<<<<<<<<<<<
  *     @commit
  *     def register(self):
  */
-  __Pyx_TraceLine(285,0,__PYX_ERR(0, 285, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_Device); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __Pyx_TraceLine(287,0,__PYX_ERR(0, 287, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_Device); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_expose); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_expose); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-  /* "wolf/controllers.pyx":286
+  /* "wolf/controllers.pyx":288
  *     @validate_form(exact=['phone', 'udid'], types={'phone': int})
  *     @Device.expose
  *     @commit             # <<<<<<<<<<<<<<
  *     def register(self):
  *         phone = context.form['phone']
  */
-  __Pyx_TraceLine(286,0,__PYX_ERR(0, 286, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_commit); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __Pyx_TraceLine(288,0,__PYX_ERR(0, 288, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_commit); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
 
-  /* "wolf/controllers.pyx":287
+  /* "wolf/controllers.pyx":289
  *     @Device.expose
  *     @commit
  *     def register(self):             # <<<<<<<<<<<<<<
  *         phone = context.form['phone']
  *         udid = context.form['udid']
  */
-  __Pyx_TraceLine(287,0,__PYX_ERR(0, 287, __pyx_L1_error))
-  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_16DeviceController_1register, 0, __pyx_n_s_DeviceController_register, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __Pyx_TraceLine(289,0,__PYX_ERR(0, 289, __pyx_L1_error))
+  __pyx_t_13 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_16DeviceController_1register, 0, __pyx_n_s_DeviceController_register, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -10602,7 +10583,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_10 = (__pyx_t_14) ? __Pyx_PyObject_Call2Args(__pyx_t_12, __pyx_t_14, __pyx_t_13) : __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 286, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __pyx_t_12 = NULL;
@@ -10618,7 +10599,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_9 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_12, __pyx_t_10) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_10);
   __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 285, __pyx_L1_error)
+  if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_t_8 = NULL;
@@ -10634,7 +10615,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_8, __pyx_t_9) : __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_9);
   __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 284, __pyx_L1_error)
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __pyx_t_11 = NULL;
@@ -10650,57 +10631,57 @@ if (!__Pyx_RefNanny) {
   __pyx_t_6 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_11, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 283, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_register, __pyx_t_6) < 0) __PYX_ERR(0, 287, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_register, __pyx_t_6) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":279
+  /* "wolf/controllers.pyx":281
  * 
  * 
  * class DeviceController(ModelRestController):             # <<<<<<<<<<<<<<
  *     __model__ = Device
  * 
  */
-  __Pyx_TraceLine(279,0,__PYX_ERR(0, 279, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_DeviceController, __pyx_t_2, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __Pyx_TraceLine(281,0,__PYX_ERR(0, 281, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_DeviceController, __pyx_t_2, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeviceController, __pyx_t_6) < 0) __PYX_ERR(0, 279, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeviceController, __pyx_t_6) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/controllers.pyx":308
+  /* "wolf/controllers.pyx":310
  * 
  * 
  * class ApiV1(Controller):             # <<<<<<<<<<<<<<
  *     tokens = TokenController()
  *     devices = DeviceController()
  */
-  __Pyx_TraceLine(308,0,__PYX_ERR(0, 308, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Controller); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __Pyx_TraceLine(310,0,__PYX_ERR(0, 310, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Controller); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_ApiV1, __pyx_n_s_ApiV1, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_3, __pyx_n_s_ApiV1, __pyx_n_s_ApiV1, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":309
+  /* "wolf/controllers.pyx":311
  * 
  * class ApiV1(Controller):
  *     tokens = TokenController()             # <<<<<<<<<<<<<<
  *     devices = DeviceController()
  * 
  */
-  __Pyx_TraceLine(309,0,__PYX_ERR(0, 309, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_TokenController); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __Pyx_TraceLine(311,0,__PYX_ERR(0, 311, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_TokenController); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10714,21 +10695,21 @@ if (!__Pyx_RefNanny) {
   }
   __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 309, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_tokens, __pyx_t_6) < 0) __PYX_ERR(0, 309, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_tokens, __pyx_t_6) < 0) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":310
+  /* "wolf/controllers.pyx":312
  * class ApiV1(Controller):
  *     tokens = TokenController()
  *     devices = DeviceController()             # <<<<<<<<<<<<<<
  * 
  *     @json
  */
-  __Pyx_TraceLine(310,0,__PYX_ERR(0, 310, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DeviceController); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __Pyx_TraceLine(312,0,__PYX_ERR(0, 312, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DeviceController); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10742,32 +10723,32 @@ if (!__Pyx_RefNanny) {
   }
   __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 310, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_devices, __pyx_t_6) < 0) __PYX_ERR(0, 310, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_devices, __pyx_t_6) < 0) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":312
+  /* "wolf/controllers.pyx":314
  *     devices = DeviceController()
  * 
  *     @json             # <<<<<<<<<<<<<<
  *     def version(self):
  *         return {
  */
-  __Pyx_TraceLine(312,0,__PYX_ERR(0, 312, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_json); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __Pyx_TraceLine(314,0,__PYX_ERR(0, 314, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_json); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "wolf/controllers.pyx":313
+  /* "wolf/controllers.pyx":315
  * 
  *     @json
  *     def version(self):             # <<<<<<<<<<<<<<
  *         return {
  *             'version': wolf.__version__
  */
-  __Pyx_TraceLine(313,0,__PYX_ERR(0, 313, __pyx_L1_error))
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_5ApiV1_1version, 0, __pyx_n_s_ApiV1_version, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __Pyx_TraceLine(315,0,__PYX_ERR(0, 315, __pyx_L1_error))
+  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_4wolf_11controllers_5ApiV1_1version, 0, __pyx_n_s_ApiV1_version, NULL, __pyx_n_s_wolf_controllers, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_11 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10782,56 +10763,56 @@ if (!__Pyx_RefNanny) {
   __pyx_t_6 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_11, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 312, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_version, __pyx_t_6) < 0) __PYX_ERR(0, 313, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_version, __pyx_t_6) < 0) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":308
+  /* "wolf/controllers.pyx":310
  * 
  * 
  * class ApiV1(Controller):             # <<<<<<<<<<<<<<
  *     tokens = TokenController()
  *     devices = DeviceController()
  */
-  __Pyx_TraceLine(308,0,__PYX_ERR(0, 308, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ApiV1, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 308, __pyx_L1_error)
+  __Pyx_TraceLine(310,0,__PYX_ERR(0, 310, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ApiV1, __pyx_t_3, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ApiV1, __pyx_t_6) < 0) __PYX_ERR(0, 308, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ApiV1, __pyx_t_6) < 0) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "wolf/controllers.pyx":319
+  /* "wolf/controllers.pyx":321
  * 
  * 
  * class Root(RootController):             # <<<<<<<<<<<<<<
  *     apiv1 = ApiV1()
  * 
  */
-  __Pyx_TraceLine(319,0,__PYX_ERR(0, 319, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RootController); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __Pyx_TraceLine(321,0,__PYX_ERR(0, 321, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_RootController); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_3, __pyx_t_2, __pyx_n_s_Root, __pyx_n_s_Root, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_3, __pyx_t_2, __pyx_n_s_Root, __pyx_n_s_Root, (PyObject *) NULL, __pyx_n_s_wolf_controllers, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "wolf/controllers.pyx":320
+  /* "wolf/controllers.pyx":322
  * 
  * class Root(RootController):
  *     apiv1 = ApiV1()             # <<<<<<<<<<<<<<
  * 
  */
-  __Pyx_TraceLine(320,0,__PYX_ERR(0, 320, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_ApiV1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __Pyx_TraceLine(322,0,__PYX_ERR(0, 322, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_ApiV1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10845,32 +10826,32 @@ if (!__Pyx_RefNanny) {
   }
   __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 320, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_apiv1, __pyx_t_6) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_apiv1, __pyx_t_6) < 0) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/controllers.pyx":319
+  /* "wolf/controllers.pyx":321
  * 
  * 
  * class Root(RootController):             # <<<<<<<<<<<<<<
  *     apiv1 = ApiV1()
  * 
  */
-  __Pyx_TraceLine(319,0,__PYX_ERR(0, 319, __pyx_L1_error))
-  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_Root, __pyx_t_2, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __Pyx_TraceLine(321,0,__PYX_ERR(0, 321, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_3, __pyx_n_s_Root, __pyx_t_2, __pyx_t_1, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Root, __pyx_t_6) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Root, __pyx_t_6) < 0) __PYX_ERR(0, 321, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "wolf/controllers.pyx":1
- * import functools             # <<<<<<<<<<<<<<
- * import hashlib
- * import time
+ * # cython: language_level=3             # <<<<<<<<<<<<<<
+ * 
+ * import functools
  */
   __Pyx_TraceLine(1,0,__PYX_ERR(0, 1, __pyx_L1_error))
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -13541,149 +13522,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
                                      little, !is_unsigned);
     }
 }
-
-/* Print */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
-/* PrintOne */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntFromPyVerify */
 #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\

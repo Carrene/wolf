@@ -3,12 +3,12 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "wolf.basedata",
+        "name": "wolf.exceptions",
         "sources": [
-            "wolf/basedata.pyx"
+            "wolf/exceptions.pyx"
         ]
     },
-    "module_name": "wolf.basedata"
+    "module_name": "wolf.exceptions"
 }
 END: Cython Metadata */
 
@@ -597,8 +597,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__wolf__basedata
-#define __PYX_HAVE_API__wolf__basedata
+#define __PYX_HAVE__wolf__exceptions
+#define __PYX_HAVE_API__wolf__exceptions
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -808,7 +808,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "wolf/basedata.pyx",
+  "wolf/exceptions.pyx",
 };
 
 /*--- Type declarations ---*/
@@ -1122,6 +1122,12 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 #define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
 #endif
 
+/* Import.proto */
+static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
+
+/* ImportFrom.proto */
+static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
+
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
@@ -1172,75 +1178,25 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
 
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs);
+/* CalculateMetaclass.proto */
+static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases);
+
+/* SetNameInClass.proto */
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+#define __Pyx_SetNameInClass(ns, name, value)\
+    (likely(PyDict_CheckExact(ns)) ? _PyDict_SetItem_KnownHash(ns, name, value, ((PyASCIIObject *) name)->hash) : PyObject_SetItem(ns, name, value))
+#elif CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_SetNameInClass(ns, name, value)\
+    (likely(PyDict_CheckExact(ns)) ? PyDict_SetItem(ns, name, value) : PyObject_SetItem(ns, name, value))
 #else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#define __Pyx_BUILD_ASSERT_EXPR(cond)\
-    (sizeof(char [1 - 2*!(cond)]) - 1)
-#ifndef Py_MEMBER_SIZE
-#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
-#endif
-  static size_t __pyx_pyframe_localsplus_offset = 0;
-  #include "frameobject.h"
-  #define __Pxy_PyFrame_Initialize_Offsets()\
-    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
-     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
-  #define __Pyx_PyFrame_GetLocalsplus(frame)\
-    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#define __Pyx_SetNameInClass(ns, name, value)  PyObject_SetItem(ns, name, value)
 #endif
 
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
-/* PyObjectCallMethO.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-/* PyObjectCallNoArg.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
-#else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
-#endif
-
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
-
-/* PyObjectSetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
-#else
-#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
-#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
-#endif
-
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
-
-/* Import.proto */
-static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
-
-/* ImportFrom.proto */
-static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
+/* Py3ClassCreate.proto */
+static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name, PyObject *qualname,
+                                           PyObject *mkw, PyObject *modname, PyObject *doc);
+static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
+                                      PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
 
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
@@ -1297,298 +1253,87 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'wolf.basedata' */
-#define __Pyx_MODULE_NAME "wolf.basedata"
-extern int __pyx_module_is_main_wolf__basedata;
-int __pyx_module_is_main_wolf__basedata = 0;
+/* Module declarations from 'wolf.exceptions' */
+#define __Pyx_MODULE_NAME "wolf.exceptions"
+extern int __pyx_module_is_main_wolf__exceptions;
+int __pyx_module_is_main_wolf__exceptions = 0;
 
-/* Implementation of 'wolf.basedata' */
-static const char __pyx_k_add[] = "add";
+/* Implementation of 'wolf.exceptions' */
+static const char __pyx_k_doc[] = "__doc__";
+static const char __pyx_k_info[] = "info";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
-static const char __pyx_k_commit[] = "commit";
 static const char __pyx_k_import[] = "__import__";
-static const char __pyx_k_insert[] = "insert";
-static const char __pyx_k_DBSession[] = "DBSession";
-static const char __pyx_k_wolf_models[] = "wolf.models";
-static const char __pyx_k_Cryptomodule[] = "Cryptomodule";
-static const char __pyx_k_restfulpy_orm[] = "restfulpy.orm";
-static const char __pyx_k_wolf_basedata[] = "wolf.basedata";
-static const char __pyx_k_wolf_basedata_pyx[] = "wolf/basedata.pyx";
+static const char __pyx_k_module[] = "__module__";
+static const char __pyx_k_prepare[] = "__prepare__";
+static const char __pyx_k_nanohttp[] = "nanohttp";
+static const char __pyx_k_qualname[] = "__qualname__";
+static const char __pyx_k_metaclass[] = "__metaclass__";
+static const char __pyx_k_HttpStatus[] = "HttpStatus";
+static const char __pyx_k_status_code[] = "status_code";
+static const char __pyx_k_status_text[] = "status_text";
+static const char __pyx_k_Token_is_active[] = "Token is active";
+static const char __pyx_k_Token_is_locked[] = "Token is locked";
+static const char __pyx_k_wolf_exceptions[] = "wolf.exceptions";
+static const char __pyx_k_Device_Not_Found[] = "Device Not Found";
+static const char __pyx_k_LockedTokenError[] = "LockedTokenError";
+static const char __pyx_k_Token_is_expired[] = "Token is expired";
+static const char __pyx_k_ExpiredTokenError[] = "ExpiredTokenError";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_mockup_cryptomodule1[] = "mockup_cryptomodule1";
-static const char __pyx_k_mockup_cryptomodule2[] = "mockup_cryptomodule2";
-static const char __pyx_k_one_time_password_length[] = "one_time_password_length";
-static const char __pyx_k_challenge_response_length[] = "challenge_response_length";
-static PyObject *__pyx_n_s_Cryptomodule;
-static PyObject *__pyx_n_s_DBSession;
-static PyObject *__pyx_n_s_add;
-static PyObject *__pyx_n_s_challenge_response_length;
+static const char __pyx_k_ActivatedTokenError[] = "ActivatedTokenError";
+static const char __pyx_k_DeviceNotFoundError[] = "DeviceNotFoundError";
+static const char __pyx_k_NotLockedTokenError[] = "NotLockedTokenError";
+static const char __pyx_k_Token_is_not_locked[] = "Token is not locked";
+static const char __pyx_k_Token_is_deactivated[] = "Token is deactivated";
+static const char __pyx_k_DeactivatedTokenError[] = "DeactivatedTokenError";
+static const char __pyx_k_Token_is_already_active[] = "Token is already active.";
+static const char __pyx_k_Requested_device_is_found[] = "Requested device is found.";
+static const char __pyx_k_Token_has_been_deactivated[] = "Token has been deactivated.";
+static const char __pyx_k_The_requested_token_is_expired[] = "The requested token is expired.";
+static const char __pyx_k_The_max_try_limitation_is_exceed[] = "The max try limitation is exceeded.";
+static const char __pyx_k_The_max_try_limitation_is_not_ex[] = "The max try limitation is not exceeded.";
+static PyObject *__pyx_n_s_ActivatedTokenError;
+static PyObject *__pyx_n_s_DeactivatedTokenError;
+static PyObject *__pyx_n_s_DeviceNotFoundError;
+static PyObject *__pyx_kp_u_Device_Not_Found;
+static PyObject *__pyx_n_s_ExpiredTokenError;
+static PyObject *__pyx_n_s_HttpStatus;
+static PyObject *__pyx_n_s_LockedTokenError;
+static PyObject *__pyx_n_s_NotLockedTokenError;
+static PyObject *__pyx_kp_u_Requested_device_is_found;
+static PyObject *__pyx_kp_u_The_max_try_limitation_is_exceed;
+static PyObject *__pyx_kp_u_The_max_try_limitation_is_not_ex;
+static PyObject *__pyx_kp_u_The_requested_token_is_expired;
+static PyObject *__pyx_kp_u_Token_has_been_deactivated;
+static PyObject *__pyx_kp_u_Token_is_active;
+static PyObject *__pyx_kp_u_Token_is_already_active;
+static PyObject *__pyx_kp_u_Token_is_deactivated;
+static PyObject *__pyx_kp_u_Token_is_expired;
+static PyObject *__pyx_kp_u_Token_is_locked;
+static PyObject *__pyx_kp_u_Token_is_not_locked;
 static PyObject *__pyx_n_s_cline_in_traceback;
-static PyObject *__pyx_n_s_commit;
+static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_import;
-static PyObject *__pyx_n_s_insert;
+static PyObject *__pyx_n_s_info;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_n_s_mockup_cryptomodule1;
-static PyObject *__pyx_n_s_mockup_cryptomodule2;
+static PyObject *__pyx_n_s_metaclass;
+static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_name;
-static PyObject *__pyx_n_s_one_time_password_length;
-static PyObject *__pyx_n_s_restfulpy_orm;
+static PyObject *__pyx_n_s_nanohttp;
+static PyObject *__pyx_n_s_prepare;
+static PyObject *__pyx_n_s_qualname;
+static PyObject *__pyx_n_s_status_code;
+static PyObject *__pyx_n_s_status_text;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_wolf_basedata;
-static PyObject *__pyx_kp_s_wolf_basedata_pyx;
-static PyObject *__pyx_n_s_wolf_models;
-static PyObject *__pyx_pf_4wolf_8basedata_insert(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_int_4;
-static PyObject *__pyx_int_7;
-static PyObject *__pyx_codeobj_;
-static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_n_s_wolf_exceptions;
+static PyObject *__pyx_int_461;
+static PyObject *__pyx_int_462;
+static PyObject *__pyx_int_463;
+static PyObject *__pyx_int_464;
+static PyObject *__pyx_int_465;
+static PyObject *__pyx_int_466;
 /* Late includes */
-
-/* "wolf/basedata.pyx":7
- * 
- * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_4wolf_8basedata_1insert(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyMethodDef __pyx_mdef_4wolf_8basedata_1insert = {"insert", (PyCFunction)__pyx_pw_4wolf_8basedata_1insert, METH_NOARGS, 0};
-static PyObject *__pyx_pw_4wolf_8basedata_1insert(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("insert (wrapper)", 0);
-  __pyx_r = __pyx_pf_4wolf_8basedata_insert(__pyx_self);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4wolf_8basedata_insert(CYTHON_UNUSED PyObject *__pyx_self) {
-  PyObject *__pyx_v_mockup_cryptomodule1 = NULL;
-  PyObject *__pyx_v_mockup_cryptomodule2 = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  __Pyx_TraceFrameInit(__pyx_codeobj_)
-  __Pyx_RefNannySetupContext("insert", 0);
-  __Pyx_TraceCall("insert", __pyx_f[0], 7, 0, __PYX_ERR(0, 7, __pyx_L1_error));
-
-  /* "wolf/basedata.pyx":8
- * 
- * def insert():
- *     mockup_cryptomodule1 = Cryptomodule()             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1.challenge_response_length = 4
- *     mockup_cryptomodule1.one_time_password_length = 4
- */
-  __Pyx_TraceLine(8,0,__PYX_ERR(0, 8, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_mockup_cryptomodule1 = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "wolf/basedata.pyx":9
- * def insert():
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1.one_time_password_length = 4
- * 
- */
-  __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule1, __pyx_n_s_challenge_response_length, __pyx_int_4) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":10
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
- *     mockup_cryptomodule1.one_time_password_length = 4             # <<<<<<<<<<<<<<
- * 
- *     mockup_cryptomodule2 = Cryptomodule()
- */
-  __Pyx_TraceLine(10,0,__PYX_ERR(0, 10, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule1, __pyx_n_s_one_time_password_length, __pyx_int_4) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":12
- *     mockup_cryptomodule1.one_time_password_length = 4
- * 
- *     mockup_cryptomodule2 = Cryptomodule()             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule2.challenge_response_length = 7
- *     mockup_cryptomodule2.one_time_password_length = 7
- */
-  __Pyx_TraceLine(12,0,__PYX_ERR(0, 12, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_mockup_cryptomodule2 = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "wolf/basedata.pyx":13
- * 
- *     mockup_cryptomodule2 = Cryptomodule()
- *     mockup_cryptomodule2.challenge_response_length = 7             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule2.one_time_password_length = 7
- * 
- */
-  __Pyx_TraceLine(13,0,__PYX_ERR(0, 13, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule2, __pyx_n_s_challenge_response_length, __pyx_int_7) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":14
- *     mockup_cryptomodule2 = Cryptomodule()
- *     mockup_cryptomodule2.challenge_response_length = 7
- *     mockup_cryptomodule2.one_time_password_length = 7             # <<<<<<<<<<<<<<
- * 
- *     DBSession.add(mockup_cryptomodule1)
- */
-  __Pyx_TraceLine(14,0,__PYX_ERR(0, 14, __pyx_L1_error))
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_mockup_cryptomodule2, __pyx_n_s_one_time_password_length, __pyx_int_7) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
-
-  /* "wolf/basedata.pyx":16
- *     mockup_cryptomodule2.one_time_password_length = 7
- * 
- *     DBSession.add(mockup_cryptomodule1)             # <<<<<<<<<<<<<<
- *     DBSession.add(mockup_cryptomodule2)
- *     DBSession.commit()
- */
-  __Pyx_TraceLine(16,0,__PYX_ERR(0, 16, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_add); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_mockup_cryptomodule1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_mockup_cryptomodule1);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "wolf/basedata.pyx":17
- * 
- *     DBSession.add(mockup_cryptomodule1)
- *     DBSession.add(mockup_cryptomodule2)             # <<<<<<<<<<<<<<
- *     DBSession.commit()
- */
-  __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_add); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_mockup_cryptomodule2) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_mockup_cryptomodule2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "wolf/basedata.pyx":18
- *     DBSession.add(mockup_cryptomodule1)
- *     DBSession.add(mockup_cryptomodule2)
- *     DBSession.commit()             # <<<<<<<<<<<<<<
- */
-  __Pyx_TraceLine(18,0,__PYX_ERR(0, 18, __pyx_L1_error))
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_commit); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "wolf/basedata.pyx":7
- * 
- * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("wolf.basedata.insert", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_mockup_cryptomodule1);
-  __Pyx_XDECREF(__pyx_v_mockup_cryptomodule2);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
 
 static PyMethodDef __pyx_methods[] = {
   {0, 0, 0, 0}
@@ -1597,17 +1342,17 @@ static PyMethodDef __pyx_methods[] = {
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_basedata(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_exceptions(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_basedata},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_exceptions},
   {0, NULL}
 };
 #endif
 
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
-    "basedata",
+    "exceptions",
     0, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
@@ -1636,24 +1381,40 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_Cryptomodule, __pyx_k_Cryptomodule, sizeof(__pyx_k_Cryptomodule), 0, 0, 1, 1},
-  {&__pyx_n_s_DBSession, __pyx_k_DBSession, sizeof(__pyx_k_DBSession), 0, 0, 1, 1},
-  {&__pyx_n_s_add, __pyx_k_add, sizeof(__pyx_k_add), 0, 0, 1, 1},
-  {&__pyx_n_s_challenge_response_length, __pyx_k_challenge_response_length, sizeof(__pyx_k_challenge_response_length), 0, 0, 1, 1},
+  {&__pyx_n_s_ActivatedTokenError, __pyx_k_ActivatedTokenError, sizeof(__pyx_k_ActivatedTokenError), 0, 0, 1, 1},
+  {&__pyx_n_s_DeactivatedTokenError, __pyx_k_DeactivatedTokenError, sizeof(__pyx_k_DeactivatedTokenError), 0, 0, 1, 1},
+  {&__pyx_n_s_DeviceNotFoundError, __pyx_k_DeviceNotFoundError, sizeof(__pyx_k_DeviceNotFoundError), 0, 0, 1, 1},
+  {&__pyx_kp_u_Device_Not_Found, __pyx_k_Device_Not_Found, sizeof(__pyx_k_Device_Not_Found), 0, 1, 0, 0},
+  {&__pyx_n_s_ExpiredTokenError, __pyx_k_ExpiredTokenError, sizeof(__pyx_k_ExpiredTokenError), 0, 0, 1, 1},
+  {&__pyx_n_s_HttpStatus, __pyx_k_HttpStatus, sizeof(__pyx_k_HttpStatus), 0, 0, 1, 1},
+  {&__pyx_n_s_LockedTokenError, __pyx_k_LockedTokenError, sizeof(__pyx_k_LockedTokenError), 0, 0, 1, 1},
+  {&__pyx_n_s_NotLockedTokenError, __pyx_k_NotLockedTokenError, sizeof(__pyx_k_NotLockedTokenError), 0, 0, 1, 1},
+  {&__pyx_kp_u_Requested_device_is_found, __pyx_k_Requested_device_is_found, sizeof(__pyx_k_Requested_device_is_found), 0, 1, 0, 0},
+  {&__pyx_kp_u_The_max_try_limitation_is_exceed, __pyx_k_The_max_try_limitation_is_exceed, sizeof(__pyx_k_The_max_try_limitation_is_exceed), 0, 1, 0, 0},
+  {&__pyx_kp_u_The_max_try_limitation_is_not_ex, __pyx_k_The_max_try_limitation_is_not_ex, sizeof(__pyx_k_The_max_try_limitation_is_not_ex), 0, 1, 0, 0},
+  {&__pyx_kp_u_The_requested_token_is_expired, __pyx_k_The_requested_token_is_expired, sizeof(__pyx_k_The_requested_token_is_expired), 0, 1, 0, 0},
+  {&__pyx_kp_u_Token_has_been_deactivated, __pyx_k_Token_has_been_deactivated, sizeof(__pyx_k_Token_has_been_deactivated), 0, 1, 0, 0},
+  {&__pyx_kp_u_Token_is_active, __pyx_k_Token_is_active, sizeof(__pyx_k_Token_is_active), 0, 1, 0, 0},
+  {&__pyx_kp_u_Token_is_already_active, __pyx_k_Token_is_already_active, sizeof(__pyx_k_Token_is_already_active), 0, 1, 0, 0},
+  {&__pyx_kp_u_Token_is_deactivated, __pyx_k_Token_is_deactivated, sizeof(__pyx_k_Token_is_deactivated), 0, 1, 0, 0},
+  {&__pyx_kp_u_Token_is_expired, __pyx_k_Token_is_expired, sizeof(__pyx_k_Token_is_expired), 0, 1, 0, 0},
+  {&__pyx_kp_u_Token_is_locked, __pyx_k_Token_is_locked, sizeof(__pyx_k_Token_is_locked), 0, 1, 0, 0},
+  {&__pyx_kp_u_Token_is_not_locked, __pyx_k_Token_is_not_locked, sizeof(__pyx_k_Token_is_not_locked), 0, 1, 0, 0},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
-  {&__pyx_n_s_commit, __pyx_k_commit, sizeof(__pyx_k_commit), 0, 0, 1, 1},
+  {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {&__pyx_n_s_insert, __pyx_k_insert, sizeof(__pyx_k_insert), 0, 0, 1, 1},
+  {&__pyx_n_s_info, __pyx_k_info, sizeof(__pyx_k_info), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_n_s_mockup_cryptomodule1, __pyx_k_mockup_cryptomodule1, sizeof(__pyx_k_mockup_cryptomodule1), 0, 0, 1, 1},
-  {&__pyx_n_s_mockup_cryptomodule2, __pyx_k_mockup_cryptomodule2, sizeof(__pyx_k_mockup_cryptomodule2), 0, 0, 1, 1},
+  {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
+  {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
-  {&__pyx_n_s_one_time_password_length, __pyx_k_one_time_password_length, sizeof(__pyx_k_one_time_password_length), 0, 0, 1, 1},
-  {&__pyx_n_s_restfulpy_orm, __pyx_k_restfulpy_orm, sizeof(__pyx_k_restfulpy_orm), 0, 0, 1, 1},
+  {&__pyx_n_s_nanohttp, __pyx_k_nanohttp, sizeof(__pyx_k_nanohttp), 0, 0, 1, 1},
+  {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
+  {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
+  {&__pyx_n_s_status_code, __pyx_k_status_code, sizeof(__pyx_k_status_code), 0, 0, 1, 1},
+  {&__pyx_n_s_status_text, __pyx_k_status_text, sizeof(__pyx_k_status_text), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_wolf_basedata, __pyx_k_wolf_basedata, sizeof(__pyx_k_wolf_basedata), 0, 0, 1, 1},
-  {&__pyx_kp_s_wolf_basedata_pyx, __pyx_k_wolf_basedata_pyx, sizeof(__pyx_k_wolf_basedata_pyx), 0, 0, 1, 0},
-  {&__pyx_n_s_wolf_models, __pyx_k_wolf_models, sizeof(__pyx_k_wolf_models), 0, 0, 1, 1},
+  {&__pyx_n_s_wolf_exceptions, __pyx_k_wolf_exceptions, sizeof(__pyx_k_wolf_exceptions), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -1663,29 +1424,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
-
-  /* "wolf/basedata.pyx":7
- * 
- * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
- */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_mockup_cryptomodule1, __pyx_n_s_mockup_cryptomodule2); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_wolf_basedata_pyx, __pyx_n_s_insert, 7, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
-  __pyx_L1_error:;
-  __Pyx_RefNannyFinishContext();
-  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  __pyx_int_4 = PyInt_FromLong(4); if (unlikely(!__pyx_int_4)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_7 = PyInt_FromLong(7); if (unlikely(!__pyx_int_7)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_461 = PyInt_FromLong(461); if (unlikely(!__pyx_int_461)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_462 = PyInt_FromLong(462); if (unlikely(!__pyx_int_462)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_463 = PyInt_FromLong(463); if (unlikely(!__pyx_int_463)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_464 = PyInt_FromLong(464); if (unlikely(!__pyx_int_464)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_465 = PyInt_FromLong(465); if (unlikely(!__pyx_int_465)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_466 = PyInt_FromLong(466); if (unlikely(!__pyx_int_466)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -1772,11 +1522,11 @@ static int __Pyx_modinit_function_import_code(void) {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC initbasedata(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC initbasedata(void)
+__Pyx_PyMODINIT_FUNC initexceptions(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC initexceptions(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit_basedata(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_basedata(void)
+__Pyx_PyMODINIT_FUNC PyInit_exceptions(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_exceptions(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -1843,18 +1593,22 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_basedata(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_exceptions(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
   __Pyx_TraceDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannyDeclarations
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'basedata' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'exceptions' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -1869,7 +1623,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_basedata(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_exceptions(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -1908,7 +1662,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("basedata", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("exceptions", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -1927,14 +1681,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_wolf__basedata) {
+  if (__pyx_module_is_main_wolf__exceptions) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "wolf.basedata")) {
-      if (unlikely(PyDict_SetItemString(modules, "wolf.basedata", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "wolf.exceptions")) {
+      if (unlikely(PyDict_SetItemString(modules, "wolf.exceptions", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -1954,74 +1708,380 @@ if (!__Pyx_RefNanny) {
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_basedata(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
+  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_exceptions(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
-  /* "wolf/basedata.pyx":2
+  /* "wolf/exceptions.pyx":2
  * # cython: language_level=3
- * from restfulpy.orm import DBSession             # <<<<<<<<<<<<<<
+ * from nanohttp import HttpStatus             # <<<<<<<<<<<<<<
  * 
- * from wolf.models import Cryptomodule
+ * 
  */
   __Pyx_TraceLine(2,0,__PYX_ERR(0, 2, __pyx_L1_error))
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_DBSession);
-  __Pyx_GIVEREF(__pyx_n_s_DBSession);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_DBSession);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_restfulpy_orm, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_n_s_HttpStatus);
+  __Pyx_GIVEREF(__pyx_n_s_HttpStatus);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_HttpStatus);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_nanohttp, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DBSession); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_HttpStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DBSession, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_HttpStatus, __pyx_t_1) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "wolf/basedata.pyx":4
- * from restfulpy.orm import DBSession
+  /* "wolf/exceptions.pyx":5
  * 
- * from wolf.models import Cryptomodule             # <<<<<<<<<<<<<<
+ * 
+ * class ExpiredTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 461, 'Token is expired', 'The requested token is expired.'
+ * 
+ */
+  __Pyx_TraceLine(5,0,__PYX_ERR(0, 5, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_HttpStatus); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
+  __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_ExpiredTokenError, __pyx_n_s_ExpiredTokenError, (PyObject *) NULL, __pyx_n_s_wolf_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+
+  /* "wolf/exceptions.pyx":6
+ * 
+ * class ExpiredTokenError(HttpStatus):
+ *     status_code, status_text, info = 461, 'Token is expired', 'The requested token is expired.'             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_TraceLine(4,0,__PYX_ERR(0, 4, __pyx_L1_error))
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_Cryptomodule);
-  __Pyx_GIVEREF(__pyx_n_s_Cryptomodule);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Cryptomodule);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_wolf_models, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Cryptomodule); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Cryptomodule, __pyx_t_2) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_TraceLine(6,0,__PYX_ERR(0, 6, __pyx_L1_error))
+  __pyx_t_4 = __pyx_int_461;
+  __Pyx_INCREF(__pyx_t_4);
+  __pyx_t_5 = __pyx_kp_u_Token_is_expired;
+  __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_6 = __pyx_kp_u_The_requested_token_is_expired;
+  __Pyx_INCREF(__pyx_t_6);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_code, __pyx_t_4) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_text, __pyx_t_5) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_info, __pyx_t_6) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "wolf/basedata.pyx":7
+  /* "wolf/exceptions.pyx":5
  * 
  * 
- * def insert():             # <<<<<<<<<<<<<<
- *     mockup_cryptomodule1 = Cryptomodule()
- *     mockup_cryptomodule1.challenge_response_length = 4
+ * class ExpiredTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 461, 'Token is expired', 'The requested token is expired.'
+ * 
  */
-  __Pyx_TraceLine(7,0,__PYX_ERR(0, 7, __pyx_L1_error))
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4wolf_8basedata_1insert, NULL, __pyx_n_s_wolf_basedata); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_insert, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  __Pyx_TraceLine(5,0,__PYX_ERR(0, 5, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ExpiredTokenError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ExpiredTokenError, __pyx_t_6) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "wolf/basedata.pyx":1
+  /* "wolf/exceptions.pyx":9
+ * 
+ * 
+ * class LockedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 462, 'Token is locked', 'The max try limitation is exceeded.'
+ * 
+ */
+  __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_HttpStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_LockedTokenError, __pyx_n_s_LockedTokenError, (PyObject *) NULL, __pyx_n_s_wolf_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+
+  /* "wolf/exceptions.pyx":10
+ * 
+ * class LockedTokenError(HttpStatus):
+ *     status_code, status_text, info = 462, 'Token is locked', 'The max try limitation is exceeded.'             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_TraceLine(10,0,__PYX_ERR(0, 10, __pyx_L1_error))
+  __pyx_t_6 = __pyx_int_462;
+  __Pyx_INCREF(__pyx_t_6);
+  __pyx_t_5 = __pyx_kp_u_Token_is_locked;
+  __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_4 = __pyx_kp_u_The_max_try_limitation_is_exceed;
+  __Pyx_INCREF(__pyx_t_4);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_code, __pyx_t_6) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_text, __pyx_t_5) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_info, __pyx_t_4) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "wolf/exceptions.pyx":9
+ * 
+ * 
+ * class LockedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 462, 'Token is locked', 'The max try limitation is exceeded.'
+ * 
+ */
+  __Pyx_TraceLine(9,0,__PYX_ERR(0, 9, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_LockedTokenError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_LockedTokenError, __pyx_t_4) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "wolf/exceptions.pyx":13
+ * 
+ * 
+ * class DeactivatedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 463, 'Token is deactivated', 'Token has been deactivated.'
+ * 
+ */
+  __Pyx_TraceLine(13,0,__PYX_ERR(0, 13, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_HttpStatus); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
+  __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_DeactivatedTokenError, __pyx_n_s_DeactivatedTokenError, (PyObject *) NULL, __pyx_n_s_wolf_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+
+  /* "wolf/exceptions.pyx":14
+ * 
+ * class DeactivatedTokenError(HttpStatus):
+ *     status_code, status_text, info = 463, 'Token is deactivated', 'Token has been deactivated.'             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_TraceLine(14,0,__PYX_ERR(0, 14, __pyx_L1_error))
+  __pyx_t_4 = __pyx_int_463;
+  __Pyx_INCREF(__pyx_t_4);
+  __pyx_t_5 = __pyx_kp_u_Token_is_deactivated;
+  __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_6 = __pyx_kp_u_Token_has_been_deactivated;
+  __Pyx_INCREF(__pyx_t_6);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_code, __pyx_t_4) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_text, __pyx_t_5) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_info, __pyx_t_6) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+  /* "wolf/exceptions.pyx":13
+ * 
+ * 
+ * class DeactivatedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 463, 'Token is deactivated', 'Token has been deactivated.'
+ * 
+ */
+  __Pyx_TraceLine(13,0,__PYX_ERR(0, 13, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_DeactivatedTokenError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeactivatedTokenError, __pyx_t_6) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "wolf/exceptions.pyx":17
+ * 
+ * 
+ * class DeviceNotFoundError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 464, 'Device Not Found', 'Requested device is found.'
+ * 
+ */
+  __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_HttpStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_DeviceNotFoundError, __pyx_n_s_DeviceNotFoundError, (PyObject *) NULL, __pyx_n_s_wolf_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+
+  /* "wolf/exceptions.pyx":18
+ * 
+ * class DeviceNotFoundError(HttpStatus):
+ *     status_code, status_text, info = 464, 'Device Not Found', 'Requested device is found.'             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_TraceLine(18,0,__PYX_ERR(0, 18, __pyx_L1_error))
+  __pyx_t_6 = __pyx_int_464;
+  __Pyx_INCREF(__pyx_t_6);
+  __pyx_t_5 = __pyx_kp_u_Device_Not_Found;
+  __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_4 = __pyx_kp_u_Requested_device_is_found;
+  __Pyx_INCREF(__pyx_t_4);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_code, __pyx_t_6) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_text, __pyx_t_5) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_info, __pyx_t_4) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "wolf/exceptions.pyx":17
+ * 
+ * 
+ * class DeviceNotFoundError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 464, 'Device Not Found', 'Requested device is found.'
+ * 
+ */
+  __Pyx_TraceLine(17,0,__PYX_ERR(0, 17, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_DeviceNotFoundError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DeviceNotFoundError, __pyx_t_4) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "wolf/exceptions.pyx":21
+ * 
+ * 
+ * class ActivatedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 465, 'Token is active', 'Token is already active.'
+ * 
+ */
+  __Pyx_TraceLine(21,0,__PYX_ERR(0, 21, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_HttpStatus); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
+  __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_ActivatedTokenError, __pyx_n_s_ActivatedTokenError, (PyObject *) NULL, __pyx_n_s_wolf_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+
+  /* "wolf/exceptions.pyx":22
+ * 
+ * class ActivatedTokenError(HttpStatus):
+ *     status_code, status_text, info = 465, 'Token is active', 'Token is already active.'             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_TraceLine(22,0,__PYX_ERR(0, 22, __pyx_L1_error))
+  __pyx_t_4 = __pyx_int_465;
+  __Pyx_INCREF(__pyx_t_4);
+  __pyx_t_5 = __pyx_kp_u_Token_is_active;
+  __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_6 = __pyx_kp_u_Token_is_already_active;
+  __Pyx_INCREF(__pyx_t_6);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_code, __pyx_t_4) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_text, __pyx_t_5) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_info, __pyx_t_6) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+  /* "wolf/exceptions.pyx":21
+ * 
+ * 
+ * class ActivatedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 465, 'Token is active', 'Token is already active.'
+ * 
+ */
+  __Pyx_TraceLine(21,0,__PYX_ERR(0, 21, __pyx_L1_error))
+  __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_ActivatedTokenError, __pyx_t_1, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ActivatedTokenError, __pyx_t_6) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "wolf/exceptions.pyx":25
+ * 
+ * 
+ * class NotLockedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 466, 'Token is not locked', 'The max try limitation is not exceeded.'
+ * 
+ */
+  __Pyx_TraceLine(25,0,__PYX_ERR(0, 25, __pyx_L1_error))
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_HttpStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_NotLockedTokenError, __pyx_n_s_NotLockedTokenError, (PyObject *) NULL, __pyx_n_s_wolf_exceptions, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+
+  /* "wolf/exceptions.pyx":26
+ * 
+ * class NotLockedTokenError(HttpStatus):
+ *     status_code, status_text, info = 466, 'Token is not locked', 'The max try limitation is not exceeded.'             # <<<<<<<<<<<<<<
+ * 
+ */
+  __Pyx_TraceLine(26,0,__PYX_ERR(0, 26, __pyx_L1_error))
+  __pyx_t_6 = __pyx_int_466;
+  __Pyx_INCREF(__pyx_t_6);
+  __pyx_t_5 = __pyx_kp_u_Token_is_not_locked;
+  __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_4 = __pyx_kp_u_The_max_try_limitation_is_not_ex;
+  __Pyx_INCREF(__pyx_t_4);
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_code, __pyx_t_6) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_status_text, __pyx_t_5) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_info, __pyx_t_4) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "wolf/exceptions.pyx":25
+ * 
+ * 
+ * class NotLockedTokenError(HttpStatus):             # <<<<<<<<<<<<<<
+ *     status_code, status_text, info = 466, 'Token is not locked', 'The max try limitation is not exceeded.'
+ * 
+ */
+  __Pyx_TraceLine(25,0,__PYX_ERR(0, 25, __pyx_L1_error))
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_NotLockedTokenError, __pyx_t_2, __pyx_t_3, NULL, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_NotLockedTokenError, __pyx_t_4) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "wolf/exceptions.pyx":1
  * # cython: language_level=3             # <<<<<<<<<<<<<<
- * from restfulpy.orm import DBSession
+ * from nanohttp import HttpStatus
  * 
  */
   __Pyx_TraceLine(1,0,__PYX_ERR(0, 1, __pyx_L1_error))
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_TraceReturn(Py_None, 0);
 
   /*--- Wrapped vars code ---*/
@@ -2030,13 +2090,17 @@ if (!__Pyx_RefNanny) {
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init wolf.basedata", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init wolf.exceptions", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init wolf.basedata");
+    PyErr_SetString(PyExc_ImportError, "init wolf.exceptions");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -2198,368 +2262,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 }
 #endif
 
-/* GetBuiltinName */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
-
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
-}
-
-/* PyFunctionFastCall */
-#if CYTHON_FAST_PYCALL
-static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
-                                               PyObject *globals) {
-    PyFrameObject *f;
-    PyThreadState *tstate = __Pyx_PyThreadState_Current;
-    PyObject **fastlocals;
-    Py_ssize_t i;
-    PyObject *result;
-    assert(globals != NULL);
-    /* XXX Perhaps we should create a specialized
-       PyFrame_New() that doesn't take locals, but does
-       take builtins without sanity checking them.
-       */
-    assert(tstate != NULL);
-    f = PyFrame_New(tstate, co, globals, NULL);
-    if (f == NULL) {
-        return NULL;
-    }
-    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
-    for (i = 0; i < na; i++) {
-        Py_INCREF(*args);
-        fastlocals[i] = *args++;
-    }
-    result = PyEval_EvalFrameEx(f,0);
-    ++tstate->recursion_depth;
-    Py_DECREF(f);
-    --tstate->recursion_depth;
-    return result;
-}
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs) {
-    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
-    PyObject *globals = PyFunction_GET_GLOBALS(func);
-    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
-    PyObject *closure;
-#if PY_MAJOR_VERSION >= 3
-    PyObject *kwdefs;
-#endif
-    PyObject *kwtuple, **k;
-    PyObject **d;
-    Py_ssize_t nd;
-    Py_ssize_t nk;
-    PyObject *result;
-    assert(kwargs == NULL || PyDict_Check(kwargs));
-    nk = kwargs ? PyDict_Size(kwargs) : 0;
-    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
-        return NULL;
-    }
-    if (
-#if PY_MAJOR_VERSION >= 3
-            co->co_kwonlyargcount == 0 &&
-#endif
-            likely(kwargs == NULL || nk == 0) &&
-            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
-        if (argdefs == NULL && co->co_argcount == nargs) {
-            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
-            goto done;
-        }
-        else if (nargs == 0 && argdefs != NULL
-                 && co->co_argcount == Py_SIZE(argdefs)) {
-            /* function called with no arguments, but all parameters have
-               a default value: use default values as arguments .*/
-            args = &PyTuple_GET_ITEM(argdefs, 0);
-            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
-            goto done;
-        }
-    }
-    if (kwargs != NULL) {
-        Py_ssize_t pos, i;
-        kwtuple = PyTuple_New(2 * nk);
-        if (kwtuple == NULL) {
-            result = NULL;
-            goto done;
-        }
-        k = &PyTuple_GET_ITEM(kwtuple, 0);
-        pos = i = 0;
-        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
-            Py_INCREF(k[i]);
-            Py_INCREF(k[i+1]);
-            i += 2;
-        }
-        nk = i / 2;
-    }
-    else {
-        kwtuple = NULL;
-        k = NULL;
-    }
-    closure = PyFunction_GET_CLOSURE(func);
-#if PY_MAJOR_VERSION >= 3
-    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
-#endif
-    if (argdefs != NULL) {
-        d = &PyTuple_GET_ITEM(argdefs, 0);
-        nd = Py_SIZE(argdefs);
-    }
-    else {
-        d = NULL;
-        nd = 0;
-    }
-#if PY_MAJOR_VERSION >= 3
-    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
-                               args, nargs,
-                               k, (int)nk,
-                               d, (int)nd, kwdefs, closure);
-#else
-    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
-                               args, nargs,
-                               k, (int)nk,
-                               d, (int)nd, closure);
-#endif
-    Py_XDECREF(kwtuple);
-done:
-    Py_LeaveRecursiveCall();
-    return result;
-}
-#endif
-#endif
-
-/* PyObjectCall */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* PyObjectCallMethO */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
-    PyObject *self, *result;
-    PyCFunction cfunc;
-    cfunc = PyCFunction_GET_FUNCTION(func);
-    self = PyCFunction_GET_SELF(func);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = cfunc(self, arg);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* PyObjectCallNoArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
-#else
-    if (likely(PyCFunction_Check(func)))
-#endif
-    {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
-}
-#endif
-
-/* PyObjectCallOneArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_New(1);
-    if (unlikely(!args)) return NULL;
-    Py_INCREF(arg);
-    PyTuple_SET_ITEM(args, 0, arg);
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, &arg, 1);
-    }
-#endif
-    if (likely(PyCFunction_Check(func))) {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
-            return __Pyx_PyObject_CallMethO(func, arg);
-#if CYTHON_FAST_PYCCALL
-        } else if (PyCFunction_GET_FLAGS(func) & METH_FASTCALL) {
-            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
-#endif
-        }
-    }
-    return __Pyx__PyObject_CallOneArg(func, arg);
-}
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_Pack(1, arg);
-    if (unlikely(!args)) return NULL;
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-#endif
-
-/* PyObjectSetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_setattro))
-        return tp->tp_setattro(obj, attr_name, value);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_setattr))
-        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
-#endif
-    return PyObject_SetAttr(obj, attr_name, value);
-}
-#endif
-
-/* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-    PyObject *args, *result = NULL;
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyFunction_FastCall(function, args, 2);
-    }
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyCFunction_FastCall(function, args, 2);
-    }
-    #endif
-    args = PyTuple_New(2);
-    if (unlikely(!args)) goto done;
-    Py_INCREF(arg1);
-    PyTuple_SET_ITEM(args, 0, arg1);
-    Py_INCREF(arg2);
-    PyTuple_SET_ITEM(args, 1, arg2);
-    Py_INCREF(function);
-    result = __Pyx_PyObject_Call(function, args, NULL);
-    Py_DECREF(args);
-    Py_DECREF(function);
-done:
-    return result;
-}
-
 /* Import */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
     PyObject *empty_list = 0;
@@ -2637,6 +2339,187 @@ static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
         #endif
     }
     return value;
+}
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
+
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
+#if CYTHON_COMPILING_IN_CPYTHON
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
+    }
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
+}
+#endif
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
+    }
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
+}
+
+/* CalculateMetaclass */
+static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases) {
+    Py_ssize_t i, nbases = PyTuple_GET_SIZE(bases);
+    for (i=0; i < nbases; i++) {
+        PyTypeObject *tmptype;
+        PyObject *tmp = PyTuple_GET_ITEM(bases, i);
+        tmptype = Py_TYPE(tmp);
+#if PY_MAJOR_VERSION < 3
+        if (tmptype == &PyClass_Type)
+            continue;
+#endif
+        if (!metaclass) {
+            metaclass = tmptype;
+            continue;
+        }
+        if (PyType_IsSubtype(metaclass, tmptype))
+            continue;
+        if (PyType_IsSubtype(tmptype, metaclass)) {
+            metaclass = tmptype;
+            continue;
+        }
+        PyErr_SetString(PyExc_TypeError,
+                        "metaclass conflict: "
+                        "the metaclass of a derived class "
+                        "must be a (non-strict) subclass "
+                        "of the metaclasses of all its bases");
+        return NULL;
+    }
+    if (!metaclass) {
+#if PY_MAJOR_VERSION < 3
+        metaclass = &PyClass_Type;
+#else
+        metaclass = &PyType_Type;
+#endif
+    }
+    Py_INCREF((PyObject*) metaclass);
+    return (PyObject*) metaclass;
+}
+
+/* Py3ClassCreate */
+static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name,
+                                           PyObject *qualname, PyObject *mkw, PyObject *modname, PyObject *doc) {
+    PyObject *ns;
+    if (metaclass) {
+        PyObject *prep = __Pyx_PyObject_GetAttrStr(metaclass, __pyx_n_s_prepare);
+        if (prep) {
+            PyObject *pargs = PyTuple_Pack(2, name, bases);
+            if (unlikely(!pargs)) {
+                Py_DECREF(prep);
+                return NULL;
+            }
+            ns = PyObject_Call(prep, pargs, mkw);
+            Py_DECREF(prep);
+            Py_DECREF(pargs);
+        } else {
+            if (unlikely(!PyErr_ExceptionMatches(PyExc_AttributeError)))
+                return NULL;
+            PyErr_Clear();
+            ns = PyDict_New();
+        }
+    } else {
+        ns = PyDict_New();
+    }
+    if (unlikely(!ns))
+        return NULL;
+    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_module, modname) < 0)) goto bad;
+    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_qualname, qualname) < 0)) goto bad;
+    if (unlikely(doc && PyObject_SetItem(ns, __pyx_n_s_doc, doc) < 0)) goto bad;
+    return ns;
+bad:
+    Py_DECREF(ns);
+    return NULL;
+}
+static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases,
+                                      PyObject *dict, PyObject *mkw,
+                                      int calculate_metaclass, int allow_py2_metaclass) {
+    PyObject *result, *margs;
+    PyObject *owned_metaclass = NULL;
+    if (allow_py2_metaclass) {
+        owned_metaclass = PyObject_GetItem(dict, __pyx_n_s_metaclass);
+        if (owned_metaclass) {
+            metaclass = owned_metaclass;
+        } else if (likely(PyErr_ExceptionMatches(PyExc_KeyError))) {
+            PyErr_Clear();
+        } else {
+            return NULL;
+        }
+    }
+    if (calculate_metaclass && (!metaclass || PyType_Check(metaclass))) {
+        metaclass = __Pyx_CalculateMetaclass((PyTypeObject*) metaclass, bases);
+        Py_XDECREF(owned_metaclass);
+        if (unlikely(!metaclass))
+            return NULL;
+        owned_metaclass = metaclass;
+    }
+    margs = PyTuple_Pack(3, name, bases, dict);
+    if (unlikely(!margs)) {
+        result = NULL;
+    } else {
+        result = PyObject_Call(metaclass, margs, mkw);
+        Py_DECREF(margs);
+    }
+    Py_XDECREF(owned_metaclass);
+    return result;
 }
 
 /* CLineInTraceback */
