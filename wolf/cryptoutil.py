@@ -21,8 +21,8 @@ class PlainISO0PinBlock:
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
 
     """
-    def __init__(self, token_id):
-        pan = str(token_id).zfill(16)
+    def __init__(self, token):
+        pan = str(token.id).zfill(16)
         self.pan = int(f'0000{pan[-13:-1]}', 16)
 
     def encode(self, data):
@@ -37,18 +37,8 @@ class PlainISO0PinBlock:
 
 class EncryptedISOPinBlock(PlainISO0PinBlock):
 
-    def __init__(self, token_id, key=None):
-        super().__init__(token_id)
-
-        token = DBSession.query(Token) \
-            .filter(Token.id == token_id) \
-            .one_or_none()
-
-        if token is None:
-            print(
-                f'Token with id: {token_id} was not found',
-                file=sys.stderr
-            )
+    def __init__(self, token, key=None):
+        super().__init__(token)
 
         bank_id = token.bank_id
 
