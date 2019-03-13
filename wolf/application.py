@@ -62,9 +62,9 @@ class Wolf(Application):
         from . import basedata
         basedata.insert()
 
-    def insert_mockup(self):  # pragma: no cover
+    def insert_mockup(self, *args):  # pragma: no cover
         from . import mockup
-        mockup.insert(*args)
+        mockup.insert()
 
     def register_cli_launchers(self, subparsers):
         PinBlockLauncher.register(subparsers)

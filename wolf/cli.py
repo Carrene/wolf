@@ -55,8 +55,20 @@ class PinBlockEncodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
+
+        token = DBSession.query(Token) \
+            .filter(Token.id == self.args.token_id) \
+            .one_or_none()
+
+        if not token:
+            print(
+                f'Token with id: {self.args.token_id} has not found',
+                file=sys.stderr
+            )
+            return 1
+
         print(EncryptedISOPinBlock(
-            self.args.token_id,
+            token,
             key=self.args.key
         ).encode(code).decode())
 
@@ -82,8 +94,20 @@ class PinBlockDecodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
+
+        token = DBSession.query(Token) \
+            .filter(Token.id == self.args.token_id) \
+            .one_or_none()
+
+        if not token:
+            print(
+                f'Token with id: {self.args.token_id} has not found',
+                file=sys.stderr
+            )
+            return 1
+
         print(EncryptedISOPinBlock(
-            self.args.token_id,
+            token,
             key=self.args.key
         ).decode(code).decode())
 
