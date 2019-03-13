@@ -6,6 +6,8 @@ import io
 
 from Crypto.Cipher import DES3
 from nanohttp import settings
+from restfulpy.orm import DBSession
+from wolf.models import Token
 
 
 def random(size):  # pragma: no cover
@@ -35,8 +37,21 @@ class PlainISO0PinBlock:
 
 class EncryptedISOPinBlock(PlainISO0PinBlock):
 
-    def __init__(self, token_id, bank_id, key=None):
+    def __init__(self, token_id, key=None):
         super().__init__(token_id)
+
+        token = DBSession.query(Token) \
+            .filter(Token.id == token_id) \
+            .one_or_none()
+
+        if token is None:
+            print(
+                f'Token with id: {token_id} was not found',
+                file=sys.stderr
+            )
+
+        bank_id = token.bank_id
+
         self.key = \
             binascii.unhexlify(key or settings.pinblock[bank_id].key)
 
