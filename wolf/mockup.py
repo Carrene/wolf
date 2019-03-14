@@ -15,6 +15,7 @@ def insert(quantity=10, prefix=0):
         for i in range(quantity):
             for (cryptomodule_id, ) in cryptomodule_ids:
                 token = Token()
+                token.bank_id = 2
                 token.name = f'{prefix:02}{i:010}{cryptomodule_id:02}'
                 token.phone = int(f'989{i:09}')
                 token.cryptomodule_id = cryptomodule_id
