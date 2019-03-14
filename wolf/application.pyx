@@ -5,7 +5,6 @@ from os.path import dirname
 from restfulpy import Application
 from restfulpy.cryptography import AESCipher
 
-from .cli import PinBlockLauncher, OTPLauncher
 from .controllers import Root
 
 
@@ -69,6 +68,7 @@ class Wolf(Application):
         mockup.insert()
 
     def register_cli_launchers(self, subparsers):
+        from .cli import PinBlockLauncher, OTPLauncher
         PinBlockLauncher.register(subparsers)
         OTPLauncher.register(subparsers)
 
