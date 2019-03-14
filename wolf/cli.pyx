@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 import sys
 import time
 
@@ -55,8 +57,20 @@ class PinBlockEncodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
+
+        token = DBSession.query(Token) \
+            .filter(Token.id == self.args.token_id) \
+            .one_or_none()
+
+        if not token:
+            print(
+                f'Token with id: {self.args.token_id} has not found',
+                file=sys.stderr
+            )
+            return 1
+
         print(EncryptedISOPinBlock(
-            self.args.token_id,
+            token,
             key=self.args.key
         ).encode(code).decode())
 
@@ -82,8 +96,20 @@ class PinBlockDecodeLauncher(Launcher):
         code = self.args.code
         if not code:
             code = sys.stdin.read().strip()
+
+        token = DBSession.query(Token) \
+            .filter(Token.id == self.args.token_id) \
+            .one_or_none()
+
+        if not token:
+            print(
+                f'Token with id: {self.args.token_id} has not found',
+                file=sys.stderr
+            )
+            return 1
+
         print(EncryptedISOPinBlock(
-            self.args.token_id,
+            token,
             key=self.args.key
         ).decode(code).decode())
 
@@ -102,6 +128,14 @@ class OTPLauncher(Launcher, RequireSubCommand):
             required=True,
             help='The token id'
         )
+        parser.add_argument(
+            '-u',
+            '--unixtime',
+            type=int,
+            default=int(time.time()),
+            help='Unix time.'
+        )
+
         otp_subparsers = parser.add_subparsers(
             title='OTP commands',
             dest='otp_command'
@@ -135,7 +169,7 @@ class OTPGenerateLauncher(Launcher):
 
         print(TOTP(
             token.seed,
-            time.time(),
+            self.args.unixtime,
             token.cryptomodule.one_time_password_length,
             step=token.cryptomodule.time_interval
         ).generate().decode())
@@ -176,7 +210,7 @@ class OTPVerifyLauncher(Launcher):
             return 1
         ok = TOTP(
             token.seed,
-            time.time(),
+            self.args.unixtime,
             token.cryptomodule.one_time_password_length,
             step=token.cryptomodule.time_interval
         ).verify(

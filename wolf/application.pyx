@@ -1,15 +1,17 @@
+# cython: language_level=3
+
 from os.path import dirname
 
 from restfulpy import Application
 from restfulpy.cryptography import AESCipher
 
-from .cli import PinBlockLauncher, OTPLauncher
 from .controllers import Root
 
 
 class Wolf(Application):
     __configuration_cipher__ = AESCipher(b'ced&#quevbot2(Sc')
     __configuration__ = '''
+    process_name: %(process_name)s
     db:
       url: postgresql://postgres:postgres@localhost/wolf
       test_url: postgresql://postgres:postgres@localhost/wolf_test
@@ -35,13 +37,16 @@ class Wolf(Application):
         db: 0
         max_connections: 10
         socket_timeout: 1
-      verify_limit: 1
 
     oath:
       window: 2
 
     pinblock:
-      key: 1234567890ABCDEF1234567890ABCDEF
+      2:
+        key: 1234567890ABCDEF1234567890ABCDEF
+      3:
+        key: 1234567890ABCDEF1234567890ABCDEF
+
 
     '''
 
@@ -58,11 +63,12 @@ class Wolf(Application):
         from . import basedata
         basedata.insert()
 
-    def insert_mockup(self):  # pragma: no cover
+    def insert_mockup(self, *args):  # pragma: no cover
         from . import mockup
-        mockup.insert(*args)
+        mockup.insert()
 
     def register_cli_launchers(self, subparsers):
+        from .cli import PinBlockLauncher, OTPLauncher
         PinBlockLauncher.register(subparsers)
         OTPLauncher.register(subparsers)
 

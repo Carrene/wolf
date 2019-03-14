@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 import time
 import struct
 import binascii
@@ -13,7 +15,7 @@ from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
 from sqlalchemy.orm import relationship
 
 from .backends import LionClient
-from wolf import cryptoutil
+from . import cryptoutil
 
 
 class Cryptomodule(DeclarativeBase):
@@ -74,12 +76,21 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         not_none=True
     )
 
+    bank_id = Field(
+        Integer,
+        required='709 bankId is required',
+        not_none='709 bankId is required',
+        python_type=(int, '710 BankId must be Integer')
+    )
+
+
     __table_args__ = (
         UniqueConstraint(
             name,
             phone,
             cryptomodule_id,
-            name='uix_name_phone_cryptomodule_id'
+            bank_id,
+            name='uix_name_phone_cryptomodule_id_bank_id'
         ),
     )
 
@@ -97,16 +108,17 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
 
     def provision(self, phone):
         """
-        version+seed+expdate+cryptomoduleid+name
+        version:1+expdate:4+cryptomoduleId:1+length:1+timeInterval:1+bankId:1+seed:20+name:~14
         """
         expire_date = self.expire_date.strftime('%y%m%d')
         binary = struct.pack(
-            '!BIBBB',
+            '!BIBBBB',
             1,                      # Version
             int(expire_date),
             self.cryptomodule_id,
             self.cryptomodule.one_time_password_length,
-            self.cryptomodule.time_interval
+            self.cryptomodule.time_interval,
+            self.bank_id,
         )
         binary += self.seed
         binary += self.name.encode()
@@ -122,15 +134,16 @@ cached_cryptomodules = None
 class MiniToken:
     _redis = None
 
-    def __init__(self, id, seed, expire_date, is_active, cryptomodule_id,
-                 last_code=None, same_code_verify_counter=0):
+    def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
+                 last_code=None, final=False):
         self.id = id
+        self.bank_id = bank_id
         self.seed = seed
         self.expire_date = expire_date
         self.is_active = is_active
         self.cryptomodule_id = cryptomodule_id
         self.last_code = last_code
-        self.same_code_verify_counter = same_code_verify_counter
+        self.final = final
 
     @staticmethod
     def create_blocking_redis_client():
@@ -153,6 +166,7 @@ class MiniToken:
     def load_from_database(cls, token_id):
         row = DBSession.query(
             Token.id,
+            Token.bank_id,
             Token.seed,
             extract('epoch', Token.expire_date),
             Token.activated_at.isnot(None),
@@ -197,16 +211,17 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, code, window):
-        if self.last_code == code:  # pragma: no cover
-            self.same_code_verify_counter += 1
-            if settings.token.verify_limit <= self.same_code_verify_counter:
+    def verify(self, code, window, primitive=False):
+        if self.last_code == code:
+            if self.final:
                 return False
+
         else:
             self.last_code = code
-            self.same_code_verify_counter = 0
 
-        pinblock = cryptoutil.EncryptedISOPinBlock(self.id)
+        self.final = not primitive
+
+        pinblock = cryptoutil.EncryptedISOPinBlock(self)
         otp = pinblock.decode(code)
         return TOTP(
             self.seed,
@@ -218,13 +233,14 @@ class MiniToken:
     def cache(self):  # pragma: no cover
         self.redis().set(
             str(self.id),
-            b'%s,%d,%d,%d,%s,%d' % (
+            b'%s,%s,%d,%d,%d,%s,%d' % (
+                str(self.bank_id).encode(),
                 binascii.hexlify(self.seed),
                 int(self.expire_date),
                 int(self.is_active),
                 self.cryptomodule_id,
                 self.last_code,
-                self.same_code_verify_counter
+                int(self.final)
             )
         )
 
@@ -236,12 +252,13 @@ class MiniToken:
             token = redis.get(cache_key).split(b',')
             return cls(
                 token_id,
-                binascii.unhexlify(token[0]),
-                float(token[1]),
-                bool(token[2]),
-                int(token[3]),
-                token[4],
-                int(token[5])
+                int(token[0]),
+                binascii.unhexlify(token[1]),
+                float(token[2]),
+                bool(token[3]),
+                int(token[4]),
+                token[5],
+                int(token[6])
             ) if token else None
         return None
 

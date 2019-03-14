@@ -11,8 +11,8 @@ with open(join(dirname(__file__), 'wolf', '__init__.py')) as v_file:
 
 
 dependencies = [
-    'restfulpy >= 2.6.3',
-    'oathcy >= 1.4.0',
+    'restfulpy >= 2.6.13, < 3',
+    'oathcy >= 1.4.0, < 2',
     'pycrypto',
 
     # deployment
@@ -21,10 +21,10 @@ dependencies = [
 
 
 # FIXME: Uncomment it before deploy
-#wolf_modules = cythonize(
-#    'wolf/**/*.pyx',
-#    compiler_directives={'linetrace': True}
-#)
+wolf_modules = cythonize(
+    'wolf/**/*.pyx',
+    compiler_directives={'linetrace': True}
+)
 
 
 setup(
@@ -36,7 +36,7 @@ setup(
     packages=find_packages('.', exclude=['*.tests']),
     include_package_data=True,
     # FIXME: Uncomment it before deploy
-    #ext_modules=wolf_modules,
+    ext_modules=wolf_modules,
     test_suite="wolf.tests",
     entry_points={
         'console_scripts': [

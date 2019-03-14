@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 from restfulpy.orm import DBSession
 
 from wolf.models import Cryptomodule

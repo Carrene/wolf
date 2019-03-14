@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 from nanohttp import json, context, action, settings, RestController, \
     HTTPStatus, HTTPNotFound, LazyAttribute, Controller, validate
 from restfulpy.controllers import ModelRestController, RootController
@@ -8,6 +10,9 @@ import wolf
 from .exceptions import DeactivatedTokenError, ExpiredTokenError, \
     DuplicateSeedError
 from .models import Cryptomodule, Token, MiniToken
+
+
+AYANDE_BANK_ID = 2
 
 
 class CodesController(RestController):
@@ -28,10 +33,12 @@ class CodesController(RestController):
         if not token.is_active:
             raise DeactivatedTokenError()
 
+        primitive = context.query.get('primitive') == 'yes'
         try:
             is_valid = token.verify(
                 code.encode(),
                 self.window,
+                primitive=primitive
             )
             token.cache()
         except ValueError:
@@ -67,6 +74,8 @@ class TokenController(ModelRestController):
     @staticmethod
     def _find_or_create_token(name, phone):
         cryptomodule_id = context.form['cryptomoduleId']
+        context.form.setdefault('bankId', AYANDE_BANK_ID)
+        bank_id = context.form['bankId']
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
@@ -78,7 +87,8 @@ class TokenController(ModelRestController):
         token = DBSession.query(Token).filter(
             Token.name == name,
             Token.cryptomodule_id == cryptomodule_id,
-            Token.phone == phone
+            Token.phone == phone,
+            Token.bank_id == bank_id
         ).one_or_none()
 
         if token is None:
@@ -86,18 +96,28 @@ class TokenController(ModelRestController):
             token = Token()
             token.update_from_request()
             token.is_active = True
-            token.initialize_seed()
             DBSession.add(token)
+
+        token.initialize_seed()
 
         try:
             DBSession.flush()
-        except IntegrityError:
+        except IntegrityError as ex:
             raise DuplicateSeedError()
         else:
             return token
 
-    @json(form_whitelist=['name', 'phone', 'cryptomoduleId', 'expireDate'])
-    @Token.validate(strict=True)
+    @json(
+        form_whitelist=[
+            'name', 'phone', 'cryptomoduleId', 'expireDate','bankId'
+        ]
+    )
+    @Token.validate(strict=True, fields=dict(
+        bankId=dict(
+            required=False,
+            not_none=False,
+        )
+    ))
     @Token.expose
     @commit
     def ensure(self):
@@ -118,6 +138,13 @@ class ApiV1(Controller):
     def version(self):
         return {
             'version': wolf.__version__
+        }
+
+    @json
+    def info(self):
+        return {
+            'version': wolf.__version__,
+            'title': settings.process_name
         }
 
 
