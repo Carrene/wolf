@@ -21,10 +21,10 @@ dependencies = [
 
 
 # FIXME: Uncomment it before deploy
-#wolf_modules = cythonize(
-#    'wolf/**/*.pyx',
-#    compiler_directives={'linetrace': True}
-#)
+wolf_modules = cythonize(
+    'wolf/**/*.pyx',
+    compiler_directives={'linetrace': True}
+)
 
 
 setup(
