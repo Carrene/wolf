@@ -1,4 +1,5 @@
 # cython: language_level=3
+
 from os.path import dirname
 
 from restfulpy import Application
