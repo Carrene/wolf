@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 import time
 import struct
 import binascii
@@ -13,7 +15,7 @@ from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
 from sqlalchemy.orm import relationship
 
 from .backends import LionClient
-from wolf import cryptoutil
+from . import cryptoutil
 
 
 class Cryptomodule(DeclarativeBase):

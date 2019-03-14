@@ -1,3 +1,5 @@
+# cython: language_level=3
+
 import os
 import binascii
 import base64
@@ -6,8 +8,6 @@ import io
 
 from Crypto.Cipher import DES3
 from nanohttp import settings
-from restfulpy.orm import DBSession
-from wolf.models import Token
 
 
 def random(size):  # pragma: no cover
