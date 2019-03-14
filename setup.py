@@ -36,7 +36,7 @@ setup(
     packages=find_packages('.', exclude=['*.tests']),
     include_package_data=True,
     # FIXME: Uncomment it before deploy
-    #ext_modules=wolf_modules,
+    ext_modules=wolf_modules,
     test_suite="wolf.tests",
     entry_points={
         'console_scripts': [
