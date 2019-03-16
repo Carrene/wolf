@@ -75,6 +75,12 @@ class MiniToken:
     def is_expired(self):
         return self.expire_date <= time.time()
 
+    @classmethod
+    def reset(cls):
+        global cached_cryptomodules
+        cached_cryptomodules = None
+        cls.redis().flushdb()
+
     @property
     def cryptomodules(self):
         global cached_cryptomodules

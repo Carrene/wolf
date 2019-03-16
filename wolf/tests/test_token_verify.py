@@ -7,7 +7,7 @@ from bddrest.authoring import when, then, response
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock
 from wolf.tests.helpers import TimeMonkeyPatch, BDDTestClass
-
+from wolf.controllers import MiniToken
 
 class VerifyTokenTestCase(BDDTestClass):
 
@@ -54,8 +54,6 @@ class VerifyTokenTestCase(BDDTestClass):
             b'\x01U\x81!\xd8\x9cg\xfc\xf7\xde\xe5\x13\xfb\xbaZ\xef\xa6dv\xa2\xc0Y\x00v'
         mockup_token3.is_active = False
 
-        # 752a312744b9bba65a2e3e886abe5a9b33c6ca8425870a890d8a0d699428f22248b0f7879aa1493901558121d89c67fcf7dee513fbba5aefa66476a2c0590076
-
         mockup_cryptomodule_length_5 = Cryptomodule()
         mockup_cryptomodule_length_5.challenge_response_length = 5
         mockup_cryptomodule_length_5.one_time_password_length = 5
@@ -84,9 +82,11 @@ class VerifyTokenTestCase(BDDTestClass):
         cls.invalid_fake_time = 123456
 
         cls.fake_time3 = 1515515295
+        cls.pinblock2 = EncryptedISOPinBlock(mockup_token2.id)
         cls.valid_otp_token2_time1 = cls.pinblock.encode('88533').decode()
 
     def test_verify_token_otp_time_length_5(self):
+        MiniToken.reset()
         mockup_token_id = self.mockup_token2_id
 
         call = dict(
