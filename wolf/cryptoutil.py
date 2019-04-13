@@ -1,5 +1,3 @@
-# cython: language_level=3
-
 import os
 import binascii
 import base64
