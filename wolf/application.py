@@ -61,9 +61,9 @@ class Wolf(Application):
         from . import basedata
         basedata.insert()
 
-    def insert_mockup(self, *args):  # pragma: no cover
+    def insert_mockup(self, args):  # pragma: no cover
         from . import mockup
-        mockup.insert()
+        mockup.insert(*args)
 
     def register_cli_launchers(self, subparsers):
         from .cli import PinBlockLauncher, OTPLauncher
