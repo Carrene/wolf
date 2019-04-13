@@ -1,5 +1,3 @@
-# cython: language_level=3
-
 from datetime import timedelta, date
 
 from restfulpy.orm import DBSession

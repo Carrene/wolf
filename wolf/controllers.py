@@ -1,5 +1,3 @@
-# cython: language_level=3
-
 from nanohttp import json, context, action, settings, RestController, \
     HTTPStatus, HTTPNotFound, LazyAttribute, Controller, validate
 from restfulpy.controllers import ModelRestController, RootController
