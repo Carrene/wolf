@@ -20,8 +20,8 @@ develop:
 
 clean:
 	python setup.py clean
-	rm wolf/*.c
-	rm wolf/*.so
+	-rm wolf/*.c
+	-rm wolf/*.so
 
 test:
 	pytest
