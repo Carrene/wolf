@@ -123,7 +123,7 @@ class TestEnsureToken(LocalApplicationTestCase):
                     'Device is not found',
                     form=given | dict(name='DummyTokenName3')
                 )
-                assert status == '605 Device is not found: 989122451075'
+                assert status == '605 Device is not found: 1989122451075'
 
             when(
                 'CryptomoduleId is not integer',
