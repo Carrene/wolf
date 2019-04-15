@@ -121,7 +121,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         binary += self.seed
         binary += self.name.encode()
 
-        encrypted_binary = LionClient().encrypt(phone, binary, checksum=4)
+        encrypted_binary = LionClient().encrypt(self.bank_id, phone, binary, checksum=4)
         hexstring = binascii.hexlify(encrypted_binary).decode()
         return f'mt://oath/totp/{hexstring}'
 
