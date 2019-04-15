@@ -35,6 +35,7 @@ class Wolf(Application):
         db: 0
         max_connections: 10
         socket_timeout: 1
+        ttl: 60
 
     oath:
       window: 2
