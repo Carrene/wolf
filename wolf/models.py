@@ -239,7 +239,8 @@ class MiniToken:
                 self.cryptomodule_id,
                 self.last_code,
                 int(self.final)
-            )
+            ),
+            settings.token.redis.time_to_leave
         )
 
     @classmethod
