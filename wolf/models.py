@@ -240,7 +240,7 @@ class MiniToken:
                 self.last_code,
                 int(self.final)
             ),
-            settings.token.redis.time_to_leave
+            settings.token.redis.time_to_live
         )
 
     @classmethod
