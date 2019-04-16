@@ -4,6 +4,7 @@ import binascii
 import pickle
 from datetime import date
 from collections import deque
+from uuid import uuid1
 
 import redis
 from nanohttp import settings
@@ -13,6 +14,7 @@ from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
     UniqueConstraint, BigInteger, event, extract, text
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
 
 from .backends import LionClient
 from . import cryptoutil
@@ -30,7 +32,11 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
             OrderingMixin, DeclarativeBase):
     __tablename__ = 'token'
 
-    id = Field(Integer, primary_key=True)
+    id = Field(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid1
+    )
     name = Field(
         Unicode(50),
         required='703 name is required',
