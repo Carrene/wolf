@@ -54,7 +54,7 @@ def lion_status(status):
     _lion_status = 'idle'
 
 
-class TestEnsureToken(LocalApplicationTestCase):
+class TestEnsureCardToken(LocalApplicationTestCase):
 
     @classmethod
     def mockup(cls):
@@ -85,11 +85,11 @@ class TestEnsureToken(LocalApplicationTestCase):
         session.add(deactivated_token)
         session.commit()
 
-    def test_ensure_token(self):
+    def test_ensure_cardtoken(self):
         with lion_mockup_server(), self.given(
             'Provisioning',
-            '/apiv1/tokens',
-            'CARDENSURE',
+            '/apiv1/cardtokens',
+            'ENSURE',
             form={
                 'phone': 989122451075,
                 'partialCardName': '603799DummyToken',
