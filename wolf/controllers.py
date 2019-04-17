@@ -72,16 +72,10 @@ class TokenController(ModelRestController):
             raise DeactivatedTokenError()
 
     @staticmethod
-    def _find_or_create_token(name, phone, is_partial_card_name=False):
+    def _find_or_create_token(name, phone):
         cryptomodule_id = context.form['cryptomoduleId']
         context.form.setdefault('bankId', AYANDE_BANK_ID)
         bank_id = context.form['bankId']
-
-        if is_partial_card_name:
-            pattern = settings.card_tokens[bank_id].pattern
-
-            if not re.match(pattern, name):
-                raise InvalidPartialCardNameError()
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
@@ -101,10 +95,6 @@ class TokenController(ModelRestController):
             # Creating a new token
             token = Token()
             token.update_from_request()
-
-            if is_partial_card_name:
-                token.name = name
-
             token.is_active = True
             DBSession.add(token)
 
@@ -116,54 +106,6 @@ class TokenController(ModelRestController):
             raise DuplicateSeedError()
         else:
             return token
-
-    @json(
-        form_whitelist=[
-            'partialCardName', 'phone', 'cryptomoduleId', 'expireDate','bankId'
-        ]
-    )
-    @Token.validate(strict=True, fields=dict(
-        bankId=dict(
-            required=False,
-            not_none=False,
-        ),
-        name=dict(
-            required=False,
-            not_none=False,
-        ),
-        partialCardName=dict(
-            required='712 partial card name is required',
-            not_none='713 partial card name can not be empty',
-            min_length=(
-                6,
-                '714 partial card name length '\
-                'should be between 6 and 50 characters'
-            ),
-            max_length= (
-                50,
-                '714 partial card name length should '\
-                'be between 6 and 50 characters'
-            )
-        )
-    ))
-    @Token.expose
-    @commit
-    def cardensure(self):
-        partial_card_name = context.form['partialCardName']
-        phone = context.form['phone']
-
-        token = self._find_or_create_token(
-            partial_card_name,
-            phone,
-            is_partial_card_name=True
-        )
-
-        self._validate_token(token)
-        DBSession.flush()
-        result = token.to_dict()
-        result['provisioning'] = token.provision(phone)
-        result['partialCardName'] = result.pop('name')
-        return result
 
     @json(
         form_whitelist=[
