@@ -29,3 +29,7 @@ class SSMInternalError(HTTPKnownStatus):
 class DuplicateSeedError(HTTPKnownStatus):
     status = '666 Cannot generate and randomize seed, please try again'
 
+
+class InvalidBinError(HTTPKnownStatus):
+    status = '711 Invalid bin'
+

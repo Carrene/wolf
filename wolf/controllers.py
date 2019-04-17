@@ -1,3 +1,5 @@
+import re
+
 from nanohttp import json, context, action, settings, RestController, \
     HTTPStatus, HTTPNotFound, LazyAttribute, Controller, validate
 from restfulpy.controllers import ModelRestController, RootController
@@ -6,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 import wolf
 from .exceptions import DeactivatedTokenError, ExpiredTokenError, \
-    DuplicateSeedError
+    DuplicateSeedError, InvalidBinError
 from .models import Cryptomodule, Token, MiniToken
 
 
@@ -70,10 +72,16 @@ class TokenController(ModelRestController):
             raise DeactivatedTokenError()
 
     @staticmethod
-    def _find_or_create_token(name, phone):
+    def _find_or_create_token(name, phone, isbin=False):
         cryptomodule_id = context.form['cryptomoduleId']
         context.form.setdefault('bankId', AYANDE_BANK_ID)
         bank_id = context.form['bankId']
+
+        if isbin:
+            pattern = settings.card_tokens[bank_id].pattern
+
+            if not re.match(pattern, name):
+                raise InvalidBinError()
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
@@ -93,6 +101,10 @@ class TokenController(ModelRestController):
             # Creating a new token
             token = Token()
             token.update_from_request()
+
+            if isbin:
+                token.name = name
+
             token.is_active = True
             DBSession.add(token)
 
@@ -104,6 +116,41 @@ class TokenController(ModelRestController):
             raise DuplicateSeedError()
         else:
             return token
+
+    @json(
+        form_whitelist=[
+            'bin', 'phone', 'cryptomoduleId', 'expireDate','bankId'
+        ]
+    )
+    @Token.validate(strict=True, fields=dict(
+        bankId=dict(
+            required=False,
+            not_none=False,
+        ),
+        name=dict(
+            required=False,
+            not_none=False,
+        ),
+        bin=dict(
+            required='712 bin is required',
+            not_none='713 bin can not be empty',
+            min_length= \
+                (6, '714 bin length should be between 6 and 50 characters'),
+            max_length= \
+                (50, '714 bin length should be between 6 and 50 characters')
+        )
+    ))
+    @Token.expose
+    @commit
+    def cardensure(self):
+        bin_ = context.form['bin']
+        phone = context.form['phone']
+        token = self._find_or_create_token(bin_, phone, isbin=True)
+        self._validate_token(token)
+        DBSession.flush()
+        result = token.to_dict()
+        result['provisioning'] = token.provision(phone)
+        return result
 
     @json(
         form_whitelist=[

@@ -46,6 +46,17 @@ class Wolf(Application):
       3:
         key: 1234567890ABCDEF1234567890ABCDEF
 
+    card_tokens:
+      1:
+        pattern: ^603799
+      2:
+        pattern: ^636214
+      3:
+        pattern: ^603769
+      4:
+        pattern: ^6(03770|39217)
+      5:
+        pattern: ^627648
 
     '''
 
