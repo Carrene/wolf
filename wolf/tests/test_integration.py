@@ -60,7 +60,7 @@ class TestIntegration(LocalApplicationTestCase):
                 lion_mockup_server(), self.given(
             'Provisioning for integration test',
             '/apiv1/tokens',
-            'ENSURE',
+            'EXSURE',
             form={
                 'phone': 989121234567,
                 'name': 'abcdefghijklmn',

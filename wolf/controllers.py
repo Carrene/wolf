@@ -120,7 +120,7 @@ class TokenController(ModelRestController):
     ))
     @Token.expose
     @commit
-    def ensure(self):
+    def exsure(self):
         phone = context.form['phone']
         name = context.form['name']
         token = self._find_or_create_token(name, phone)
