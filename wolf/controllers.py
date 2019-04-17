@@ -135,12 +135,12 @@ class TokenController(ModelRestController):
             required='712 partial card name is required',
             not_none='713 partial card name can not be empty',
             min_length=(
-                6, 
+                6,
                 '714 partial card name length '\
                 'should be between 6 and 50 characters'
             ),
             max_length= (
-                50, 
+                50,
                 '714 partial card name length should '\
                 'be between 6 and 50 characters'
             )
@@ -153,8 +153,8 @@ class TokenController(ModelRestController):
         phone = context.form['phone']
 
         token = self._find_or_create_token(
-            partial_card_name, 
-            phone, 
+            partial_card_name,
+            phone,
             is_partial_card_name=True
         )
 
@@ -162,6 +162,7 @@ class TokenController(ModelRestController):
         DBSession.flush()
         result = token.to_dict()
         result['provisioning'] = token.provision(phone)
+        result['partialCardName'] = result.pop('name')
         return result
 
     @json(

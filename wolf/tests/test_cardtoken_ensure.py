@@ -102,6 +102,8 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == 200
             result = response.json
             assert 'provisioning' in result
+            assert 'partialCardName' in result
+            assert 'name' not in result
             assert result['expireDate'] == '2021-02-16'
             token = result['provisioning']
             assert token == \
