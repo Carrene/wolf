@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 import wolf
 from .exceptions import DeactivatedTokenError, ExpiredTokenError, \
-    DuplicateSeedError, InvalidBinError
+    DuplicateSeedError, InvalidPartialCardNameError
 from .models import Cryptomodule, Token, MiniToken
 
 
@@ -81,7 +81,7 @@ class TokenController(ModelRestController):
             pattern = settings.card_tokens[bank_id].pattern
 
             if not re.match(pattern, name):
-                raise InvalidBinError()
+                raise InvalidPartialCardNameError()
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
