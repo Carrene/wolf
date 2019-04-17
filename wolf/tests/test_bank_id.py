@@ -78,7 +78,7 @@ class TestEnsureTokenBankId(LocalApplicationTestCase):
         with lion_mockup_server(), self.given(
             'Provisioning',
             '/apiv1/tokens',
-            'ENSURE',
+            'EXSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DummyTokenName',
