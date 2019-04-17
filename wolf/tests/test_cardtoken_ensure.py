@@ -92,7 +92,7 @@ class TestEnsureToken(LocalApplicationTestCase):
             'CARDENSURE',
             form={
                 'phone': 989122451075,
-                'bin': '603799DummyToken',
+                'partialCardName': '603799DummyToken',
                 'cryptomoduleId': self.mockup_cryptomodule.id,
                 'expireDate': 1613434403,
                 'bankId': 1,
@@ -113,22 +113,19 @@ class TestEnsureToken(LocalApplicationTestCase):
                 'Expire date is a float value',
                 form=given | dict(
                     expireDate=1613434403.3,
-                    bin='603799DummyToken'
+                    partialCardName='603799DummyToken'
                 )
             )
             assert status == 200
 
             when(
-                'Bin is invalid',
-                form=given | dict(bin='636214DummyTokenName2')
+                'Partial card name is invalid',
+                form=given | dict(partialCardName='636214DummyTokenName2')
             )
-            assert status == '711 Invalid bin'
+            assert status == '711 Invalid partial card name'
 
             with lion_status('404 Not Found'):
-                when(
-                    'Device is not found',
-                    form=given | dict(bin='603799DummyTokenName3')
-                )
+                when('Device is not found')
                 assert status == '605 Device is not found: 1989122451075'
 
             when(
@@ -144,17 +141,17 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == '601 Cryptomodule does not exists: 0'
 
             when(
-                'Provisioning with a long token name',
-                form=given | dict(bin='a' * (50+1))
+                'Provisioning with a long token partial card name',
+                form=given | dict(partialCardName='a' * (50+1))
             )
-            assert status == \
-                '714 bin length should be between 6 and 50 characters'
+            assert status == '714 partial card name length '\
+                'should be between 6 and 50 characters'
 
             when(
-                'Name is not given',
-                form=given - 'bin'
+                'Partial card name is not given',
+                form=given - 'partialCardName'
             )
-            assert status == '712 bin is required'
+            assert status == '712 partial card name is required'
 
             when(
                 'Phone is not given',
@@ -193,23 +190,14 @@ class TestEnsureToken(LocalApplicationTestCase):
             assert status == '400 Field: a Not Allowed'
 
             with lion_status('502 Bad Gateway'):
-                when(
-                    'SSM is not available',
-                    form=given | dict(bin='603799DummyTokenName5')
-                )
+                when('SSM is not available')
                 assert status == '801 SSM is not available'
 
             with lion_status('500 Internal Server Error'):
-                when(
-                    'SSM is not working properly',
-                    form=given | dict(bin='603799DummyTokenName6')
-                )
+                when('SSM is not working properly')
                 assert status == '802 SSM internal error'
 
             with lion_status('400 Internal Server Error'):
-                when(
-                    'SSM Returns 400 Bad request ',
-                    form=given | dict(bin='603799DummyTokenName7')
-                )
+                when('SSM Returns 400 Bad request ')
                 assert status == '802 SSM internal error'
 

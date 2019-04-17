@@ -72,12 +72,12 @@ class TokenController(ModelRestController):
             raise DeactivatedTokenError()
 
     @staticmethod
-    def _find_or_create_token(name, phone, isbin=False):
+    def _find_or_create_token(name, phone, is_partial_card_name=False):
         cryptomodule_id = context.form['cryptomoduleId']
         context.form.setdefault('bankId', AYANDE_BANK_ID)
         bank_id = context.form['bankId']
 
-        if isbin:
+        if is_partial_card_name:
             pattern = settings.card_tokens[bank_id].pattern
 
             if not re.match(pattern, name):
@@ -102,7 +102,7 @@ class TokenController(ModelRestController):
             token = Token()
             token.update_from_request()
 
-            if isbin:
+            if is_partial_card_name:
                 token.name = name
 
             token.is_active = True
@@ -119,7 +119,7 @@ class TokenController(ModelRestController):
 
     @json(
         form_whitelist=[
-            'bin', 'phone', 'cryptomoduleId', 'expireDate','bankId'
+            'partialCardName', 'phone', 'cryptomoduleId', 'expireDate','bankId'
         ]
     )
     @Token.validate(strict=True, fields=dict(
@@ -131,21 +131,33 @@ class TokenController(ModelRestController):
             required=False,
             not_none=False,
         ),
-        bin=dict(
-            required='712 bin is required',
-            not_none='713 bin can not be empty',
-            min_length= \
-                (6, '714 bin length should be between 6 and 50 characters'),
-            max_length= \
-                (50, '714 bin length should be between 6 and 50 characters')
+        partialCardName=dict(
+            required='712 partial card name is required',
+            not_none='713 partial card name can not be empty',
+            min_length=(
+                6, 
+                '714 partial card name length '\
+                'should be between 6 and 50 characters'
+            ),
+            max_length= (
+                50, 
+                '714 partial card name length should '\
+                'be between 6 and 50 characters'
+            )
         )
     ))
     @Token.expose
     @commit
     def cardensure(self):
-        bin_ = context.form['bin']
+        partial_card_name = context.form['partialCardName']
         phone = context.form['phone']
-        token = self._find_or_create_token(bin_, phone, isbin=True)
+
+        token = self._find_or_create_token(
+            partial_card_name, 
+            phone, 
+            is_partial_card_name=True
+        )
+
         self._validate_token(token)
         DBSession.flush()
         result = token.to_dict()

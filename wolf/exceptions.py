@@ -31,5 +31,5 @@ class DuplicateSeedError(HTTPKnownStatus):
 
 
 class InvalidBinError(HTTPKnownStatus):
-    status = '711 Invalid bin'
+    status = '711 Invalid partial card name'
 
