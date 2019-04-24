@@ -269,7 +269,7 @@ class TokenController(ModelRestController):
     )
     @Token.expose
     @commit
-    def ensure(self):
+    def exsure(self):
         # TODO: type validation
         device = self._ensure_device()
         token = self._find_or_create_token()
