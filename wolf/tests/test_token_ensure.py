@@ -52,7 +52,7 @@ class EnsureTokenTestCase(BDDTestClass):
             title='Provisioning',
             description='Provisioning',
             url='/apiv1/tokens',
-            verb='ENSURE',
+            verb='EXSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DummyTokenName',
@@ -103,7 +103,7 @@ class EnsureTokenTestCase(BDDTestClass):
             title='Provisioning with string',
             description='Provisioning with non-digit cryptomodule id',
             url='/apiv1/tokens',
-            verb='ENSURE',
+            verb='EXSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DummyTokenName',
@@ -124,7 +124,7 @@ class EnsureTokenTestCase(BDDTestClass):
             title='Provisioning with zero',
             description='Trying to ensure token with provisioning with zero cryptomodule id',
             url='/apiv1/tokens',
-            verb='ENSURE',
+            verb='EXSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DummyTokenName',
@@ -148,7 +148,7 @@ class EnsureTokenTestCase(BDDTestClass):
             title='Provisioning with empty token name',
             description='Provisioning with empty token name',
             url='/apiv1/tokens',
-            verb='ENSURE',
+            verb='EXSURE',
             form={
                 'phone': 989122451075,
                 'name': '',
@@ -169,7 +169,7 @@ class EnsureTokenTestCase(BDDTestClass):
             title='ensure token with provisioning with a long token name',
             description='Trying to ensure token with provisioning with a long token name',
             url='/apiv1/tokens',
-            verb='ENSURE',
+            verb='EXSURE',
             form={
                 'phone': 989122451075,
                 'name': f'MoreThan50Chars{"x" * 36}',
@@ -192,7 +192,7 @@ class EnsureTokenTestCase(BDDTestClass):
             title='Provisioning with an expired token',
             description='Provisioning with an expired token',
             url='/apiv1/tokens',
-            verb='ENSURE',
+            verb='EXSURE',
             form={
                 'phone': 989122451075,
                 'name': 'ExpiredToken',
@@ -214,7 +214,7 @@ class EnsureTokenTestCase(BDDTestClass):
             title='Provisioning with an deactivated token',
             description='Provisioning with an deactivated token',
             url='/apiv1/tokens',
-            verb='ENSURE',
+            verb='EXSURE',
             form={
                 'phone': 989122451075,
                 'name': 'DeactivatedToken',
