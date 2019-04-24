@@ -2,6 +2,7 @@ import functools
 import hashlib
 import time
 import binascii
+import re
 
 import redis
 from nanohttp import json, context, action, settings, RestController, \
@@ -204,6 +205,94 @@ validate_submit = functools.partial(
 )
 
 
+class CardTokenController(ModelRestController):
+    __model__ = Token
+
+    def __init__(self):
+        super().__init__()
+        self.codes_controller = CodesController()
+
+    def __call__(self, *remaining_paths):
+        if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
+            return self.codes_controller(remaining_paths[0], *remaining_paths[2:])
+        return super().__call__(*remaining_paths)
+
+    @staticmethod
+    def _validate_token(token):
+        if token.is_expired:
+            raise ExpiredTokenError()
+
+        if not token.is_active:
+            raise DeactivatedTokenError()
+
+    @staticmethod
+    def _ensure_device():
+        phone = int(context.form['phone'])
+        # Checking the device
+        device = Device.query.filter(Device.phone == phone).one_or_none()
+        # Adding a device also
+        if device is None:
+            raise DeviceNotFoundError()
+        return device
+
+    @staticmethod
+    def _find_or_create_token():
+        partial_card_name = context.form['partialCardName']
+
+        if len(partial_card_name) > 50:
+            raise HttpBadRequest(
+                info='Cannot enter more than: 50 in field: partial card name.'
+            )
+
+        phone = context.form['phone']
+        bank_id = context.form['bankId']
+        cryptomodule_id = context.form['cryptomoduleId']
+        pattern = settings.card_tokens[bank_id].pattern
+
+        if not re.match(pattern, partial_card_name):
+            raise HttpBadRequest(info='Invalid partial card name.')
+
+        if Cryptomodule.query.filter(Cryptomodule.id == cryptomodule_id).count() <= 0:
+            raise HttpBadRequest(info='Invalid cryptomodule id.')
+
+        token = DBSession.query(Token).filter(
+            Token.name == partial_card_name,
+            Token.cryptomodule_id == cryptomodule_id,
+            Token.phone == phone,
+        ).one_or_none()
+
+        if token is None:
+            # Creating a new token
+            token = Token()
+            token.update_from_request()
+            token.name = partial_card_name
+            token.is_active = True
+            DBSession.add(token)
+
+        token.initialize_seed()
+
+        DBSession.flush()
+
+        return token
+
+    @json
+    @validate_form(
+        exact=['partialCardName', 'phone', 'cryptomoduleId', 'expireDate', 'bankId'],
+        types={'cryptomoduleId': int, 'expireDate': float, 'phone': int, 'bankId': int}
+    )
+    @Token.expose
+    @commit
+    def ensure(self):
+        # TODO: type validation
+        device = self._ensure_device()
+        token = self._find_or_create_token()
+        self._validate_token(token)
+        DBSession.flush()
+        result = token.to_dict()
+        result['provisioning'] = token.provision(device.secret)
+        return result
+
+
 class TokenController(ModelRestController):
     __model__ = Token
 
@@ -314,6 +403,7 @@ class DeviceController(ModelRestController):
 
 class ApiV1(Controller):
     tokens = TokenController()
+    cardtokens = CardTokenController()
     devices = DeviceController()
 
     @json
