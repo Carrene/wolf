@@ -36,6 +36,10 @@ class Application(BaseApplication):
     pinblock:
       key: 1234567890ABCDEF1234567890ABCDEF
 
+    card_tokens:
+      1:
+        pattern: ^603799
+
     """
 
     def __init__(self, version):
