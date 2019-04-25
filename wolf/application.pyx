@@ -1,3 +1,4 @@
+# cython: language_level=3
 from os.path import join, dirname
 
 from nanohttp import settings
