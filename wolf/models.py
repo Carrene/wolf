@@ -1,7 +1,9 @@
 import time
 import struct
 import binascii
+import pickle
 from datetime import date
+from collections import deque
 
 import redis
 from nanohttp import settings
@@ -133,15 +135,21 @@ class MiniToken:
     _redis = None
 
     def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
-                 last_code=None, final=False):
+                 last_codes=None, final=False):
         self.id = id
         self.bank_id = bank_id
         self.seed = seed
         self.expire_date = expire_date
         self.is_active = is_active
         self.cryptomodule_id = cryptomodule_id
-        self.last_code = last_code
         self.final = final
+
+        queue_size = int(settings.oath.window) + 1
+
+        if last_codes is None:
+            self.last_codes = deque(maxlen=queue_size)
+        else:
+            self.last_codes = last_codes
 
     @staticmethod
     def create_blocking_redis_client():
@@ -210,12 +218,12 @@ class MiniToken:
         return self.cryptomodule[2]
 
     def verify(self, code, window, primitive=False):
-        if self.last_code == code:
+        if code in self.last_codes:
             if self.final:
                 return False
 
         else:
-            self.last_code = code
+            self.last_codes.append(code)
 
         self.final = not primitive
 
@@ -237,7 +245,7 @@ class MiniToken:
                 int(self.expire_date),
                 int(self.is_active),
                 self.cryptomodule_id,
-                self.last_code,
+                pickle.dumps(self.last_codes, 1),
                 int(self.final)
             ),
             settings.token.redis.ttl
@@ -256,7 +264,7 @@ class MiniToken:
                 float(token[2]),
                 bool(token[3]),
                 int(token[4]),
-                token[5],
+                pickle.loads(token[5]),
                 int(token[6])
             ) if token else None
         return None
