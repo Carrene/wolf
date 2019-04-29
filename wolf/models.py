@@ -144,7 +144,7 @@ class MiniToken:
         self.cryptomodule_id = cryptomodule_id
         self.final = final
 
-        queue_size = int(settings.oath.window) + 1
+        queue_size = int(settings.oath.window) + 2
 
         if last_codes is None:
             self.last_codes = deque(maxlen=queue_size)
