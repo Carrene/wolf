@@ -15,7 +15,7 @@ class LionClient:
 
     def __init__(self):
         self.base_url = f'{settings.ssm.url}/apiv1'
-        self.token = settings.ssm.oauth.token
+        self.token = settings.ssm.token
 
     def _request(self, key, verb, data):
         try:
