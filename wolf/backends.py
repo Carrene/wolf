@@ -15,13 +15,15 @@ class LionClient:
 
     def __init__(self):
         self.base_url = f'{settings.ssm.url}/apiv1'
+        self.token = settings.ssm.token
 
     def _request(self, key, verb, data):
         try:
             response = requests.request(
                 verb,
                 f'{self.base_url}/keys/{key}',
-                data=data
+                data=data,
+                headers={'Authorization': self.token}
             )
             if response.status_code == 404:
                 raise DeviceNotFoundError(key)
