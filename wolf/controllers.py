@@ -134,18 +134,6 @@ class TokenController(ModelRestController):
 class CardTokenController(ModelRestController):
     __model__ = Token
 
-    def __init__(self):
-        super().__init__()
-        self.codes_controller = CodesController()
-
-    def __call__(self, *remaining_paths):
-        if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
-            return self.codes_controller(
-                remaining_paths[0],
-                *remaining_paths[2:]
-            )
-        return super().__call__(*remaining_paths)
-
     @staticmethod
     def _validate_token(token):
         if token.is_expired:
