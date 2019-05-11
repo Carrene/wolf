@@ -1,7 +1,8 @@
 import re
 
 from nanohttp import json, context, action, settings, RestController, \
-    HTTPStatus, HTTPNotFound, LazyAttribute, Controller, validate
+    HTTPStatus, HTTPNotFound, LazyAttribute, Controller, validate, \
+    int_or_notfound
 from restfulpy.controllers import ModelRestController, RootController
 from restfulpy.orm import commit, DBSession
 from sqlalchemy.exc import IntegrityError
@@ -17,30 +18,23 @@ AYANDE_BANK_ID = 2
 
 class CodesController(RestController):
 
+    def __init__(self, token):
+        self.token = token
+
     @LazyAttribute
     def window(self):
         return settings.oath.window
 
     @action(prevent_form='400 Form Not Allowed')
-    def verify(self, token_id, code):
-        token = MiniToken.load(token_id, cache=settings.token.redis.enabled)
-        if token is None:
-            raise HTTPNotFound()
-
-        if token.is_expired:
-            raise ExpiredTokenError()
-
-        if not token.is_active:
-            raise DeactivatedTokenError()
-
+    def verify(self, code):
         primitive = context.query.get('primitive') == 'yes'
         try:
-            is_valid = token.verify(
+            is_valid = self.token.verify(
                 code.encode(),
                 self.window,
                 primitive=primitive
             )
-            token.cache()
+            self.token.cache()
         except ValueError:
             is_valid = False
 
@@ -51,17 +45,21 @@ class CodesController(RestController):
 class TokenController(ModelRestController):
     __model__ = Token
 
-    def __init__(self):
-        super().__init__()
-        self.codes_controller = CodesController()
-
     def __call__(self, *remaining_paths):
         if len(remaining_paths) > 1 and remaining_paths[1] == 'codes':
-            return self.codes_controller(
-                remaining_paths[0],
-                *remaining_paths[2:]
-            )
+            token = self._get_token(remaining_paths[0])
+            self._validate_token(token)
+            return CodesController(token=token)(*remaining_paths[2:])
+
         return super().__call__(*remaining_paths)
+
+    def _get_token(self, id):
+        id = int_or_notfound(id)
+        token = MiniToken.load(id, cache=settings.token.redis.enabled)
+        if token is None:
+            raise HTTPNotFound()
+
+        return token
 
     @staticmethod
     def _validate_token(token):
