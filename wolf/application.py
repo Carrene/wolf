@@ -5,6 +5,7 @@ from restfulpy.cryptography import AESCipher
 
 from .cli import PinBlockLauncher, OTPLauncher
 from .controllers import Root
+from .iso8583 import ISO8583Launcher
 
 
 class Wolf(Application):
@@ -65,4 +66,5 @@ class Wolf(Application):
     def register_cli_launchers(self, subparsers):
         PinBlockLauncher.register(subparsers)
         OTPLauncher.register(subparsers)
+        ISO8583Launcher.register(subparsers)
 
