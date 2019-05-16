@@ -3,6 +3,8 @@ import socket
 
 import pytest
 
+from wolf.iso8583 import listen
+
 
 @pytest.fixture
 def free_port():
@@ -17,8 +19,7 @@ def free_port():
 @pytest.fixture
 def run_iso8583_server(free_port):
     def wrapper(*args, **kw):
-        terminate = quickstart(*args, block=False, port=free_port, **kw)
-        time.sleep(.1)
-        return f'http://localhost:{free_port}'
+        a = listen(host='localhost', port=free_port)
+        return free_port
     yield wrapper
 
