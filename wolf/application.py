@@ -44,6 +44,9 @@ class Wolf(Application):
     pinblock:
       key: 1234567890ABCDEF1234567890ABCDEF
 
+    iso8583:
+        backlog: 1
+
     '''
 
     def __init__(self, application_name='wolf'):
