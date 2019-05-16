@@ -60,6 +60,9 @@ class Wolf(Application):
       5:
         pattern: ^627648
 
+    iso8583:
+        backlog: 1
+
     '''
 
     def __init__(self, application_name='wolf'):

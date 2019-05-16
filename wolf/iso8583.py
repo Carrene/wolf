@@ -1,6 +1,7 @@
 import socket
 import threading
 
+from nanohttp import settings
 from restfulpy.cli import Launcher, RequireSubCommand
 
 
@@ -12,8 +13,10 @@ def worker(client_socket):
 
 
 def accept(client_socket):
-    worker_thread = Threading.Thread(
-        target=worker, args=client_socket, daemon=True
+    worker_thread = threading.Thread(
+        target=worker,
+        args=(client_socket,),
+        daemon=True
     )
     worker_threads[client_socket.fileno] = worker
     worker_thread.start()
@@ -22,10 +25,11 @@ def accept(client_socket):
 def listen(host, port):
     socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     socket_server.bind((host, port))
-    socket_server.listen(1)
+    socket_server.listen(settings.iso8583.backlog)
 
-    client_connection, client_address = socket_server.accept()
-    accept(client_connection)
+    while True:
+        client_connection, client_address = socket_server.accept()
+        accept(client_connection)
 
 
 DEFAULT_ADDRESS = '8088'
