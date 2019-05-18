@@ -4,6 +4,7 @@ from restfulpy import Application
 from restfulpy.cryptography import AESCipher
 
 from .controllers import Root
+from .iso8583 import ISO8583Launcher
 
 
 class Wolf(Application):
@@ -59,6 +60,9 @@ class Wolf(Application):
       5:
         pattern: ^627648
 
+    iso8583:
+        backlog: 1
+
     '''
 
     def __init__(self, application_name='wolf'):
@@ -82,4 +86,5 @@ class Wolf(Application):
         from .cli import PinBlockLauncher, OTPLauncher
         PinBlockLauncher.register(subparsers)
         OTPLauncher.register(subparsers)
+        ISO8583Launcher.register(subparsers)
 
