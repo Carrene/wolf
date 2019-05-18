@@ -28,10 +28,10 @@ def free_port():
 
 @pytest.fixture
 def run_iso8583_server(free_port):
+    time.sleep(1)
     try:
-        settings.debug
         settings.merge(TEST_CONFIGURATION)
-    except pymlconf.ConfigurationAlreadyInitializedError:
+    except pymlconf.ConfigurationNotInitializedError:
         configure(TEST_CONFIGURATION)
 
     thread = threading.Thread(
