@@ -5,6 +5,7 @@ from restfulpy.cryptography import AESCipher
 from restfulpy.authentication import Authenticator as BaseAuthenticator
 
 from .controllers import Root
+from .iso8583 import ISO8583Launcher
 
 
 class Authenticator(BaseAuthenticator):
@@ -98,6 +99,9 @@ class Wolf(Application):
       5:
         pattern: ^627648
 
+    iso8583:
+        backlog: 1
+
     '''
 
     def __init__(self, application_name='wolf'):
@@ -121,4 +125,5 @@ class Wolf(Application):
         from .cli import PinBlockLauncher, OTPLauncher
         PinBlockLauncher.register(subparsers)
         OTPLauncher.register(subparsers)
+        ISO8583Launcher.register(subparsers)
 
