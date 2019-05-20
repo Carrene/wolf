@@ -75,6 +75,8 @@ class TestEnsureCardTokenBankId(LocalApplicationTestCase):
         session.commit()
 
     def test_ensure_cardtoken_bank_id(self):
+        self.login_as_switchcard()
+
         with lion_mockup_server(), self.given(
             'Provisioning',
             '/apiv1/cardtokens',

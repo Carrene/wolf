@@ -53,6 +53,8 @@ class TestVerifyToken(LocalApplicationTestCase):
         cls.invalid_otp_token1_time1 = cls.pinblock.encode('123456').decode()
 
     def test_verify_token_otp_time(self):
+        self.login_as_switchcard()
+
         real_time = time.time
         with TimeMonkeyPatch(self.valid_time), self.given(
             'Verifying time based OTP',

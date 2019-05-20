@@ -5,6 +5,7 @@ from nanohttp import json, context, action, settings, RestController, \
     int_or_notfound
 from restfulpy.controllers import ModelRestController, RootController
 from restfulpy.orm import commit, DBSession
+from restfulpy.authorization import authorize
 from sqlalchemy.exc import IntegrityError
 
 import wolf
@@ -26,6 +27,7 @@ class CodesController(RestController):
         return settings.oath.window
 
     @action(prevent_form='400 Form Not Allowed')
+    @authorize
     def verify(self, code):
         primitive = context.query.get('primitive') == 'yes'
         try:
@@ -118,6 +120,7 @@ class TokenController(ModelRestController):
     ))
     @Token.expose
     @commit
+    @authorize
     def exsure(self):
         phone = context.form['phone']
         name = context.form['name']
@@ -212,6 +215,7 @@ class CardTokenController(ModelRestController):
     ))
     @Token.expose
     @commit
+    @authorize
     def ensure(self):
         partial_card_name = context.form['partialCardName']
         phone = context.form['phone']

@@ -55,6 +55,8 @@ class TestIntegration(LocalApplicationTestCase):
         session.commit()
 
     def test_ensure_token(self):
+        self.login_as_switchcard()
+
         with RandomMonkeyPatch(b'abcdefghijklmnopqrst'), \
                 lion_mockup_server(), self.given(
             'Provisioning for integration test',
