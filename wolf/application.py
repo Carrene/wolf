@@ -2,11 +2,17 @@ from os.path import dirname
 
 from restfulpy import Application
 from restfulpy.cryptography import AESCipher
+from restfulpy.authentication import Authenticator as BaseAuthenticator
 
 from .controllers import Root
 
 
+class Authenticator(BaseAuthenticator):
+    pass
+
+
 class Wolf(Application):
+    __authenticator__ = Authenticator()
     __configuration_cipher__ = AESCipher(b'ced&#quevbot2(Sc')
     __configuration__ = '''
     process_name: %(process_name)s
@@ -18,6 +24,19 @@ class Wolf(Application):
     migration:
       directory: %(root_path)s/migration
       ini: %(root_path)s/alembic.ini
+
+    jwt:
+      secret: <JWT-SECRET>
+      algorithm: HS256
+      max_age: 86400  # 24 Hours
+      refresh_token:
+        secret: <JWT-REFRESH-SECRETi>
+        algorithm: HS256
+        max_age: 2678400  # 30 Days !IMPORTANT
+        secure: true
+        httponly: false
+        path: /
+
 
     ssm:
       url: http://localhost:8081

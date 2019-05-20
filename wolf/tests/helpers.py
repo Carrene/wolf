@@ -2,6 +2,7 @@ import time
 from os import path
 
 from restfulpy.testing import ApplicableTestCase
+from restfulpy.principal import JwtPrincipal
 
 from wolf import cryptoutil, Wolf
 from wolf.models import Token
@@ -18,6 +19,12 @@ class LocalApplicationTestCase(ApplicableTestCase):
         r'^/apiv1/tokens.*': Token.json_metadata()['fields']
     }
 
+    def login_as_switchcard(self, token=None):
+        self._authentication_token = token or JwtPrincipal(dict(
+            initial=True,
+            platform='TEST',
+            version='0.1.0'
+        )).dump().decode()
 
 
 class RandomMonkeyPatch:

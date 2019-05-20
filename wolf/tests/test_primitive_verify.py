@@ -67,6 +67,8 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
         self.redis().flushdb()
 
     def test_primitive_verify(self):
+        self.login_as_switchcard()
+
         with TimeMonkeyPatch(self.valid_time), self.given(
                 'Verifying time based OPT with primitive yes query', \
                     f'/apiv1/tokens/token_id: {self.active_token1.id}/codes'
@@ -101,6 +103,8 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
             assert status == '604 Invalid code'
 
     def test_verify_primitive_no(self):
+        self.login_as_switchcard()
+
         with TimeMonkeyPatch(self.valid_time), self.given(
                 'Verifying time based OPT with no primitive query',
                 \
