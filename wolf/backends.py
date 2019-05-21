@@ -13,7 +13,7 @@ from .exceptions import DeviceNotFoundError, SSMInternalError, \
     MaskanRepetitiousRequestNumberError, MaskanInvalidRequestTimeError, \
     MaskanInvalidDigitalError, MaskanUserNotPermitedError, \
     MaskanPersonNotFoundError, MaskanIncompleteParametersError, \
-    MaskanMiscellaneousError
+    MaskanMiscellaneousError, SSMUnauthorizedError
 
 
 logger = get_logger()
@@ -33,6 +33,10 @@ class LionClient:
                 data=data,
                 headers={'Authorization': self.token}
             )
+
+            if response.status_code == 401:
+                raise SSMUnauthorizedError()
+
             if response.status_code == 404:
                 raise DeviceNotFoundError(key)
 
