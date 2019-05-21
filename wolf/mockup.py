@@ -8,7 +8,6 @@ from .models import Token, Cryptomodule
 
 def insert(quantity=10, prefix=0):
     quantity = int(quantity)
-    from pudb import set_trace; set_trace()
     prefix = int(prefix)
     for i in range(2):
         cryptomodule = Cryptomodule()
