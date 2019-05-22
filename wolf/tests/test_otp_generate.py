@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from bddrest import when, response, status, given
 
@@ -12,20 +12,21 @@ class TestOtpGenerate(LocalApplicationTestCase):
     def mockup(cls):
         session = cls.create_session()
 
+        cls.token1 = token1 = Token()
+        token1.name = 'name1'
+        token1.phone = 1
+        token1.bank_id = 2
+        token1.expire_date = datetime.now() + timedelta(minutes=1)
+        token1.seed = \
+            b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
+        token1.is_active = True
+        mockup_cryptomodule_length_4 = Cryptomodule()
+        token1.cryptomodule = mockup_cryptomodule_length_4
+        session.add(token1)
+
         cryptomodule = Cryptomodule()
         cryptomodule.one_time_password_length = 7
         session.add(cryptomodule)
-
-        cls.token1 = token1 = Token()
-        token1.name = 'token1'
-        token1.phone = 1
-        token1.bank_id = 2
-        token1.expire_date = datetime(2074, 2, 21)
-        token1.seed = \
-            b"d\xd6p\x84\xd8\xd8V'\xe9(\x15\xfa\x162\xdd\t\x8f\x02\xbb>"
-        token1.is_active = True
-        token1.cryptomodule = Cryptomodule()
-        session.add(token1)
 
         cls.token2 = token2 = Token()
         token2.name = 'token2'
@@ -73,7 +74,7 @@ class TestOtpGenerate(LocalApplicationTestCase):
                 'GENERATE',
         ):
             assert status == 200
-            assert response.json['code'] == '3364'
+            assert response.json['code'] == '7110'
 
             when(
                 'Create time based OTP with cryptomodule 2',
