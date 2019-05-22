@@ -1,4 +1,5 @@
 import re
+import time
 
 from nanohttp import json, context, action, settings, RestController, \
     HTTPStatus, HTTPNotFound, LazyAttribute, Controller, validate, \
@@ -7,6 +8,7 @@ from restfulpy.controllers import ModelRestController, RootController
 from restfulpy.orm import commit, DBSession
 from restfulpy.authorization import authorize
 from sqlalchemy.exc import IntegrityError
+from oathcy.otp import TOTP
 
 import wolf
 from .exceptions import DeactivatedTokenError, ExpiredTokenError, \
@@ -42,6 +44,18 @@ class CodesController(RestController):
 
         if not is_valid:
             raise HTTPStatus('604 Invalid code')
+
+    @json(prevent_form='400 Form Not Allowed')
+    @authorize
+    def generate(self):
+        code = TOTP(
+            self.token.seed,
+            int(time.time()),
+            self.token.cryptomodule.one_time_password_length,
+            step=self.token.cryptomodule.time_interval
+        ).generate().decode()
+
+        return dict(code=code)
 
 
 class TokenController(ModelRestController):
