@@ -99,8 +99,12 @@ class Wolf(Application):
       5:
         pattern: ^627648
 
-    iso8583:
+    tcpserver:
         backlog: 1
+
+    iso8583:
+        mackey: 1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C
+        pinkey: 1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C
 
     '''
 

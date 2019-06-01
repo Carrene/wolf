@@ -1,15 +1,36 @@
 import socket
 import threading
+import binascii
 
 from nanohttp import settings
 from restfulpy.cli import Launcher, RequireSubCommand
+from iso8583.models import Envelope
+from tlv import TLV
 
 
 worker_threads = {}
 
 
 def worker(client_socket):
-    raise NotImplementedError()
+    length = client_socket.recv(4)
+    message = length + client_socket.recv(int(length))
+
+    mackey = binascii.unhexlify(settings.iso8583.mackey)
+    envelope = Envelope.loads(message, mackey)
+    envelope.set(39, b'00')
+
+    field48 = TLV.loads(envelope[48].value).fields
+    field48['TKI'] = field48['TKR']
+    field48['ACT'] = '123456'
+    del field48['PHN']
+    del field48['TKR']
+    tlv = TLV(**field48)
+    envelope[48].value = tlv.dumps()
+
+    envelope.mti = envelope.mti + 10
+    response = envelope.dumps()
+
+    client_socket.send(response)
 
 
 def accept(client_socket):
@@ -25,7 +46,7 @@ def accept(client_socket):
 def listen(host, port):
     socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     socket_server.bind((host, port))
-    socket_server.listen(settings.iso8583.backlog)
+    socket_server.listen(settings.tcpserver.backlog)
 
     while True:
         client_connection, client_address = socket_server.accept()
