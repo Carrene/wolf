@@ -41,8 +41,8 @@ def test_iso8583_server(run_iso8583_server):
     assert envelope[41].value == b'01111102'
     assert envelope[42].value == b'000001111102   '
     assert envelope[48].value == b'P13006762427CIF012111001209483' \
-        b'TKT003SFTTOK003000TKI00202ACT006123456'
+        b'PHN01109121902288TKT003SFTTOK003000TKR00202ACT006123456'
 
     assert binascii.hexlify(envelope[64].value).decode().upper() \
-        == '224590F5B84C1EE4'
+        == '3F636A3DE4D007D5'
 

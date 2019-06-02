@@ -19,10 +19,7 @@ def worker(client_socket):
     envelope.set(39, b'000')
 
     field48 = TLV.loads(envelope[48].value).fields
-    field48['TKI'] = field48['TKR']
     field48['ACT'] = '123456'
-    del field48['PHN']
-    del field48['TKR']
     tlv = TLV(**field48)
     envelope[48].value = tlv.dumps()
 
