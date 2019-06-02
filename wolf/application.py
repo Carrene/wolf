@@ -89,11 +89,11 @@ class Wolf(Application):
             version=__version__
         )
 
-    def insert_basedata(self, args):  # pragma: no cover
+    def insert_basedata(self, args=[]):  # pragma: no cover
         from . import basedata
         basedata.insert(*args)
 
-    def insert_mockup(self, args):  # pragma: no cover
+    def insert_mockup(self, args=[]):  # pragma: no cover
         from . import mockup
         mockup.insert(*args)
 

@@ -8,7 +8,6 @@ from .models import Token, Cryptomodule
 
 def insert(quantity=10, prefix=0):
     quantity = int(quantity)
-    from pudb import set_trace; set_trace()
     prefix = int(prefix)
     for i in range(2):
         cryptomodule = Cryptomodule()
@@ -16,7 +15,7 @@ def insert(quantity=10, prefix=0):
         DBSession.commit()
     cryptomodule_ids = DBSession.query(Cryptomodule.id).all()
     expire_date = date.today() + timedelta(days=20000)
-    with ProgressBar(quantity*2+1) as progress:
+    with ProgressBar(quantity) as progress:
         for i in range(quantity):
             for (cryptomodule_id, ) in cryptomodule_ids:
                 token = Token()
@@ -29,7 +28,6 @@ def insert(quantity=10, prefix=0):
                 token.is_active = True
                 DBSession.add(token)
                 DBSession.flush()
-                progress.increment()
+            progress.increment()
         DBSession.commit()
-        progress.increment()
 
