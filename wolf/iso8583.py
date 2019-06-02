@@ -14,7 +14,6 @@ worker_threads = {}
 def worker(client_socket):
     length = client_socket.recv(4)
     message = length + client_socket.recv(int(length))
-
     mackey = binascii.unhexlify(settings.iso8583.mackey)
     envelope = Envelope.loads(message, mackey)
     envelope.set(39, b'00')
@@ -53,7 +52,7 @@ def listen(host, port):
         accept(client_connection)
 
 
-DEFAULT_ADDRESS = '8088'
+DEFAULT_ADDRESS = 8088
 
 
 class ISO8583Launcher(Launcher, RequireSubCommand):
@@ -83,15 +82,17 @@ class ISO8583ServeLauncher(Launcher):
         parser.add_argument(
             '-b',
             '--bind',
+            type=int,
             default=DEFAULT_ADDRESS,
             help='Bind Address. default: %s' % DEFAULT_ADDRESS
 
         )
         return parser
 
+
     def launch(self):
         host, port = \
-            self.args.bind.split(':') if ':' in self.args.bind \
+            self.args.bind.split(':') if ':' in str(self.args.bind) \
             else ('', self.args.bind)
 
         print(f'Serving on {host}:{port}!!!')
