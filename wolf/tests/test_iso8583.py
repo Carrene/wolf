@@ -1,7 +1,54 @@
 import binascii
 import socket
+from contextlib import contextmanager
 
 from iso8583.models import Envelope
+from nanohttp import settings, RegexRouteController, json, context, HTTPStatus
+from restfulpy.mockup import MockupApplication, mockup_http_server
+
+from wolf.models import Cryptomodule
+from wolf.tests.helpers import LocalApplicationTestCase
+
+
+_lion_status = 'idle'
+
+
+@contextmanager
+def lion_mockup_server():
+    class Root(RegexRouteController):
+        def __init__(self):
+            super().__init__([
+                (r'/apiv1/keys/(?P<keyname>\w+)', self.encrypt),
+            ])
+
+        @json(verbs=['encrypt'])
+        def encrypt(self, keyname):
+            if _lion_status != 'idle':
+                raise HTTPStatus(_lion_status)
+
+            checksum_length = int(context.form.get('checksumLength', '0'))
+            assert checksum_length == 4
+
+            return \
+                'Ro4WsXckQscBovDEaOH3IrQHQeFNfu_7pxe54MgeQz33UbtMiLgKDYx3_46' \
+                'aVoe6JDhWhYHna31YG-_W6D0L0g=='
+
+
+    app = MockupApplication('lion-mockup', Root())
+    with mockup_http_server(app) as (server, url):
+        settings.merge(f'''
+          ssm:
+            url: {url}
+        ''')
+        yield app
+
+
+@contextmanager
+def lion_status(status):
+    global _lion_status
+    _lion_status = status
+    yield
+    _lion_status = 'idle'
 
 
 REQUEST = \
@@ -18,31 +65,48 @@ REQUEST = \
 MACKEY = binascii.unhexlify(b'1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C')
 
 
-def test_iso8583_server(run_iso8583_server):
-    host, port = run_iso8583_server()
-    print(host, port)
+class TestEnsureMaskan(LocalApplicationTestCase):
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect((host, port))
-        client_socket.sendall(REQUEST)
-        length_message = client_socket.recv(4)
-        message = length_message + client_socket.recv(int(length_message))
+    @classmethod
+    def mockup(cls):
+        session = cls.create_session()
+        cryptomodule1 = Cryptomodule()
+        cryptomodule2 = Cryptomodule()
+        session.add(cryptomodule1)
+        session.add(cryptomodule2)
+        session.commit()
 
-    envelope = Envelope.loads(message, MACKEY)
+    def test_iso8583_server(self, run_iso8583_server):
+        host, port = run_iso8583_server()
+        print(host, port)
 
-    assert envelope.mti == 1110
-    assert envelope[2].value == b'6280231400751359'
-    assert envelope[3].value == b'660000'
-    assert envelope[11].value == b'762427'
-    assert envelope[12].value == b'190523131538'
-    assert envelope[22].value == b'211401211244'
-    assert envelope[24].value == b'101'
-    assert envelope[37].value == b'914313762427'
-    assert envelope[41].value == b'01111102'
-    assert envelope[42].value == b'000001111102   '
-    assert envelope[48].value == b'P13006762427CIF012111001209483' \
-        b'PHN01109121902288TKT003SFTTOK003000TKR00202ACT006123456'
+        with lion_mockup_server(), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            import pudb; pudb.set_trace()  # XXX BREAKPOINT
+            client_socket.connect((host, port))
+            client_socket.sendall(REQUEST)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
 
-    assert binascii.hexlify(envelope[64].value).decode().upper() \
-        == '3F636A3DE4D007D5'
+        envelope = Envelope.loads(message, MACKEY)
+
+        assert envelope.mti == 1110
+        assert envelope[2].value == b'6280231400751359'
+        assert envelope[3].value == b'660000'
+        assert envelope[11].value == b'762427'
+        assert envelope[12].value == b'190523131538'
+        assert envelope[22].value == b'211401211244'
+        assert envelope[24].value == b'101'
+        assert envelope[37].value == b'914313762427'
+        assert envelope[41].value == b'01111102'
+        assert envelope[42].value == b'000001111102   '
+        assert envelope[48].value \
+            == b'P13006762427CIF012111001209483PHN01109121902288TKT003SFT' \
+            b'TOK003000TKR00202ACT128468e16b1772442c701a2f0c468e1f722b4074' \
+            b'1e14d7eeffba717b9e0c81e433df751bb4c88b80a0d8c77ff8e9a5687ba2' \
+            b'438568581e76b7d581befd6e83d0bd2'
+
+        assert binascii.hexlify(envelope[64].value).decode().upper() \
+            == 'E86631B4A2BC93A6'
 

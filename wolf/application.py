@@ -98,6 +98,8 @@ class Wolf(Application):
         pattern: ^6(03770|39217)
       5:
         pattern: ^627648
+      6:
+        pattern: ^628023
 
     tcpserver:
         backlog: 1
