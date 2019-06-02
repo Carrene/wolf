@@ -16,7 +16,7 @@ def worker(client_socket):
     message = length + client_socket.recv(int(length))
     mackey = binascii.unhexlify(settings.iso8583.mackey)
     envelope = Envelope.loads(message, mackey)
-    envelope.set(39, b'00')
+    envelope.set(39, b'000')
 
     field48 = TLV.loads(envelope[48].value).fields
     field48['TKI'] = field48['TKR']

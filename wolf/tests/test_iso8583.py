@@ -44,5 +44,5 @@ def test_iso8583_server(run_iso8583_server):
         b'TKT003SFTTOK003000TKI00202ACT006123456'
 
     assert binascii.hexlify(envelope[64].value).decode().upper() \
-        == '8EE5E01E30BB513B'
+        == '224590F5B84C1EE4'
 
