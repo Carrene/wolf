@@ -64,7 +64,7 @@ REQUEST = \
 MACKEY = binascii.unhexlify(b'1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C')
 
 
-class TestEnsureMaskan(LocalApplicationTestCase):
+class TestTCPServerEnsure(LocalApplicationTestCase):
 
     @classmethod
     def mockup(cls):
@@ -77,7 +77,7 @@ class TestEnsureMaskan(LocalApplicationTestCase):
         session.add(cryptomodule2)
         session.commit()
 
-    def test_iso8583_server(self, run_iso8583_server):
+    def test_ensure(self, run_iso8583_server):
         host, port = run_iso8583_server()
 
         with lion_mockup_server(), \
