@@ -79,7 +79,6 @@ class TestEnsureMaskan(LocalApplicationTestCase):
 
     def test_iso8583_server(self, run_iso8583_server):
         host, port = run_iso8583_server()
-        print(host, port)
 
         with lion_mockup_server(), \
                 socket.socket(socket.AF_INET, socket.SOCK_STREAM) \

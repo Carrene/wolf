@@ -7,6 +7,7 @@ import pytest
 import pymlconf
 from nanohttp import settings
 from nanohttp.configuration import configure
+from restfulpy.orm import DBSession
 
 from wolf.iso8583 import listen
 from wolf.application import Wolf
@@ -41,9 +42,12 @@ def run_iso8583_server(free_port):
         args=('localhost', free_port),
         daemon=True
     )
+
     def wrapper(*args, **kw):
         thread.start()
         return 'localhost', free_port
+
     yield wrapper
+    DBSession.close_all()
     thread.join(1)
 

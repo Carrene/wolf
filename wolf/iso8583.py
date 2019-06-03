@@ -25,7 +25,6 @@ def worker(client_socket):
     envelope = Envelope.loads(message, mackey)
 
     TCP_server(envelope)
-    DBSession.close()
 
     envelope.mti = envelope.mti + 10
     response = envelope.dumps()
