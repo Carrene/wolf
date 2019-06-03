@@ -125,7 +125,8 @@ class TCPServerController:
         envelope[48].value = tlv.dumps()
 
     def verify(self, envelope):
-        raise NotImplementedError()
+        envelope.set(39, b'000')
+        envelope.unset(52)
 
     _routes = {
         101: register,
