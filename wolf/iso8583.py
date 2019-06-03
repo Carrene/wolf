@@ -1,18 +1,18 @@
-import socket
-import threading
 import binascii
 import re
+import socket
+import threading
 from datetime import date, timedelta
 
+from iso8583.models import Envelope
 from nanohttp import settings
 from restfulpy.cli import Launcher, RequireSubCommand
-from restfulpy.orm import commit, DBSession
-from iso8583.models import Envelope
+from restfulpy.orm import DBSession
 from tlv import TLV
 
-from .models import Token, Cryptomodule
 from .exceptions import DeactivatedTokenError, ExpiredTokenError, \
     DuplicateSeedError, InvalidPartialCardNameError
+from .models import Token, Cryptomodule
 
 
 worker_threads = {}
@@ -25,6 +25,7 @@ def worker(client_socket):
     envelope = Envelope.loads(message, mackey)
 
     TCP_server(envelope)
+    DBSession.close()
 
     envelope.mti = envelope.mti + 10
     response = envelope.dumps()
@@ -40,7 +41,6 @@ def accept(client_socket):
     )
     worker_threads[client_socket.fileno] = worker
     worker_thread.start()
-
 
 def listen(host, port):
     socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -88,7 +88,6 @@ class ISO8583ServeLauncher(Launcher):
 
         )
         return parser
-
 
     def launch(self):
         host, port = \
@@ -167,9 +166,7 @@ class TCPServerController:
             # Creating a new token
             token = Token()
             token.phone = int(phone)
-            token.expire_date = date.today() + timedelta(days=1)
-            token.seed = \
-                b'\xdb!.\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
+            token.expire_date = date.today() + timedelta(days=365)
             token.cryptomodule_id = cryptomodule_id
             token.bank_id = 6
             token.name = partial_card_name

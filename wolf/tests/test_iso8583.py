@@ -33,7 +33,6 @@ def lion_mockup_server():
                 'Ro4WsXckQscBovDEaOH3IrQHQeFNfu_7pxe54MgeQz33UbtMiLgKDYx3_46' \
                 'aVoe6JDhWhYHna31YG-_W6D0L0g=='
 
-
     app = MockupApplication('lion-mockup', Root())
     with mockup_http_server(app) as (server, url):
         settings.merge(f'''
@@ -70,9 +69,11 @@ class TestEnsureMaskan(LocalApplicationTestCase):
     @classmethod
     def mockup(cls):
         session = cls.create_session()
+
         cryptomodule1 = Cryptomodule()
-        cryptomodule2 = Cryptomodule()
         session.add(cryptomodule1)
+
+        cryptomodule2 = Cryptomodule()
         session.add(cryptomodule2)
         session.commit()
 
@@ -83,7 +84,6 @@ class TestEnsureMaskan(LocalApplicationTestCase):
         with lion_mockup_server(), \
                 socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
                 as client_socket:
-            import pudb; pudb.set_trace()  # XXX BREAKPOINT
             client_socket.connect((host, port))
             client_socket.sendall(REQUEST)
             length_message = client_socket.recv(4)
