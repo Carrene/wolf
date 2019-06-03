@@ -24,13 +24,19 @@ class TestTCPServerVerify(LocalApplicationTestCase):
     __configuration__ = '''
       oath:
         window: 10
+
+      pinblock:
+        2:
+          key: 1234567890ABCDEF1234567890ABCDEF
+        3:
+          key: 1234567890ABCDEF1234567890ABCDEF
     '''
 
     @classmethod
     def mockup(cls):
         session = cls.create_session()
         cls.active_token = active_token = Token()
-        active_token.name = 'name1'
+        active_token.name = '6280231400751359'
         active_token.phone = 1
         active_token.bank_id = 2
         active_token.expire_date = datetime.now() + timedelta(minutes=1)
@@ -93,3 +99,4 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             == 'B18300E3FE2A4044'
 
         assert 52 not in envelope
+

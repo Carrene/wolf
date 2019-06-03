@@ -5,14 +5,13 @@ import threading
 from datetime import date, timedelta
 
 from iso8583.models import Envelope
-from nanohttp import settings
+from nanohttp import settings, LazyAttribute
 from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
 from tlv import TLV
 
-from .exceptions import DeactivatedTokenError, ExpiredTokenError, \
-    DuplicateSeedError, InvalidPartialCardNameError
-from .models import Token, Cryptomodule
+from .exceptions import InvalidPartialCardNameError
+from .models import Token, MiniToken
 
 
 worker_threads = {}
@@ -109,6 +108,10 @@ class TCPServerController:
 
         handler(self, envelope)
 
+    @LazyAttribute
+    def window(self):
+        return settings.oath.window
+
     def register(self, envelope):
         field48 = TLV.loads(envelope[48].value).fields
 
@@ -125,6 +128,28 @@ class TCPServerController:
         envelope[48].value = tlv.dumps()
 
     def verify(self, envelope):
+        token = DBSession.query(Token) \
+            .filter(Token.name == envelope[2].value.decode()) \
+            .one_or_none()
+        token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
+#        if token is None:
+#            raise NotImplementedError()
+
+        self._validate_token(token)
+        primitive = 'yes'
+        try:
+            is_valid = token.verify(
+                envelope[52].value,
+                self.window,
+                primitive=primitive
+            )
+            token.cache()
+        except ValueError:
+            is_valid = False
+
+#        if not is_valid:
+#            raise HTTPStatus('604 Invalid code')
+
         envelope.set(39, b'000')
         envelope.unset(52)
 
@@ -134,11 +159,12 @@ class TCPServerController:
     }
 
     def _validate_token(self, token):
-        if token.is_expired:
-            raise ExpiredTokenError()
-
-        if not token.is_active:
-            raise DeactivatedTokenError()
+        pass
+#        if token.is_expired:
+#            raise ExpiredTokenError()
+#
+#        if not token.is_active:
+#            raise DeactivatedTokenError()
 
     def _find_or_create_token(self, envelope, phone):
         partial_card_name = envelope[2].value.decode()
@@ -148,12 +174,12 @@ class TCPServerController:
         if not re.match(pattern, partial_card_name):
             raise InvalidPartialCardNameError()
 
-        if DBSession.query(Cryptomodule) \
-                .filter(Cryptomodule.id == cryptomodule_id) \
-                .count() <= 0:
-            raise HTTPStatus(
-                f'601 Cryptomodule does not exists: {cryptomodule_id}'
-            )
+#        if DBSession.query(Cryptomodule) \
+#                .filter(Cryptomodule.id == cryptomodule_id) \
+#                .count() <= 0:
+#            raise HTTPStatus(
+#                f'601 Cryptomodule does not exists: {cryptomodule_id}'
+#            )
 
         token = DBSession.query(Token).filter(
             Token.name == partial_card_name,
@@ -179,7 +205,8 @@ class TCPServerController:
             DBSession.flush()
 
         except IntegrityError as ex:
-            raise DuplicateSeedError()
+            pass
+#            raise DuplicateSeedError()
 
         else:
             return token
