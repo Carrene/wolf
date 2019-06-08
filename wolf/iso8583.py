@@ -32,6 +32,7 @@ def worker(client_socket):
 
         client_socket.send(response)
         client_socket.close()
+
     finally:
         DBSession.close()
 
@@ -95,7 +96,7 @@ class ISO8583ServeLauncher(Launcher):
         )
         return parser
 
-    def launch(self):
+    def launch(self): # pragma: no cover
         host, port = \
             self.args.bind.split(':') if ':' in str(self.args.bind) \
             else ('', self.args.bind)
@@ -165,7 +166,7 @@ class TCPServerController:
             # Creating a new token
             token = Token()
             token.phone = int(phone)
-            token.expire_date = date.today() + timedelta(days=365)
+            token.expire_date = date.today() + timedelta(days=18250)
             token.cryptomodule_id = cryptomodule_id
             token.bank_id = 6
             token.name = partial_card_name
@@ -179,17 +180,12 @@ class TCPServerController:
 
         except IntegrityError as ex:
             # Internal error (DuplicateSeedError).
-            envelope.set(39, b'909')
-            return
+            token.initialize_seed()
 
         if not token.is_active:
             # User is blocked.
             envelope.set(39, b'106')
             return
-
-        if token.is_expired:
-            # TODO: Set related response code.
-            pass
 
         DBSession.commit()
         field48['ACT'] = token.provision(field48['PHN']).split('/')[-1]
@@ -211,10 +207,6 @@ class TCPServerController:
         if not token.is_active:
             envelope.set(39, b'106') # User is blocked.
             return
-
-        if token.is_expired:
-            # TODO: Set related response code.
-            pass
 
         token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
         if token is None:
