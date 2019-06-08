@@ -77,8 +77,8 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
         session.add(cryptomodule2)
         session.commit()
 
-    def test_ensure(self, run_iso8583_server):
-        host, port = run_iso8583_server()
+    def test_ensure(self, iso8583_server):
+        host, port = iso8583_server
 
         with lion_mockup_server(), \
                 socket.socket(socket.AF_INET, socket.SOCK_STREAM) \

@@ -3,6 +3,7 @@ import re
 import socket
 import threading
 from datetime import date, timedelta
+import time
 
 from iso8583.models import Envelope
 from nanohttp import settings, LazyAttribute
@@ -11,24 +12,28 @@ from restfulpy.orm import DBSession
 from tlv import TLV
 
 from .exceptions import InvalidPartialCardNameError
-from .models import Token, MiniToken
+from .models import Token, MiniToken, Cryptomodule
 
 
 worker_threads = {}
 
 
 def worker(client_socket):
-    length = client_socket.recv(4)
-    message = length + client_socket.recv(int(length))
-    mackey = binascii.unhexlify(settings.iso8583.mackey)
-    envelope = Envelope.loads(message, mackey)
+    try:
+        length = client_socket.recv(4)
+        message = length + client_socket.recv(int(length))
+        mackey = binascii.unhexlify(settings.iso8583.mackey)
+        envelope = Envelope.loads(message, mackey)
 
-    TCP_server(envelope)
+        TCP_server(envelope)
 
-    envelope.mti = envelope.mti + 10
-    response = envelope.dumps()
+        envelope.mti = envelope.mti + 10
+        response = envelope.dumps()
 
-    client_socket.send(response)
+        client_socket.send(response)
+        client_socket.close()
+    finally:
+        DBSession.close()
 
 
 def accept(client_socket):
@@ -40,11 +45,14 @@ def accept(client_socket):
     worker_threads[client_socket.fileno] = worker
     worker_thread.start()
 
-def listen(host, port):
+
+def listen(host, port, ready):
     socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     socket_server.bind((host, port))
     socket_server.listen(settings.tcpserver.backlog)
 
+    time.sleep(.3)
+    ready.set()
     while True:
         client_connection, client_address = socket_server.accept()
         accept(client_connection)
@@ -112,74 +120,39 @@ class TCPServerController:
     def window(self):
         return settings.oath.window
 
-    def register(self, envelope):
+    def _is_registeration_fields_valid(self, envelope):
+        if 2 not in envelope or 48 not in envelope or 24 not in envelope:
+            return False
+
         field48 = TLV.loads(envelope[48].value).fields
+        if 'PHN' not in field48:
+            return False
 
-        token = self._find_or_create_token(
-            envelope=envelope,
-            phone=field48['PHN']
-        )
-        self._validate_token(token)
+        if not re.match(
+            settings.card_tokens[6].pattern,
+            envelope[2].value.decode()
+        ):
+            return False
 
-        DBSession.commit()
-        field48['ACT'] = token.provision(field48['PHN']).split('/')[-1]
-        envelope.set(39, b'000')
-        tlv = TLV(**field48)
-        envelope[48].value = tlv.dumps()
+        return True
 
-    def verify(self, envelope):
-        token = DBSession.query(Token) \
-            .filter(Token.name == envelope[2].value.decode()) \
-            .one_or_none()
-        token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
-#        if token is None:
-#            raise NotImplementedError()
+    def register(self, envelope):
+        if not self._is_registeration_fields_valid(envelope):
+            # Invalid message format
+            envelope.set(39, b'928')
+            return
 
-        self._validate_token(token)
-        primitive = 'yes'
-        try:
-            is_valid = token.verify(
-                envelope[52].value,
-                self.window,
-                primitive=primitive
-            )
-            token.cache()
-        except ValueError:
-            is_valid = False
-
-#        if not is_valid:
-#            raise HTTPStatus('604 Invalid code')
-
-        envelope.set(39, b'000')
-        envelope.unset(52)
-
-    _routes = {
-        101: register,
-        302: verify,
-    }
-
-    def _validate_token(self, token):
-        pass
-#        if token.is_expired:
-#            raise ExpiredTokenError()
-#
-#        if not token.is_active:
-#            raise DeactivatedTokenError()
-
-    def _find_or_create_token(self, envelope, phone):
+        field48 = TLV.loads(envelope[48].value).fields
+        phone = field48['PHN']
         partial_card_name = envelope[2].value.decode()
         cryptomodule_id = 1 if envelope[24].value[1] == 1 else 2
         bank_id = envelope[2].value[0:6].decode()
-        pattern = settings.card_tokens[6].pattern
-        if not re.match(pattern, partial_card_name):
-            raise InvalidPartialCardNameError()
-
-#        if DBSession.query(Cryptomodule) \
-#                .filter(Cryptomodule.id == cryptomodule_id) \
-#                .count() <= 0:
-#            raise HTTPStatus(
-#                f'601 Cryptomodule does not exists: {cryptomodule_id}'
-#            )
+        if DBSession.query(Cryptomodule) \
+                .filter(Cryptomodule.id == cryptomodule_id) \
+                .count() <= 0:
+            # Cryptomodule does not exists
+            envelope.set(39, b'909') # Internal error (DuplicateSeedError).
+            return
 
         token = DBSession.query(Token).filter(
             Token.name == partial_card_name,
@@ -205,11 +178,70 @@ class TCPServerController:
             DBSession.flush()
 
         except IntegrityError as ex:
-            pass
-#            raise DuplicateSeedError()
+            # Internal error (DuplicateSeedError).
+            envelope.set(39, b'909')
+            return
 
-        else:
-            return token
+        if not token.is_active:
+            # User is blocked.
+            envelope.set(39, b'106')
+            return
+
+        if token.is_expired:
+            # TODO: Set related response code.
+            pass
+
+        DBSession.commit()
+        field48['ACT'] = token.provision(field48['PHN']).split('/')[-1]
+        envelope.set(39, b'000') # Response is ok
+        tlv = TLV(**field48)
+        envelope[48].value = tlv.dumps()
+
+    def verify(self, envelope):
+        primitive = 'yes'
+        pinblock = envelope[52].value
+        envelope.unset(52)
+        token = DBSession.query(Token) \
+            .filter(Token.name == envelope[2].value.decode()) \
+            .one_or_none()
+        if token is None:
+            envelope.set(39, b'117') # Token not found.
+            return
+
+        if not token.is_active:
+            envelope.set(39, b'106') # User is blocked.
+            return
+
+        if token.is_expired:
+            # TODO: Set related response code.
+            pass
+
+        token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
+        if token is None:
+            envelope.set(39, b'117')
+            return
+
+        try:
+            is_valid = token.verify(
+                pinblock,
+                self.window,
+                primitive=primitive
+            )
+            token.cache()
+        except ValueError:
+            is_valid = False
+
+        if not is_valid:
+            envelope.set(39, b'117') # Incorecct the username or password.
+            return
+
+        envelope.set(39, b'000') # Respose is ok.
+
+
+    _routes = {
+        101: register,
+        302: verify,
+    }
 
 
 TCP_server = TCPServerController()
