@@ -122,6 +122,39 @@ class TestTCPServerVerify(LocalApplicationTestCase):
 
             assert 52 not in envelope
 
+        # Verifying a valid code within invalid time span
+        with TimeMonkeyPatch(self.invalid_time), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(self.valid_pin_message)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+
+            envelope = Envelope.loads(
+                message,
+                binascii.unhexlify(settings.iso8583.mackey)
+            )
+
+            assert envelope.mti == 1110
+            assert envelope[2].value == b'6280231400751359'
+            assert envelope[3].value == b'670000'
+            assert envelope[11].value == b'763245'
+            assert envelope[12].value == b'190602142754'
+            assert envelope[18].value == b'5312'
+            assert envelope[22].value == b'61050061317C'
+            assert envelope[24].value == b'302'
+            assert envelope[26].value == b'5312'
+            assert envelope[37].value == b'000000351929'
+            assert envelope[39].value == b'117'
+            assert envelope[41].value == b'09999402'
+            assert envelope[42].value == b'000009999402   '
+            assert envelope[48].value == b'CIF012111000090389TKR00207'
+            assert binascii.hexlify(envelope[64].value).decode().upper() \
+                == '19120F147C6975B5'
+
+            assert 52 not in envelope
+
         # Trying to pass with invalid pinblock
         with TimeMonkeyPatch(self.valid_time), \
                 socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
@@ -187,4 +220,27 @@ class TestTCPServerVerify(LocalApplicationTestCase):
                 == 'E9A64AE158750007'
 
             assert 52 not in envelope
+
+        # Trying to pass with invalid function code
+        with TimeMonkeyPatch(self.valid_time), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            envelope = Envelope(
+                '0200',
+                binascii.unhexlify(settings.iso8583.mackey)
+            )
+            envelope.set(24, b'222')
+            client_socket.connect((host, port))
+            client_socket.sendall(envelope.dumps())
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+
+            envelope = Envelope.loads(
+                message,
+                binascii.unhexlify(settings.iso8583.mackey)
+            )
+
+            assert envelope.mti == 210
+            assert envelope[24].value == b'222'
+            assert envelope[39].value == b'928'
 
