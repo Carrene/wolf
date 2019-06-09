@@ -194,7 +194,7 @@ class TCPServerController:
         envelope[48].value = tlv.dumps()
 
     def verify(self, envelope):
-        primitive = 'yes'
+        primitive = 'no'
         pinblock = envelope[52].value
         envelope.unset(52)
         token = DBSession.query(Token) \
@@ -210,16 +210,13 @@ class TCPServerController:
 
         token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
         if token is None:
-            envelope.set(39, b'117')
+            envelope.set(39, b'117') # Token not found.
             return
 
         try:
-            is_valid = token.verify(
-                pinblock,
-                self.window,
-                primitive=primitive
-            )
+            is_valid = token.verify(pinblock, self.window, primitive=primitive)
             token.cache()
+
         except ValueError:
             is_valid = False
 

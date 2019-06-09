@@ -136,23 +136,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[2].value == b'6280231400751359'
-            assert envelope[3].value == b'670000'
-            assert envelope[11].value == b'763245'
-            assert envelope[12].value == b'190602142754'
-            assert envelope[18].value == b'5312'
-            assert envelope[22].value == b'61050061317C'
-            assert envelope[24].value == b'302'
-            assert envelope[26].value == b'5312'
-            assert envelope[37].value == b'000000351929'
             assert envelope[39].value == b'117'
-            assert envelope[41].value == b'09999402'
-            assert envelope[42].value == b'000009999402   '
-            assert envelope[48].value == b'CIF012111000090389TKR00207'
-            assert binascii.hexlify(envelope[64].value).decode().upper() \
-                == '19120F147C6975B5'
-
-            assert 52 not in envelope
 
         # Trying to pass with invalid pinblock
         with TimeMonkeyPatch(self.valid_time), \
@@ -164,24 +148,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope.mti == 1110
-            assert envelope[2].value == b'6280231400751359'
-            assert envelope[3].value == b'670000'
-            assert envelope[11].value == b'763245'
-            assert envelope[12].value == b'190602142754'
-            assert envelope[18].value == b'5312'
-            assert envelope[22].value == b'61050061317C'
-            assert envelope[24].value == b'302'
-            assert envelope[26].value == b'5312'
-            assert envelope[37].value == b'000000351929'
             assert envelope[39].value == b'117'
-            assert envelope[41].value == b'09999402'
-            assert envelope[42].value == b'000009999402   '
-            assert envelope[48].value == b'CIF012111000090389TKR00207'
-            assert binascii.hexlify(envelope[64].value).decode().upper() \
-                == '19120F147C6975B5'
-
-            assert 52 not in envelope
 
         # Trying to pass with deactive token
         with TimeMonkeyPatch(self.valid_time), \
@@ -193,24 +160,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope.mti == 1110
-            assert envelope[2].value == b'6280231234567890'
-            assert envelope[3].value == b'670000'
-            assert envelope[11].value == b'763245'
-            assert envelope[12].value == b'190602142754'
-            assert envelope[18].value == b'5312'
-            assert envelope[22].value == b'61050061317C'
-            assert envelope[24].value == b'302'
-            assert envelope[26].value == b'5312'
-            assert envelope[37].value == b'000000351929'
             assert envelope[39].value == b'106'
-            assert envelope[41].value == b'09999402'
-            assert envelope[42].value == b'000009999402   '
-            assert envelope[48].value == b'CIF012111000090389TKR00207'
-            assert binascii.hexlify(envelope[64].value).decode().upper() \
-                == 'E9A64AE158750007'
-
-            assert 52 not in envelope
 
         # Trying to pass with invalid function code
         with TimeMonkeyPatch(self.valid_time), \
@@ -227,8 +177,6 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope.mti == 210
-            assert envelope[24].value == b'222'
             assert envelope[39].value == b'928'
 
         # Trying to pass with malformed pinblock
@@ -241,7 +189,6 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope.mti == 1110
             assert envelope[39].value == b'117'
 
         # Trying to pass with invalid card number(token not found)
