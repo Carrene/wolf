@@ -11,7 +11,7 @@ from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
 from tlv import TLV
 
-from .exceptions import InvalidPartialCardNameError
+from .exceptions import InvalidPartialCardNameError, DuplicateSeedError
 from .models import Token, MiniToken, Cryptomodule
 
 
@@ -24,16 +24,18 @@ def worker(client_socket):
         message = length + client_socket.recv(int(length))
         mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
-
         TCP_server(envelope)
-
         envelope.mti = envelope.mti + 10
-        response = envelope.dumps()
 
+    except:
+        envelope = Envelope('1110', mackey)
+        envelope.set(39, b'928')
+
+    finally:
+        response = envelope.dumps()
         client_socket.send(response)
         client_socket.close()
 
-    finally:
         DBSession.close()
 
 
@@ -172,14 +174,12 @@ class TCPServerController:
             token.is_active = True
             DBSession.add(token)
 
-        token.initialize_seed()
-
         try:
-            DBSession.flush()
+            token.initialize_seed(max_retry=2)
 
-        except IntegrityError as ex:
-            # Internal error (DuplicateSeedError).
-            token.initialize_seed()
+        except DuplicateSeedError:
+            envelope.set(39, b'909') # User is blocked.
+            return
 
         DBSession.commit()
         field48['ACT'] = token.provision(field48['PHN']).split('/')[-1]

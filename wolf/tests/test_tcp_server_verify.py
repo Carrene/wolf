@@ -94,6 +94,8 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             binascii.unhexlify(settings.iso8583.mackey))
         ).upper()
 
+        cls.malformed_message = b'00101234567890'
+
     def test_verify(self, iso8583_server):
         host, port = iso8583_server
 

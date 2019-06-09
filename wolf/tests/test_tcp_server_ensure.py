@@ -1,14 +1,15 @@
 import binascii
 import socket
 from contextlib import contextmanager
+from datetime import date, timedelta
 
 from iso8583.cryptohelpers import iso9797_mac
 from iso8583.models import Envelope
 from nanohttp import settings, RegexRouteController, json, context, HTTPStatus
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
-from wolf.models import Cryptomodule
-from wolf.tests.helpers import LocalApplicationTestCase
+from wolf.models import Cryptomodule, Token
+from wolf.tests.helpers import LocalApplicationTestCase, RandomMonkeyPatch
 
 
 _lion_status = 'idle'
@@ -117,8 +118,11 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             assert envelope[39].value == b'909'
 
         session = self.create_session()
-        session.add(Cryptomodule())
-        session.add(Cryptomodule())
+        cryptomodule1 = Cryptomodule()
+        session.add(cryptomodule1)
+
+        cryptomodule2 = Cryptomodule()
+        session.add(cryptomodule2)
         session.commit()
 
         # Trying to pass successfully
@@ -198,4 +202,29 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             envelope = Envelope.loads(message, self.mackey)
 
             assert envelope[39].value == b'928'
+
+        seed = b'\xdb!.\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
+        expired_token = Token()
+        expired_token.name = '6280231400751379'
+        expired_token.phone = 989122451075
+        expired_token.expire_date = date.today() - timedelta(days=1)
+        expired_token.seed = seed
+        expired_token.is_active = True
+        expired_token.cryptomodule = cryptomodule1
+        expired_token.bank_id = 1
+        session.add(expired_token)
+        session.commit()
+
+        # Trying to pass with duplicate seed
+        with lion_mockup_server(), \
+                RandomMonkeyPatch(seed), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(self.duplicate_seed_message)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+            envelope = Envelope.loads(message, self.mackey)
+
+            assert envelope[39].value == b'909'
 
