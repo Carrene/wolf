@@ -16,9 +16,11 @@ from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
     UniqueConstraint, BigInteger, event, extract, text, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm.session import object_session
 
 from .backends import LionClient
 from . import cryptoutil
+from .exceptions import DuplicateSeedError
 
 
 class Cryptomodule(DeclarativeBase):
@@ -105,8 +107,20 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
     def is_expired(self):
         return self.expire_date <= date.today()
 
-    def initialize_seed(self):
-        self.seed = cryptoutil.random(20)
+    def initialize_seed(self, max_retry=1):
+        session = object_session(self)
+        while max_retry > 0:
+            seed = cryptoutil.random(20)
+            count = session.query(self.__class__) \
+                .filter(self.__class__.seed == seed) \
+                .count()
+            if count == 0:
+                self.seed = seed
+                return
+
+            max_retry = max_retry - 1
+
+        raise DuplicateSeedError()
 
     def to_dict(self):
         result = super().to_dict()
