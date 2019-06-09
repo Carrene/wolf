@@ -23,6 +23,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
     @classmethod
     def mockup(cls):
         card_number = '6280231400751359'
+        cls.mackey = binascii.unhexlify(settings.iso8583.mackey)
         session = cls.create_session()
         cls.active_token = active_token = Token()
         active_token.name = card_number
@@ -86,6 +87,13 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             binascii.unhexlify(settings.iso8583.mackey))
         ).upper()
 
+        cls.malformad_pinblock_message = message % card_number.encode()
+        cls.malformad_pinblock_message += b'MALFORMEDPIN0000'
+        cls.malformad_pinblock_message += binascii.hexlify(iso9797_mac(
+            cls.malformad_pinblock_message[4:],
+            binascii.unhexlify(settings.iso8583.mackey))
+        ).upper()
+
     def test_verify(self, iso8583_server):
         host, port = iso8583_server
 
@@ -97,11 +105,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             client_socket.sendall(self.valid_pin_message)
             length_message = client_socket.recv(4)
             message = length_message + client_socket.recv(int(length_message))
-
-            envelope = Envelope.loads(
-                message,
-                binascii.unhexlify(settings.iso8583.mackey)
-            )
+            envelope = Envelope.loads(message, self.mackey)
 
             assert envelope.mti == 1110
             assert envelope[2].value == b'6280231400751359'
@@ -130,13 +134,8 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             client_socket.sendall(self.valid_pin_message)
             length_message = client_socket.recv(4)
             message = length_message + client_socket.recv(int(length_message))
+            envelope = Envelope.loads(message, self.mackey)
 
-            envelope = Envelope.loads(
-                message,
-                binascii.unhexlify(settings.iso8583.mackey)
-            )
-
-            assert envelope.mti == 1110
             assert envelope[2].value == b'6280231400751359'
             assert envelope[3].value == b'670000'
             assert envelope[11].value == b'763245'
@@ -163,11 +162,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             client_socket.sendall(self.invalid_pin_message)
             length_message = client_socket.recv(4)
             message = length_message + client_socket.recv(int(length_message))
-
-            envelope = Envelope.loads(
-                message,
-                binascii.unhexlify(settings.iso8583.mackey)
-            )
+            envelope = Envelope.loads(message, self.mackey)
 
             assert envelope.mti == 1110
             assert envelope[2].value == b'6280231400751359'
@@ -196,11 +191,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             client_socket.sendall(self.block_user_message)
             length_message = client_socket.recv(4)
             message = length_message + client_socket.recv(int(length_message))
-
-            envelope = Envelope.loads(
-                message,
-                binascii.unhexlify(settings.iso8583.mackey)
-            )
+            envelope = Envelope.loads(message, self.mackey)
 
             assert envelope.mti == 1110
             assert envelope[2].value == b'6280231234567890'
@@ -234,13 +225,35 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             client_socket.sendall(envelope.dumps())
             length_message = client_socket.recv(4)
             message = length_message + client_socket.recv(int(length_message))
-
-            envelope = Envelope.loads(
-                message,
-                binascii.unhexlify(settings.iso8583.mackey)
-            )
+            envelope = Envelope.loads(message, self.mackey)
 
             assert envelope.mti == 210
             assert envelope[24].value == b'222'
             assert envelope[39].value == b'928'
+
+        # Trying to pass with malformed pinblock
+        with TimeMonkeyPatch(self.valid_time), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(self.malformad_pinblock_message)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+            envelope = Envelope.loads(message, self.mackey)
+
+            assert envelope.mti == 1110
+            assert envelope[39].value == b'117'
+
+        # Trying to pass with invalid card number(token not found)
+        with TimeMonkeyPatch(self.valid_time), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(self.invalid_card_number_message)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+            envelope = Envelope.loads(message, self.mackey)
+
+            assert envelope.mti == 1110
+            assert envelope[39].value == b'117'
 
