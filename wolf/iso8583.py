@@ -129,10 +129,8 @@ class TCPServerController:
         if 'PHN' not in field48:
             return False
 
-        if not re.match(
-            settings.card_tokens[6].pattern,
-            envelope[2].value.decode()
-        ):
+        card_number = envelope[2].value.decode()
+        if not re.match(settings.card_tokens[6].pattern, card_number):
             return False
 
         return True
@@ -148,11 +146,12 @@ class TCPServerController:
         partial_card_name = envelope[2].value.decode()
         cryptomodule_id = 1 if envelope[24].value[1] == 1 else 2
         bank_id = envelope[2].value[0:6].decode()
+
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
                 .count() <= 0:
             # Cryptomodule does not exists
-            envelope.set(39, b'909') # Internal error (DuplicateSeedError).
+            envelope.set(39, b'909') # Internal error.
             return
 
         token = DBSession.query(Token).filter(
@@ -181,11 +180,6 @@ class TCPServerController:
         except IntegrityError as ex:
             # Internal error (DuplicateSeedError).
             token.initialize_seed()
-
-        if not token.is_active:
-            # User is blocked.
-            envelope.set(39, b'106')
-            return
 
         DBSession.commit()
         field48['ACT'] = token.provision(field48['PHN']).split('/')[-1]

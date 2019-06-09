@@ -57,15 +57,6 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
     @classmethod
     def mockup(cls):
         cls.mackey = binascii.unhexlify(settings.iso8583.mackey)
-        session = cls.create_session()
-
-        cryptomodule1 = Cryptomodule()
-        session.add(cryptomodule1)
-
-        cryptomodule2 = Cryptomodule()
-        session.add(cryptomodule2)
-        session.commit()
-
         card_number = '6280231400751359'
         message = \
             b'027111006030050008E1000116%s66000076242719052313' \
@@ -77,6 +68,12 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
         cls.valid_message = message % card_number.encode()
         cls.valid_message += binascii.hexlify(iso9797_mac(
             cls.valid_message[4:],
+            cls.mackey)
+        ).upper()
+
+        cls.duplicate_seed_message = message % b'6280231400751379'
+        cls.duplicate_seed_message += binascii.hexlify(iso9797_mac(
+            cls.duplicate_seed_message[4:],
             cls.mackey)
         ).upper()
 
@@ -95,18 +92,36 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
         envelope.set(24, b'101')
         cls.message_without_field48 = envelope.dumps()
 
-        message_without_tag_PHN = Envelope('1100', cls.mackey)
-        message_without_tag_PHN.set(2, card_number.encode())
-        message_without_tag_PHN.set(24, b'101')
-        message_without_tag_PHN.set(
+        envelope = Envelope('1100', cls.mackey)
+        envelope.set(2, card_number.encode())
+        envelope.set(24, b'101')
+        envelope.set(
             48,
             b'P13006762427CIF012111001209483TKT003SFTTOK003000TKR00202'
         )
-        cls.message_without_tag_PHN = message_without_tag_PHN.dumps()
+        cls.message_without_tag_PHN = envelope.dumps()
 
     def test_ensure(self, iso8583_server):
         host, port = iso8583_server
 
+        # Trying to pass without cryptomodule
+        with lion_mockup_server(), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(self.valid_message)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+            envelope = Envelope.loads(message, self.mackey)
+
+            assert envelope[39].value == b'909'
+
+        session = self.create_session()
+        session.add(Cryptomodule())
+        session.add(Cryptomodule())
+        session.commit()
+
+        # Trying to pass successfully
         with lion_mockup_server(), \
                 socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
                 as client_socket:
@@ -124,6 +139,7 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             assert envelope[22].value == b'211401211244'
             assert envelope[24].value == b'101'
             assert envelope[37].value == b'914313762427'
+            assert envelope[39].value == b'000'
             assert envelope[41].value == b'01111102'
             assert envelope[42].value == b'000001111102   '
             assert envelope[48].value == \
