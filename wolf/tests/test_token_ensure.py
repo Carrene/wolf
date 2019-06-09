@@ -120,6 +120,23 @@ class TestEnsureToken(LocalApplicationTestCase):
             )
             assert status == 200
 
+            when(
+                'Token is expirde',
+                form=given | dict(
+                    name='ExpiredToken',
+                )
+            )
+            assert status == '602 Token is expired'
+
+            when(
+                'Token is deactivated',
+                form=given | dict(
+                    name='DeactivatedToken',
+                    bankId=2,
+                )
+            )
+            assert status == '603 Token is deactivated'
+
             with lion_status('404 Not Found'):
                 when(
                     'Device is not found',
