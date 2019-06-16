@@ -86,7 +86,7 @@ class TestVerifyToken(LocalApplicationTestCase):
             when(
                 'Token not exists',
                 url_parameters=given | dict(
-                    token_id=0,
+                    token_id='f82cdf8e-901e-11e9-b241-b06ebfbfaee8',
                 )
             )
             assert status == '404 Not Found'

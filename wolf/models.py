@@ -245,7 +245,8 @@ class MiniToken:
     def cache(self):  # pragma: no cover
         self.redis().set(
             str(self.id),
-            b'%s,%s,%d,%d,%d,%s,%d' % (
+            b'%s,%s,%s,%d,%d,%d,%s,%d' % (
+                pickle.dumps(self.id, 1),
                 str(self.bank_id).encode(),
                 binascii.hexlify(self.seed),
                 int(self.expire_date),
@@ -264,14 +265,14 @@ class MiniToken:
         if redis.exists(cache_key):
             token = redis.get(cache_key).split(b',')
             return cls(
-                token_id,
-                int(token[0]),
-                binascii.unhexlify(token[1]),
-                float(token[2]),
-                bool(token[3]),
-                int(token[4]),
-                pickle.loads(token[5]),
-                int(token[6])
+                pickle.loads(token[0]),
+                int(token[1]),
+                binascii.unhexlify(token[2]),
+                float(token[3]),
+                bool(token[4]),
+                int(token[5]),
+                pickle.loads(token[6]),
+                int(token[7])
             ) if token else None
         return None
 
