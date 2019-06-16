@@ -24,10 +24,10 @@ class PlainISO0PinBlock:
         digest = hmac.new(self.key, token.id.bytes, hashlib.sha1).digest()
         offset = digest[-1] & 0xf
 
-        self.pan = str(
+        self.pan = int(str(
             ((digest[offset + 1] & 0xff) << 16) |
             ((digest[offset + 2] & 0xff) << 8)
-        ).zfill(length)[-length:]
+        ).zfill(length)[-length:])
 
     def encode(self, data):
         return b'%0.16x' % (

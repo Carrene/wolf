@@ -2,9 +2,9 @@ import time
 import struct
 import binascii
 import pickle
+import uuid
 from datetime import date
 from collections import deque
-from uuid import uuid1
 
 import redis
 from nanohttp import settings
@@ -35,7 +35,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
     id = Field(
         UUID(as_uuid=True),
         primary_key=True,
-        default=uuid1
+        default=uuid.uuid1
     )
     name = Field(
         Unicode(50),
@@ -142,7 +142,12 @@ class MiniToken:
 
     def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
                  last_codes=None, final=False):
-        self.id = id
+        if type(id) is str:
+            self.id = uuid.UUID(id)
+
+        else:
+            self.id = id
+
         self.bank_id = bank_id
         self.seed = seed
         self.expire_date = expire_date
@@ -245,8 +250,7 @@ class MiniToken:
     def cache(self):  # pragma: no cover
         self.redis().set(
             str(self.id),
-            b'%s,%s,%s,%d,%d,%d,%s,%d' % (
-                pickle.dumps(self.id, 1),
+            b'%s,%s,%d,%d,%d,%s,%d' % (
                 str(self.bank_id).encode(),
                 binascii.hexlify(self.seed),
                 int(self.expire_date),
@@ -265,14 +269,14 @@ class MiniToken:
         if redis.exists(cache_key):
             token = redis.get(cache_key).split(b',')
             return cls(
-                pickle.loads(token[0]),
-                int(token[1]),
-                binascii.unhexlify(token[2]),
-                float(token[3]),
-                bool(token[4]),
-                int(token[5]),
-                pickle.loads(token[6]),
-                int(token[7])
+                token_id,
+                int(token[0]),
+                binascii.unhexlify(token[1]),
+                float(token[2]),
+                bool(token[3]),
+                int(token[4]),
+                pickle.loads(token[5]),
+                int(token[6])
             ) if token else None
         return None
 
