@@ -56,7 +56,6 @@ class TokenController(ModelRestController):
         return super().__call__(*remaining_paths)
 
     def _get_token(self, id):
-        id = int_or_notfound(id)
         token = MiniToken.load(id, cache=settings.token.redis.enabled)
         if token is None:
             raise HTTPNotFound()

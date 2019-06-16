@@ -2,6 +2,7 @@ import time
 import struct
 import binascii
 import pickle
+import uuid
 from datetime import date
 from collections import deque
 
@@ -13,6 +14,7 @@ from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
     UniqueConstraint, BigInteger, event, extract, text
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
 
 from .backends import LionClient
 from . import cryptoutil
@@ -30,7 +32,11 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
             OrderingMixin, DeclarativeBase):
     __tablename__ = 'token'
 
-    id = Field(Integer, primary_key=True)
+    id = Field(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid1
+    )
     name = Field(
         Unicode(50),
         required='703 name is required',
@@ -136,7 +142,12 @@ class MiniToken:
 
     def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
                  last_codes=None, final=False):
-        self.id = id
+        if type(id) is str:
+            self.id = uuid.UUID(id)
+
+        else:
+            self.id = id
+
         self.bank_id = bank_id
         self.seed = seed
         self.expire_date = expire_date
