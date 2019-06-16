@@ -31,11 +31,11 @@ class PlainISO0PinBlock:
 
     def encode(self, data):
         return b'%0.16x' % (
-            int(self.pan) ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
+            self.pan ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
         )
 
     def decode(self, encoded):
-        block = b'%0.16x' % (int(self.pan) ^ int(encoded, 16))
+        block = b'%0.16x' % (self.pan ^ int(encoded, 16))
         return block[2:2+int(block[:2])]
 
 
