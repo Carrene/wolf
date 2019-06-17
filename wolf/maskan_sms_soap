@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="SendSMS_Single">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strMessageText" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strRecipientNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSenderNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumberUsername" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumberPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strNumberCompany" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strResultMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSMS_SingleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SendSMS_SingleResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="strResultMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DestinationAddress" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="vUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vIPAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BatchID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="vFarsi" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="SetPriority" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="vFlash" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SendSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendSMSResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XSendSMS2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Input" type="tns:ArrayOfXMessage" />
+            <s:element minOccurs="0" maxOccurs="1" name="vUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vIPAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BatchID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="vFarsi" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="SetPriority" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="vFlash" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfXMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="XMessage" type="tns:XMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="XMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Destinaion" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="XSendSMS2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XSendSMS2Result" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExtendReceiveSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServicePass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="User" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Pass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Number" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IPAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExtendReceiveSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExtendReceiveSMSResult" type="tns:ArrayOfSTC_SMSReceive3" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSTC_SMSReceive3">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="STC_SMSReceive3" nillable="true" type="tns:STC_SMSReceive3" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STC_SMSReceive3">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SenderNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReceiveDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="RecieveBatchID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="StatusSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vIPAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPort" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BatchId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StatusSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StatusSMSResult" type="tns:ArrayOfSTC_SMSStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSTC_SMSStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="STC_SMSStatus" nillable="true" type="tns:STC_SMSStatus" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STC_SMSStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RecipientNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeliveryStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SendDate" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LikeSendSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arrMessages" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="arrRecipientNumbers" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="vUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vIPAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LikeSendSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LikeSendSMSResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XSendSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Input" type="tns:ArrayOfXMessage" />
+            <s:element minOccurs="0" maxOccurs="1" name="vUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vIPAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BatchID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="vFarsi" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="SetPriority" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="vFlash" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="XSendSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XSendSMSResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SingleStatusSMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSMSID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strResultMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SingleStatusSMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SingleStatusSMSResult" type="tns:ArrayOfAnyType" />
+            <s:element minOccurs="0" maxOccurs="1" name="strResultMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAnyType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="anyType" nillable="true" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetRemainCredit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="vUser" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Company" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strResultMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRemainCreditResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRemainCreditResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strResultMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SendSMS_SingleSoapIn">
+    <wsdl:part name="parameters" element="tns:SendSMS_Single" />
+  </wsdl:message>
+  <wsdl:message name="SendSMS_SingleSoapOut">
+    <wsdl:part name="parameters" element="tns:SendSMS_SingleResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SendSMS" />
+  </wsdl:message>
+  <wsdl:message name="SendSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SendSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="XSendSMS2SoapIn">
+    <wsdl:part name="parameters" element="tns:XSendSMS2" />
+  </wsdl:message>
+  <wsdl:message name="XSendSMS2SoapOut">
+    <wsdl:part name="parameters" element="tns:XSendSMS2Response" />
+  </wsdl:message>
+  <wsdl:message name="ExtendReceiveSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:ExtendReceiveSMS" />
+  </wsdl:message>
+  <wsdl:message name="ExtendReceiveSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:ExtendReceiveSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="StatusSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:StatusSMS" />
+  </wsdl:message>
+  <wsdl:message name="StatusSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:StatusSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="LikeSendSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:LikeSendSMS" />
+  </wsdl:message>
+  <wsdl:message name="LikeSendSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:LikeSendSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="XSendSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:XSendSMS" />
+  </wsdl:message>
+  <wsdl:message name="XSendSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:XSendSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="SingleStatusSMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SingleStatusSMS" />
+  </wsdl:message>
+  <wsdl:message name="SingleStatusSMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SingleStatusSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRemainCreditSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRemainCredit" />
+  </wsdl:message>
+  <wsdl:message name="GetRemainCreditSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRemainCreditResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MaskanSendServiceSoap">
+    <wsdl:operation name="SendSMS_Single">
+      <wsdl:input message="tns:SendSMS_SingleSoapIn" />
+      <wsdl:output message="tns:SendSMS_SingleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <wsdl:input message="tns:SendSMSSoapIn" />
+      <wsdl:output message="tns:SendSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="XSendSMS2">
+      <wsdl:input message="tns:XSendSMS2SoapIn" />
+      <wsdl:output message="tns:XSendSMS2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExtendReceiveSMS">
+      <wsdl:input message="tns:ExtendReceiveSMSSoapIn" />
+      <wsdl:output message="tns:ExtendReceiveSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StatusSMS">
+      <wsdl:input message="tns:StatusSMSSoapIn" />
+      <wsdl:output message="tns:StatusSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LikeSendSMS">
+      <wsdl:input message="tns:LikeSendSMSSoapIn" />
+      <wsdl:output message="tns:LikeSendSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="XSendSMS">
+      <wsdl:input message="tns:XSendSMSSoapIn" />
+      <wsdl:output message="tns:XSendSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SingleStatusSMS">
+      <wsdl:input message="tns:SingleStatusSMSSoapIn" />
+      <wsdl:output message="tns:SingleStatusSMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRemainCredit">
+      <wsdl:input message="tns:GetRemainCreditSoapIn" />
+      <wsdl:output message="tns:GetRemainCreditSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MaskanSendServiceSoap" type="tns:MaskanSendServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendSMS_Single">
+      <soap:operation soapAction="http://tempuri.org/SendSMS_Single" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <soap:operation soapAction="http://tempuri.org/SendSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XSendSMS2">
+      <soap:operation soapAction="http://tempuri.org/XSendSMS2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExtendReceiveSMS">
+      <soap:operation soapAction="http://tempuri.org/ExtendReceiveSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StatusSMS">
+      <soap:operation soapAction="http://tempuri.org/StatusSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LikeSendSMS">
+      <soap:operation soapAction="http://tempuri.org/LikeSendSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XSendSMS">
+      <soap:operation soapAction="http://tempuri.org/XSendSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SingleStatusSMS">
+      <soap:operation soapAction="http://tempuri.org/SingleStatusSMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemainCredit">
+      <soap:operation soapAction="http://tempuri.org/GetRemainCredit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MaskanSendServiceSoap12" type="tns:MaskanSendServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendSMS_Single">
+      <soap12:operation soapAction="http://tempuri.org/SendSMS_Single" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSMS">
+      <soap12:operation soapAction="http://tempuri.org/SendSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XSendSMS2">
+      <soap12:operation soapAction="http://tempuri.org/XSendSMS2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExtendReceiveSMS">
+      <soap12:operation soapAction="http://tempuri.org/ExtendReceiveSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StatusSMS">
+      <soap12:operation soapAction="http://tempuri.org/StatusSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LikeSendSMS">
+      <soap12:operation soapAction="http://tempuri.org/LikeSendSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="XSendSMS">
+      <soap12:operation soapAction="http://tempuri.org/XSendSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SingleStatusSMS">
+      <soap12:operation soapAction="http://tempuri.org/SingleStatusSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRemainCredit">
+      <soap12:operation soapAction="http://tempuri.org/GetRemainCredit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MaskanSendService">
+    <wsdl:port name="MaskanSendServiceSoap" binding="tns:MaskanSendServiceSoap">
+      <soap:address location="http://172.30.1.19/MaskanSMSService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MaskanSendServiceSoap12" binding="tns:MaskanSendServiceSoap12">
+      <soap12:address location="http://172.30.1.19/MaskanSMSService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
