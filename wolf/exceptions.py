@@ -26,6 +26,12 @@ class SSMInternalError(HTTPKnownStatus):
     status = '802 SSM internal error'
 
 
+class MaskanSendSmsError(HTTPKnownStatus):
+    def __init__(self, result_message):
+        self.status = f'803 {result_message}'
+        super().__init__()
+
+
 class DuplicateSeedError(HTTPKnownStatus):
     status = '666 Cannot generate and randomize seed, please try again'
 
