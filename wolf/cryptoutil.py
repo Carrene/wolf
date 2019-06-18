@@ -7,10 +7,7 @@ import hmac
 
 from Crypto.Cipher import DES3
 from nanohttp import settings
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.backends import default_backend
-
+from OpenSSL import crypto
 
 def random(size):  # pragma: no cover
     # This function is trying to be a secure random and it will be improved
@@ -18,29 +15,11 @@ def random(size):  # pragma: no cover
     return os.urandom(size)
 
 
-def create_sha1_hash(message):
-    sha1 = hashlib.sha1()
-    sha1.update(message)
+def create_signature(message, key_file_path, hash_algorithm='sha1'):
+    with open(key_file_path) as key:
+        private_key = crypto.load_privatekey(crypto.FILETYPE_PEM, key.read())
 
-    return sha1.digest()
-
-
-def create_rsa1_signature(message, key_file_path):
-    with open(key_file_path, 'rb') as key_file:
-        private_key = serialization.load_pem_private_key(
-            f.read(),
-            password=None,
-            backend=default_backen()
-        )
-
-    signature = private_key.sign(
-        message,
-        padding.PSS(
-            mgf=padding.MGF1(hashes.SHA1()),
-            salt_length=padding.PSS.MAX_LENGTH
-        ),
-        hashes.SHA1()
-    )
+    signature = crypto.sign(private_key, message, hash_algorithm)
 
     return signature
 
