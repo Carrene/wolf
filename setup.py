@@ -14,6 +14,7 @@ dependencies = [
     'restfulpy >= 2.8.0, < 3',
     'oathcy >= 1.4.0, < 2',
     'pycrypto',
+    'pyopenssl',
 
     # deployment
     'gunicorn',

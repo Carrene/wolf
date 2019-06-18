@@ -7,12 +7,21 @@ import hmac
 
 from Crypto.Cipher import DES3
 from nanohttp import settings
-
+from OpenSSL import crypto
 
 def random(size):  # pragma: no cover
     # This function is trying to be a secure random and it will be improved
     # later.
     return os.urandom(size)
+
+
+def create_signature(filename, message, hash_algorithm='sha1'):
+    with open(os.path.abspath(filename)) as key:
+        private_key = crypto.load_privatekey(crypto.FILETYPE_PEM, key.read())
+
+    signature = crypto.sign(private_key, message, hash_algorithm)
+
+    return signature
 
 
 class PlainISO0PinBlock:
