@@ -15,6 +15,7 @@ dependencies = [
     'oathcy >= 1.4.0, < 2',
     'pycrypto',
     'pyopenssl',
+    'suds-py3',
 
     # deployment
     'gunicorn',

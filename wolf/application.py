@@ -42,6 +42,12 @@ class Wolf(Application):
       url: http://localhost:8081
       token: eyJhbGciOiJIUzI1NiIsImlhdCI6MTU1NjUxOTg1MSwiZXhwIjoxNTg4MDU1ODUxfQ.e30.hi6AmH1Qf8dJiaWYkQXyTGWh4O8Ovd8CiMz02Ru1BGM
 
+    maskan_web_service:
+      login:
+        location: 'http://10.9.12.158:8001/LoginService/LoginServicePort?wsdl'
+        filename: /home/pynuxer/workspace/wolf/wsdl/maskan_login
+        version_number: 1.0
+
     token:
       seed:
         max_random_try: 3
