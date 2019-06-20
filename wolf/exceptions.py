@@ -27,9 +27,7 @@ class SSMInternalError(HTTPKnownStatus):
 
 
 class MaskanSendSmsError(HTTPKnownStatus):
-    def __init__(self, result_message):
-        self.status = f'803 {result_message}'
-        super().__init__()
+    status = '802 Sms is not sending error'
 
 
 class DuplicateSeedError(HTTPKnownStatus):

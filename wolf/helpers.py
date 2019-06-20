@@ -35,5 +35,5 @@ class MaskanSmsProvider:
         )
 
         if not response.SendSMS_SingleResult:
-            raise MaskanSendSmsError(result_message=response.strResultMessage)
+            raise MaskanSendSmsError()
 
