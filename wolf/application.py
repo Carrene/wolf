@@ -44,7 +44,6 @@ class Wolf(Application):
 
     maskan_web_service:
       login:
-        location: 'http://10.9.12.158:8001/LoginService/LoginServicePort?wsdl'
         filename: /home/pynuxer/workspace/wolf/wsdl/maskan_login
         version_number: 1.0
 
