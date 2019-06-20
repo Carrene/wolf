@@ -10,9 +10,10 @@ import redis
 from nanohttp import settings
 from oathcy.otp import TOTP
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
-    PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin
+    PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin, \
+    TimestampMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
-    UniqueConstraint, BigInteger, event, extract, text
+    UniqueConstraint, BigInteger, event, extract, text, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -289,6 +290,16 @@ class MiniToken:
         if settings.token.redis.enabled:
             cls.invalidate(target.id)
 
+
+class Person(TimestampMixin, DeclarativeBase):
+    __tablename__ = 'person'
+
+    id = Field(Integer, primary_key=True)
+
+    customer_code = Field(String(15))
+    national_id = Field(String(12))
+    name = Field(Unicode(40))
+    family = Field(Unicode(60))
 
 event.listen(Token, 'after_update', MiniToken.after_update)
 
