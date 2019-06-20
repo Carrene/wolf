@@ -15,6 +15,8 @@ dependencies = [
     'oathcy >= 1.4.0, < 2',
     'pycrypto',
     'pyopenssl',
+    'zeep',
+    'khayyam',
 
     # deployment
     'gunicorn',
