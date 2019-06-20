@@ -42,6 +42,12 @@ class Wolf(Application):
       url: http://localhost:8081
       token: eyJhbGciOiJIUzI1NiIsImlhdCI6MTU1NjUxOTg1MSwiZXhwIjoxNTg4MDU1ODUxfQ.e30.hi6AmH1Qf8dJiaWYkQXyTGWh4O8Ovd8CiMz02Ru1BGM
 
+
+    maskan_web_service:
+      sms:
+        filename: /home/pynuxer/workspace/agama/wsdl/maskan_sms_wsdl
+
+
     token:
       seed:
         max_random_try: 3
