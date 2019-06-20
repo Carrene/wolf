@@ -26,8 +26,13 @@ class SSMInternalError(HTTPKnownStatus):
     status = '802 SSM internal error'
 
 
-class MaskanAuthenticationError(HTTPKnownStatus):
-    status = '804 Maskan authentication error'
+class MaskanUsernamePasswordError(HTTPKnownStatus):
+    status = '804 Invalid username or password'
+
+
+class MaskanVersionNumberError(HTTPKnownStatus):
+    status = \
+        '805 Version number error'
 
 
 class DuplicateSeedError(HTTPKnownStatus):

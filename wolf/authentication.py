@@ -2,10 +2,10 @@ import os
 import urllib
 import hashlib
 
-import suds
+import zeep
 from nanohttp import settings
 
-from .exceptions import MaskanAuthenticationError
+from .exceptions import MaskanUsernamePasswordError, MaskanVersionNumberError
 
 
 class MaskanAuthenticator:
@@ -14,7 +14,6 @@ class MaskanAuthenticator:
         self.password = '123456'
         self.password = f'{self.username}/{self.password}'.encode()
         self.version_number = settings.maskan_web_service.login.version_number
-        self.location = settings.maskan_web_service.login.location
         self.filename = urllib.parse.urljoin(
             'file:',
             urllib.request.pathname2url(
@@ -28,15 +27,16 @@ class MaskanAuthenticator:
         self.password = md5_hasher.hexdigest().upper()
 
     def login(self):
-        client = suds.client.Client(url=self.filename, location=self.location)
+        client = zeep.Client(self.filename)
         response = client.service.login(
             username=self.username,
             password=self.password,
             versionnumber=self.version_number
         )
 
-        if hasattr(response, 'stringValue'):
-            return response.stringValue
+        if response.messageId == 1:
+            raise MaskanUsernamePasswordError()
 
-        raise MaskanAuthenticationError()
+        if response.messageId == 2:
+            raise MaskanVersionNumberError()
 
