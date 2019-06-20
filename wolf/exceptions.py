@@ -27,7 +27,7 @@ class SSMInternalError(HTTPKnownStatus):
 
 
 class MaskanSendSmsError(HTTPKnownStatus):
-    status = '802 Sms is not sending error'
+    status = '803 Sms is not sending error'
 
 
 class DuplicateSeedError(HTTPKnownStatus):
