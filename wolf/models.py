@@ -296,11 +296,11 @@ class Person(TimestampMixin, DeclarativeBase):
 
     id = Field(Integer, primary_key=True)
 
-    customer_code = Field(String(15))
-    national_id = Field(String(12))
-    name = Field(Unicode(40))
-    family = Field(Unicode(60))
-    mobile = Field(String(13))
+    customer_code = Field(String(15), nullable=True)
+    national_id = Field(String(12), nullable=True)
+    name = Field(Unicode(40), nullable=True)
+    family = Field(Unicode(60), nullable=True)
+    mobile = Field(String(13), nullable=True)
 
 event.listen(Token, 'after_update', MiniToken.after_update)
 
