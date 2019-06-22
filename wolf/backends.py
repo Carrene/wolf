@@ -83,19 +83,16 @@ class MaskanClient:
         customer_code,
         session_id,
         signature,
+        datetime,
         request_number
     ):
         client = zeep.Client(self.filename)
         digital_signature = binascii.hexlify(signature)
-        datetime = JalaliDatetime.now()
-        datetime = \
-            f'{datetime.year}/{datetime.month}/{datetime.day} '\
-            f'{datetime.hour}:{datetime.minute}:{datetime.second}'
 
         request_data = {
             'customerCode': customer_code,
             'requestNumber': request_number,
-            'requestTime': '1398/03/29 10:00:00',
+            'requestTime': datetime,
             'sessionId': session_id,
             'digitalSignature': digital_signature
         }
