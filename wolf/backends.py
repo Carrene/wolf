@@ -108,5 +108,6 @@ class MaskanClient:
             'national_id': response.objectValue.nationalId,
             'name': response.objectValue.name,
             'family': response.objectValue.family,
+            'mobile': response.objectValue.mobileNumber
         }
 
