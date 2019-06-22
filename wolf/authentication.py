@@ -11,9 +11,10 @@ from . import cryptoutil
 
 class MaskanAuthenticator:
     def __init__(self):
-        self.version_number = settings.maskan_web_service.login.version_number
-        self.username = settings.maskan_web_service.login.username
-        self.password = settings.maskan_web_service.login.password
+        configuration = settings.maskan_web_service.login
+        self.version_number = configuration.version_number
+        self.username = configuration.username
+        self.password = configuration.password
         self.password = cryptoutil.md5_hasher(
             self.username.encode(),
             '/'.encode(),
@@ -25,7 +26,7 @@ class MaskanAuthenticator:
         self.filename = urllib.parse.urljoin(
             'file:',
             urllib.request.pathname2url(
-                settings.maskan_web_service.login.filename
+                configuration.filename
             )
         )
 
