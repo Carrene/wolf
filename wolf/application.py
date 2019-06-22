@@ -55,6 +55,10 @@ class Wolf(Application):
         filename: /home/pynuxer/workspace/wolf/wsdl/maskan_login_wsdl
         version_number: 1.0
 
+      person_info:
+        filename: /home/pynuxer/workspace/wolf/wsdl/maskan_person_wsdl
+
+
     token:
       seed:
         max_random_try: 3
