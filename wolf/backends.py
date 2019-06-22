@@ -6,7 +6,6 @@ import requests
 import zeep
 from nanohttp import settings, HTTPKnownStatus
 from restfulpy.logging_ import get_logger
-from khayyam import JalaliDatetime
 
 from .exceptions import DeviceNotFoundError, SSMInternalError, \
     SSMIsNotAvailableError, MaskanInvalidSessionIdError, \
