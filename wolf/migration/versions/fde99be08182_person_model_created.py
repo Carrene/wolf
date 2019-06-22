@@ -25,7 +25,7 @@ def upgrade():
     sa.Column('national_id', sa.String(length=12), nullable=False),
     sa.Column('name', sa.Unicode(length=40), nullable=False),
     sa.Column('family', sa.Unicode(length=60), nullable=False),
-    sa.Column('mobile', sa.String(length=11), nullable=False),
+    sa.Column('mobile', sa.String(length=13), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
