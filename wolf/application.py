@@ -46,6 +46,10 @@ class Wolf(Application):
     maskan_web_service:
       sms:
         filename: /home/pynuxer/workspace/agama/wsdl/maskan_sms_wsdl
+        number: 10002501
+        username: otptest
+        password: testotp67
+        company: BANKMASKAN
 
 
     token:

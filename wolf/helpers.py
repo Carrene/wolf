@@ -7,10 +7,10 @@ from nanohttp import settings
 
 class MaskanSmsProvider:
     def __init__(self):
-        self.sender_number = '10002501'
-        self.username = 'otptest'
-        self.password = 'testotp67'
-        self.company = 'BANKMASKAN'
+        self.sender_number = settings.maskan_web_service.sms.number
+        self.username = settings.maskan_web_service.sms.username
+        self.password = settings.maskan_web_service.sms.password
+        self.company = settings.maskan_web_service.sms.company
         self.filename = urllib.parse.urljoin(
             'file:',
             urllib.request.pathname2url(
