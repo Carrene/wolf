@@ -300,6 +300,7 @@ class Person(TimestampMixin, DeclarativeBase):
     national_id = Field(String(12))
     name = Field(Unicode(40))
     family = Field(Unicode(60))
+    mobile = Field(String(11))
 
 event.listen(Token, 'after_update', MiniToken.after_update)
 

@@ -1,13 +1,13 @@
-"""Create person model
+"""person model created
 
-Revision ID: d0a7ae4c2d9d
+Revision ID: fde99be08182
 Revises: b356f6ae9969
-Create Date: 2019-06-20 13:24:27.042628
+Create Date: 2019-06-22 13:12:40.616862
 
 """
 
 # revision identifiers, used by Alembic.
-revision = 'd0a7ae4c2d9d'
+revision = 'fde99be08182'
 down_revision = 'b356f6ae9969'
 branch_labels = None
 depends_on = None
@@ -25,6 +25,7 @@ def upgrade():
     sa.Column('national_id', sa.String(length=12), nullable=False),
     sa.Column('name', sa.Unicode(length=40), nullable=False),
     sa.Column('family', sa.Unicode(length=60), nullable=False),
+    sa.Column('mobile', sa.String(length=11), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
