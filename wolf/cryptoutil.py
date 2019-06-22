@@ -15,6 +15,14 @@ def random(size):  # pragma: no cover
     return os.urandom(size)
 
 
+def md5_hasher(*args):
+    md5 = hashlib.md5()
+    for a in args:
+        md5.update(a)
+
+    return md5
+
+
 def create_signature(filename, message, hash_algorithm='sha1'):
     with open(os.path.abspath(filename)) as key:
         private_key = crypto.load_privatekey(crypto.FILETYPE_PEM, key.read())

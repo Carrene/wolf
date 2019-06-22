@@ -6,25 +6,28 @@ import zeep
 from nanohttp import settings
 
 from .exceptions import MaskanUsernamePasswordError, MaskanVersionNumberError
+from . import cryptoutil
 
 
 class MaskanAuthenticator:
     def __init__(self):
-        self.username = '141770'
-        self.password = '123456'
-        self.password = f'{self.username}/{self.password}'.encode()
         self.version_number = settings.maskan_web_service.login.version_number
+        self.username = settings.maskan_web_service.login.username
+        self.password = settings.maskan_web_service.login.password
+        self.password = cryptoutil.md5_hasher(
+            self.username.encode(),
+            '/'.encode(),
+            self.password.encode()
+        ) \
+        .hexdigest() \
+        .upper()
+
         self.filename = urllib.parse.urljoin(
             'file:',
             urllib.request.pathname2url(
                 settings.maskan_web_service.login.filename
             )
         )
-
-        md5_hasher = hashlib.md5()
-        md5_hasher.update(self.password)
-
-        self.password = md5_hasher.hexdigest().upper()
 
     def login(self):
         client = zeep.Client(self.filename)

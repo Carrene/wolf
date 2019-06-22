@@ -53,7 +53,9 @@ class Wolf(Application):
 
       login:
         filename: /home/pynuxer/workspace/wolf/wsdl/maskan_login_wsdl
-        version_number: 1.0
+        username: '141770'
+        password: '123456'
+        version_number: '1.0'
 
       person_info:
         filename: /home/pynuxer/workspace/wolf/wsdl/maskan_person_wsdl
