@@ -30,6 +30,14 @@ class MaskanSendSmsError(HTTPKnownStatus):
     status = '803 Sms is not sending error'
 
 
+class MaskanUsernamePasswordError(HTTPKnownStatus):
+    status = '804 Invalid username or password'
+
+
+class MaskanVersionNumberError(HTTPKnownStatus):
+    status = '805 Version number error'
+
+
 class DuplicateSeedError(HTTPKnownStatus):
     status = '666 Cannot generate and randomize seed, please try again'
 

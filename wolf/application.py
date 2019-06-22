@@ -51,6 +51,9 @@ class Wolf(Application):
         password: testotp67
         company: BANKMASKAN
 
+      login:
+        filename: /home/pynuxer/workspace/wolf/wsdl/maskan_login_wsdl
+        version_number: 1.0
 
     token:
       seed:
