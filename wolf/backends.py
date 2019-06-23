@@ -61,12 +61,7 @@ class LionClient:
 
 class MaskanClient:
     def __init__(self):
-        self.filename = urllib.parse.urljoin(
-            'file:',
-            urllib.request.pathname2url(
-                settings.maskan_web_service.person_info.filename
-            )
-        )
+        self.filename = settings.maskan_web_service.person_info.filename
         self.exceptions = {
             1: MaskanInvalidSessionIdError,
             2: MaskanRepetitiousRequestNumberError,

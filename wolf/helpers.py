@@ -15,12 +15,7 @@ class MaskanSmsProvider:
         self.username = configuration.username
         self.password = configuration.password
         self.company = configuration.company
-        self.filename = urllib.parse.urljoin(
-            'file:',
-            urllib.request.pathname2url(
-                configuration.filename
-            )
-        )
+        self.filename = configuration.filename
 
     def send(self, recipient_number, message_text):
         if recipient_number.startswith('98') \

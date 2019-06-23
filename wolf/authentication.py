@@ -17,12 +17,7 @@ class MaskanAuthenticator:
             str(configuration.password).encode()
         ) \
         .upper()
-        self.filename = urllib.parse.urljoin(
-            'file:',
-            urllib.request.pathname2url(
-                configuration.filename
-            )
-        )
+        self.filename = configuration.filename
 
     @classmethod
     def _hash_password(cls, username, password):
