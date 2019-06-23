@@ -42,6 +42,25 @@ class Wolf(Application):
       url: http://localhost:8081
       token: eyJhbGciOiJIUzI1NiIsImlhdCI6MTU1NjUxOTg1MSwiZXhwIjoxNTg4MDU1ODUxfQ.e30.hi6AmH1Qf8dJiaWYkQXyTGWh4O8Ovd8CiMz02Ru1BGM
 
+
+    maskan_web_service:
+      sms:
+        filename: file:///home/pynuxer/workspace/wolf/wsdl/maskan_sms.wsdl
+        number: 10002501
+        username: otptest
+        password: testotp67
+        company: BANKMASKAN
+
+      login:
+        filename: file:///home/pynuxer/workspace/wolf/wsdl/maskan_login.wsdl
+        username: 141770
+        password: 123456
+        version_number: 1.0
+
+      person_info:
+        filename: file:///home/pynuxer/workspace/wolf/wsdl/maskan_person.wsdl
+
+
     token:
       seed:
         max_random_try: 3
