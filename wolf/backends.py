@@ -7,6 +7,7 @@ import zeep
 from nanohttp import settings, HTTPKnownStatus
 from restfulpy.logging_ import get_logger
 
+from .helpers import create_soap_client
 from .exceptions import DeviceNotFoundError, SSMInternalError, \
     SSMIsNotAvailableError, MaskanInvalidSessionIdError, \
     MaskanRepetitiousRequestNumberError, MaskanInvalidRequestTimeError, \
@@ -85,7 +86,7 @@ class MaskanClient:
         datetime,
         request_number
     ):
-        client = zeep.Client(self.filename)
+        client = create_soap_client(self.filename)
         digital_signature = binascii.hexlify(signature)
 
         request_data = {

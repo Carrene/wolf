@@ -1,8 +1,11 @@
-import os
 import urllib
 
 import zeep
 from nanohttp import settings
+
+
+def create_soap_client(filename):
+    return zeep.Client(filename)
 
 
 class MaskanSmsProvider:
@@ -24,7 +27,7 @@ class MaskanSmsProvider:
                 or recipient_number.startswith('+98'):
             recipient_number = f'0{recipient_number[2:]}'
 
-        client = zeep.Client(self.filename)
+        client = create_soap_client(self.filename)
 
         response = client.service.SendSMS_Single(
             strMessageText=message_text,

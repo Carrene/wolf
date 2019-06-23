@@ -2,27 +2,23 @@ import os
 import urllib
 import hashlib
 
-import zeep
 from nanohttp import settings
 
 from .exceptions import MaskanUsernamePasswordError, MaskanVersionNumberError
+from .helpers import create_soap_client
 from . import cryptoutil
 
 
 class MaskanAuthenticator:
     def __init__(self):
         configuration = settings.maskan_web_service.login
-        self.version_number = configuration.version_number
-        self.username = configuration.username
-        self.password = configuration.password
-        self.password = cryptoutil.md5_hasher(
+        self.version_number = str(configuration.version_number)
+        self.username = str(configuration.username)
+        self.password = self._hash_password(
             self.username.encode(),
-            '/'.encode(),
-            self.password.encode()
+            str(configuration.password).encode()
         ) \
-        .hexdigest() \
         .upper()
-
         self.filename = urllib.parse.urljoin(
             'file:',
             urllib.request.pathname2url(
@@ -30,8 +26,16 @@ class MaskanAuthenticator:
             )
         )
 
+    @classmethod
+    def _hash_password(cls, username, password):
+        hashed_password = hashlib.md5()
+        hashed_password.update(username)
+        hashed_password.update(b'/')
+        hashed_password.update(password)
+        return hashed_password.hexdigest()
+
     def login(self):
-        client = zeep.Client(self.filename)
+        client = create_soap_client(self.filename)
         response = client.service.login(
             username=self.username,
             password=self.password,
@@ -43,4 +47,6 @@ class MaskanAuthenticator:
 
         if response.messageId == 2:
             raise MaskanVersionNumberError()
+
+        return response.stringValue
 
