@@ -1,12 +1,10 @@
-import os
-import urllib
 import hashlib
+import urllib
 
 from nanohttp import settings
 
 from .exceptions import MaskanUsernamePasswordError, MaskanVersionNumberError
 from .helpers import create_soap_client
-from . import cryptoutil
 
 
 class MaskanAuthenticator:
