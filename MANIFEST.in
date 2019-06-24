@@ -1,2 +1,3 @@
 include wolf/alembic.ini
+include wolf/private-key/maskan.pem
 exclude wolf/*.c

@@ -1,5 +1,3 @@
-import os
-
 from nanohttp import settings
 
 from wolf.cryptoutil import create_signature
@@ -8,14 +6,6 @@ from wolf.tests.helpers import LocalApplicationTestCase
 
 class TestSignature(LocalApplicationTestCase):
     def test_create_siganture(self):
-        filename = os.path.abspath('private-key/maskan.pem')
-
-        settings.merge(f'''
-        maskan_web_service:
-          person_info:
-            key_filename: {filename}
-        ''')
-
         message = \
             '<CUSTOMERCODE><111001209483>'          \
             '<REQUESTDATE><2019-06-18 13:00:00>'    \
