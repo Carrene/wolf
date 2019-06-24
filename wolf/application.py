@@ -59,6 +59,7 @@ class Wolf(Application):
 
       person_info:
         filename: file:///home/pynuxer/workspace/wolf/wsdl/maskan_person.wsdl
+        key_filename: /home/pynuxer/workspace/wolf/private-key/maskan.pem
 
 
     token:
