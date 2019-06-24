@@ -1,3 +1,2 @@
 include wolf/alembic.ini
-include wolf/private-key/*.pem
 exclude wolf/*.c
