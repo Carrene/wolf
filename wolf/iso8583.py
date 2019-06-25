@@ -10,9 +10,14 @@ from nanohttp import settings, LazyAttribute
 from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
 from tlv import TLV
+from khayyam import JalaliDatetime
 
+from . import cryptoutil
 from .exceptions import InvalidPartialCardNameError, DuplicateSeedError
-from .models import Token, MiniToken, Cryptomodule
+from .models import Token, MiniToken, Cryptomodule, Person
+from wolf.authentication import MaskanAuthenticator
+from wolf.backends import MaskanClient
+from wolf.helpers import MaskanSmsProvider
 
 
 worker_threads = {}
@@ -145,6 +150,77 @@ class TCPServerController:
 
         field48 = TLV.loads(envelope[48].value).fields
         phone = field48['PHN']
+        customer_code = field48['CIF']
+
+        person = Person()
+        DBSession.add(person)
+        DBSession.flush()
+        request_number = person.id
+
+        datetime = JalaliDatetime.now()
+
+        def zero_padding_datetime(value):
+            if len(str(value)) < 2:
+                return f'0{value}'
+
+            return value
+
+        year = f'{datetime.year}'
+        month = zero_padding_datetime(datetime.month)
+        day = zero_padding_datetime(datetime.day)
+        hour = zero_padding_datetime(datetime.hour)
+        minute = zero_padding_datetime(datetime.minute)
+        second = zero_padding_datetime(datetime.second)
+
+        request_time = \
+            f'{year}/{month}/{day} {hour}:{minute}:{second}'
+
+        try:
+            session_id = MaskanAuthenticator().login()
+
+        except:
+            envelop.set(39, '909') # Internal error
+            return
+
+        signature_message = \
+            f'<CUSTOMERCODE><{customer_code}>' \
+            f'<REQUESTNUMBER><{request_number}>' \
+            f'<REQUESTTIME><{request_time}>' \
+            f'<SESSIONID><{session_id}>'
+
+        key_filename = settings.maskan_web_service.person_info.key_filename
+
+        signature = cryptoutil.create_signature(
+            key_filename=key_filename,
+            message=signature_message,
+            hash_algorithm='sha1'
+        )
+
+        try:
+            person_information = MaskanClient().get_person_info(
+                customer_code=customer_code,
+                session_id=session_id,
+                signature=signature,
+                datetime=request_time,
+                request_number=request_number
+            )
+
+        except:
+            DBSession.commit()
+            envelope.set(39, b'909') # Internal error
+            return
+
+        if person_information['mobile'] != phone:
+            envelope.set(39, b'100') # Phone of person is wrong
+            return
+
+        person.customer_code = person_information['customer_code']
+        person.national_id = person_information['national_id']
+        person.name = person_information['name']
+        person.family = person_information['family']
+        person.mobile = person_information['mobile']
+        DBSession.commit()
+
         partial_card_name = envelope[2].value.decode()
         cryptomodule_id = 1 if envelope[24].value[1] == 1 else 2
         bank_id = envelope[2].value[0:6].decode()
@@ -182,7 +258,19 @@ class TCPServerController:
             return
 
         DBSession.commit()
-        field48['ACT'] = token.provision(field48['PHN']).split('/')[-1]
+
+        provision = token.provision(phone).split('/')[-1]
+        try:
+            sms_response = MaskanSmsProvider().send(
+                phone,
+                provision[:120]
+            )
+
+        except:
+            envelope.set(39, b'909') # Internal error
+            return
+
+        field48['ACT'] = provision[-8:]
         envelope.set(39, b'000') # Response is ok
         tlv = TLV(**field48)
         envelope[48].value = tlv.dumps()

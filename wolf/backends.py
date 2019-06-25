@@ -104,7 +104,7 @@ class MaskanClient:
             raise exception()
 
         return {
-            'customer_code': response.objectValue.customterCode,
+            'customer_code': response.objectValue.customerCode,
             'national_id': response.objectValue.nationalId,
             'name': response.objectValue.name,
             'family': response.objectValue.family,
