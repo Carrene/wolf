@@ -74,7 +74,7 @@ class MaskanMiscellaneousError(HTTPKnownStatus):
     status = '814 Miscellaneous error'
 
 
-class DuplicateSeedError(HTTPKnownStatus):
+class DuplicateSeedError(Exception):
     status = '666 Cannot generate and randomize seed, please try again'
 
 
