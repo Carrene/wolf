@@ -10,7 +10,7 @@ from wolf.exceptions import MaskanSendSmsError
 
 
 _maskan_status = 'idle'
-send_sms_service_url = ''
+_send_sms_service_url = ''
 
 
 @contextmanager
@@ -46,8 +46,8 @@ def maskan_mockup_server():
 
     app = MockupApplication('maskan-mockup', MaskanMockupSoap())
     with mockup_http_server(app) as (server, url):
-        global send_sms_service_url
-        send_sms_service_url = url
+        global _send_sms_service_url
+        _send_sms_service_url = url
         yield app
 
 
@@ -57,7 +57,7 @@ class TestMaskanSmsProvider(LocalApplicationTestCase):
             response = MaskanSmsProvider().send(
                 '09187710445',
                 'test message',
-                f'{send_sms_service_url}'
+                f'{_send_sms_service_url}'
             )
 
             assert response == None
@@ -67,6 +67,6 @@ class TestMaskanSmsProvider(LocalApplicationTestCase):
                 assert MaskanSmsProvider().send(
                     '09187710445',
                     'test message',
-                    f'{send_sms_service_url}'
+                    f'{_send_sms_service_url}'
                 )
 
