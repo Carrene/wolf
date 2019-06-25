@@ -16,6 +16,7 @@ dependencies = [
     'pycrypto',
     'pyopenssl',
     'zeep',
+    'khayyam',
 
     # deployment
     'gunicorn',

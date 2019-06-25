@@ -1,3 +1,4 @@
+# TODO: Its just temporary for main installation on maskan server please uncomment it certainly
 #import binascii
 #import socket
 #from contextlib import contextmanager
