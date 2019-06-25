@@ -59,6 +59,7 @@ class Wolf(Application):
 
       person_info:
         filename: file:///%(root_path)s/wsdl/maskan_person.wsdl
+        key_filename: %(root_path)s/private-key/maskan.pem
 
 
     token:
