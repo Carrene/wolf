@@ -19,17 +19,17 @@ class MaskanSmsProvider:
         self.company = configuration.company
         self.wsdl = configuration.url
 
-    def send(self, recipient_number, message_text, send_sms_service_url=None):
+    def send(self, recipient_number, message_text, sms_service_url=None):
         if recipient_number.startswith('98') \
                 or recipient_number.startswith('+98'):
             recipient_number = f'0{recipient_number[2:]}'
 
         client = create_soap_client(self.wsdl)
 
-        if send_sms_service_url:
+        if sms_service_url:
             client.wsdl.services['MaskanSendService'] \
             .ports['MaskanSendServiceSoap'] \
-            .binding_options['address'] = send_sms_service_url
+            .binding_options['address'] = sms_service_url
 
         response = client.service.SendSMS_Single(
             strMessageText=message_text,
