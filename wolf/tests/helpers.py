@@ -26,24 +26,32 @@ class LocalApplicationTestCase(ApplicableTestCase):
             version='0.1.0'
         )).dump().decode()
 
-
 class RandomMonkeyPatch:
     """
     For faking the random function
     """
 
     fake_random = None
+    index = -1
 
     def __init__(self, fake_random):
         self.__class__.fake_random = fake_random
 
-    @staticmethod
-    def random(size):
-        return RandomMonkeyPatch.fake_random[:size]
+    @classmethod
+    def random(cls, size):
+
+        if callable(cls.fake_random):
+            return cls.fake_random(size)
+
+        if isinstance(cls.fake_random, bytes):
+            return cls.fake_random[:size]
+
+        cls.index += 1
+        return cls.fake_random[cls.index]
 
     def __enter__(self):
         self.real_random = cryptoutil.random
-        cryptoutil.random = RandomMonkeyPatch.random
+        cryptoutil.random = self.random
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         cryptoutil.random = self.real_random

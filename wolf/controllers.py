@@ -174,12 +174,14 @@ class CardTokenController(ModelRestController):
             token.is_active = True
             DBSession.add(token)
 
-        token.initialize_seed()
-
         try:
-            DBSession.flush()
-        except IntegrityError as ex:
-            raise DuplicateSeedError()
+            token.initialize_seed()
+
+        except DuplicateSeedError:
+            raise HTTPStatus(
+                '666 Cannot generate and randomize seed, please try again'
+            )
+
         else:
             return token
 
