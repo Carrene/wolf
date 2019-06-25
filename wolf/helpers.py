@@ -3,9 +3,11 @@ import urllib
 import zeep
 from nanohttp import settings
 
+from wolf.exceptions import MaskanSendSmsError
 
-def create_soap_client(filename):
-    return zeep.Client(filename)
+
+def create_soap_client(wsdl):
+    return zeep.Client(wsdl)
 
 
 class MaskanSmsProvider:
@@ -15,14 +17,19 @@ class MaskanSmsProvider:
         self.username = configuration.username
         self.password = configuration.password
         self.company = configuration.company
-        self.filename = configuration.filename
+        self.wsdl = configuration.url
 
-    def send(self, recipient_number, message_text):
+    def send(self, recipient_number, message_text, send_sms_service_url=None):
         if recipient_number.startswith('98') \
                 or recipient_number.startswith('+98'):
             recipient_number = f'0{recipient_number[2:]}'
 
-        client = create_soap_client(self.filename)
+        client = create_soap_client(self.wsdl)
+
+        if send_sms_service_url:
+            client.wsdl.services['MaskanSendService'] \
+            .ports['MaskanSendServiceSoap'] \
+            .binding_options['address'] = send_sms_service_url
 
         response = client.service.SendSMS_Single(
             strMessageText=message_text,
