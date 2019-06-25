@@ -26,48 +26,52 @@ class SSMInternalError(HTTPKnownStatus):
     status = '802 SSM internal error'
 
 
+class SSMUnauthorizedError(HTTPKnownStatus):
+    status = '803 SSM Unauthorized error'
+
+
 class MaskanSendSmsError(HTTPKnownStatus):
-    status = '803 Sms is not sending error'
+    status = '804 Sms is not sending error'
 
 
 class MaskanUsernamePasswordError(HTTPKnownStatus):
-    status = '804 Invalid username or password'
+    status = '805 Invalid username or password'
 
 
 class MaskanVersionNumberError(HTTPKnownStatus):
-    status = '805 Version number error'
+    status = '806 Version number error'
 
 
 class MaskanInvalidSessionIdError(HTTPKnownStatus):
-    status = '806 Invalid or expired seeesion id'
+    status = '807 Invalid or expired seeesion id'
 
 
 class MaskanRepetitiousRequestNumberError(HTTPKnownStatus):
-    status = '807 Repetitious request number'
+    status = '808 Repetitious request number'
 
 
 class MaskanInvalidRequestTimeError(HTTPKnownStatus):
-    status = '808 Invalid request time'
+    status = '809 Invalid request time'
 
 
 class MaskanInvalidDigitalError(HTTPKnownStatus):
-    status = '809 Invalid digital signature'
+    status = '810 Invalid digital signature'
 
 
 class MaskanUserNotPermitedError(HTTPKnownStatus):
-    status = '810 Not permited error'
+    status = '811 Not permited error'
 
 
 class MaskanPersonNotFoundError(HTTPKnownStatus):
-    status = '811 Person not found error'
+    status = '812 Person not found error'
 
 
 class MaskanIncompleteParametersError(HTTPKnownStatus):
-    status = '812 Incompleted parameters error'
+    status = '813 Incompleted parameters error'
 
 
 class MaskanMiscellaneousError(HTTPKnownStatus):
-    status = '813 Miscellaneous error'
+    status = '814 Miscellaneous error'
 
 
 class DuplicateSeedError(HTTPKnownStatus):

@@ -233,3 +233,7 @@ class TestEnsureToken(LocalApplicationTestCase):
                 )
                 assert status == '802 SSM internal error'
 
+            with lion_status('401 Unauthorized'):
+                when('SSM Returns 401 Unauthorized')
+                assert status == '803 SSM Unauthorized error'
+
