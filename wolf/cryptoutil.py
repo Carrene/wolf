@@ -15,8 +15,8 @@ def random(size):  # pragma: no cover
     return os.urandom(size)
 
 
-def create_signature(filename, message, hash_algorithm='sha1'):
-    with open(os.path.abspath(filename)) as key:
+def create_signature(key_filename, message, hash_algorithm='sha1'):
+    with open(key_filename) as key:
         private_key = crypto.load_privatekey(crypto.FILETYPE_PEM, key.read())
 
     signature = crypto.sign(private_key, message, hash_algorithm)

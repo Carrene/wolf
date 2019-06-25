@@ -45,20 +45,21 @@ class Wolf(Application):
 
     maskan_web_service:
       sms:
-        filename: file:///home/pynuxer/workspace/wolf/wsdl/maskan_sms.wsdl
+        filename: file:///%(root_path)s/wsdl/maskan_sms.wsdl
         number: 10002501
         username: otptest
         password: testotp67
         company: BANKMASKAN
 
       login:
-        filename: file:///home/pynuxer/workspace/wolf/wsdl/maskan_login.wsdl
+        filename: file:///%(root_path)s/wsdl/maskan_login.wsdl
         username: 141770
         password: 123456
         version_number: 1.0
 
       person_info:
-        filename: file:///home/pynuxer/workspace/wolf/wsdl/maskan_person.wsdl
+        filename: file:///%(root_path)s/wsdl/maskan_person.wsdl
+        key_filename: %(root_path)s/private-key/maskan.pem
 
 
     token:
