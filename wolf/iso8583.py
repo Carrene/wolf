@@ -54,13 +54,15 @@ def accept(client_socket):
     worker_thread.start()
 
 
-def listen(host, port, ready):
+def listen(host, port, ready=None):
     socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     socket_server.bind((host, port))
     socket_server.listen(settings.tcpserver.backlog)
 
     time.sleep(.3)
-    ready.set()
+    if ready:
+        ready.set()
+
     while True:
         client_connection, client_address = socket_server.accept()
         accept(client_connection)
