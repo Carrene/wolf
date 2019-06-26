@@ -9,17 +9,26 @@ from iso8583.models import Envelope
 from nanohttp import settings, LazyAttribute
 from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
+from restfulpy.logging_ import get_logger
 from tlv import TLV
 from khayyam import JalaliDatetime
 
 from . import cryptoutil
-from .exceptions import InvalidPartialCardNameError, DuplicateSeedError
+from .exceptions import InvalidPartialCardNameError, DuplicateSeedError, \
+    MaskanUsernamePasswordError, MaskanVersionNumberError, \
+    MaskanSendSmsError, MaskanInvalidSessionIdError, \
+    MaskanRepetitiousRequestNumberError, MaskanInvalidRequestTimeError, \
+    MaskanInvalidDigitalError, MaskanUserNotPermitedError, \
+    MaskanPersonNotFoundError, MaskanIncompleteParametersError, \
+    MaskanMiscellaneousError
+
 from .models import Token, MiniToken, Cryptomodule, Person
 from wolf.authentication import MaskanAuthenticator
 from wolf.backends import MaskanClient
 from wolf.helpers import MaskanSmsProvider
 
 
+logger = get_logger()
 worker_threads = {}
 
 
@@ -28,6 +37,8 @@ def worker(client_socket):
     try:
         length = client_socket.recv(4)
         message = length + client_socket.recv(int(length))
+        logger.info(message)
+        mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
         TCP_server(envelope)
         envelope.mti = envelope.mti + 10
@@ -180,7 +191,8 @@ class TCPServerController:
         try:
             session_id = MaskanAuthenticator().login()
 
-        except:
+        except (MaskanUsernamePasswordError, MaskanVersionNumberError) as ex:
+            logger.exception(ex)
             envelop.set(39, '909') # Internal error
             return
 
@@ -207,7 +219,18 @@ class TCPServerController:
                 request_number=request_number
             )
 
-        except:
+        except (
+            MaskanInvalidSessionIdError,
+            MaskanRepetitiousRequestNumberError,
+            MaskanInvalidRequestTimeError,
+            MaskanInvalidDigitalError,
+            MaskanUserNotPermitedError,
+            MaskanPersonNotFoundError,
+            MaskanIncompleteParametersError,
+            MaskanMiscellaneousError
+        ) as ex:
+
+            logger.exception(ex)
             DBSession.commit()
             envelope.set(39, b'909') # Internal error
             return
@@ -255,7 +278,8 @@ class TCPServerController:
         try:
             token.initialize_seed(max_retry=2)
 
-        except DuplicateSeedError:
+        except DuplicateSeedError as ex:
+            logger.exception(ex)
             envelope.set(39, b'909') # User is blocked.
             return
 
@@ -268,7 +292,8 @@ class TCPServerController:
                 provision[:120]
             )
 
-        except:
+        except MaskanSendSmsError as ex:
+            logger.exception(ex)
             envelope.set(39, b'909') # Internal error
             return
 
@@ -318,4 +343,5 @@ class TCPServerController:
 
 
 TCP_server = TCPServerController()
+
 
