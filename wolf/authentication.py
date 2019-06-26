@@ -17,7 +17,7 @@ class MaskanAuthenticator:
             str(configuration.password).encode()
         ) \
         .upper()
-        self.filename = configuration.filename
+        self.wsdl = configuration.url
 
     @classmethod
     def _hash_password(cls, username, password):
@@ -27,8 +27,14 @@ class MaskanAuthenticator:
         hashed_password.update(password)
         return hashed_password.hexdigest()
 
-    def login(self):
-        client = create_soap_client(self.filename)
+    def login(self, login_service_url=None):
+        client = create_soap_client(self.wsdl)
+
+        if login_service_url:
+            client.wsdl.services['LoginService'] \
+            .ports['LoginServicePort'] \
+            .binding_options['address'] = login_service_url
+
         response = client.service.login(
             username=self.username,
             password=self.password,
