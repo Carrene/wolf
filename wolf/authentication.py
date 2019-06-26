@@ -9,15 +9,15 @@ from .helpers import create_soap_client
 
 class MaskanAuthenticator:
     def __init__(self):
-        configuration = settings.maskan_web_service.login
-        self.version_number = str(configuration.version_number)
-        self.username = str(configuration.username)
+        self.configuration = settings.maskan_web_service.login
+        self.version_number = str(self.configuration.version_number)
+        self.username = str(self.configuration.username)
         self.password = self._hash_password(
             self.username.encode(),
-            str(configuration.password).encode()
+            str(self.configuration.password).encode()
         ) \
         .upper()
-        self.wsdl = configuration.url
+        self.wsdl = self.configuration.url
 
     @classmethod
     def _hash_password(cls, username, password):
@@ -27,13 +27,13 @@ class MaskanAuthenticator:
         hashed_password.update(password)
         return hashed_password.hexdigest()
 
-    def login(self, login_service_url=None):
+    def login(self):
         client = create_soap_client(self.wsdl)
 
-        if login_service_url:
+        if hasattr(self.configuration, 'test_url'):
             client.wsdl.services['LoginService'] \
-            .ports['LoginServicePort'] \
-            .binding_options['address'] = login_service_url
+                .ports['LoginServicePort'] \
+                .binding_options['address'] = self.configuration.test_url
 
         response = client.service.login(
             username=self.username,

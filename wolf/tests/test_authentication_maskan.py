@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 
 import pytest
-from nanohttp import action, RegexRouteController
+from nanohttp import settings, action, RegexRouteController
 from restfulpy.mockup import mockup_http_server, MockupApplication
 
 from wolf.authentication import MaskanAuthenticator
@@ -11,7 +11,6 @@ from wolf.exceptions import MaskanUsernamePasswordError, \
 
 
 _maskan_status = 'idle'
-_login_service_url = ''
 
 
 @contextmanager
@@ -63,25 +62,29 @@ def maskan_mockup_server():
     app = MockupApplication('maskan-mockup', MaskanMockupSoap())
     with mockup_http_server(app) as (server, url):
         global _login_service_url
-        _login_service_url = url
+        settings.merge(f'''
+          maskan_web_service:
+            login:
+              test_url: {url}
+        ''')
         yield app
 
 
-class TestMaksanLogin(LocalApplicationTestCase):
+class TestMaksanAuthentication(LocalApplicationTestCase):
     def test_login(self):
         with maskan_mockup_server():
             response = \
-                MaskanAuthenticator().login(_login_service_url)
+                MaskanAuthenticator().login()
 
             assert response == '0123456789ABCDEF'
 
             with maskan_status('invalid username or password'), \
                 pytest.raises(MaskanUsernamePasswordError):
                 assert \
-                    MaskanAuthenticator().login(_login_service_url)
+                    MaskanAuthenticator().login()
 
             with maskan_status('invalid version number'), \
                 pytest.raises(MaskanVersionNumberError):
                 assert \
-                    MaskanAuthenticator().login(_login_service_url)
+                    MaskanAuthenticator().login()
 
