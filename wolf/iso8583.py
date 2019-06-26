@@ -24,10 +24,10 @@ worker_threads = {}
 
 
 def worker(client_socket):
+    mackey = binascii.unhexlify(settings.iso8583.mackey)
     try:
         length = client_socket.recv(4)
         message = length + client_socket.recv(int(length))
-        mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
         TCP_server(envelope)
         envelope.mti = envelope.mti + 10
