@@ -12,24 +12,24 @@ def create_soap_client(wsdl):
 
 class MaskanSmsProvider:
     def __init__(self):
-        configuration = settings.maskan_web_service.sms
-        self.sender_number = configuration.number
-        self.username = configuration.username
-        self.password = configuration.password
-        self.company = configuration.company
-        self.wsdl = configuration.url
+        self.configuration = settings.maskan_web_service.sms
+        self.sender_number = self.configuration.number
+        self.username = self.configuration.username
+        self.password = self.configuration.password
+        self.company = self.configuration.company
+        self.wsdl = self.configuration.url
 
-    def send(self, recipient_number, message_text, sms_service_url=None):
+    def send(self, recipient_number, message_text):
         if recipient_number.startswith('98') \
                 or recipient_number.startswith('+98'):
             recipient_number = f'0{recipient_number[2:]}'
 
         client = create_soap_client(self.wsdl)
 
-        if sms_service_url:
+        if hasattr(self.configuration, 'test_url'):
             client.wsdl.services['MaskanSendService'] \
             .ports['MaskanSendServiceSoap'] \
-            .binding_options['address'] = sms_service_url
+            .binding_options['address'] = self.configuration.test_url
 
         response = client.service.SendSMS_Single(
             strMessageText=message_text,

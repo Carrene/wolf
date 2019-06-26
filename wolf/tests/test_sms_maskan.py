@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 
 import pytest
-from nanohttp import action, RegexRouteController
+from nanohttp import settings, action, RegexRouteController
 from restfulpy.mockup import mockup_http_server, MockupApplication
 
 from wolf.helpers import MaskanSmsProvider
@@ -10,7 +10,6 @@ from wolf.exceptions import MaskanSendSmsError
 
 
 _maskan_status = 'idle'
-_sms_service_url = ''
 
 
 @contextmanager
@@ -47,7 +46,11 @@ def maskan_mockup_server():
     app = MockupApplication('maskan-mockup', MaskanMockupSoap())
     with mockup_http_server(app) as (server, url):
         global _sms_service_url
-        _sms_service_url = url
+        settings.merge(f'''
+          maskan_web_service:
+            sms:
+              test_url: {url}
+        ''')
         yield app
 
 
@@ -57,7 +60,6 @@ class TestMaskanSmsProvider(LocalApplicationTestCase):
             response = MaskanSmsProvider().send(
                 '09187710445',
                 'test message',
-                f'{_sms_service_url}'
             )
 
             assert response == None
@@ -67,6 +69,5 @@ class TestMaskanSmsProvider(LocalApplicationTestCase):
                 assert MaskanSmsProvider().send(
                     '09187710445',
                     'test message',
-                    f'{_sms_service_url}'
                 )
 
