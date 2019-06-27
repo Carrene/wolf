@@ -59,7 +59,7 @@ class Wolf(Application):
         version_number: 1.0
 
       person_info:
-        filename: file:///%(root_path)s/wsdl/maskan_person.wsdl
+        url: file:///%(root_path)s/wsdl/maskan_person.wsdl
         key_filename: %(root_path)s/private-key/maskan.pem
 
 
