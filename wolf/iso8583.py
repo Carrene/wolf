@@ -18,7 +18,7 @@ from .exceptions import InvalidPartialCardNameError, DuplicateSeedError, \
     MaskanUsernamePasswordError, MaskanVersionNumberError, \
     MaskanSendSmsError, MaskanInvalidSessionIdError, \
     MaskanRepetitiousRequestNumberError, MaskanInvalidRequestTimeError, \
-    MaskanInvalidDigitalError, MaskanUserNotPermitedError, \
+    MaskanInvalidDigitalSignatureError, MaskanUserNotPermitedError, \
     MaskanPersonNotFoundError, MaskanIncompleteParametersError, \
     MaskanMiscellaneousError
 
@@ -37,7 +37,7 @@ def worker(client_socket):
     try:
         length = client_socket.recv(4)
         message = length + client_socket.recv(int(length))
-        logger.info(message)
+        logger.info(f'Isomessage received: {message}')
         mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
         TCP_server(envelope)
@@ -223,7 +223,7 @@ class TCPServerController:
             MaskanInvalidSessionIdError,
             MaskanRepetitiousRequestNumberError,
             MaskanInvalidRequestTimeError,
-            MaskanInvalidDigitalError,
+            MaskanInvalidDigitalSignatureError,
             MaskanUserNotPermitedError,
             MaskanPersonNotFoundError,
             MaskanIncompleteParametersError,
