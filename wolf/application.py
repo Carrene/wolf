@@ -46,7 +46,7 @@ class Wolf(Application):
 
     maskan_web_service:
       sms:
-        filename: file:///%(root_path)s/wsdl/maskan_sms.wsdl
+        wsdl_url: file:///%(root_path)s/wsdl/maskan_sms.wsdl
         number: 10002501
         username: otptest
         password: testotp67
