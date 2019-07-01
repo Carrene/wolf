@@ -11,7 +11,7 @@ from .helpers import create_soap_client
 from .exceptions import DeviceNotFoundError, SSMInternalError, \
     SSMIsNotAvailableError, MaskanInvalidSessionIdError, \
     MaskanRepetitiousRequestNumberError, MaskanInvalidRequestTimeError, \
-    MaskanInvalidDigitalError, MaskanUserNotPermitedError, \
+    MaskanInvalidDigitalSignatureError, MaskanUserNotPermitedError, \
     MaskanPersonNotFoundError, MaskanIncompleteParametersError, \
     MaskanMiscellaneousError, SSMUnauthorizedError
 
@@ -70,7 +70,7 @@ class MaskanClient:
             1: MaskanInvalidSessionIdError,
             2: MaskanRepetitiousRequestNumberError,
             3: MaskanInvalidRequestTimeError,
-            4: MaskanInvalidDigitalError,
+            4: MaskanInvalidDigitalSignatureError,
             5: MaskanUserNotPermitedError,
             6: MaskanPersonNotFoundError,
             10: MaskanIncompleteParametersError,

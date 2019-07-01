@@ -54,7 +54,7 @@ class MaskanInvalidRequestTimeError(HTTPKnownStatus):
     status = '809 Invalid request time'
 
 
-class MaskanInvalidDigitalError(HTTPKnownStatus):
+class MaskanInvalidDigitalSignatureError(HTTPKnownStatus):
     status = '810 Invalid digital signature'
 
 
