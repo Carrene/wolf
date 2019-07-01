@@ -1,0 +1,619 @@
+<xs:schema 
+	xmlns:tns="http://businessservice.mcds.pooyaco.com/" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	version="1.0" 
+	targetNamespace="http://businessservice.mcds.pooyaco.com/">
+
+<xs:element name="createTemporaryIndividualPerson" type="tns:createTemporaryIndividualPerson"/>
+<xs:element name="createTemporaryIndividualPersonResponse" type="tns:createTemporaryIndividualPersonResponse"/>
+<xs:element name="generateForeignIndividualPersonsInfoByIdNoDigitalSignature" type="tns:generateForeignIndividualPersonsInfoByIdNoDigitalSignature"/>
+<xs:element name="generateForeignIndividualPersonsInfoByIdNoDigitalSignatureResponse" type="tns:generateForeignIndividualPersonsInfoByIdNoDigitalSignatureResponse"/>
+<xs:element name="generateIndividualPersonChangLogDigitalSignature" type="tns:generateIndividualPersonChangLogDigitalSignature"/>
+<xs:element name="generateIndividualPersonChangLogDigitalSignatureResponse" type="tns:generateIndividualPersonChangLogDigitalSignatureResponse"/>
+<xs:element name="generateIndividualPersonInfobyNationalIdDigitalSignature" type="tns:generateIndividualPersonInfobyNationalIdDigitalSignature"/>
+<xs:element name="generateIndividualPersonInfobyNationalIdDigitalSignatureResponse" type="tns:generateIndividualPersonInfobyNationalIdDigitalSignatureResponse"/>
+<xs:element name="generateMoralPersonChangLogDigitalSignature" type="tns:generateMoralPersonChangLogDigitalSignature"/>
+<xs:element name="generateMoralPersonChangLogDigitalSignatureResponse" type="tns:generateMoralPersonChangLogDigitalSignatureResponse"/>
+<xs:element name="generateMoralPersonInfoDigiSignature" type="tns:generateMoralPersonInfoDigiSignature"/>
+<xs:element name="generateMoralPersonInfoDigiSignatureResponse" type="tns:generateMoralPersonInfoDigiSignatureResponse"/>
+<xs:element name="generateMoralPersonsInfoByNationalId" type="tns:generateMoralPersonsInfoByNationalId"/>
+<xs:element name="generateMoralPersonsInfoByNationalIdResponse" type="tns:generateMoralPersonsInfoByNationalIdResponse"/>
+<xs:element name="generateTmpIndPersonDigiSignature" type="tns:generateTmpIndPersonDigiSignature"/>
+<xs:element name="generateTmpIndPersonDigiSignatureResponse" type="tns:generateTmpIndPersonDigiSignatureResponse"/>
+<xs:element name="generatetMoralPersonInfoByRegistrationNoDigitalSignature" type="tns:generatetMoralPersonInfoByRegistrationNoDigitalSignature"/>
+<xs:element name="generatetMoralPersonInfoByRegistrationNoDigitalSignatureResponse" type="tns:generatetMoralPersonInfoByRegistrationNoDigitalSignatureResponse"/>
+<xs:element name="getAllAccountsOfPerson" type="tns:getAllAccountsOfPerson"/>
+<xs:element name="getAllAccountsOfPersonResponse" type="tns:getAllAccountsOfPersonResponse"/>
+<xs:element name="getDigitalSignatureOfPersonService" type="tns:getDigitalSignatureOfPersonService"/>
+<xs:element name="getDigitalSignatureOfPersonServiceResponse" type="tns:getDigitalSignatureOfPersonServiceResponse"/>
+<xs:element name="getForeignIndividualPersonsInfoByIdNo" type="tns:getForeignIndividualPersonsInfoByIdNo"/>
+<xs:element name="getForeignIndividualPersonsInfoByIdNoResponse" type="tns:getForeignIndividualPersonsInfoByIdNoResponse"/>
+<xs:element name="getIndividualPersonChangeLog" type="tns:getIndividualPersonChangeLog"/>
+<xs:element name="getIndividualPersonChangeLogResponse" type="tns:getIndividualPersonChangeLogResponse"/>
+<xs:element name="getIndividualPersonInfo" type="tns:getIndividualPersonInfo"/>
+<xs:element name="getIndividualPersonInfoByNationalId" type="tns:getIndividualPersonInfoByNationalId"/>
+<xs:element name="getIndividualPersonInfoByNationalIdResponse" type="tns:getIndividualPersonInfoByNationalIdResponse"/>
+<xs:element name="getIndividualPersonInfoResponse" type="tns:getIndividualPersonInfoResponse"/>
+<xs:element name="getMoralPersonChangeLog" type="tns:getMoralPersonChangeLog"/>
+<xs:element name="getMoralPersonChangeLogResponse" type="tns:getMoralPersonChangeLogResponse"/>
+<xs:element name="getMoralPersonInfo" type="tns:getMoralPersonInfo"/>
+<xs:element name="getMoralPersonInfoResponse" type="tns:getMoralPersonInfoResponse"/>
+<xs:element name="getMoralPersonsInfoByNationalId" type="tns:getMoralPersonsInfoByNationalId"/>
+<xs:element name="getMoralPersonsInfoByNationalIdResponse" type="tns:getMoralPersonsInfoByNationalIdResponse"/>
+<xs:element name="getMoralPersonsInfoByRegistrationNo" type="tns:getMoralPersonsInfoByRegistrationNo"/>
+<xs:element name="getMoralPersonsInfoByRegistrationNoResponse" type="tns:getMoralPersonsInfoByRegistrationNoResponse"/>
+<xs:complexType name="generateTmpIndPersonDigiSignature">
+<xs:sequence>
+<xs:element name="PersonInformation" type="tns:wsCreateTempIndPersonRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsCreateTempIndPersonRequestType">
+<xs:sequence>
+<xs:element name="address1" type="xs:string" minOccurs="0"/>
+<xs:element name="address2" type="xs:string" minOccurs="0"/>
+<xs:element name="address3" type="xs:string" minOccurs="0"/>
+<xs:element name="addressType" type="xs:string" minOccurs="0"/>
+<xs:element name="birthDate" type="xs:string" minOccurs="0"/>
+<xs:element name="birthPlace" type="xs:string" minOccurs="0"/>
+<xs:element name="branchCode" type="xs:string" minOccurs="0"/>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="educationCode" type="xs:long"/>
+<xs:element name="emailAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="englishFamily" type="xs:string" minOccurs="0"/>
+<xs:element name="englishName" type="xs:string" minOccurs="0"/>
+<xs:element name="family" type="xs:string" minOccurs="0"/>
+<xs:element name="fatherName" type="xs:string" minOccurs="0"/>
+<xs:element name="faxNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="gender" type="xs:string" minOccurs="0"/>
+<xs:element name="idDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="idIssueDate" type="xs:string" minOccurs="0"/>
+<xs:element name="idIssueOffice" type="xs:string" minOccurs="0"/>
+<xs:element name="idNo" type="xs:string" minOccurs="0"/>
+<xs:element name="idSerialNo" type="xs:string" minOccurs="0"/>
+<xs:element name="idSeriesLetter" type="xs:string" minOccurs="0"/>
+<xs:element name="idSeriesNumber" type="xs:long"/>
+<xs:element name="isReplica" type="xs:string" minOccurs="0"/>
+<xs:element name="jobGroupCode" type="xs:long"/>
+<xs:element name="maritalStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="mobileNumber" type="xs:long"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="nationalId" type="xs:string" minOccurs="0"/>
+<xs:element name="numOfChildren" type="xs:long"/>
+<xs:element name="phoneNumber1" type="xs:string" minOccurs="0"/>
+<xs:element name="phoneNumber2" type="xs:string" minOccurs="0"/>
+<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+<xs:element name="previousFamily" type="xs:string" minOccurs="0"/>
+<xs:element name="previousName" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="residencyStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateTmpIndPersonDigiSignatureResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getIndividualPersonInfo">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetPersonInfoRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetPersonInfoRequestType">
+<xs:sequence>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long" minOccurs="0"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getIndividualPersonInfoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:individualPersonInfoReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="individualPersonInfoReturnMessageType">
+<xs:sequence>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="objectValue" type="tns:wsGetIndividualPersonInfoResponseType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetIndividualPersonInfoResponseType">
+<xs:sequence>
+<xs:element name="activityTypeCode" type="xs:string" minOccurs="0"/>
+<xs:element name="activityTypeName" type="xs:string" minOccurs="0"/>
+<xs:element name="addressType" type="tns:wsAddressType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="archiveNo" type="xs:string" minOccurs="0"/>
+<xs:element name="birthCityGrptCode" type="xs:string" minOccurs="0"/>
+<xs:element name="birthDate" type="xs:string" minOccurs="0"/>
+<xs:element name="birthPlace" type="xs:string" minOccurs="0"/>
+<xs:element name="bourseCode" type="xs:string" minOccurs="0"/>
+<xs:element name="certificateDate" type="xs:string" minOccurs="0"/>
+<xs:element name="certificateNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="cityGrptCode" type="xs:string" minOccurs="0"/>
+<xs:element name="cityGrptName" type="xs:string" minOccurs="0"/>
+<xs:element name="cntrGrptCode" type="xs:string" minOccurs="0"/>
+<xs:element name="cntrGrptName" type="xs:string" minOccurs="0"/>
+<xs:element name="confirmationStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="creditCode" type="xs:long" minOccurs="0"/>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="economyCode" type="xs:string" minOccurs="0"/>
+<xs:element name="educationCode" type="xs:long" minOccurs="0"/>
+<xs:element name="educationName" type="xs:string" minOccurs="0"/>
+<xs:element name="emailAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="employeeCode" type="xs:string" minOccurs="0"/>
+<xs:element name="englishFamily" type="xs:string" minOccurs="0"/>
+<xs:element name="englishName" type="xs:string" minOccurs="0"/>
+<xs:element name="existValidDocuments" type="xs:string" minOccurs="0"/>
+<xs:element name="family" type="xs:string" minOccurs="0"/>
+<xs:element name="fatherName" type="xs:string" minOccurs="0"/>
+<xs:element name="foreignIdentityNo" type="xs:string" minOccurs="0"/>
+<xs:element name="gender" type="xs:string" minOccurs="0"/>
+<xs:element name="hasGrowthCertificate" type="xs:string" minOccurs="0"/>
+<xs:element name="idDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="idIssueDate" type="xs:string" minOccurs="0"/>
+<xs:element name="idIssueOffice" type="xs:string" minOccurs="0"/>
+<xs:element name="idNo" type="xs:string" minOccurs="0"/>
+<xs:element name="idSerialNo" type="xs:string" minOccurs="0"/>
+<xs:element name="idSeries" type="xs:string" minOccurs="0"/>
+<xs:element name="isReplica" type="xs:string" minOccurs="0"/>
+<xs:element name="issuer" type="xs:string" minOccurs="0"/>
+<xs:element name="jobGroupCode" type="xs:long" minOccurs="0"/>
+<xs:element name="jobGroupName" type="xs:string" minOccurs="0"/>
+<xs:element name="jobTypeCode" type="xs:long" minOccurs="0"/>
+<xs:element name="jobTypeName" type="xs:string" minOccurs="0"/>
+<xs:element name="maritalStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="mobileNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="nationalId" type="xs:string" minOccurs="0"/>
+<xs:element name="nationality" type="xs:string" minOccurs="0"/>
+<xs:element name="numOfChildren" type="xs:long" minOccurs="0"/>
+<xs:element name="orgUnitCode" type="xs:string" minOccurs="0"/>
+<xs:element name="orgUnitName" type="xs:string" minOccurs="0"/>
+<xs:element name="passportIssueDate" type="xs:string" minOccurs="0"/>
+<xs:element name="passportNo" type="xs:string" minOccurs="0"/>
+<xs:element name="previousFamily" type="xs:string" minOccurs="0"/>
+<xs:element name="previousName" type="xs:string" minOccurs="0"/>
+<xs:element name="residencyExpirationDate" type="xs:string" minOccurs="0"/>
+<xs:element name="residencyStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="shahabCode" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsAddressType">
+<xs:sequence>
+<xs:element name="address1" type="xs:string" minOccurs="0"/>
+<xs:element name="address2" type="xs:string" minOccurs="0"/>
+<xs:element name="address3" type="xs:string" minOccurs="0"/>
+<xs:element name="addressType" type="xs:string" minOccurs="0"/>
+<xs:element name="cityCode" type="xs:string" minOccurs="0"/>
+<xs:element name="cityName" type="xs:string" minOccurs="0"/>
+<xs:element name="faxNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="phoneNumber1" type="xs:string" minOccurs="0"/>
+<xs:element name="phoneNumber2" type="xs:string" minOccurs="0"/>
+<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+<xs:element name="provinceCode" type="xs:string" minOccurs="0"/>
+<xs:element name="provinceName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getIndividualPersonChangeLog">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetPersonChangeLogRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetPersonChangeLogRequestType">
+<xs:sequence>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="fromDate" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long" minOccurs="0"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getIndividualPersonChangeLogResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:personChangeLogReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="personChangeLogReturnMessageType">
+<xs:sequence>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="personChangeLogList" type="xs:base64Binary" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateMoralPersonChangLogDigitalSignature">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetPersonChangeLogRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateMoralPersonChangLogDigitalSignatureResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generatetMoralPersonInfoByRegistrationNoDigitalSignature">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetMoralPersonInfoByRegistrationNoRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetMoralPersonInfoByRegistrationNoRequestType">
+<xs:sequence>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="registrationNo" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long" minOccurs="0"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generatetMoralPersonInfoByRegistrationNoDigitalSignatureResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonsInfoByNationalId">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetMoralPersonInfoByNationalIdRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetMoralPersonInfoByNationalIdRequestType">
+<xs:sequence>
+<xs:element name="companyNationalId" type="xs:string" minOccurs="0"/>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long" minOccurs="0"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonsInfoByNationalIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:moralPersonsInfoByNationalIdReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="moralPersonsInfoByNationalIdReturnMessageType">
+<xs:sequence>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="objectValue" type="tns:wsGetMoralPersonInfoResponseType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetMoralPersonInfoResponseType">
+<xs:sequence>
+<xs:element name="activityField" type="xs:string" minOccurs="0"/>
+<xs:element name="activityTypeCode" type="xs:string" minOccurs="0"/>
+<xs:element name="activityTypeName" type="xs:string" minOccurs="0"/>
+<xs:element name="addresses" type="tns:wsAddressType" minOccurs="0"/>
+<xs:element name="archiveNo" type="xs:string" minOccurs="0"/>
+<xs:element name="auditorAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="auditorName" type="xs:string" minOccurs="0"/>
+<xs:element name="bourseCode" type="xs:string" minOccurs="0"/>
+<xs:element name="clientGroupCode" type="xs:string" minOccurs="0"/>
+<xs:element name="clientGroupDesc" type="xs:string" minOccurs="0"/>
+<xs:element name="companyDuration" type="xs:string" minOccurs="0"/>
+<xs:element name="companyIdentityNo" type="xs:string" minOccurs="0"/>
+<xs:element name="companyName" type="xs:string" minOccurs="0"/>
+<xs:element name="creditCode" type="xs:long" minOccurs="0"/>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="economyCode" type="xs:string" minOccurs="0"/>
+<xs:element name="emailAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="englishName" type="xs:string" minOccurs="0"/>
+<xs:element name="existValidDocuments" type="xs:string" minOccurs="0"/>
+<xs:element name="foreignIdentityNo" type="xs:string" minOccurs="0"/>
+<xs:element name="isMoralInfoValid" type="xs:string" minOccurs="0"/>
+<xs:element name="lastChangesDate" type="xs:string" minOccurs="0"/>
+<xs:element name="managers" type="tns:wsCompanyManagerType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="nationality" type="xs:string" minOccurs="0"/>
+<xs:element name="officialNewspaperNo" type="xs:string" minOccurs="0"/>
+<xs:element name="orgUnitCode" type="xs:string" minOccurs="0"/>
+<xs:element name="orgUnitName" type="xs:string" minOccurs="0"/>
+<xs:element name="ownerShipTypeCode" type="xs:string" minOccurs="0"/>
+<xs:element name="ownerShipTypeName" type="xs:string" minOccurs="0"/>
+<xs:element name="registeredCapital" type="xs:long" minOccurs="0"/>
+<xs:element name="registrationCityGrptCode" type="xs:string" minOccurs="0"/>
+<xs:element name="registrationCityGrptName" type="xs:string" minOccurs="0"/>
+<xs:element name="registrationCountryGrptCode" type="xs:string" minOccurs="0"/>
+<xs:element name="registrationCountryGrptName" type="xs:string" minOccurs="0"/>
+<xs:element name="registrationDate" type="xs:string" minOccurs="0"/>
+<xs:element name="registrationNo" type="xs:string" minOccurs="0"/>
+<xs:element name="shahabCode" type="xs:string" minOccurs="0"/>
+<xs:element name="signatories" type="tns:wsCompanySignatoryType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="stockHolders" type="tns:wsCompanyStockHolderType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="underEstablishment" type="xs:string" minOccurs="0"/>
+<xs:element name="webSite" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsCompanyManagerType">
+<xs:sequence>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="expirationDate" type="xs:string" minOccurs="0"/>
+<xs:element name="personName" type="xs:string" minOccurs="0"/>
+<xs:element name="position" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsCompanySignatoryType">
+<xs:sequence>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="expirationDate" type="xs:string" minOccurs="0"/>
+<xs:element name="personName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsCompanyStockHolderType">
+<xs:sequence>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="personName" type="xs:string" minOccurs="0"/>
+<xs:element name="personType" type="xs:string" minOccurs="0"/>
+<xs:element name="sharePercentage" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateMoralPersonInfoDigiSignature">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetPersonInfoRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateMoralPersonInfoDigiSignatureResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonChangeLog">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetPersonChangeLogRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonChangeLogResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:personChangeLogReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonInfo">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetPersonInfoRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonInfoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:moralPersonInfoReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="moralPersonInfoReturnMessageType">
+<xs:sequence>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="objectValue" type="tns:wsGetMoralPersonInfoResponseType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateIndividualPersonInfobyNationalIdDigitalSignature">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetIndividualPersonInfobyNationalIdRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetIndividualPersonInfobyNationalIdRequestType">
+<xs:sequence>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="nationalId" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long" minOccurs="0"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateIndividualPersonInfobyNationalIdDigitalSignatureResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTemporaryIndividualPerson">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsCreateTempIndPersonRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTemporaryIndividualPersonResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:createTempIndPersonReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTempIndPersonReturnMessageType">
+<xs:sequence>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="stringValue" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllAccountsOfPerson">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsPersonInfoToFindByType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsPersonInfoToFindByType">
+<xs:sequence>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="personType" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long" minOccurs="0"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllAccountsOfPersonResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:allAccountsOfPersonReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="allAccountsOfPersonReturnMessageType">
+<xs:sequence>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="objectValue" type="tns:wsAccountInfoOfPersonType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="stringValue" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsAccountInfoOfPersonType">
+<xs:sequence>
+<xs:element name="accountNo" type="xs:string" minOccurs="0"/>
+<xs:element name="accountOwners" type="tns:wsAccountOwnerType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="accountProfileCode" type="xs:string" minOccurs="0"/>
+<xs:element name="accountProfileName" type="xs:string" minOccurs="0"/>
+<xs:element name="accountStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="accountType" type="xs:string" minOccurs="0"/>
+<xs:element name="availableBalance" type="xs:long"/>
+<xs:element name="balance" type="xs:long"/>
+<xs:element name="blockedAmount" type="xs:long"/>
+<xs:element name="conditionTypes" type="tns:wsWithdrawalConditionType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="IBANNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="signatories" type="tns:wsAccountSignatoryType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsAccountOwnerType">
+<xs:sequence>
+<xs:element name="companyIdentityNo" type="xs:string" minOccurs="0"/>
+<xs:element name="companyName" type="xs:string" minOccurs="0"/>
+<xs:element name="companyNewsPaperNo" type="xs:string" minOccurs="0"/>
+<xs:element name="companyRegCapital" type="xs:string" minOccurs="0"/>
+<xs:element name="companyRegDate" type="xs:string" minOccurs="0"/>
+<xs:element name="companyRegNo" type="xs:string" minOccurs="0"/>
+<xs:element name="companyRegPlace" type="xs:string" minOccurs="0"/>
+<xs:element name="companyWebSite" type="xs:string" minOccurs="0"/>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="personAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="personBirthDate" type="xs:string" minOccurs="0"/>
+<xs:element name="personBirthPlace" type="xs:string" minOccurs="0"/>
+<xs:element name="personEducation" type="xs:string" minOccurs="0"/>
+<xs:element name="personFamily" type="xs:string" minOccurs="0"/>
+<xs:element name="personFatherName" type="xs:string" minOccurs="0"/>
+<xs:element name="personGender" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdIssueDate" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdNo" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdSerial" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdSeries" type="xs:string" minOccurs="0"/>
+<xs:element name="personMaritalStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="personMobileNo" type="xs:string" minOccurs="0"/>
+<xs:element name="personName" type="xs:string" minOccurs="0"/>
+<xs:element name="personNationalId" type="xs:string" minOccurs="0"/>
+<xs:element name="personNationality" type="xs:string" minOccurs="0"/>
+<xs:element name="personPassportNo" type="xs:string" minOccurs="0"/>
+<xs:element name="personPhoneNo" type="xs:string" minOccurs="0"/>
+<xs:element name="personPostalCode" type="xs:string" minOccurs="0"/>
+<xs:element name="personType" type="xs:string" minOccurs="0"/>
+<xs:element name="shahabCode" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsWithdrawalConditionType">
+<xs:sequence>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsAccountSignatoryType">
+<xs:sequence>
+<xs:element name="customerCode" type="xs:string" minOccurs="0"/>
+<xs:element name="personBirthDate" type="xs:string" minOccurs="0"/>
+<xs:element name="personBirthPlace" type="xs:string" minOccurs="0"/>
+<xs:element name="personFamily" type="xs:string" minOccurs="0"/>
+<xs:element name="personFatherName" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdIssueDate" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdNo" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdSerial" type="xs:string" minOccurs="0"/>
+<xs:element name="personIdSeries" type="xs:string" minOccurs="0"/>
+<xs:element name="personName" type="xs:string" minOccurs="0"/>
+<xs:element name="personNationalId" type="xs:string" minOccurs="0"/>
+<xs:element name="personNationality" type="xs:string" minOccurs="0"/>
+<xs:element name="personPositionType" type="xs:string" minOccurs="0"/>
+<xs:element name="shahabCode" type="xs:string" minOccurs="0"/>
+<xs:element name="signatoryType" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonsInfoByRegistrationNo">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetMoralPersonInfoByRegistrationNoRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMoralPersonsInfoByRegistrationNoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:moralPersonsInfoByNationalIdReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDigitalSignatureOfPersonService">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsPersonInfoToFindByType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDigitalSignatureOfPersonServiceResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getIndividualPersonInfoByNationalId">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetIndividualPersonInfobyNationalIdRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getIndividualPersonInfoByNationalIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:individualPersonInfoReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateMoralPersonsInfoByNationalId">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetMoralPersonInfoByNationalIdRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateMoralPersonsInfoByNationalIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateIndividualPersonChangLogDigitalSignature">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetPersonChangeLogRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateIndividualPersonChangLogDigitalSignatureResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateForeignIndividualPersonsInfoByIdNoDigitalSignature">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetForeignPersonInfoByIdNoRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="wsGetForeignPersonInfoByIdNoRequestType">
+<xs:sequence>
+<xs:element name="digitalSignature" type="xs:string" minOccurs="0"/>
+<xs:element name="idNo" type="xs:string" minOccurs="0"/>
+<xs:element name="requestNumber" type="xs:long" minOccurs="0"/>
+<xs:element name="requestTime" type="xs:string" minOccurs="0"/>
+<xs:element name="sessionId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="generateForeignIndividualPersonsInfoByIdNoDigitalSignatureResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getForeignIndividualPersonsInfoByIdNo">
+<xs:sequence>
+<xs:element name="arg0" type="tns:wsGetForeignPersonInfoByIdNoRequestType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getForeignIndividualPersonsInfoByIdNoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:foreignIndividualPersonsInfoByIdNoReturnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="foreignIndividualPersonsInfoByIdNoReturnMessageType">
+<xs:sequence>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="objectValue" type="tns:wsGetIndividualPersonInfoResponseType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

@@ -53,13 +53,13 @@ class Wolf(Application):
         company: BANKMASKAN
 
       login:
-        filename: file:///%(root_path)s/wsdl/maskan_login.wsdl
+        wsdl_url: file:///%(root_path)s/wsdl/maskan_login.wsdl
         username: 141770
         password: 123456
         version_number: 1.0
 
       person_info:
-        filename: file:///%(root_path)s/wsdl/maskan_person.wsdl
+        wsdl_url: file:///%(root_path)s/wsdl/maskan_person.wsdl
         key_filename: %(root_path)s/private-key/maskan.pem
 
 

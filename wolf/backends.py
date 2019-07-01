@@ -65,7 +65,8 @@ class LionClient:
 
 class MaskanClient:
     def __init__(self):
-        self.filename = settings.maskan_web_service.person_info.filename
+        self.configuration = settings.maskan_web_service.person_info
+        self.wsdl_url = self.configuration.wsdl_url
         self.exceptions = {
             1: MaskanInvalidSessionIdError,
             2: MaskanRepetitiousRequestNumberError,
@@ -85,7 +86,7 @@ class MaskanClient:
         datetime,
         request_number
     ):
-        client = create_soap_client(self.filename)
+        client = create_soap_client(self.wsdl_url)
         digital_signature = binascii.hexlify(signature)
 
         request_data = {
@@ -95,6 +96,11 @@ class MaskanClient:
             'sessionId': session_id,
             'digitalSignature': digital_signature
         }
+
+        if hasattr(self.configuration, 'test_url'):
+            client.wsdl.services['AllAccountsOfPersonService'] \
+                .ports['AllAccountsOfPersonServiceSoap12HttpPort'] \
+                .binding_options['address'] = self.configuration.test_url
 
         response = client.service.getIndividualPersonInfo(request_data)
         message_id = int(response.messageId[-2:])

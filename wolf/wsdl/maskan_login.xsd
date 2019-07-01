@@ -1,0 +1,51 @@
+<xs:schema xmlns:tns="http://loginwebservice.webservices.mcds.pooyaco.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://loginwebservice.webservices.mcds.pooyaco.com/">
+<xs:element name="anotherOne" type="tns:anotherOne"/>
+<xs:element name="anotherOneResponse" type="tns:anotherOneResponse"/>
+<xs:element name="login" type="tns:login"/>
+<xs:element name="loginResponse" type="tns:loginResponse"/>
+<xs:element name="logout" type="tns:logout"/>
+<xs:element name="logoutResponse" type="tns:logoutResponse"/>
+<xs:complexType name="anotherOne">
+<xs:sequence>
+<xs:element name="SESSIONID" type="xs:string" minOccurs="0"/>
+<xs:element name="DIGITALSIGNATURE" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="anotherOneResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:returnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="returnMessageType">
+<xs:sequence>
+<xs:element name="messageCode" type="xs:string" minOccurs="0"/>
+<xs:element name="messageDescription" type="xs:string" minOccurs="0"/>
+<xs:element name="messageId" type="xs:long"/>
+<xs:element name="numberValue" type="xs:long"/>
+<xs:element name="objectValue" type="xs:anyType" minOccurs="0"/>
+<xs:element name="stringValue" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="login">
+<xs:sequence>
+<xs:element name="username" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="versionnumber" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="loginResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:returnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="logout">
+<xs:sequence>
+<xs:element name="sessionID" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="logoutResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:returnMessageType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
