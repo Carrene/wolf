@@ -28,7 +28,7 @@ from wolf.backends import MaskanClient
 from wolf.helpers import MaskanSmsProvider
 
 
-logger = get_logger()
+logger = get_logger('ISO8583')
 worker_threads = {}
 
 
@@ -37,7 +37,7 @@ def worker(client_socket):
     try:
         length = client_socket.recv(4)
         message = length + client_socket.recv(int(length))
-        logger.info(f'Isomessage received: {message}')
+        logger.info(f'ISO message received: {message}')
         mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
         TCP_server(envelope)
