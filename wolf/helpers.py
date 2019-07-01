@@ -17,14 +17,14 @@ class MaskanSmsProvider:
         self.username = self.configuration.username
         self.password = self.configuration.password
         self.company = self.configuration.company
-        self.wsdl = self.configuration.url
+        self.wsdl_url = self.configuration.wsdl_url
 
     def send(self, recipient_number, message_text):
         if recipient_number.startswith('98') \
                 or recipient_number.startswith('+98'):
             recipient_number = f'0{recipient_number[2:]}'
 
-        client = create_soap_client(self.wsdl)
+        client = create_soap_client(self.wsdl_url)
 
         if hasattr(self.configuration, 'test_url'):
             client.wsdl.services['MaskanSendService'] \
