@@ -1,4 +1,4 @@
-"""migrate token
+"""Migration token model
 
 Revision ID: 53ac80e44a59
 Revises: fde99be08182
