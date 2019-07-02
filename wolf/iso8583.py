@@ -59,10 +59,10 @@ def worker(client_socket):
     logger_message = 'Get message'
     try:
         length = client_socket.recv(4)
-        logger_message = f'{logger_message} with length {length}'
+        logger_message = f'{logger_message} with length {length.decode()}'
 
         message = length + client_socket.recv(int(length))
-        logger_mesage = f'{logger_mesage} and message {message}'
+        logger_message = f'{logger_message} and message {message.decode()}'
 
         mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
@@ -76,8 +76,8 @@ def worker(client_socket):
 
     finally:
         logger_message = f'{logger_message}, Answered with '\
-            'response code {envelope[39].value}'
-        logger.info(logger_message)
+            f'response code {envelope[39].value.decode()}'
+        logger.exception(logger_message)
         response = envelope.dumps()
         client_socket.send(response)
         client_socket.close()
