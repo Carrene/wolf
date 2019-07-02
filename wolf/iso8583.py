@@ -14,14 +14,7 @@ from tlv import TLV
 from khayyam import JalaliDatetime
 
 from . import cryptoutil
-from .exceptions import InvalidPartialCardNameError, DuplicateSeedError, \
-    MaskanUsernamePasswordError, MaskanVersionNumberError, \
-    MaskanSendSmsError, MaskanInvalidSessionIdError, \
-    MaskanRepetitiousRequestNumberError, MaskanInvalidRequestTimeError, \
-    MaskanInvalidDigitalSignatureError, MaskanUserNotPermitedError, \
-    MaskanPersonNotFoundError, MaskanIncompleteParametersError, \
-    MaskanMiscellaneousError
-
+from .exceptions import InvalidPartialCardNameError, DuplicateSeedError
 from .models import Token, MiniToken, Cryptomodule, Person
 from wolf.authentication import MaskanAuthenticator
 from wolf.backends import MaskanClient
@@ -63,20 +56,28 @@ ISOFIELD_MAC = 64
 
 def worker(client_socket):
     mackey = binascii.unhexlify(settings.iso8583.mackey)
+    logger_message = 'Get message'
     try:
         length = client_socket.recv(4)
+        logger_message = f'{logger_message} with length {length}'
+
         message = length + client_socket.recv(int(length))
-        logger.info(f'ISO message received: {message}')
+        logger_mesage = f'{logger_mesage} and message {message}'
+
         mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
         TCP_server(envelope)
         envelope.mti = envelope.mti + 10
 
-    except:
+    except Exception as e:
+        logger.exception(e)
         envelope = Envelope('1110', mackey)
         envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
 
     finally:
+        logger_message = f'{logger_message}, Answered with '\
+            'response code {envelope[39].value}'
+        logger.info(logger_message)
         response = envelope.dumps()
         client_socket.send(response)
         client_socket.close()
@@ -164,6 +165,9 @@ class TCPServerController:
             envelope.set(
                 ISOFIELD_RESPONCE_CODE,
                 ISOSTATUS_INVALID_FORMAT_MESSAGE
+            )
+            logger.exception(
+                f'Function code with code {function_code} not found'
             )
             return envelope
 
@@ -255,18 +259,8 @@ class TCPServerController:
                 request_number=request_number
             )
 
-        except (
-            MaskanInvalidSessionIdError,
-            MaskanRepetitiousRequestNumberError,
-            MaskanInvalidRequestTimeError,
-            MaskanInvalidDigitalSignatureError,
-            MaskanUserNotPermitedError,
-            MaskanPersonNotFoundError,
-            MaskanIncompleteParametersError,
-            MaskanMiscellaneousError
-        ) as ex:
-
-            logger.exception(ex)
+        except HTTPKnownStatus as e:
+            logger.exception(e)
             DBSession.commit()
             envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
