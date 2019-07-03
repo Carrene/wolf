@@ -32,33 +32,33 @@ logger = get_logger('ISO8583')
 worker_threads = {}
 
 
-ISO_STATUS_SUCCESS = b'000'
-ISO_STATUS_INVALID_PASSWORD_OR_USERNAME = b'117'
-ISO_STATUS_BLOCK_USER = b'106'
-ISO_STATUS_TOKEN_NOT_FOUND = b'117'
-ISO_STATUS_INTERNAL_ERROR = b'909'
-ISO_STATUS_INVALID_CIF_OR_NATIONALCODE = b'145'
-ISO_STATUS_INVALID_FORMAT_MESSAGE = b'928'
-ISO_STATUS_NEED_TO_APPROVE_USER = b'303'
-ISO_STATUS_MISMATCH_PHONENUMBER_IN_CIF = b'100'
+ISOSTATUS_SUCCESS = b'000'
+ISOSTATUS_INVALID_PASSWORD_OR_USERNAME = b'117'
+ISOSTATUS_BLOCK_USER = b'106'
+ISOSTATUS_TOKEN_NOT_FOUND = b'117'
+ISOSTATUS_INTERNAL_ERROR = b'909'
+ISOSTATUS_INVALID_CIF_OR_NATIONALCODE = b'145'
+ISOSTATUS_INVALID_FORMAT_MESSAGE = b'928'
+ISOSTATUS_NEED_TO_APPROVE_USER = b'303'
+ISOSTATUS_MISMATCH_PHONENUMBER_IN_CIF = b'100'
 
 
-ISO_FIELD_PAN = 2
-ISO_FIELD_PROCESS_CODE = 3
-ISO_FIELD_SYSTEM_TRACE_AUDIT_NUMBER = 11
-ISO_FIELD_LOCAL_TRANSACTION_TIME = 12
-ISO_FIELD_MERCHANT_TYPE = 18
-ISO_FIELD_CONDITION_CODE = 22
-ISO_FIELD_FUNCTION_CODE = 24
-ISO_FIELD_CAPTURE_CODE = 26
-ISO_FIELD_RETRIEVAL_REFERENCE_NUMBER = 37
-ISO_FIELD_RESPONCE_CODE = 39
-ISO_FIELD_TERMINAL_ID = 41
-ISO_FIELD_MERCHANT_ID = 42
-ISO_FIELD_TERMINAL_LOCALTION = 43
-ISO_FIELD_ADDITIONAL_DATA = 48
-ISO_FIELD_PIN_BLOCK = 52
-ISO_FIELD_MAC = 64
+ISOFIELD_PAN = 2
+ISOFIELD_PROCESS_CODE = 3
+ISOFIELD_SYSTEM_TRACE_AUDIT_NUMBER = 11
+ISOFIELD_LOCAL_TRANSACTION_TIME = 12
+ISOFIELD_MERCHANT_TYPE = 18
+ISOFIELD_CONDITION_CODE = 22
+ISOFIELD_FUNCTION_CODE = 24
+ISOFIELD_CAPTURE_CODE = 26
+ISOFIELD_RETRIEVAL_REFERENCE_NUMBER = 37
+ISOFIELD_RESPONCE_CODE = 39
+ISOFIELD_TERMINAL_ID = 41
+ISOFIELD_MERCHANT_ID = 42
+ISOFIELD_TERMINAL_LOCALTION = 43
+ISOFIELD_ADDITIONAL_DATA = 48
+ISOFIELD_PIN_BLOCK = 52
+ISOFIELD_MAC = 64
 
 
 def worker(client_socket):
@@ -74,7 +74,7 @@ def worker(client_socket):
 
     except:
         envelope = Envelope('1110', mackey)
-        envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_INTERNAL_ERROR)
+        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
 
     finally:
         response = envelope.dumps()
@@ -157,13 +157,13 @@ class ISO8583ServeLauncher(Launcher):
 class TCPServerController:
 
     def __call__(self, envelope):
-        function_code = int(envelope[ISO_FIELD_FUNCTION_CODE].value.decode())
+        function_code = int(envelope[ISOFIELD_FUNCTION_CODE].value.decode())
         handler = self._routes.get(function_code)
         if handler is None:
             # FIXME: log
             envelope.set(
-                ISO_FIELD_RESPONCE_CODE,
-                ISO_STATUS_INVALID_FORMAT_MESSAGE
+                ISOFIELD_RESPONCE_CODE,
+                ISOSTATUS_INVALID_FORMAT_MESSAGE
             )
             return envelope
 
@@ -174,16 +174,16 @@ class TCPServerController:
         return settings.oath.window
 
     def _is_registeration_fields_valid(self, envelope):
-        if ISO_FIELD_PAN not in envelope \
-                or ISO_FIELD_ADDITIONAL_DATA not in envelope \
-                or ISO_FIELD_FUNCTION_CODE not in envelope:
+        if ISOFIELD_PAN not in envelope \
+                or ISOFIELD_ADDITIONAL_DATA not in envelope \
+                or ISOFIELD_FUNCTION_CODE not in envelope:
             return False
 
-        field48 = TLV.loads(envelope[ISO_FIELD_ADDITIONAL_DATA].value).fields
+        field48 = TLV.loads(envelope[ISOFIELD_ADDITIONAL_DATA].value).fields
         if 'PHN' not in field48:
             return False
 
-        card_number = envelope[ISO_FIELD_PAN].value.decode()
+        card_number = envelope[ISOFIELD_PAN].value.decode()
         if not re.match(settings.card_tokens[6].pattern, card_number):
             return False
 
@@ -192,12 +192,12 @@ class TCPServerController:
     def register(self, envelope):
         if not self._is_registeration_fields_valid(envelope):
             envelope.set(
-                ISO_FIELD_RESPONCE_CODE,
-                ISO_STATUS_INVALID_FORMAT_MESSAGE
+                ISOFIELD_RESPONCE_CODE,
+                ISOSTATUS_INVALID_FORMAT_MESSAGE
             )
             return
 
-        field48 = TLV.loads(envelope[ISO_FIELD_ADDITIONAL_DATA].value).fields
+        field48 = TLV.loads(envelope[ISOFIELD_ADDITIONAL_DATA].value).fields
         phone = field48['PHN']
         customer_code = field48['CIF']
 
@@ -229,7 +229,7 @@ class TCPServerController:
 
         except (MaskanUsernamePasswordError, MaskanVersionNumberError) as ex:
             logger.exception(ex)
-            envelop.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_INTERNAL_ERROR)
+            envelop.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         signature_message = \
@@ -268,13 +268,13 @@ class TCPServerController:
 
             logger.exception(ex)
             DBSession.commit()
-            envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_INTERNAL_ERROR)
+            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         if person_information['mobile'] != phone:
             envelope.set(
-                ISO_FIELD_RESPONCE_CODE,
-                ISO_STATUS_MISMATCH_PHONENUMBER_IN_CIF
+                ISOFIELD_RESPONCE_CODE,
+                ISOSTATUS_MISMATCH_PHONENUMBER_IN_CIF
             )
             return
 
@@ -285,18 +285,18 @@ class TCPServerController:
         person.mobile = person_information['mobile']
         DBSession.commit()
 
-        partial_card_name = envelope[ISO_FIELD_PAN].value.decode()
+        partial_card_name = envelope[ISOFIELD_PAN].value.decode()
         cryptomodule_id = 1 \
-            if envelope[ISO_FIELD_FUNCTION_CODE].value[1] == 1 else 2
-        bank_id = envelope[ISO_FIELD_PAN].value[0:6].decode()
+            if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
+        bank_id = envelope[ISOFIELD_PAN].value[0:6].decode()
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
                 .count() <= 0:
             # Cryptomodule does not exists
             envelope.set(
-                ISO_FIELD_RESPONCE_CODE,
-                ISO_STATUS_INTERNAL_ERROR
+                ISOFIELD_RESPONCE_CODE,
+                ISOSTATUS_INTERNAL_ERROR
             )
             return
 
@@ -323,7 +323,7 @@ class TCPServerController:
 
         except DuplicateSeedError as ex:
             logger.exception(ex)
-            envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_INTERNAL_ERROR)
+            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         DBSession.commit()
@@ -337,32 +337,32 @@ class TCPServerController:
 
         except MaskanSendSmsError as ex:
             logger.exception(ex)
-            envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_INTERNAL_ERROR)
+            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         field48['ACT'] = provision[-8:]
-        envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_SUCCESS)
+        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_SUCCESS)
         tlv = TLV(**field48)
-        envelope[ISO_FIELD_ADDITIONAL_DATA].value = tlv.dumps()
+        envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
 
     def verify(self, envelope):
         primitive = 'no'
-        pinblock = envelope[ISO_FIELD_PIN_BLOCK].value
-        envelope.unset(ISO_FIELD_PIN_BLOCK)
+        pinblock = envelope[ISOFIELD_PIN_BLOCK].value
+        envelope.unset(ISOFIELD_PIN_BLOCK)
         token = DBSession.query(Token) \
-            .filter(Token.name == envelope[ISO_FIELD_PAN].value.decode()) \
+            .filter(Token.name == envelope[ISOFIELD_PAN].value.decode()) \
             .one_or_none()
         if token is None:
-            envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_TOKEN_NOT_FOUND)
+            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
 
         if not token.is_active:
-            envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_BLOCK_USER)
+            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_BLOCK_USER)
             return
 
         token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
         if token is None:
-            envelope.set(ISO_FIELD_RESPONCE_CODE, ISO_STATUS_TOKEN_NOT_FOUND)
+            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
 
         try:
@@ -374,15 +374,12 @@ class TCPServerController:
 
         if not is_valid:
             envelope.set(
-                ISO_FIELD_RESPONCE_CODE,
-                ISO_STATUS_INVALID_PASSWORD_OR_USERNAME
+                ISOFIELD_RESPONCE_CODE,
+                ISOSTATUS_INVALID_PASSWORD_OR_USERNAME
             )
             return
 
-        envelope.set(
-            ISO_FIELD_RESPONCE_CODE,
-            ISO_STATUS_SUCCESS
-        )
+        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_SUCCESS)
 
 
     _routes = {
