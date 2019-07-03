@@ -7,11 +7,12 @@ Create Date: 2019-07-01 22:59:28.592490
 """
 
 import uuid
+import sys
 
-from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
+from alembic import op
 from sqlalchemy import orm
+from sqlalchemy.dialects import postgresql
 
 from wolf.models import Token
 
@@ -33,16 +34,14 @@ def upgrade():
 
     op.add_column('token', sa.Column('uuid', postgresql.UUID, nullable=True))
     tokens = session.query(Token).all()
-    with open('tosee-uuid.csv','w') as f:
-        for token in tokens:
-            new_uuid = uuid.uuid1()
-            f.write(f'{token.id},{new_uuid}\n')
-            op.execute(
-                f"UPDATE token SET uuid = '{new_uuid}' where id = {token.id};"
-            )
+    for token in tokens:
+        op.execute(
+            f"UPDATE token SET uuid = '{uuid.uuid1()}' where id = {token.id};"
+        )
 
-        f.close()
-
+    op.execute(
+        "COPY token(id, uuid) TO '{sys.argv[0]}\tokenid-conversion.csv' DELIMITER ',' CSV HEADER;"
+    )
     op.drop_column('token', 'id')
     op.execute('ALTER TABLE token RENAME uuid TO id')
     op.execute('ALTER TABLE token ALTER COLUMN id SET NOT NULL')
