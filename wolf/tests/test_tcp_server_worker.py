@@ -4,6 +4,7 @@ import socket
 from iso8583.models import Envelope
 from nanohttp import settings
 
+from wolf.iso8583 import ISOFIELD_RESPONCE_CODE
 from wolf.tests.helpers import LocalApplicationTestCase
 
 
@@ -22,5 +23,5 @@ class TestTCPServer(LocalApplicationTestCase):
             envelope = Envelope.loads(message, mackey)
 
             assert envelope.mti == 1110
-            assert envelope[39].value == b'928'
+            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'909'
 
