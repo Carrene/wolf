@@ -4,6 +4,7 @@ import socket
 import threading
 from datetime import date, timedelta
 import time
+import traceback
 
 from iso8583.models import Envelope
 from nanohttp import settings, LazyAttribute
@@ -56,28 +57,30 @@ ISOFIELD_MAC = 64
 
 def worker(client_socket):
     mackey = binascii.unhexlify(settings.iso8583.mackey)
-    logger_message = 'Get message'
     try:
         length = client_socket.recv(4)
-        logger_message = f'{logger_message} with length {length.decode()}'
-
         message = length + client_socket.recv(int(length))
-        logger_message = f'{logger_message} and message {message.decode()}'
-
-        mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
+
         TCP_server(envelope)
         envelope.mti = envelope.mti + 10
 
-    except Exception as e:
-        logger.exception(e)
+    except Exception:
+        logger.exception(
+            f'Can\'t load message length {length} message {message}'
+        )
+        logger.exception(traceback.format_exc())
         envelope = Envelope('1110', mackey)
         envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
 
     finally:
-        logger_message = f'{logger_message}, Answered with '\
-            f'response code {envelope[39].value.decode()}'
-        logger.info(logger_message)
+        response_log = ''
+        for field in envelope.elements:
+            if envelope[field] is not None:
+                response_log = f'{response_log}Field {field}: ' \
+                    f"{envelope[field].value.decode('latin-1')} "
+
+        logger.info(response_log)
         response = envelope.dumps()
         client_socket.send(response)
         client_socket.close()
@@ -161,7 +164,6 @@ class TCPServerController:
         function_code = int(envelope[ISOFIELD_FUNCTION_CODE].value.decode())
         handler = self._routes.get(function_code)
         if handler is None:
-            # FIXME: log
             envelope.set(
                 ISOFIELD_RESPONCE_CODE,
                 ISOSTATUS_INVALID_FORMAT_MESSAGE
@@ -231,8 +233,8 @@ class TCPServerController:
         try:
             session_id = MaskanAuthenticator().login()
 
-        except (MaskanUsernamePasswordError, MaskanVersionNumberError) as ex:
-            logger.exception(ex)
+        except HTTPKnownStatus:
+            logger.exception(traceback.format_exc())
             envelop.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
@@ -259,8 +261,8 @@ class TCPServerController:
                 request_number=request_number
             )
 
-        except HTTPKnownStatus as e:
-            logger.exception(e)
+        except HTTPKnownStatus:
+            logger.exception(traceback.format_exc())
             DBSession.commit()
             envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
@@ -316,7 +318,7 @@ class TCPServerController:
             token.initialize_seed(max_retry=2)
 
         except DuplicateSeedError as ex:
-            logger.exception(ex)
+            logger.exception(traceback.format_exc())
             envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
@@ -329,8 +331,8 @@ class TCPServerController:
                 provision[:120]
             )
 
-        except MaskanSendSmsError as ex:
-            logger.exception(ex)
+        except MaskanSendSmsError:
+            logger.exception(traceback.format_exc())
             envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
