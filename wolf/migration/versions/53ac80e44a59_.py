@@ -39,12 +39,6 @@ def upgrade():
             f"UPDATE token SET uuid = '{uuid.uuid1()}' where id = {token.id};"
         )
 
-    op.drop_column('token', 'id')
-    op.execute('ALTER TABLE token RENAME uuid TO id')
-    op.execute('ALTER TABLE token ALTER COLUMN id SET NOT NULL')
-    op.create_unique_constraint('token_id_key', 'token', ['id'])
-    op.create_primary_key('token_pkey', 'token', ['id'])
-
 
 def downgrade():
     op.create_table(
