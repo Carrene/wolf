@@ -12,7 +12,7 @@ from restfulpy.mockup import MockupApplication, mockup_http_server
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import LocalApplicationTestCase, RandomMonkeyPatch
 from wolf.iso8583 import ISOFIELD_PAN, ISOFIELD_FUNCTION_CODE, \
-    ISOFIELD_RESPONCE_CODE, ISOFIELD_ADDITIONAL_DATA, ISOFIELD_PIN_BLOCK, \
+    ISOFIELD_RESPONSECODE, ISOFIELD_ADDITIONAL_DATA, ISOFIELD_PIN_BLOCK, \
     ISOFIELD_PROCESS_CODE, ISOFIELD_SYSTEM_TRACE_AUDIT_NUMBER, \
     ISOFIELD_LOCAL_TRANSACTION_TIME, ISOFIELD_MERCHANT_TYPE, \
     ISOFIELD_CONDITION_CODE, ISOFIELD_FUNCTION_CODE, \
@@ -207,7 +207,7 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'909'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'909'
 
         session = self.create_session()
         cryptomodule1 = Cryptomodule()
@@ -238,7 +238,7 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             assert envelope[ISOFIELD_FUNCTION_CODE].value == b'101'
             assert envelope[ISOFIELD_RETRIEVAL_REFERENCE_NUMBER].value == \
                 b'914313762427'
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'000'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'000'
             assert envelope[ISOFIELD_TERMINAL_ID].value == b'01111102'
             assert envelope[ISOFIELD_MERCHANT_ID].value == b'000001111102   '
             assert envelope[ISOFIELD_ADDITIONAL_DATA].value == \
@@ -260,7 +260,7 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'928'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'928'
 
         # Trying to pass with invalid card number
         with lion_mockup_server(), maskan_mockup_server(), \
@@ -272,7 +272,7 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'928'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'928'
 
         # Trying to pass without field 48
         with lion_mockup_server(), maskan_mockup_server(), \
@@ -284,7 +284,7 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'928'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'928'
 
         # Trying to pass without tag PHN
         with lion_mockup_server(), maskan_mockup_server(), \
@@ -296,7 +296,7 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'928'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'928'
 
         seed = b'\xdb!.\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
         expired_token = Token()
@@ -321,5 +321,5 @@ class TestTCPServerEnsure(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'909'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'909'
 

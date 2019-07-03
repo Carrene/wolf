@@ -46,7 +46,7 @@ ISOFIELD_CONDITION_CODE = 22
 ISOFIELD_FUNCTION_CODE = 24
 ISOFIELD_CAPTURE_CODE = 26
 ISOFIELD_RETRIEVAL_REFERENCE_NUMBER = 37
-ISOFIELD_RESPONCE_CODE = 39
+ISOFIELD_RESPONSECODE = 39
 ISOFIELD_TERMINAL_ID = 41
 ISOFIELD_MERCHANT_ID = 42
 ISOFIELD_TERMINAL_LOCALTION = 43
@@ -71,7 +71,7 @@ def worker(client_socket):
         )
         logger.exception(traceback.format_exc())
         envelope = Envelope('1110', mackey)
-        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
 
     finally:
         response_log = ''
@@ -165,7 +165,7 @@ class TCPServerController:
         handler = self._routes.get(function_code)
         if handler is None:
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INVALID_FORMAT_MESSAGE
             )
             logger.exception(
@@ -198,7 +198,7 @@ class TCPServerController:
     def register(self, envelope):
         if not self._is_registeration_fields_valid(envelope):
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INVALID_FORMAT_MESSAGE
             )
             return
@@ -235,7 +235,7 @@ class TCPServerController:
 
         except HTTPKnownStatus:
             logger.exception(traceback.format_exc())
-            envelop.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+            envelop.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         signature_message = \
@@ -264,12 +264,12 @@ class TCPServerController:
         except HTTPKnownStatus:
             logger.exception(traceback.format_exc())
             DBSession.commit()
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         if person_information['mobile'] != phone:
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_MISMATCH_PHONENUMBER_IN_CIF
             )
             return
@@ -291,7 +291,7 @@ class TCPServerController:
                 .count() <= 0:
             # Cryptomodule does not exists
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INTERNAL_ERROR
             )
             return
@@ -319,7 +319,7 @@ class TCPServerController:
 
         except DuplicateSeedError as ex:
             logger.exception(traceback.format_exc())
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         DBSession.commit()
@@ -333,11 +333,11 @@ class TCPServerController:
 
         except MaskanSendSmsError:
             logger.exception(traceback.format_exc())
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         field48['ACT'] = provision[-8:]
-        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_SUCCESS)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_SUCCESS)
         tlv = TLV(**field48)
         envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
 
@@ -349,16 +349,16 @@ class TCPServerController:
             .filter(Token.name == envelope[ISOFIELD_PAN].value.decode()) \
             .one_or_none()
         if token is None:
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_TOKEN_NOT_FOUND)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
 
         if not token.is_active:
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_BLOCK_USER)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
             return
 
         token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
         if token is None:
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_TOKEN_NOT_FOUND)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
 
         try:
@@ -370,12 +370,12 @@ class TCPServerController:
 
         if not is_valid:
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INVALID_PASSWORD_OR_USERNAME
             )
             return
 
-        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_SUCCESS)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_SUCCESS)
 
 
     _routes = {
