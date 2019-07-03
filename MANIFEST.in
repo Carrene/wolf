@@ -1,4 +1,5 @@
 include wolf/alembic.ini
 include wolf/wsdl/*.wsdl
+include wolf/wsdl/*.xsd
 include wolf/private-key/*.pem
 exclude wolf/*.c
