@@ -4,6 +4,7 @@ import socket
 import threading
 from datetime import date, timedelta
 import time
+import traceback
 
 from iso8583.models import Envelope
 from nanohttp import settings, LazyAttribute
@@ -14,14 +15,7 @@ from tlv import TLV
 from khayyam import JalaliDatetime
 
 from . import cryptoutil
-from .exceptions import InvalidPartialCardNameError, DuplicateSeedError, \
-    MaskanUsernamePasswordError, MaskanVersionNumberError, \
-    MaskanSendSmsError, MaskanInvalidSessionIdError, \
-    MaskanRepetitiousRequestNumberError, MaskanInvalidRequestTimeError, \
-    MaskanInvalidDigitalSignatureError, MaskanUserNotPermitedError, \
-    MaskanPersonNotFoundError, MaskanIncompleteParametersError, \
-    MaskanMiscellaneousError
-
+from .exceptions import InvalidPartialCardNameError, DuplicateSeedError
 from .models import Token, MiniToken, Cryptomodule, Person
 from wolf.authentication import MaskanAuthenticator
 from wolf.backends import MaskanClient
@@ -52,7 +46,7 @@ ISOFIELD_CONDITION_CODE = 22
 ISOFIELD_FUNCTION_CODE = 24
 ISOFIELD_CAPTURE_CODE = 26
 ISOFIELD_RETRIEVAL_REFERENCE_NUMBER = 37
-ISOFIELD_RESPONCE_CODE = 39
+ISOFIELD_RESPONSECODE = 39
 ISOFIELD_TERMINAL_ID = 41
 ISOFIELD_MERCHANT_ID = 42
 ISOFIELD_TERMINAL_LOCALTION = 43
@@ -66,17 +60,27 @@ def worker(client_socket):
     try:
         length = client_socket.recv(4)
         message = length + client_socket.recv(int(length))
-        logger.info(f'ISO message received: {message}')
-        mackey = binascii.unhexlify(settings.iso8583.mackey)
         envelope = Envelope.loads(message, mackey)
+
         TCP_server(envelope)
         envelope.mti = envelope.mti + 10
 
-    except:
+    except Exception:
+        logger.exception(
+            f'Can\'t load message length {length} message {message}'
+        )
+        logger.exception(traceback.format_exc())
         envelope = Envelope('1110', mackey)
-        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
 
     finally:
+        response_log = ''
+        for field in envelope.elements:
+            if envelope[field] is not None:
+                response_log = f'{response_log}Field {field}: ' \
+                    f"{envelope[field].value.decode('latin-1')} "
+
+        logger.info(response_log)
         response = envelope.dumps()
         client_socket.send(response)
         client_socket.close()
@@ -160,10 +164,12 @@ class TCPServerController:
         function_code = int(envelope[ISOFIELD_FUNCTION_CODE].value.decode())
         handler = self._routes.get(function_code)
         if handler is None:
-            # FIXME: log
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INVALID_FORMAT_MESSAGE
+            )
+            logger.exception(
+                f'Function code with code {function_code} not found'
             )
             return envelope
 
@@ -192,7 +198,7 @@ class TCPServerController:
     def register(self, envelope):
         if not self._is_registeration_fields_valid(envelope):
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INVALID_FORMAT_MESSAGE
             )
             return
@@ -227,9 +233,9 @@ class TCPServerController:
         try:
             session_id = MaskanAuthenticator().login()
 
-        except (MaskanUsernamePasswordError, MaskanVersionNumberError) as ex:
-            logger.exception(ex)
-            envelop.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+        except HTTPKnownStatus:
+            logger.exception(traceback.format_exc())
+            envelop.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         signature_message = \
@@ -255,25 +261,15 @@ class TCPServerController:
                 request_number=request_number
             )
 
-        except (
-            MaskanInvalidSessionIdError,
-            MaskanRepetitiousRequestNumberError,
-            MaskanInvalidRequestTimeError,
-            MaskanInvalidDigitalSignatureError,
-            MaskanUserNotPermitedError,
-            MaskanPersonNotFoundError,
-            MaskanIncompleteParametersError,
-            MaskanMiscellaneousError
-        ) as ex:
-
-            logger.exception(ex)
+        except HTTPKnownStatus:
+            logger.exception(traceback.format_exc())
             DBSession.commit()
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         if person_information['mobile'] != phone:
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_MISMATCH_PHONENUMBER_IN_CIF
             )
             return
@@ -295,7 +291,7 @@ class TCPServerController:
                 .count() <= 0:
             # Cryptomodule does not exists
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INTERNAL_ERROR
             )
             return
@@ -322,8 +318,8 @@ class TCPServerController:
             token.initialize_seed(max_retry=2)
 
         except DuplicateSeedError as ex:
-            logger.exception(ex)
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+            logger.exception(traceback.format_exc())
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         DBSession.commit()
@@ -335,13 +331,13 @@ class TCPServerController:
                 provision[:120]
             )
 
-        except MaskanSendSmsError as ex:
-            logger.exception(ex)
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_INTERNAL_ERROR)
+        except MaskanSendSmsError:
+            logger.exception(traceback.format_exc())
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
         field48['ACT'] = provision[-8:]
-        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_SUCCESS)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_SUCCESS)
         tlv = TLV(**field48)
         envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
 
@@ -353,16 +349,16 @@ class TCPServerController:
             .filter(Token.name == envelope[ISOFIELD_PAN].value.decode()) \
             .one_or_none()
         if token is None:
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_TOKEN_NOT_FOUND)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
 
         if not token.is_active:
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_BLOCK_USER)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
             return
 
         token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
         if token is None:
-            envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_TOKEN_NOT_FOUND)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
 
         try:
@@ -374,12 +370,12 @@ class TCPServerController:
 
         if not is_valid:
             envelope.set(
-                ISOFIELD_RESPONCE_CODE,
+                ISOFIELD_RESPONSECODE,
                 ISOSTATUS_INVALID_PASSWORD_OR_USERNAME
             )
             return
 
-        envelope.set(ISOFIELD_RESPONCE_CODE, ISOSTATUS_SUCCESS)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_SUCCESS)
 
 
     _routes = {

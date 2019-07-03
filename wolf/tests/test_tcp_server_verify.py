@@ -11,7 +11,7 @@ from wolf.cryptoutil import EncryptedISOPinBlock
 from wolf.models import Cryptomodule, Token
 from wolf.tests.helpers import TimeMonkeyPatch, LocalApplicationTestCase
 from wolf.iso8583 import ISOFIELD_PAN, ISOFIELD_FUNCTION_CODE, \
-    ISOFIELD_RESPONCE_CODE, ISOFIELD_ADDITIONAL_DATA, ISOFIELD_PIN_BLOCK, \
+    ISOFIELD_RESPONSECODE, ISOFIELD_ADDITIONAL_DATA, ISOFIELD_PIN_BLOCK, \
     ISOFIELD_PROCESS_CODE, ISOFIELD_SYSTEM_TRACE_AUDIT_NUMBER, \
     ISOFIELD_LOCAL_TRANSACTION_TIME, ISOFIELD_MERCHANT_TYPE, \
     ISOFIELD_CONDITION_CODE, ISOFIELD_FUNCTION_CODE, \
@@ -131,7 +131,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             assert envelope[ISOFIELD_CAPTURE_CODE].value == b'5312'
             assert envelope[ISOFIELD_RETRIEVAL_REFERENCE_NUMBER].value == \
                 b'000000351929'
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'000'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'000'
             assert envelope[ISOFIELD_TERMINAL_ID].value == b'09999402'
             assert envelope[ISOFIELD_MERCHANT_ID].value == b'000009999402   '
             assert envelope[ISOFIELD_ADDITIONAL_DATA].value == \
@@ -153,7 +153,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'117'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'117'
 
         # Trying to pass with invalid pinblock
         with TimeMonkeyPatch(self.valid_time), \
@@ -165,7 +165,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'117'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'117'
 
         # Trying to pass with deactive token
         with TimeMonkeyPatch(self.valid_time), \
@@ -177,7 +177,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'106'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'106'
 
         # Trying to pass with invalid function code
         with TimeMonkeyPatch(self.valid_time), \
@@ -194,7 +194,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'928'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'928'
 
         # Trying to pass with malformed pinblock
         with TimeMonkeyPatch(self.valid_time), \
@@ -206,7 +206,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             message = length_message + client_socket.recv(int(length_message))
             envelope = Envelope.loads(message, self.mackey)
 
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'117'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'117'
 
         # Trying to pass with invalid card number(token not found)
         with TimeMonkeyPatch(self.valid_time), \
@@ -219,5 +219,5 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             envelope = Envelope.loads(message, self.mackey)
 
             assert envelope.mti == 1110
-            assert envelope[ISOFIELD_RESPONCE_CODE].value == b'117'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'117'
 
