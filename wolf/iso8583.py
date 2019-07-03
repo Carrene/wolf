@@ -77,7 +77,7 @@ def worker(client_socket):
     finally:
         logger_message = f'{logger_message}, Answered with '\
             f'response code {envelope[39].value.decode()}'
-        logger.exception(logger_message)
+        logger.info(logger_message)
         response = envelope.dumps()
         client_socket.send(response)
         client_socket.close()
