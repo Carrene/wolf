@@ -39,9 +39,6 @@ def upgrade():
             f"UPDATE token SET uuid = '{uuid.uuid1()}' where id = {token.id};"
         )
 
-    op.execute(
-        "COPY token(id, uuid) TO '{sys.argv[0]}\tokenid-conversion.csv' DELIMITER ',' CSV HEADER;"
-    )
     op.drop_column('token', 'id')
     op.execute('ALTER TABLE token RENAME uuid TO id')
     op.execute('ALTER TABLE token ALTER COLUMN id SET NOT NULL')
