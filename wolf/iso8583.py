@@ -57,6 +57,7 @@ ISOFIELD_MAC = 64
 
 def worker(client_socket):
     mackey = binascii.unhexlify(settings.iso8583.mackey)
+    message = 'Could not receive message'
     try:
         length = client_socket.recv(4)
         message = length + client_socket.recv(int(length))
