@@ -71,7 +71,7 @@ def worker(client_socket):
         message = b''.join([length, client_socket.recv(int(length))])
         envelope = Envelope.loads(message, mackey)
 
-        TCP_server(envelope)
+        iso8583_handler(envelope)
         envelope.mti = envelope.mti + 10
 
     except Exception:
@@ -393,6 +393,5 @@ class TCPServerController:
     }
 
 
-TCP_server = TCPServerController()
-
+iso8583_handler = TCPServerController()
 
