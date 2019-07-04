@@ -57,10 +57,15 @@ ISOFIELD_MAC = 64
 
 def worker(client_socket):
     mackey = binascii.unhexlify(settings.iso8583.mackey)
-    message = 'Could not receive message'
     try:
         length = client_socket.recv(4)
-        message = length + client_socket.recv(int(length))
+        if not length.isdigit():
+            logger.exception(f'Invalid message length type: {length}')
+            envelope = Envelope('1110', mackey)
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
+            return
+
+        message = b''.join([length, client_socket.recv(int(length))])
         envelope = Envelope.loads(message, mackey)
 
         TCP_server(envelope)
