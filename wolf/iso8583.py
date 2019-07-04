@@ -62,7 +62,10 @@ def worker(client_socket):
         if not length.isdigit():
             logger.exception(f'Invalid message length type: {length}')
             envelope = Envelope('1110', mackey)
-            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
+            envelope.set(
+                ISOFIELD_RESPONSECODE,
+                ISOSTATUS_INVALID_FORMAT_MESSAGE
+            )
             return
 
         message = b''.join([length, client_socket.recv(int(length))])
@@ -77,7 +80,7 @@ def worker(client_socket):
         )
         logger.exception(traceback.format_exc())
         envelope = Envelope('1110', mackey)
-        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INVALID_FORMAT_MESSAGE)
 
     finally:
         response_log = ''

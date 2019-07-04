@@ -25,7 +25,7 @@ class TestTCPServer(LocalApplicationTestCase):
             envelope = Envelope.loads(message, mackey)
 
             assert envelope.mti == 1110
-            assert envelope[ISOFIELD_RESPONSECODE].value == b'909'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'928'
 
         # Trying to pass without message length
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
@@ -37,5 +37,5 @@ class TestTCPServer(LocalApplicationTestCase):
             envelope = Envelope.loads(message, mackey)
 
             assert envelope.mti == 1110
-            assert envelope[ISOFIELD_RESPONSECODE].value == b'909'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'928'
 
