@@ -59,10 +59,19 @@ def worker(client_socket):
     mackey = binascii.unhexlify(settings.iso8583.mackey)
     try:
         length = client_socket.recv(4)
-        message = length + client_socket.recv(int(length))
+        if not length.isdigit():
+            logger.exception(f'Invalid message length type: {length}')
+            envelope = Envelope('1110', mackey)
+            envelope.set(
+                ISOFIELD_RESPONSECODE,
+                ISOSTATUS_INVALID_FORMAT_MESSAGE
+            )
+            return
+
+        message = b''.join([length, client_socket.recv(int(length))])
         envelope = Envelope.loads(message, mackey)
 
-        TCP_server(envelope)
+        iso8583_handler(envelope)
         envelope.mti = envelope.mti + 10
 
     except Exception:
@@ -71,7 +80,7 @@ def worker(client_socket):
         )
         logger.exception(traceback.format_exc())
         envelope = Envelope('1110', mackey)
-        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
+        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INVALID_FORMAT_MESSAGE)
 
     finally:
         response_log = ''
@@ -384,6 +393,5 @@ class TCPServerController:
     }
 
 
-TCP_server = TCPServerController()
-
+iso8583_handler = TCPServerController()
 
