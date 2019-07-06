@@ -209,7 +209,7 @@ class MiniToken:
     @classmethod
     def load(cls, token_id, cache=False):
         if cache:  # pragma: no cover
-            token = cls.load_from_cache(token_id)
+            token = cls.load_from_cache(uuid.UUID(token_id))
             if token is not None:
                 return token
         return cls.load_from_database(token_id)
@@ -264,7 +264,7 @@ class MiniToken:
 
     def cache(self):  # pragma: no cover
         self.redis().set(
-            str(self.id),
+            self.id.bytes,
             b'%s,%s,%d,%d,%d,%s,%d' % (
                 str(self.bank_id).encode(),
                 binascii.hexlify(self.seed),
@@ -279,7 +279,7 @@ class MiniToken:
 
     @classmethod
     def load_from_cache(cls, token_id):  # pragma: no cover
-        cache_key = str(token_id)
+        cache_key = token_id.bytes
         redis = cls.redis()
         if redis.exists(cache_key):
             token = redis.get(cache_key).split(b',')
@@ -297,12 +297,12 @@ class MiniToken:
 
     @classmethod
     def invalidate(cls, token_id):  # pragma: no cover
-        cls.redis().delete(token_id)
+        cls.redis().delete(token_id.bytes)
 
     @classmethod
     def after_update(cls, mapper, connection, target):  # pragma: no cover
         if settings.token.redis.enabled:
-            cls.invalidate(str(target.id))
+            cls.invalidate(target.id.bytes)
 
 
 class Person(TimestampMixin, DeclarativeBase):
