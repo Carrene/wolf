@@ -2,20 +2,20 @@ import binascii
 import re
 import socket
 import threading
-from datetime import date, timedelta
 import time
 import traceback
+from datetime import date, timedelta
 
 from iso8583.models import Envelope
-from nanohttp import settings, LazyAttribute
-from restfulpy.cli import Launcher, RequireSubCommand
-from restfulpy.orm import DBSession
-from restfulpy.logging_ import get_logger
-from tlv import TLV
 from khayyam import JalaliDatetime
+from nanohttp import settings, LazyAttribute, HTTPKnownStatus
+from restfulpy.cli import Launcher, RequireSubCommand
+from restfulpy.logging_ import get_logger
+from restfulpy.orm import DBSession
+from tlv import TLV
 
 from . import cryptoutil
-from .exceptions import InvalidPartialCardNameError, DuplicateSeedError
+from .exceptions import DuplicateSeedError
 from .models import Token, MiniToken, Cryptomodule, Person
 from wolf.authentication import MaskanAuthenticator
 from wolf.backends import MaskanClient
