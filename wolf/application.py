@@ -88,28 +88,28 @@ class Wolf(Application):
         key: 1234567890ABCDEF1234567890ABCDEF
 
     card_tokens:
-      1: # Melli
+      1:  # Melli
         pattern: ^603799
 
-      2: # Ayande
+      2:  # Ayande
         pattern: ^636214
 
-      3: # Saderat
+      3:  # Saderat
         pattern: ^603769
 
-      4: # keshavarzi
+      4:  # keshavarzi
         pattern: ^6(03770|39217)
 
-      5: # Kar afarin
+      5:  # Kar afarin
         pattern: ^627488
 
-      6: # Moasese noor
+      6:  # Moasese noor
         pattern: ^507677
 
-      7: # Tosee saderat
+      7:  # Tosee saderat
         pattern: ^627648
 
-      8: # Maskan
+      8:  # Maskan
         pattern: ^628023
 
     tcpserver:
