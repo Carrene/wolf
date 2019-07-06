@@ -297,7 +297,7 @@ class MiniToken:
 
     @classmethod
     def invalidate(cls, token_id):  # pragma: no cover
-        cls.redis().delete(token_id.bytes)
+        cls.redis().delete(token_id)
 
     @classmethod
     def after_update(cls, mapper, connection, target):  # pragma: no cover
