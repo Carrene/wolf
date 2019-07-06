@@ -302,7 +302,7 @@ class MiniToken:
     @classmethod
     def after_update(cls, mapper, connection, target):  # pragma: no cover
         if settings.token.redis.enabled:
-            cls.invalidate(target.id)
+            cls.invalidate(str(target.id))
 
 
 class Person(TimestampMixin, DeclarativeBase):
