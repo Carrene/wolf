@@ -26,6 +26,9 @@ logger = get_logger('ISO8583')
 worker_threads = {}
 
 
+MASKAN_BANK_ID = 8
+
+
 ISOSTATUS_SUCCESS = b'000'
 ISOSTATUS_INVALID_PASSWORD_OR_USERNAME = b'117'
 ISOSTATUS_BLOCK_USER = b'106'
@@ -199,7 +202,10 @@ class TCPServerController:
             return False
 
         card_number = envelope[ISOFIELD_PAN].value.decode()
-        if not re.match(settings.card_tokens[6].pattern, card_number):
+        if not re.match(
+            settings.card_tokens[MASKAN_BANK_ID].pattern,
+            card_number
+        ):
             return False
 
         return True
@@ -276,7 +282,7 @@ class TCPServerController:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
 
-        if person_information['mobile'] != phone:
+        if person_information['mobile'][-10:] != phone[-10:]:
             envelope.set(
                 ISOFIELD_RESPONSECODE,
                 ISOSTATUS_MISMATCH_PHONENUMBER_IN_CIF
@@ -309,7 +315,7 @@ class TCPServerController:
             Token.name == partial_card_name,
             Token.cryptomodule_id == cryptomodule_id,
             Token.phone == phone,
-            Token.bank_id == bank_id
+            Token.bank_id == MASKAN_BANK_ID
         ).one_or_none()
 
         if token is None:
@@ -318,7 +324,7 @@ class TCPServerController:
             token.phone = int(phone)
             token.expire_date = date.today() + timedelta(days=18250)
             token.cryptomodule_id = cryptomodule_id
-            token.bank_id = 6
+            token.bank_id = MASKAN_BANK_ID
             token.name = partial_card_name
             token.is_active = True
             DBSession.add(token)
@@ -333,14 +339,14 @@ class TCPServerController:
 
         DBSession.commit()
 
-        provision = token.provision(phone).split('/')[-1]
         try:
+            provision = token.provision(f'98{phone[-10:]}').split('/')[-1]
             sms_response = MaskanSmsProvider().send(
                 phone,
                 provision[:120]
             )
 
-        except MaskanSendSmsError:
+        except HTTPKnownStatus:
             logger.exception(traceback.format_exc())
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
             return
