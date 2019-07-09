@@ -28,10 +28,6 @@ def upgrade():
     bind = op.get_bind()
     session = orm.Session(bind=bind)
 
-    op.drop_index('ix_member_password', table_name='member')
-    op.drop_index('ix_member_username', table_name='member')
-    op.drop_table('member')
-
     op.add_column('token', sa.Column('uuid', postgresql.UUID, nullable=True))
     tokens = session.query(Token).all()
     for token in tokens:
@@ -41,52 +37,5 @@ def upgrade():
 
 
 def downgrade():
-    op.create_table(
-        'member',
-        sa.Column(
-            'created_at',
-            postgresql.TIMESTAMP(),
-            autoincrement=False,
-            nullable=False
-        ),
-        sa.Column(
-            'modified_at',
-            postgresql.TIMESTAMP(),
-            autoincrement=False,
-            nullable=True
-        ),
-        sa.Column(
-            'id',
-            sa.INTEGER(),
-            autoincrement=True,
-            nullable=False
-        ),
-        sa.Column(
-            'username',
-            sa.VARCHAR(length=64),
-            autoincrement=False,
-            nullable=False
-        ),
-        sa.Column(
-            'password',
-            sa.VARCHAR(length=128),
-            autoincrement=False,
-            nullable=False
-        ),
-        sa.Column(
-            'bank_id',
-            sa.INTEGER(),
-            autoincrement=False,
-            nullable=True
-        ),
-        sa.Column(
-            'type',
-            sa.VARCHAR(length=50),
-            autoincrement=False,
-            nullable=False
-        ),
-        sa.PrimaryKeyConstraint('id', name='member_pkey')
-    )
-    op.create_index('ix_member_username', 'member', ['username'], unique=True)
-    op.create_index('ix_member_password', 'member', ['password'], unique=False)
+    pass
 
