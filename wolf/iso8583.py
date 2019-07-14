@@ -263,7 +263,7 @@ class TCPServerController:
 
         signature = cryptoutil.create_signature(
             key_filename=key_filename,
-            message=signature_message,
+            message=signature_message.encode(),
             hash_algorithm='sha1'
         )
 
