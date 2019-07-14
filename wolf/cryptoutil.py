@@ -3,7 +3,6 @@ import binascii
 import base64
 import hashlib
 import io
-import hmac
 
 from Crypto.Cipher import DES3
 from nanohttp import settings
@@ -30,13 +29,17 @@ class PlainISO0PinBlock:
 
     """
     def __init__(self, token, length=4):
-        digest = hmac.new(self.key, token.id.bytes, hashlib.sha1).digest()
-        offset = digest[-1] & 0xf
+        tokenbytes = token.id.bytes
+        partone = int.from_bytes(tokenbytes[:8], 'big', signed=False)
+        parttwo = int.from_bytes(tokenbytes[8:], 'big', signed=False)
+        self.pan = partone ^ parttwo
+        #digest = hmac.new(self.key, token.id.bytes, hashlib.sha1).digest()
+        #offset = digest[-1] & 0xf
 
-        self.pan = int(str(
-            ((digest[offset + 1] & 0xff) << 16) |
-            ((digest[offset + 2] & 0xff) << 8)
-        ).zfill(length)[-length:])
+        #self.pan = int(str(
+        #    ((digest[offset + 1] & 0xff) << 16) |
+        #    ((digest[offset + 2] & 0xff) << 8)
+        #).zfill(length)[-length:])
 
     def encode(self, data):
         return b'%0.16x' % (
