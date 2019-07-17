@@ -371,7 +371,10 @@ class TCPServerController:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
             return
 
-        token = MiniToken.load(token.id, cache=settings.token.redis.enabled)
+        token = MiniToken.load(
+            str(token.id),
+            cache=settings.token.redis.enabled
+        )
         if token is None:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
