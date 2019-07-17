@@ -221,3 +221,42 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             assert envelope.mti == 1110
             assert envelope[ISOFIELD_RESPONSECODE].value == b'117'
 
+    def test_verify_with_redis(self, iso8583_server):
+        settings.token.redis.enabled = True
+        host, port = iso8583_server
+
+        real_time = time.time
+        with TimeMonkeyPatch(self.valid_time), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(self.valid_pin_message)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+            envelope = Envelope.loads(message, self.mackey)
+
+            assert envelope.mti == 1110
+            assert envelope[ISOFIELD_PAN].value == b'6280231400751359'
+            assert envelope[ISOFIELD_PROCESS_CODE].value == b'670000'
+            assert envelope[ISOFIELD_SYSTEM_TRACE_AUDIT_NUMBER].value == \
+                b'763245'
+            assert envelope[ISOFIELD_LOCAL_TRANSACTION_TIME].value == \
+                b'190602142754'
+            assert envelope[ISOFIELD_MERCHANT_TYPE].value == b'5312'
+            assert envelope[ISOFIELD_CONDITION_CODE].value == b'61050061317C'
+            assert envelope[ISOFIELD_FUNCTION_CODE].value == b'302'
+            assert envelope[ISOFIELD_CAPTURE_CODE].value == b'5312'
+            assert envelope[ISOFIELD_RETRIEVAL_REFERENCE_NUMBER].value == \
+                b'000000351929'
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'000'
+            assert envelope[ISOFIELD_TERMINAL_ID].value == b'09999402'
+            assert envelope[ISOFIELD_MERCHANT_ID].value == b'000009999402   '
+            assert envelope[ISOFIELD_ADDITIONAL_DATA].value == \
+                b'CIF012111000090389TKR00207'
+            assert 'B18300E3FE2A4044' == \
+                binascii.hexlify(envelope[ISOFIELD_MAC].value) \
+                .decode() \
+                .upper()
+
+            assert 52 not in envelope
+
