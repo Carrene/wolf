@@ -84,7 +84,7 @@ class Wolf(Application):
     pinblock:
       2:
         key: 1234567890ABCDEF1234567890ABCDEF
-      3:
+      8:
         key: 1234567890ABCDEF1234567890ABCDEF
 
     card_tokens:

@@ -296,10 +296,11 @@ class TCPServerController:
         person.mobile = person_information['mobile']
         DBSession.commit()
 
-        partial_card_name = envelope[ISOFIELD_PAN].value.decode()
         cryptomodule_id = 1 \
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
-        bank_id = envelope[ISOFIELD_PAN].value[0:6].decode()
+        pan = envelope[ISOFIELD_PAN].value.decode()
+        bank_id = pan[0:6]
+        partial_card_name = f'{pan[0:6]}-{pan[-4:]}-0{cryptomodule_id}'
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
@@ -360,8 +361,13 @@ class TCPServerController:
         primitive = 'no'
         pinblock = envelope[ISOFIELD_PIN_BLOCK].value
         envelope.unset(ISOFIELD_PIN_BLOCK)
+        cryptomodule_id = 1 \
+            if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
+        pan = envelope[ISOFIELD_PAN].value.decode()
+        partial_card_name = f'{pan[0:6]}-{pan[-4:]}-0{cryptomodule_id}'
+
         token = DBSession.query(Token) \
-            .filter(Token.name == envelope[ISOFIELD_PAN].value.decode()) \
+            .filter(Token.name == partial_card_name) \
             .one_or_none()
         if token is None:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
