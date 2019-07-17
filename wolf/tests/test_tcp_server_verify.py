@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from iso8583.cryptohelpers import iso9797_mac
 from iso8583.models import Envelope
 from nanohttp import settings
+import redis
 
 from wolf.cryptoutil import EncryptedISOPinBlock
 from wolf.models import Cryptomodule, Token
@@ -22,12 +23,31 @@ from wolf.iso8583 import ISOFIELD_PAN, ISOFIELD_FUNCTION_CODE, \
 
 
 class TestTCPServerVerify(LocalApplicationTestCase):
-
+    _redis = None
     __configuration__ = '''
       oath:
         window: 10
 
     '''
+    @staticmethod
+    def create_blocking_redis_client():
+        return redis.StrictRedis(
+            host=settings.token.redis.host,
+            port=settings.token.redis.port,
+            db=settings.token.redis.db,
+            password=settings.token.redis.password,
+            max_connections=settings.token.redis.max_connections,
+            socket_timeout=settings.token.redis.socket_timeout
+        )
+
+    @classmethod
+    def redis(cls):
+        if cls._redis is None:
+            cls._redis = cls.create_blocking_redis_client()
+        return cls._redis
+
+    def setup(self):
+        self.redis().flushdb()
 
     @classmethod
     def mockup(cls):
