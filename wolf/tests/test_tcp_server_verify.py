@@ -257,6 +257,5 @@ class TestTCPServerVerify(LocalApplicationTestCase):
                 binascii.hexlify(envelope[ISOFIELD_MAC].value) \
                 .decode() \
                 .upper()
-
             assert 52 not in envelope
 
