@@ -74,9 +74,6 @@ def worker(client_socket):
         message = b''.join([length, client_socket.recv(int(length))])
         envelope = Envelope.loads(message, mackey)
 
-        iso8583_handler(envelope)
-        envelope.mti = envelope.mti + 10
-
     except Exception:
         logger.exception(
             f'Can\'t load message length {length} message {message}'
@@ -84,6 +81,15 @@ def worker(client_socket):
         logger.exception(traceback.format_exc())
         envelope = Envelope('1110', mackey)
         envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INVALID_FORMAT_MESSAGE)
+
+    else:
+        try:
+            iso8583_handler(envelope)
+            envelope.mti = envelope.mti + 10
+
+        except Exception:
+            logger.exception(traceback.format_exc())
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
 
     finally:
         response_log = ''
@@ -96,7 +102,6 @@ def worker(client_socket):
         response = envelope.dumps()
         client_socket.send(response)
         client_socket.close()
-
         DBSession.close()
 
 
@@ -342,20 +347,17 @@ class TCPServerController:
 
         try:
             provision = token.provision(f'98{phone[-10:]}').split('/')[-1]
-            sms_response = MaskanSmsProvider().send(
-                phone,
-                provision[:120]
-            )
+            sms_response = MaskanSmsProvider().send(phone, provision[:120])
 
         except HTTPKnownStatus:
             logger.exception(traceback.format_exc())
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_INTERNAL_ERROR)
-            return
 
-        field48['ACT'] = provision[-8:]
-        envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_SUCCESS)
-        tlv = TLV(**field48)
-        envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
+        else:
+            field48['ACT'] = provision[-8:]
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_SUCCESS)
+            tlv = TLV(**field48)
+            envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
 
     def verify(self, envelope):
         primitive = 'no'
