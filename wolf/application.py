@@ -118,6 +118,9 @@ class Wolf(Application):
     iso8583:
         mackey: 1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C
         pinkey: 1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C
+        provision:
+          delivery: maskansmsprovider
+          filename: %(data_dir)s/provision-strings.csv
 
     '''
 

@@ -19,7 +19,7 @@ from .exceptions import DuplicateSeedError
 from .models import Token, MiniToken, Cryptomodule, Person
 from wolf.authentication import MaskanAuthenticator
 from wolf.backends import MaskanClient
-from wolf.helpers import MaskanSmsProvider
+from wolf.helpers import MaskanSmsProvider, deliver_provisioning
 
 
 logger = get_logger('ISO8583')
@@ -342,10 +342,7 @@ class TCPServerController:
 
         try:
             provision = token.provision(f'98{phone[-10:]}').split('/')[-1]
-            sms_response = MaskanSmsProvider().send(
-                phone,
-                provision[:120]
-            )
+            sms_response = deliver_provisioning(phone, provision)
 
         except HTTPKnownStatus:
             logger.exception(traceback.format_exc())
