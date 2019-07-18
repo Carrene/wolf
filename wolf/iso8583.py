@@ -347,7 +347,10 @@ class TCPServerController:
 
         try:
             provision = token.provision(f'98{phone[-10:]}').split('/')[-1]
-            sms_response = MaskanSmsProvider().send(phone, provision[:120])
+            sms_response = MaskanSmsProvider().send(
+                phone,
+                provision[:120]
+            )
 
         except HTTPKnownStatus:
             logger.exception(traceback.format_exc())
