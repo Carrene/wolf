@@ -363,7 +363,7 @@ class TCPServerController:
             envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
 
     def verify(self, envelope):
-        primitive = 'no'
+        primitive = False
         pinblock = envelope[ISOFIELD_PIN_BLOCK].value
         envelope.unset(ISOFIELD_PIN_BLOCK)
         cryptomodule_id = 1 \

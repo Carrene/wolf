@@ -282,3 +282,15 @@ class TestTCPServerVerify(LocalApplicationTestCase):
                 .upper()
             assert 52 not in envelope
 
+        # Trying again with same pinblock
+        with TimeMonkeyPatch(self.valid_time), \
+                socket.socket(socket.AF_INET, socket.SOCK_STREAM) \
+                as client_socket:
+            client_socket.connect((host, port))
+            client_socket.sendall(self.valid_pin_message)
+            length_message = client_socket.recv(4)
+            message = length_message + client_socket.recv(int(length_message))
+            envelope = Envelope.loads(message, self.mackey)
+
+            assert envelope[ISOFIELD_RESPONSECODE].value == b'117'
+
