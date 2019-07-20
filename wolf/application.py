@@ -42,6 +42,10 @@ class Wolf(Application):
     ssm:
       url: http://localhost:8081
       token: eyJhbGciOiJIUzI1NiIsImlhdCI6MTU1NjUxOTg1MSwiZXhwIjoxNTg4MDU1ODUxfQ.e30.hi6AmH1Qf8dJiaWYkQXyTGWh4O8Ovd8CiMz02Ru1BGM
+      tls:
+        verify: True
+        fingerprint: 2D:B7:EF:AE:E0:A0:C8:E4:06:15:D5:7A:B2:35:65:A6:16:74:87:88:58:92:5D:AB:47:1F:4A:F9:A2:28:CB:D9
+
 
 
     maskan_web_service:
