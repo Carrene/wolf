@@ -5,13 +5,13 @@ import pytest
 from nanohttp import RegexRouteController, action, settings
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
-from wolf.tests.helpers import LocalApplicationTestCase
 from wolf.backends import MaskanClient
 from wolf.exceptions import MaskanInvalidSessionIdError, \
     MaskanRepetitiousRequestNumberError, \
     MaskanInvalidRequestTimeError, MaskanInvalidDigitalSignatureError, \
     MaskanUserNotPermitedError, MaskanPersonNotFoundError, \
     MaskanIncompleteParametersError, MaskanMiscellaneousError
+from .helpers import LocalApplicationTestCase
 
 
 _maskan_status = 'idle'

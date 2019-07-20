@@ -5,8 +5,8 @@ from nanohttp import settings, action, RegexRouteController
 from restfulpy.mockup import mockup_http_server, MockupApplication
 
 from wolf.helpers import MaskanSmsProvider
-from wolf.tests.helpers import LocalApplicationTestCase
 from wolf.exceptions import MaskanSendSmsError
+from .helpers import LocalApplicationTestCase
 
 
 _maskan_status = 'idle'

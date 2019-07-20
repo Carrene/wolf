@@ -3,7 +3,7 @@ import unittest
 from bddrest import response, status
 
 import wolf
-from wolf.tests.helpers import LocalApplicationTestCase
+from .helpers import LocalApplicationTestCase
 
 
 class TestVersion(LocalApplicationTestCase):

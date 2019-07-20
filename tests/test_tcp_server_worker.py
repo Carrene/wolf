@@ -5,7 +5,7 @@ from iso8583.models import Envelope
 from nanohttp import settings
 
 from wolf.iso8583 import ISOFIELD_RESPONSECODE
-from wolf.tests.helpers import LocalApplicationTestCase
+from .helpers import LocalApplicationTestCase
 
 
 class TestTCPServer(LocalApplicationTestCase):
