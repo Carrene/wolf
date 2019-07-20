@@ -55,6 +55,12 @@ def lion_status(status):
 
 
 class TestEnsureTokenBankId(LocalApplicationTestCase):
+    __configuration__ = f'''
+      ssm:
+        tls:
+          verify: false
+    '''
+
 
     @classmethod
     def mockup(cls):
