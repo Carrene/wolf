@@ -9,7 +9,7 @@ from bddrest import when, response, status, given
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
 from wolf.models import Cryptomodule, Token
-from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
+from .helpers import RandomMonkeyPatch, LocalApplicationTestCase
 
 
 HOUR = 3600

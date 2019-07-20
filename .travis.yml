@@ -25,7 +25,7 @@ services:
   - redis-server
 
 install: ./scripts/travis-install.sh
-script: py.test --cov=wolf wolf/tests
+script: py.test --cov=wolf tests
 after_success: 
   - coveralls
   - ./scripts/travis-upload-wiki.sh

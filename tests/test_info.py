@@ -4,7 +4,7 @@ from bddrest import response, status
 from nanohttp import settings
 
 import wolf
-from wolf.tests.helpers import LocalApplicationTestCase
+from .helpers import LocalApplicationTestCase
 
 
 class TestInfo(LocalApplicationTestCase):

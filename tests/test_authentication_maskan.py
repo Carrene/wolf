@@ -5,9 +5,9 @@ from nanohttp import settings, action, RegexRouteController
 from restfulpy.mockup import mockup_http_server, MockupApplication
 
 from wolf.authentication import MaskanAuthenticator
-from wolf.tests.helpers import LocalApplicationTestCase
 from wolf.exceptions import MaskanUsernamePasswordError, \
     MaskanVersionNumberError
+from .helpers import LocalApplicationTestCase
 
 
 _maskan_status = 'idle'

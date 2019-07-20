@@ -6,7 +6,7 @@ from nanohttp import settings, RegexRouteController, json, context, HTTPStatus
 from restfulpy.mockup import MockupApplication, mockup_http_server
 
 from wolf.models import Cryptomodule, Token
-from wolf.tests.helpers import RandomMonkeyPatch, LocalApplicationTestCase
+from .helpers import RandomMonkeyPatch, LocalApplicationTestCase
 
 
 HOUR = 3600
@@ -54,7 +54,7 @@ def lion_status(status):
     _lion_status = 'idle'
 
 
-class TestEnsureCardToken(LocalApplicationTestCase):
+class TestEnsureToken(LocalApplicationTestCase):
 
     @classmethod
     def mockup(cls):
@@ -85,16 +85,16 @@ class TestEnsureCardToken(LocalApplicationTestCase):
         session.add(deactivated_token)
         session.commit()
 
-    def test_ensure_cardtoken(self):
+    def test_ensure_token(self):
         self.login_as_switchcard()
 
         with lion_mockup_server(), self.given(
             'Provisioning',
-            '/apiv1/cardtokens',
-            'ENSURE',
+            '/apiv1/tokens',
+            'EXSURE',
             form={
                 'phone': 989122451075,
-                'partialCardName': '603799DummyToken',
+                'name': 'DummyTokenName',
                 'cryptomoduleId': self.mockup_cryptomodule.id,
                 'expireDate': 1613434403,
                 'bankId': 1,
@@ -104,8 +104,6 @@ class TestEnsureCardToken(LocalApplicationTestCase):
             assert status == 200
             result = response.json
             assert 'provisioning' in result
-            assert 'partialCardName' in result
-            assert 'name' not in result
             assert result['expireDate'] == '2021-02-16'
             token = result['provisioning']
             assert token == \
@@ -117,19 +115,33 @@ class TestEnsureCardToken(LocalApplicationTestCase):
                 'Expire date is a float value',
                 form=given | dict(
                     expireDate=1613434403.3,
-                    partialCardName='603799DummyToken'
+                    name='DummyTokenName2'
                 )
             )
             assert status == 200
 
             when(
-                'Partial card name is invalid',
-                form=given | dict(partialCardName='636214DummyTokenName2')
+                'Token is expirde',
+                form=given | dict(
+                    name='ExpiredToken',
+                )
             )
-            assert status == '711 Invalid partial card name'
+            assert status == '602 Token is expired'
+
+            when(
+                'Token is deactivated',
+                form=given | dict(
+                    name='DeactivatedToken',
+                    bankId=2,
+                )
+            )
+            assert status == '603 Token is deactivated'
 
             with lion_status('404 Not Found'):
-                when('Device is not found')
+                when(
+                    'Device is not found',
+                    form=given | dict(name='DummyTokenName3')
+                )
                 assert status == '605 Device is not found: 1989122451075'
 
             when(
@@ -145,17 +157,24 @@ class TestEnsureCardToken(LocalApplicationTestCase):
             assert status == '601 Cryptomodule does not exists: 0'
 
             when(
-                'Provisioning with a long token partial card name',
-                form=given | dict(partialCardName='a' * (50+1))
+                'Provisioning with an empty token name',
+                form=given | dict(name='')
             )
-            assert status == '714 partial card name length '\
-                'should be between 6 and 50 characters'
+            assert status == \
+                '702 Name length should be between 6 and 50 characters'
 
             when(
-                'Partial card name is not given',
-                form=given - 'partialCardName'
+                'Provisioning with a long token name',
+                form=given | dict(name='a' * (50+1))
             )
-            assert status == '712 partial card name is required'
+            assert status == \
+                '702 Name length should be between 6 and 50 characters'
+
+            when(
+                'Name is not given',
+                form=given - 'name'
+            )
+            assert status == '703 name is required'
 
             when(
                 'Phone is not given',
@@ -194,15 +213,24 @@ class TestEnsureCardToken(LocalApplicationTestCase):
             assert status == '400 Field: a Not Allowed'
 
             with lion_status('502 Bad Gateway'):
-                when('SSM is not available')
+                when(
+                    'SSM is not available',
+                    form=given | dict(name='DummyTokenName5')
+                )
                 assert status == '801 SSM is not available'
 
             with lion_status('500 Internal Server Error'):
-                when('SSM is not working properly')
+                when(
+                    'SSM is not working properly',
+                    form=given | dict(name='DummyTokenName6')
+                )
                 assert status == '802 SSM internal error'
 
             with lion_status('400 Internal Server Error'):
-                when('SSM Returns 400 Bad request ')
+                when(
+                    'SSM Returns 400 Bad request ',
+                    form=given | dict(name='DummyTokenName7')
+                )
                 assert status == '802 SSM internal error'
 
             with lion_status('401 Unauthorized'):

@@ -7,7 +7,7 @@ from bddrest import when, response, status, given
 
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock
-from wolf.tests.helpers import TimeMonkeyPatch, LocalApplicationTestCase
+from .helpers import TimeMonkeyPatch, LocalApplicationTestCase
 
 
 class TestVerifyToken(LocalApplicationTestCase):

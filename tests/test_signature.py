@@ -1,7 +1,7 @@
 from nanohttp import settings
 
 from wolf.cryptoutil import create_signature
-from wolf.tests.helpers import LocalApplicationTestCase
+from .helpers import LocalApplicationTestCase
 
 
 class TestSignature(LocalApplicationTestCase):

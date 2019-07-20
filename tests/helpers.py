@@ -8,7 +8,7 @@ from wolf import cryptoutil, Wolf
 from wolf.models import Token
 
 HERE = path.abspath(path.dirname(__file__))
-DATA_DIRECTORY = path.abspath(path.join(HERE, '../../data'))
+DATA_DIRECTORY = path.abspath(path.join(HERE, '../data'))
 
 
 class LocalApplicationTestCase(ApplicableTestCase):
