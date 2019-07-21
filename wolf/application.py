@@ -82,6 +82,7 @@ class Wolf(Application):
       window: 2
 
     pinblock:
+      algorithm: isc # isc, pouya
       2:
         key: 1234567890ABCDEF1234567890ABCDEF
       3:

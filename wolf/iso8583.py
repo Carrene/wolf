@@ -390,6 +390,7 @@ class TCPServerController:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
 
+        import pudb; pudb.set_trace()  # XXX BREAKPOINT
         try:
             is_valid = token.verify(pinblock, self.window, primitive=primitive)
             token.cache()
