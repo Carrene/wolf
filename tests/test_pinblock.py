@@ -6,12 +6,6 @@ from wolf import wolf
 from wolf.cryptoutil import EncryptedISOPinBlock
 
 
-class Token:
-    def __init__(self, id, bank_id):
-        self.id = id
-        self.bank_id = bank_id
-
-
 def test_ISC_pinblock():
     wolf.configure(force=True)
     pinblock = EncryptedISOPinBlock(
