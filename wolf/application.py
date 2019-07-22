@@ -87,6 +87,8 @@ class Wolf(Application):
         key: 1234567890ABCDEF1234567890ABCDEF
       3:
         key: 1234567890ABCDEF1234567890ABCDEF
+      8:
+        key: 1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C 
 
     card_tokens:
       1:  # Melli

@@ -36,15 +36,15 @@ class PlainISO0PinBlock:
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
 
     """
-    def __init__(self, tokenid, bankid, length=4):
+    def __init__(self, pan, bankid, length=4):
         if settings.pinblock.algorithm == 'isc':
-            tokenbytes = tokenid
+            tokenbytes = pan
             partone = frombytes(tokenbytes[:8])
             parttwo = frombytes(tokenbytes[8:])
             self.pan = partone ^ parttwo
 
         elif settings.pinblock.algorithm == 'pouya':
-            self.pan = frombytes(iso9797_mac(tokenid, self.key))
+            self.pan = int(f'0000{pan.decode()[3:15]}', 16)
 
     def encode(self, data):
         return b'%0.16x' % (
@@ -58,9 +58,9 @@ class PlainISO0PinBlock:
 
 class EncryptedISOPinBlock(PlainISO0PinBlock):
 
-    def __init__(self, tokenid, bankid, key=None):
+    def __init__(self, pan, bankid, key=None):
         self.key = binascii.unhexlify(key or settings.pinblock[bankid].key)
-        super().__init__(tokenid, bankid)
+        super().__init__(pan, bankid)
 
     def create_algorithm(self):
         return DES3.new(self.key, DES3.MODE_ECB)

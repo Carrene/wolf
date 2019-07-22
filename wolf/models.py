@@ -243,7 +243,7 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, code, window, primitive=False):
+    def verify(self, code, window, bankid, pan=None, primitive=False):
         if code in self.last_codes:
             if self.final:
                 return False
@@ -253,7 +253,7 @@ class MiniToken:
 
         self.final = not primitive
 
-        pinblock = cryptoutil.EncryptedISOPinBlock(self.id.bytes)
+        pinblock = cryptoutil.EncryptedISOPinBlock(pan, bankid)
         otp = pinblock.decode(code)
         return TOTP(
             self.seed,

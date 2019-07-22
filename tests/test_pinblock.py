@@ -24,22 +24,24 @@ def test_ISC_pinblock(db):
         assert pinblock.encode('7110').decode() == '06D3CE0C710B25D9'
 
 
-_configuration = '''
-    pinblock:
-      algorithm: pouya
-'''
-
 def test_pouya_pinblock(db):
+    _configuration = '''
+        pinblock:
+          algorithm: pouya
+    '''
+    settings.merge(_configuration)
     with Context(dict()):
-        settings.merge(_configuration)
-        token = Token(
-            id=uuid.UUID('f4f8cc86-abaa-11e9-9550-309c235f7352'),
-            bank_id=8,
-        )
         pinblock = EncryptedISOPinBlock(
-            tokenid=b'6280231400751318',
-            bankid=token.bank_id,
-            key=b'1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C'
+            pan=b'6280231400751318',
+            bankid=8,
+            key='1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C'
         )
+        assert pinblock.encode('1234567').decode() == 'C5C37BB0192D007C'
+        assert pinblock.decode('C5C37BB0192D007C').decode() == '1234567'
+
         assert pinblock.encode('8224152').decode() == '3FDB435915A061DF'
+        assert pinblock.decode('3FDB435915A061DF').decode() == '8224152'
+
+        assert pinblock.encode('7654321').decode() == '9A9ADB0992707AC3'
+        assert pinblock.decode('9A9ADB0992707AC3').decode() == '7654321'
 
