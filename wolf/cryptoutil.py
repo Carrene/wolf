@@ -1,16 +1,10 @@
-import os
 import binascii
-import base64
-import hashlib
-import io
-import hmac
 import functools
+import os
 
 from Crypto.Cipher import DES3
-from nanohttp import settings
 from OpenSSL import crypto
-
-from .iso9797 import iso9797_mac
+from nanohttp import settings
 
 
 def random(size):  # pragma: no cover
