@@ -8,6 +8,7 @@ import pytest
 from nanohttp import settings
 from nanohttp.configuration import configure
 from restfulpy.orm import DBSession
+from restfulpy.testing import db
 from sqlalchemy.orm.session import close_all_sessions
 
 from wolf.application import Wolf
@@ -37,12 +38,6 @@ def free_port():
 @pytest.fixture
 def iso8583_server(free_port):
     time.sleep(1)
-    try:
-        settings.merge(Wolf.__configuration__)
-
-    except pymlconf.ConfigurationNotInitializedError:
-        configure(Wolf.__configuration__, context=context)
-
     thread = threading.Thread(
         target=listen,
         args=('localhost', free_port, start_event),

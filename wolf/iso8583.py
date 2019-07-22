@@ -391,7 +391,13 @@ class TCPServerController:
             return
 
         try:
-            is_valid = token.verify(pinblock, self.window, primitive=primitive)
+            is_valid = token.verify(
+                pinblock,
+                self.window,
+                token.bank_id,
+                pan=pan.encode(),
+                primitive=primitive
+            )
             token.cache()
 
         except ValueError:

@@ -21,13 +21,13 @@ from wolf.iso8583 import ISOFIELD_PAN, ISOFIELD_FUNCTION_CODE, \
 from .helpers import TimeMonkeyPatch, LocalApplicationTestCase
 
 
-
 class TestTCPServerVerify(LocalApplicationTestCase):
     _redis = None
     __configuration__ = '''
       oath:
         window: 10
-
+      pinblock:
+        algorithm: pouya
     '''
     @staticmethod
     def create_blocking_redis_client():
@@ -57,7 +57,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         cls.active_token = active_token = Token()
         active_token.name = f'{card_number[0:6]}-{card_number[-4:]}-02'
         active_token.phone = 1
-        active_token.bank_id = 2
+        active_token.bank_id = 8
         active_token.expire_date = datetime.now() + timedelta(minutes=1)
         active_token.seed = \
             b'\xda!\x9e\xb6a\xff\x8a9\xf9\x8b\x06\xab\x0b5\xf8h\xf5j\xaaz'
@@ -73,7 +73,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         deactivated_token.name = \
             f'{deactivated_card_number[0:6]}-{deactivated_card_number[-4:]}-02'
         deactivated_token.phone = 2
-        deactivated_token.bank_id = 2
+        deactivated_token.bank_id = 8
         deactivated_token.expire_date = datetime.now() + timedelta(minutes=1)
         deactivated_token.seed = \
             b'u*1\'D\xb9\xcb\xa6Z.>\x88j\xbeZ\x9b3\xc6\xca\x84%\x87\n\x89'
@@ -82,7 +82,10 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         session.add(deactivated_token)
         session.commit()
 
-        cls.pinblock = EncryptedISOPinBlock(active_token)
+        cls.pinblock = EncryptedISOPinBlock(
+            card_number.encode(),
+            active_token.bank_id,
+        )
         cls.valid_time = 10001000
         cls.invalid_time = 123456
 

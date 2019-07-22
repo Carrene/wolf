@@ -34,6 +34,8 @@ class CodesController(RestController):
             is_valid = self.token.verify(
                 code.encode(),
                 self.window,
+                self.token.bank_id,
+                self.token.id.bytes,
                 primitive=primitive
             )
             self.token.cache()

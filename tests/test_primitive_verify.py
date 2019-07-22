@@ -4,12 +4,15 @@ from datetime import datetime, timedelta
 
 import redis
 
+from bddrest import when, status, given
 from nanohttp import settings
 from bddrest import when, response, status, given
 
 from wolf.models import Token, Cryptomodule
 from wolf.cryptoutil import EncryptedISOPinBlock
 from .helpers import TimeMonkeyPatch, LocalApplicationTestCase
+from wolf.cryptoutil import EncryptedISOPinBlock
+from wolf.models import Token, Cryptomodule
 
 
 class TestVerifyPrimitive(LocalApplicationTestCase):
@@ -41,7 +44,10 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
 
         session.commit()
 
-        cls.pinblock1 = EncryptedISOPinBlock(active_token1)
+        cls.pinblock1 = EncryptedISOPinBlock(
+            active_token1.id.bytes,
+            active_token1.bank_id
+        )
         cls.valid_time = 10001000
         cls.valid_otp_token1_time = cls.pinblock1.encode('7110').decode()
         cls.invalid_otp_token1_time = cls.pinblock1.encode('123456').decode()
