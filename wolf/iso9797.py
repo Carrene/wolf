@@ -1,8 +1,9 @@
-
 from Crypto.Cipher import DES
 from Crypto.Util.strxor import strxor
 
+
 IV = b'\x00' * 8
+
 
 # http://blog.canalda.net/Post.aspx?IdPost=478
 def iso9797_mac(binary, secret):

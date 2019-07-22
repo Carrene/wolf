@@ -243,7 +243,7 @@ class MiniToken:
     def length(self):
         return self.cryptomodule[2]
 
-    def verify(self, code, window, bankid, pan=None, primitive=False):
+    def verify(self, code, window, bankid, pan, primitive=False):
         if code in self.last_codes:
             if self.final:
                 return False
