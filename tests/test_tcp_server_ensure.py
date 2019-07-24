@@ -49,6 +49,8 @@ def lion_mockup_server():
         settings.merge(f'''
           ssm:
             url: {url}
+            tls:
+              verify: false
         ''')
         yield app
 
@@ -146,6 +148,11 @@ def lion_status(status):
 
 
 class TestTCPServerEnsure(LocalApplicationTestCase):
+    __configuration__ = f'''
+      ssm:
+        tls:
+          verify: false
+    '''
 
     @classmethod
     def mockup(cls):

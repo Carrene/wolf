@@ -42,11 +42,20 @@ def lion_mockup_server():
         settings.merge(f'''
           ssm:
             url: {url}
+            tls:
+              verify: false
+
         ''')
         yield app
 
 
 class TestIntegration(LocalApplicationTestCase):
+    __configuration__ = f'''
+      ssm:
+        tls:
+          verify: false
+    '''
+
     @classmethod
     def mockup(cls):
         session = cls.create_session()
