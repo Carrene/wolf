@@ -16,7 +16,7 @@ from tlv import TLV
 
 from . import cryptoutil
 from .exceptions import DuplicateSeedError
-from .models import Token, MiniToken, Cryptomodule, Person
+from .models import Token, MiniToken, MaskanMiniToken, Cryptomodule, Person
 from wolf.authentication import MaskanAuthenticator
 from wolf.backends import MaskanClient
 from wolf.helpers import MaskanSmsProvider
@@ -363,6 +363,7 @@ class TCPServerController:
             envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
 
     def verify(self, envelope):
+        import pudb; pudb.set_trace()  # XXX BREAKPOINT
         primitive = False
         pinblock = envelope[ISOFIELD_PIN_BLOCK].value
         envelope.unset(ISOFIELD_PIN_BLOCK)
@@ -371,19 +372,19 @@ class TCPServerController:
         pan = envelope[ISOFIELD_PAN].value.decode()
         partial_card_name = f'{pan[0:6]}-{pan[-4:]}-0{cryptomodule_id}'
 
-        token = DBSession.query(Token) \
-            .filter(Token.name == partial_card_name) \
-            .one_or_none()
-        if token is None:
-            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
-            return
-
-        if not token.is_active:
-            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
-            return
-
-        token = MiniToken.load(
-            str(token.id),
+#        token = DBSession.query(Token) \
+#            .filter(Token.name == partial_card_name) \
+#            .one_or_none()
+#        if token is None:
+#            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
+#            return
+#
+#        if not token.is_active:
+#            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
+#            return
+#
+        token = MaskanMiniToken.load(
+            pan.encode(),
             cache=settings.token.redis.enabled
         )
         if token is None:

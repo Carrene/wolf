@@ -1,10 +1,10 @@
-import time
-import struct
 import binascii
 import pickle
+import struct
+import time
 import uuid
-from datetime import date
 from collections import deque
+from datetime import date
 
 import redis
 from nanohttp import settings
@@ -14,12 +14,12 @@ from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
     TimestampMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
     UniqueConstraint, BigInteger, event, extract, text, String
-from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from sqlalchemy.orm.session import object_session
 
-from .backends import LionClient
 from . import cryptoutil
+from .backends import LionClient
 from .exceptions import DuplicateSeedError
 
 
@@ -155,14 +155,15 @@ cached_cryptomodules = None
 class MiniToken:
     _redis = None
 
-    def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
-                 last_codes=None, final=False):
+    def __init__(self, id, bank_id, seed, expire_date, is_active,
+                 cryptomodule_id, name=None, last_codes=None, final=False):
         if type(id) is str:
             self.id = uuid.UUID(id)
 
         else:
             self.id = id
 
+        self.name = name
         self.bank_id = bank_id
         self.seed = seed
         self.expire_date = expire_date
@@ -313,6 +314,50 @@ class MiniToken:
     def after_update(cls, mapper, connection, target):  # pragma: no cover
         if settings.token.redis.enabled:
             cls.invalidate(target.id.bytes)
+
+class MaskanMiniToken(MiniToken):
+
+    def cache(self):
+        super().cache()
+        self.redis().set(
+            self.name,
+            self.id.bytes,
+            settings.token.redis.ttl
+        )
+
+    @classmethod
+    def load(cls, pan, cache=False):
+        import pudb; pudb.set_trace()  # XXX BREAKPOINT
+        if cache:  # pragma: no cover
+            tokenid = cls.load_tokenid_from_cache(pan.decode())
+            token = cls.load_from_cache(uuid.UUID(bytes=tokenid))
+            if token is not None:
+                return token
+
+        return cls.load_from_database(pan.decode())
+
+    @classmethod
+    def load_tokenid_from_cache(cls, pan):  # pragma: no cover
+        cache_key = pan
+        redis = cls.redis()
+        if redis.exists(pan):
+            tokenid = redis.get(pan).split(b',')
+            return tokenid[0] if tokenid is not None else None
+
+        return None
+
+    @classmethod
+    def load_from_database(cls, pan):
+        row = DBSession.query(
+            Token.id,
+            Token.bank_id,
+            Token.seed,
+            extract('epoch', Token.expire_date),
+            Token.activated_at.isnot(None),
+            Token.cryptomodule_id,
+            Token.name,
+        ).filter(Token.name == pan).one_or_none()
+        return cls(*row) if row else None
 
 
 class Person(TimestampMixin, DeclarativeBase):
