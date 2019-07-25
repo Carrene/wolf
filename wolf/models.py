@@ -253,7 +253,10 @@ class MiniToken:
 
         self.final = not primitive
 
-        pinblock = cryptoutil.EncryptedISOPinBlock(pan, bankid)
+        pinblock = cryptoutil.EncryptedISOPinBlock(
+            pan=pan,
+            key=settings.pinblock[bankid].key
+        )
         otp = pinblock.decode(code)
         return TOTP(
             self.seed,

@@ -83,8 +83,8 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         session.commit()
 
         cls.pinblock = EncryptedISOPinBlock(
-            card_number.encode(),
-            active_token.bank_id,
+            pan=card_number.encode(),
+            key=settings.pinblock[active_token.bank_id].key
         )
         cls.valid_time = 10001000
         cls.invalid_time = 123456
