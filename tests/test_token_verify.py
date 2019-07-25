@@ -47,8 +47,8 @@ class TestVerifyToken(LocalApplicationTestCase):
         session.commit()
 
         cls.pinblock = EncryptedISOPinBlock(
-            active_token.id.bytes,
-            active_token.bank_id
+            pan=active_token.id.bytes,
+            key=settings.pinblock[active_token.bank_id].key
         )
         cls.valid_time = 10001000
         cls.invalid_time = 123456
