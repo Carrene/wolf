@@ -155,8 +155,8 @@ cached_cryptomodules = None
 class MiniToken:
     _redis = None
 
-    def __init__(self, id, bank_id, seed, expire_date, is_active,
-                 cryptomodule_id, last_codes=None, final=False):
+    def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
+                                  last_codes=None, final=False):
         if type(id) is str:
             self.id = uuid.UUID(id)
 
