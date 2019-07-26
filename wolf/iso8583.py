@@ -345,7 +345,6 @@ class TCPServerController:
         DBSession.commit()
 
         try:
-            from pudb import set_trace; set_trace()
             provision = token.provision(f'98{phone[-10:]}').split('/')[-1]
             sms_response = MaskanSmsProvider().send(
                 phone,
