@@ -156,7 +156,7 @@ class MiniToken:
     _redis = None
 
     def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
-                                  last_codes=None, final=False):
+                last_codes=None, final=False):
         if type(id) is str:
             self.id = uuid.UUID(id)
 
@@ -337,7 +337,6 @@ class MaskanMiniToken(MiniToken):
 
     @classmethod
     def load_tokenid_from_cache(cls, pan):  # pragma: no cover
-        cache_key = pan
         redis = cls.redis()
         if redis.exists(pan):
             tokenid = redis.get(pan).split(b',')
