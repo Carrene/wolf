@@ -156,14 +156,13 @@ class MiniToken:
     _redis = None
 
     def __init__(self, id, bank_id, seed, expire_date, is_active,
-                 cryptomodule_id, name=None, last_codes=None, final=False):
+                 cryptomodule_id, last_codes=None, final=False):
         if type(id) is str:
             self.id = uuid.UUID(id)
 
         else:
             self.id = id
 
-        self.name = name
         self.bank_id = bank_id
         self.seed = seed
         self.expire_date = expire_date
@@ -317,22 +316,22 @@ class MiniToken:
 
 class MaskanMiniToken(MiniToken):
 
-    def cache(self):
+    def cache(self, pan):
         super().cache()
         self.redis().set(
-            self.name,
+            pan,
             self.id.bytes,
             settings.token.redis.ttl
         )
 
     @classmethod
     def load(cls, pan, cache=False):
-        import pudb; pudb.set_trace()  # XXX BREAKPOINT
-        if cache:  # pragma: no cover
+        if cache:
             tokenid = cls.load_tokenid_from_cache(pan.decode())
-            token = cls.load_from_cache(uuid.UUID(bytes=tokenid))
-            if token is not None:
-                return token
+            if tokenid is not None:
+                token = cls.load_from_cache(uuid.UUID(bytes=tokenid))
+                if token is not None:
+                    return token
 
         return cls.load_from_database(pan.decode())
 
@@ -355,7 +354,6 @@ class MaskanMiniToken(MiniToken):
             extract('epoch', Token.expire_date),
             Token.activated_at.isnot(None),
             Token.cryptomodule_id,
-            Token.name,
         ).filter(Token.name == pan).one_or_none()
         return cls(*row) if row else None
 

@@ -305,7 +305,6 @@ class TCPServerController:
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
         pan = envelope[ISOFIELD_PAN].value.decode()
         bank_id = pan[0:6]
-        partial_card_name = f'{pan[0:6]}-{pan[-4:]}-0{cryptomodule_id}'
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
@@ -318,7 +317,7 @@ class TCPServerController:
             return
 
         token = DBSession.query(Token).filter(
-            Token.name == partial_card_name,
+            Token.name == pan,
             Token.cryptomodule_id == cryptomodule_id,
             Token.phone == phone,
             Token.bank_id == MASKAN_BANK_ID
@@ -331,7 +330,7 @@ class TCPServerController:
             token.expire_date = date.today() + timedelta(days=18250)
             token.cryptomodule_id = cryptomodule_id
             token.bank_id = MASKAN_BANK_ID
-            token.name = partial_card_name
+            token.name = pan
             token.is_active = True
             DBSession.add(token)
 
@@ -346,6 +345,7 @@ class TCPServerController:
         DBSession.commit()
 
         try:
+            from pudb import set_trace; set_trace()
             provision = token.provision(f'98{phone[-10:]}').split('/')[-1]
             sms_response = MaskanSmsProvider().send(
                 phone,
@@ -363,32 +363,23 @@ class TCPServerController:
             envelope[ISOFIELD_ADDITIONAL_DATA].value = tlv.dumps()
 
     def verify(self, envelope):
-        import pudb; pudb.set_trace()  # XXX BREAKPOINT
         primitive = False
         pinblock = envelope[ISOFIELD_PIN_BLOCK].value
         envelope.unset(ISOFIELD_PIN_BLOCK)
         cryptomodule_id = 1 \
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
         pan = envelope[ISOFIELD_PAN].value.decode()
-        partial_card_name = f'{pan[0:6]}-{pan[-4:]}-0{cryptomodule_id}'
 
-#        token = DBSession.query(Token) \
-#            .filter(Token.name == partial_card_name) \
-#            .one_or_none()
-#        if token is None:
-#            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
-#            return
-#
-#        if not token.is_active:
-#            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
-#            return
-#
         token = MaskanMiniToken.load(
             pan.encode(),
             cache=settings.token.redis.enabled
         )
         if token is None:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
+            return
+
+        if not token.is_active:
+            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
             return
 
         try:
@@ -399,7 +390,7 @@ class TCPServerController:
                 pan=pan.encode(),
                 primitive=primitive
             )
-            token.cache()
+            token.cache(pan.encode())
 
         except ValueError:
             is_valid = False
