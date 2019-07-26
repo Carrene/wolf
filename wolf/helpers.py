@@ -9,6 +9,19 @@ from wolf.exceptions import MaskanSendSmsError
 def create_soap_client(wsdl):
     return zeep.Client(wsdl)
 
+def deliver_provisioning(phone, provisionstring):
+    config = settings.iso8583.provision
+
+    if config.delivery == 'staticfile':
+        with open(config.filename, 'a') as codes_file:
+            codes_file.write(f'{phone}, {provisionstring}\n')
+
+    elif config.delivery == 'maskansmsprovider':
+        sms_response = MaskanSmsProvider().send(
+            phone,
+            provisionstring[:120]
+        )
+
 
 class MaskanSmsProvider:
     def __init__(self):
