@@ -1,25 +1,25 @@
+import time
+import struct
 import binascii
 import pickle
-import struct
-import time
 import uuid
-from collections import deque
 from datetime import date
+from collections import deque
 
 import redis
 from nanohttp import settings
 from oathcy.otp import TOTP
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
-    PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin, \
-    TimestampMixin
+        PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin, \
+        TimestampMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
-    UniqueConstraint, BigInteger, event, extract, text, String
-from sqlalchemy.dialects.postgresql import UUID
+        UniqueConstraint, BigInteger, event, extract, text, String
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm.session import object_session
 
-from . import cryptoutil
 from .backends import LionClient
+from . import cryptoutil
 from .exceptions import DuplicateSeedError
 
 
@@ -92,6 +92,7 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         python_type=(int, '710 BankId must be Integer')
     )
 
+
     __table_args__ = (
         UniqueConstraint(
             name,
@@ -155,7 +156,7 @@ class MiniToken:
     _redis = None
 
     def __init__(self, id, bank_id, seed, expire_date, is_active, cryptomodule_id,
-                last_codes=None, final=False):
+                 last_codes=None, final=False):
         if type(id) is str:
             self.id = uuid.UUID(id)
 
