@@ -55,7 +55,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         cls.mackey = binascii.unhexlify(settings.iso8583.mackey)
         session = cls.create_session()
         cls.active_token = active_token = Token()
-        active_token.name = card_number
+        active_token.name = f'{card_number[0:6]}-{card_number[-4:]}-02'
         active_token.phone = 1
         active_token.bank_id = 8
         active_token.expire_date = datetime.now() + timedelta(minutes=1)
@@ -69,7 +69,8 @@ class TestTCPServerVerify(LocalApplicationTestCase):
 
         deactivated_card_number = '6280231234567890'
         cls.deactivated_token = deactivated_token = Token()
-        deactivated_token.name = deactivated_card_number
+        deactivated_token.name = \
+            f'{deactivated_card_number[0:6]}-{deactivated_card_number[-4:]}-02'
         deactivated_token.phone = 2
         deactivated_token.bank_id = 8
         deactivated_token.expire_date = datetime.now() + timedelta(minutes=1)
@@ -247,11 +248,11 @@ class TestTCPServerVerify(LocalApplicationTestCase):
 
     def test_verify_with_redis(self, iso8583_server):
         settings.token.redis.enabled = True
-        token = MaskanMiniToken.load(
+        token = MiniToken.load(
             self.active_token.name.encode(),
             cache=False
         )
-        token.cache(self.active_token.name.encode())
+        token.cache()
 
         host, port = iso8583_server
 

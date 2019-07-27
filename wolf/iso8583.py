@@ -1,3 +1,4 @@
+import uuid
 import binascii
 import re
 import socket
@@ -16,7 +17,7 @@ from tlv import TLV
 
 from . import cryptoutil
 from .exceptions import DuplicateSeedError
-from .models import Token, MiniToken, MaskanMiniToken, Cryptomodule, Person
+from .models import Token, MiniToken, Cryptomodule, Person
 from wolf.authentication import MaskanAuthenticator
 from wolf.backends import MaskanClient
 from wolf.helpers import MaskanSmsProvider
@@ -305,6 +306,7 @@ class TCPServerController:
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
         pan = envelope[ISOFIELD_PAN].value.decode()
         bank_id = pan[0:6]
+        partial_card_name = f'{pan[0:6]}-{pan[-4:]}-0{cryptomodule_id}'
 
         if DBSession.query(Cryptomodule) \
                 .filter(Cryptomodule.id == cryptomodule_id) \
@@ -316,21 +318,17 @@ class TCPServerController:
             )
             return
 
-        token = DBSession.query(Token).filter(
-            Token.name == pan,
-            Token.cryptomodule_id == cryptomodule_id,
-            Token.phone == phone,
-            Token.bank_id == MASKAN_BANK_ID
-        ).one_or_none()
-
+        tokenid = uuid.UUID(bytes=pan.encode())
+        token = DBSession.query(Token).get(tokenid)
         if token is None:
             # Creating a new token
             token = Token()
+            token.id = tokenid
             token.phone = int(phone)
             token.expire_date = date.today() + timedelta(days=18250)
             token.cryptomodule_id = cryptomodule_id
             token.bank_id = MASKAN_BANK_ID
-            token.name = pan
+            token.name = partial_card_name
             token.is_active = True
             DBSession.add(token)
 
@@ -368,12 +366,9 @@ class TCPServerController:
         envelope.unset(ISOFIELD_PIN_BLOCK)
         cryptomodule_id = 1 \
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
-        pan = envelope[ISOFIELD_PAN].value.decode()
+        pan = envelope[ISOFIELD_PAN].value
 
-        token = MaskanMiniToken.load(
-            pan.encode(),
-            cache=settings.token.redis.enabled
-        )
+        token = MiniToken.load(pan, settings.token.redis.enabled)
         if token is None:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
@@ -387,10 +382,10 @@ class TCPServerController:
                 pinblock,
                 self.window,
                 token.bank_id,
-                pan=pan.encode(),
+                pan=pan,
                 primitive=primitive
             )
-            token.cache(pan.encode())
+            token.cache()
 
         except ValueError:
             is_valid = False

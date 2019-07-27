@@ -92,7 +92,6 @@ class Token(ModifiedMixin, PaginationMixin, FilteringMixin, DeactivationMixin,
         python_type=(int, '710 BankId must be Integer')
     )
 
-
     __table_args__ = (
         UniqueConstraint(
             name,
@@ -314,48 +313,48 @@ class MiniToken:
         if settings.token.redis.enabled:
             cls.invalidate(target.id.bytes)
 
-class MaskanMiniToken(MiniToken):
-
-    def cache(self, pan):
-        super().cache()
-        self.redis().set(
-            pan,
-            self.id.bytes,
-            settings.token.redis.ttl
-        )
-
-    @classmethod
-    def load(cls, pan, cache=False):
-        if cache:
-            tokenid = cls.load_tokenid_from_cache(pan.decode())
-            if tokenid is not None:
-                token = cls.load_from_cache(uuid.UUID(bytes=tokenid))
-                if token is not None:
-                    return token
-
-        return cls.load_from_database(pan.decode())
-
-    @classmethod
-    def load_tokenid_from_cache(cls, pan):  # pragma: no cover
-        redis = cls.redis()
-        if redis.exists(pan):
-            tokenid = redis.get(pan).split(b',')
-            return tokenid[0] if tokenid is not None else None
-
-        return None
-
-    @classmethod
-    def load_from_database(cls, pan):
-        row = DBSession.query(
-            Token.id,
-            Token.bank_id,
-            Token.seed,
-            extract('epoch', Token.expire_date),
-            Token.activated_at.isnot(None),
-            Token.cryptomodule_id,
-        ).filter(Token.name == pan).one_or_none()
-        return cls(*row) if row else None
-
+#class MaskanMiniToken(MiniToken):
+#
+#    def cache(self, pan):
+#        super().cache()
+#        self.redis().set(
+#            pan,
+#            self.id.bytes,
+#            settings.token.redis.ttl
+#        )
+#
+#    @classmethod
+#    def load(cls, pan, cache=False):
+#        if cache:
+#            tokenid = cls.load_tokenid_from_cache(pan.decode())
+#            if tokenid is not None:
+#                token = cls.load_from_cache(uuid.UUID(bytes=tokenid))
+#                if token is not None:
+#                    return token
+#
+#        return cls.load_from_database(pan.decode())
+#
+#    @classmethod
+#    def load_tokenid_from_cache(cls, pan):  # pragma: no cover
+#        redis = cls.redis()
+#        if redis.exists(pan):
+#            tokenid = redis.get(pan).split(b',')
+#            return tokenid[0] if tokenid is not None else None
+#
+#        return None
+#
+#    @classmethod
+#    def load_from_database(cls, pan):
+#        row = DBSession.query(
+#            Token.id,
+#            Token.bank_id,
+#            Token.seed,
+#            extract('epoch', Token.expire_date),
+#            Token.activated_at.isnot(None),
+#            Token.cryptomodule_id,
+#        ).filter(Token.name == pan).one_or_none()
+#        return cls(*row) if row else None
+#
 
 class Person(TimestampMixin, DeclarativeBase):
     __tablename__ = 'person'
