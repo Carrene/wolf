@@ -344,7 +344,6 @@ class TCPServerController:
 
         try:
             provision = token.provision(f'98{phone[-10:]}').split('/')[-1]
-            logger.info(f'provision: {provision}')
             sms_response = MaskanSmsProvider().send(
                 phone,
                 provision[:120]
@@ -368,7 +367,10 @@ class TCPServerController:
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
         pan = envelope[ISOFIELD_PAN].value
 
-        token = MiniToken.load(pan, settings.token.redis.enabled)
+        token = MiniToken.load(
+            tokenid=uuid.UUID(bytes=pan),
+            cache=settings.token.redis.enabled
+        )
         if token is None:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return

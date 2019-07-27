@@ -1,5 +1,6 @@
 import binascii
 import socket
+import uuid
 import time
 from datetime import datetime, timedelta
 
@@ -55,6 +56,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         cls.mackey = binascii.unhexlify(settings.iso8583.mackey)
         session = cls.create_session()
         cls.active_token = active_token = Token()
+        active_token.id = uuid.UUID(bytes=card_number.encode())
         active_token.name = f'{card_number[0:6]}-{card_number[-4:]}-02'
         active_token.phone = 1
         active_token.bank_id = 8
@@ -69,6 +71,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
 
         deactivated_card_number = '6280231234567890'
         cls.deactivated_token = deactivated_token = Token()
+        deactivated_token.id = uuid.UUID(bytes=deactivated_card_number.encode())
         deactivated_token.name = \
             f'{deactivated_card_number[0:6]}-{deactivated_card_number[-4:]}-02'
         deactivated_token.phone = 2
@@ -249,7 +252,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
     def test_verify_with_redis(self, iso8583_server):
         settings.token.redis.enabled = True
         token = MiniToken.load(
-            self.active_token.name.encode(),
+            tokenid=self.active_token.id,
             cache=False
         )
         token.cache()
