@@ -256,7 +256,6 @@ class TestTCPServerVerify(LocalApplicationTestCase):
             cache=False
         )
         token.cache()
-
         host, port = iso8583_server
 
         real_time = time.time

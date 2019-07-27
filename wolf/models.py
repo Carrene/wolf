@@ -10,10 +10,10 @@ import redis
 from nanohttp import settings
 from oathcy.otp import TOTP
 from restfulpy.orm import DeclarativeBase, ModifiedMixin, FilteringMixin, \
-        PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin, \
-        TimestampMixin
+    PaginationMixin, DeactivationMixin, Field, DBSession, OrderingMixin, \
+    TimestampMixin
 from sqlalchemy import Integer, Unicode, ForeignKey, Date, LargeBinary, \
-        UniqueConstraint, BigInteger, event, extract, text, String
+    UniqueConstraint, BigInteger, event, extract, text, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm.session import object_session
