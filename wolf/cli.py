@@ -6,7 +6,7 @@ from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
 from oathcy.otp import TOTP
 
-from wolf.cryptoutil import EncryptedISOPinBlock
+from wolf.cryptoutil import ISCPinBlock
 from wolf.models import Token
 
 

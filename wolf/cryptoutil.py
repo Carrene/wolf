@@ -1,10 +1,13 @@
-import binascii
-import functools
 import os
+import binascii
+import base64
+import hashlib
+import io
+import functools
 
 from Crypto.Cipher import DES3
-from OpenSSL import crypto
 from nanohttp import settings
+from OpenSSL import crypto
 
 
 def random(size):  # pragma: no cover
@@ -22,7 +25,8 @@ def create_signature(key_filename, message, hash_algorithm='sha1'):
     return signature
 
 
-frombytes = functools.partial(int.from_bytes, byteorder='big', signed=False)
+byteorder = 'big'
+frombytes = functools.partial(int.from_bytes, byteorder=byteorder)
 
 
 class PlainISO0PinBlock:
@@ -30,31 +34,35 @@ class PlainISO0PinBlock:
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
 
     """
-    def __init__(self, pan, length=4):
-        if settings.pinblock.algorithm == 'isc':
-            tokenbytes = pan
-            partone = frombytes(tokenbytes[:8])
-            parttwo = frombytes(tokenbytes[8:])
-            self.pan = partone ^ parttwo
+    def __init__(self, pan):
+        self.pan = frombytes(pan)
 
-        elif settings.pinblock.algorithm == 'pouya':
-            self.pan = int(f'0000{pan.decode()[3:15]}', 16)
-
-    def encode(self, data):
-        return b'%0.16x' % (
-            self.pan ^ int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
-        )
+    def encode(self, data) -> bytes:
+        pin = int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
+        return (self.pan ^ pin).to_bytes(8, byteorder)
 
     def decode(self, encoded):
         block = b'%0.16x' % (self.pan ^ int(encoded, 16))
         return block[2:2+int(block[:2])]
 
 
-class EncryptedISOPinBlock(PlainISO0PinBlock):
+class ISCPinBlock(PlainISO0PinBlock):
+
+    def __init__(self, tokenid: bytes, length=4):
+        partone = frombytes(tokenid[:8])
+        parttwo = frombytes(tokenid[8:])
+        self.pan = (frombytes(tokenid[:8]) ^ frombytes(tokenid[8:]))
+
+    def encode(self, data):
+        pinblock = super().encode(data)
+        return pinblock
+
+
+class PouyaPinBlock(PlainISO0PinBlock):
 
     def __init__(self, pan, key):
-        self.key = binascii.unhexlify(key)
-        super().__init__(pan)
+        self.pan = int(f'0000{pan.decode()[3:15]}', 16)
+        self.key = key
 
     def create_algorithm(self):
         return DES3.new(self.key, DES3.MODE_ECB)
@@ -62,7 +70,7 @@ class EncryptedISOPinBlock(PlainISO0PinBlock):
     def encode(self, data):
         pinblock = super().encode(data)
         des_algorithm = self.create_algorithm()
-        encrypted = des_algorithm.encrypt(binascii.unhexlify(pinblock))
+        encrypted = des_algorithm.encrypt(pinblock)
         return binascii.hexlify(encrypted).upper()
 
     def decode(self, encoded):
