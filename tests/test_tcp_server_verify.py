@@ -10,7 +10,7 @@ from nanohttp import settings
 import redis
 
 from wolf.cryptoutil import PouyaPinBlock
-from wolf.models import Cryptomodule, Token, MaskanMiniToken
+from wolf.models import Cryptomodule, Token, MiniToken
 from wolf.iso8583 import ISOFIELD_PAN, ISOFIELD_FUNCTION_CODE, \
     ISOFIELD_RESPONSECODE, ISOFIELD_ADDITIONAL_DATA, ISOFIELD_PIN_BLOCK, \
     ISOFIELD_PROCESS_CODE, ISOFIELD_SYSTEM_TRACE_AUDIT_NUMBER, \
