@@ -1,3 +1,4 @@
+import uuid
 import binascii
 import re
 import socket
@@ -317,16 +318,12 @@ class TCPServerController:
             )
             return
 
-        token = DBSession.query(Token).filter(
-            Token.name == partial_card_name,
-            Token.cryptomodule_id == cryptomodule_id,
-            Token.phone == phone,
-            Token.bank_id == MASKAN_BANK_ID
-        ).one_or_none()
-
+        tokenid = uuid.UUID(bytes=f'{cryptomodule_id}{pan[1:]}'.encode())
+        token = DBSession.query(Token).get(tokenid)
         if token is None:
             # Creating a new token
             token = Token()
+            token.id = tokenid
             token.phone = int(phone)
             token.expire_date = date.today() + timedelta(days=18250)
             token.cryptomodule_id = cryptomodule_id
@@ -368,12 +365,12 @@ class TCPServerController:
         envelope.unset(ISOFIELD_PIN_BLOCK)
         cryptomodule_id = 1 \
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
-        pan = envelope[ISOFIELD_PAN].value.decode()
-        partial_card_name = f'{pan[0:6]}-{pan[-4:]}-0{cryptomodule_id}'
-
-        token = DBSession.query(Token) \
-            .filter(Token.name == partial_card_name) \
-            .one_or_none()
+        pan = envelope[ISOFIELD_PAN].value
+        tokenid = f'{cryptomodule_id}{pan.decode()[1:]}'
+        token = MiniToken.load(
+            tokenid=uuid.UUID(bytes=tokenid.encode()),
+            cache=settings.token.redis.enabled
+        )
         if token is None:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
             return
@@ -382,20 +379,12 @@ class TCPServerController:
             envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_BLOCK_USER)
             return
 
-        token = MiniToken.load(
-            str(token.id),
-            cache=settings.token.redis.enabled
-        )
-        if token is None:
-            envelope.set(ISOFIELD_RESPONSECODE, ISOSTATUS_TOKEN_NOT_FOUND)
-            return
-
         try:
             is_valid = token.verify(
                 pinblock,
                 self.window,
                 token.bank_id,
-                pan=pan.encode(),
+                pan=pan,
                 primitive=primitive
             )
             token.cache()

@@ -207,12 +207,13 @@ class MiniToken:
         return cls(*row) if row else None
 
     @classmethod
-    def load(cls, token_id, cache=False):
+    def load(cls, tokenid, cache=False):
         if cache:  # pragma: no cover
-            token = cls.load_from_cache(uuid.UUID(token_id))
+            token = cls.load_from_cache(tokenid)
             if token is not None:
                 return token
-        return cls.load_from_database(token_id)
+
+        return cls.load_from_database(tokenid)
 
     @property
     def is_expired(self):

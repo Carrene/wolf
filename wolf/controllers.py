@@ -1,4 +1,5 @@
 import re
+import uuid
 
 from nanohttp import json, context, action, settings, RestController, \
     HTTPStatus, HTTPNotFound, LazyAttribute, Controller, validate, \
@@ -58,7 +59,10 @@ class TokenController(ModelRestController):
         return super().__call__(*remaining_paths)
 
     def _get_token(self, id):
-        token = MiniToken.load(id, cache=settings.token.redis.enabled)
+        token = MiniToken.load(
+            tokenid=uuid.UUID(id),
+            cache=settings.token.redis.enabled
+        )
         if token is None:
             raise HTTPNotFound()
 

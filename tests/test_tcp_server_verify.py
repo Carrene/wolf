@@ -1,5 +1,6 @@
 import binascii
 import socket
+import uuid
 import time
 from datetime import datetime, timedelta
 
@@ -9,7 +10,7 @@ from nanohttp import settings
 import redis
 
 from wolf.cryptoutil import PouyaPinBlock
-from wolf.models import Cryptomodule, Token
+from wolf.models import Cryptomodule, Token, MiniToken
 from wolf.iso8583 import ISOFIELD_PAN, ISOFIELD_FUNCTION_CODE, \
     ISOFIELD_RESPONSECODE, ISOFIELD_ADDITIONAL_DATA, ISOFIELD_PIN_BLOCK, \
     ISOFIELD_PROCESS_CODE, ISOFIELD_SYSTEM_TRACE_AUDIT_NUMBER, \
@@ -55,6 +56,10 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         cls.mackey = binascii.unhexlify(settings.iso8583.mackey)
         session = cls.create_session()
         cls.active_token = active_token = Token()
+        cryptomodule_id = 2
+        active_token.id = uuid.UUID(
+            bytes=f'{cryptomodule_id}{card_number[1:]}'.encode()
+        )
         active_token.name = f'{card_number[0:6]}-{card_number[-4:]}-02'
         active_token.phone = 1
         active_token.bank_id = 8
@@ -69,7 +74,9 @@ class TestTCPServerVerify(LocalApplicationTestCase):
 
         deactivated_card_number = '6280231234567890'
         cls.deactivated_token = deactivated_token = Token()
-        deactivated_token.name = '6280231234567890'
+        deactivated_token.id = uuid.UUID(
+            bytes=f'{cryptomodule_id}{deactivated_card_number[1:]}'.encode()
+        )
         deactivated_token.name = \
             f'{deactivated_card_number[0:6]}-{deactivated_card_number[-4:]}-02'
         deactivated_token.phone = 2
@@ -249,6 +256,11 @@ class TestTCPServerVerify(LocalApplicationTestCase):
 
     def test_verify_with_redis(self, iso8583_server):
         settings.token.redis.enabled = True
+        token = MiniToken.load(
+            tokenid=self.active_token.id,
+            cache=False
+        )
+        token.cache()
         host, port = iso8583_server
 
         real_time = time.time
