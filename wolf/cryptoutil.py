@@ -1,12 +1,8 @@
-import os
 import binascii
-import base64
-import hashlib
-import io
 import functools
+import os
 
 from Crypto.Cipher import DES3
-from nanohttp import settings
 from OpenSSL import crypto
 
 
