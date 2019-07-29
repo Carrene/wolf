@@ -52,10 +52,12 @@ class ISCPinBlock(PlainISO0PinBlock):
         partone = frombytes(tokenid[:8])
         parttwo = frombytes(tokenid[8:])
         self.pan = (frombytes(tokenid[:8]) ^ frombytes(tokenid[8:]))
+        self.pan = hex(self.pan)[5:17]
+        self.pan = frombytes(binascii.unhexlify(self.pan))
 
     def encode(self, data):
         pinblock = super().encode(data)
-        return pinblock
+        return binascii.hexlify(pinblock).upper()
 
 
 class PouyaPinBlock(PlainISO0PinBlock):

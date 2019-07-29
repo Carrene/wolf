@@ -67,9 +67,8 @@ class PinBlockEncodeLauncher(Launcher):
             )
             return 1
 
-        print(EncryptedISOPinBlock(
+        print(ISCPinBlock(
             token.id.bytes,
-            key=self.args.key
         ).encode(code).decode())
 
 
@@ -106,9 +105,8 @@ class PinBlockDecodeLauncher(Launcher):
             )
             return 1
 
-        print(EncryptedISOPinBlock(
+        print(ISCPinBlock(
             token.id.bytes,
-            key=self.args.key
         ).decode(code).decode())
 
 
