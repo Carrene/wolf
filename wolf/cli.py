@@ -6,7 +6,7 @@ from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
 from oathcy.otp import TOTP
 
-from wolf.cryptoutil import EncryptedISOPinBlock
+from wolf.cryptoutil import ISCPinBlock
 from wolf.models import Token
 
 
@@ -67,9 +67,8 @@ class PinBlockEncodeLauncher(Launcher):
             )
             return 1
 
-        print(EncryptedISOPinBlock(
+        print(ISCPinBlock(
             token.id.bytes,
-            key=self.args.key
         ).encode(code).decode())
 
 
@@ -106,9 +105,8 @@ class PinBlockDecodeLauncher(Launcher):
             )
             return 1
 
-        print(EncryptedISOPinBlock(
+        print(ISCPinBlock(
             token.id.bytes,
-            key=self.args.key
         ).decode(code).decode())
 
 

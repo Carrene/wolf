@@ -253,10 +253,17 @@ class MiniToken:
 
         self.final = not primitive
 
-        pinblock = cryptoutil.EncryptedISOPinBlock(
-            pan=pan,
-            key=settings.pinblock[bankid].key
-        )
+        if settings.pinblock.algorithm == 'isc':
+            pinblock = cryptoutil.ISCPinBlock(
+                tokenid=self.id.bytes,
+            )
+
+        else:
+            pinblock = cryptoutil.PouyaPinBlock(
+                pan=pan,
+                key=binascii.unhexlify(settings.pinblock[bankid].key)
+            )
+
         otp = pinblock.decode(code)
         return TOTP(
             self.seed,

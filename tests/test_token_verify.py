@@ -6,7 +6,7 @@ from nanohttp import settings
 from bddrest import when, response, status, given
 
 from wolf.models import Token, Cryptomodule
-from wolf.cryptoutil import EncryptedISOPinBlock
+from wolf.cryptoutil import ISCPinBlock
 from .helpers import TimeMonkeyPatch, LocalApplicationTestCase
 
 
@@ -46,9 +46,8 @@ class TestVerifyToken(LocalApplicationTestCase):
 
         session.commit()
 
-        cls.pinblock = EncryptedISOPinBlock(
-            pan=active_token.id.bytes,
-            key=settings.pinblock[active_token.bank_id].key
+        cls.pinblock = ISCPinBlock(
+            tokenid=active_token.id.bytes,
         )
         cls.valid_time = 10001000
         cls.invalid_time = 123456
