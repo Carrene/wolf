@@ -39,7 +39,7 @@ class TestVerifyPrimitive(LocalApplicationTestCase):
         session.commit()
 
         cls.pinblock1 = ISCPinBlock(
-            tokenid=active_token1.id.bytes,
+            tokenid=active_token1.id.bytes
         )
         cls.valid_time = 10001000
         cls.valid_otp_token1_time = cls.pinblock1.encode('7110').decode()
