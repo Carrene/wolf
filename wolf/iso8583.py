@@ -318,7 +318,7 @@ class TCPServerController:
             )
             return
 
-        tokenid = uuid.UUID(bytes=pan.encode())
+        tokenid = uuid.UUID(bytes=f'{cryptomodule_id}{pan[1:]}'.encode())
         token = DBSession.query(Token).get(tokenid)
         if token is None:
             # Creating a new token
@@ -366,9 +366,9 @@ class TCPServerController:
         cryptomodule_id = 1 \
             if envelope[ISOFIELD_FUNCTION_CODE].value[1] == 1 else 2
         pan = envelope[ISOFIELD_PAN].value
-
+        tokenid = f'{cryptomodule_id}{pan.decode()[1:]}'
         token = MiniToken.load(
-            tokenid=uuid.UUID(bytes=pan),
+            tokenid=uuid.UUID(bytes=tokenid.encode()),
             cache=settings.token.redis.enabled
         )
         if token is None:
