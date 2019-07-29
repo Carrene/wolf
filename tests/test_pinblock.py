@@ -10,9 +10,9 @@ from wolf.cryptoutil import ISCPinBlock, PlainISO0PinBlock, PouyaPinBlock
 
 def test_plain_iso_pinblock():
     pinblock = PlainISO0PinBlock(
-        pan=b'\x00\x00\x11\x11\x11\x11\x11\x11'
+        pan=binascii.unhexlify(b'0000111111111111')
     )
-    assert pinblock.encode('1234') == b'\x04\x12%\xee\xee\xee\xee\xee'
+    assert pinblock.encode('1234') == b'041225EEEEEEEEEE'
 
 
 def test_ISC_pinblock():
@@ -44,3 +44,4 @@ def test_pouya_pinblock():
     assert pinblock.decode('9A9ADB0992707AC3') == b'7654321'
     assert pinblock.decode('C5C37BB0192D007C') == b'1234567'
     assert pinblock.decode('3FDB435915A061DF') == b'8224152'
+

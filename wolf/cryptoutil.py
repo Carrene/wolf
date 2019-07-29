@@ -33,9 +33,10 @@ class PlainISO0PinBlock:
     def __init__(self, pan):
         self.pan = frombytes(pan)
 
-    def encode(self, data) -> bytes:
+    def encode(self, data):
         pin = int(f'{len(data):02}{data}{"F" * (14-len(data))}', 16)
-        return (self.pan ^ pin).to_bytes(8, byteorder)
+        return binascii.hexlify((self.pan ^ pin).to_bytes(8, byteorder)) \
+            .upper()
 
     def decode(self, encoded):
         block = b'%0.16x' % (self.pan ^ int(encoded, 16))
@@ -51,10 +52,6 @@ class ISCPinBlock(PlainISO0PinBlock):
         self.pan = hex(self.pan)[5:17]
         self.pan = frombytes(binascii.unhexlify(self.pan))
 
-    def encode(self, data):
-        pinblock = super().encode(data)
-        return binascii.hexlify(pinblock).upper()
-
 
 class PouyaPinBlock(PlainISO0PinBlock):
 
@@ -68,7 +65,7 @@ class PouyaPinBlock(PlainISO0PinBlock):
     def encode(self, data):
         pinblock = super().encode(data)
         des_algorithm = self.create_algorithm()
-        encrypted = des_algorithm.encrypt(pinblock)
+        encrypted = des_algorithm.encrypt(binascii.unhexlify(pinblock))
         return binascii.hexlify(encrypted).upper()
 
     def decode(self, encoded):
