@@ -8,7 +8,7 @@ from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
 from oathcy.otp import TOTP
 
-from wolf.cryptoutil import ISCPinBlock, PouyaPinBlock
+from wolf.cryptoutil import ISCPinblock, PouyaPinblock
 from wolf.models import Token
 
 
@@ -71,10 +71,10 @@ class PinBlockEncodeLauncher(Launcher):
             return 1
 
         if settings.pinblock.algorithm == 'isc':
-            pinblock = ISCPinBlock(token.id.bytes)
+            pinblock = ISCPinblock(token.id.bytes)
 
         else:
-            pinblock = PouyaPinBlock(
+            pinblock = PouyaPinblock(
                 pan=f'6{self.args.token_id[1:]}'.encode(),
                 key=binascii.unhexlify(settings.pinblock[8].key)
             )
@@ -117,10 +117,10 @@ class PinBlockDecodeLauncher(Launcher):
             return 1
 
         if settings.pinblock.algorithm == 'isc':
-            pinblock = ISCPinBlock(token.id.bytes)
+            pinblock = ISCPinblock(token.id.bytes)
 
         else:
-            pinblock = PouyaPinBlock(
+            pinblock = PouyaPinblock(
                 pan=f'6{self.args.token_id[1:]}'.encode(),
                 key=binascii.unhexlify(settings.pinblock[8].key)
             )

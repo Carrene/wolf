@@ -5,7 +5,7 @@ import functools
 from nanohttp import settings
 
 from wolf import wolf
-from wolf.cryptoutil import ISCPinBlock, PlainISO0PinBlock, PouyaPinBlock
+from wolf.cryptoutil import ISCPinblock, PlainISO0PinBlock, PouyaPinblock
 
 
 def test_plain_iso_pinblock():
@@ -17,7 +17,7 @@ def test_plain_iso_pinblock():
 
 def test_ISC_pinblock():
     wolf.configure(force=True)
-    pinblock = ISCPinBlock(
+    pinblock = ISCPinblock(
         tokenid=uuid.UUID('99bcdcf4-a24f-11e9-a099-382c4a0f5138').bytes
     )
     assert pinblock.encode('2379') == b'042327B2717BFBF2'
@@ -33,7 +33,7 @@ def test_pouya_pinblock():
           algorithm: pouya
     '''
     settings.merge(_configuration)
-    pinblock = PouyaPinBlock(
+    pinblock = PouyaPinblock(
         pan=b'6280231400751318',
         key=binascii.unhexlify(b'1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C')
     )
