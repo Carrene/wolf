@@ -11,12 +11,12 @@ branches
 
 ### master
 
-[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=eprq9y92Aqggf5smZccy&branch=master)](https://travis-ci.com/Carrene/wolf)
+[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=CRudMeqM8JA5Ec8Ndi2p&branch=master)](https://travis-ci.com/Carrene/wolf)
 [![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?branch=master&t=FNpdQh)](https://coveralls.io/github/Carrene/wolf?branch=master)
 
 ### nightly
 
-[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=eprq9y92Aqggf5smZccy&branch=nightly)](https://travis-ci.com/Carrene/wolf)
+[![Build Status](https://travis-ci.com/Carrene/wolf.svg?token=CRudMeqM8JA5Ec8Ndi2p&branch=nightly)](https://travis-ci.com/Carrene/wolf)
 [![Coverage Status](https://coveralls.io/repos/github/Carrene/wolf/badge.svg?branch=nightly&t=FNpdQh)](https://coveralls.io/github/Carrene/wolf?branch=nightly)
 
 
