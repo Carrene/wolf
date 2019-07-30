@@ -5,11 +5,11 @@ import functools
 from nanohttp import settings
 
 from wolf import wolf
-from wolf.cryptoutil import ISCPinblock, PlainISO0PinBlock, PouyaPinblock
+from wolf.cryptoutil import ISCPinblock, PlainISO0Pinblock, PouyaPinblock
 
 
 def test_plain_iso_pinblock():
-    pinblock = PlainISO0PinBlock(
+    pinblock = PlainISO0Pinblock(
         pan=binascii.unhexlify(b'0000111111111111')
     )
     assert pinblock.encode('1234') == b'041225EEEEEEEEEE'
