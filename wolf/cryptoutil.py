@@ -25,7 +25,7 @@ byteorder = 'big'
 frombytes = functools.partial(int.from_bytes, byteorder=byteorder)
 
 
-class PlainISO0PinBlock:
+class PlainISO0Pinblock:
     """
     http://www.paymentsystemsblog.com/2010/03/03/pin-block-formats/
 
@@ -43,7 +43,7 @@ class PlainISO0PinBlock:
         return block[2:2+int(block[:2])]
 
 
-class ISCPinBlock(PlainISO0PinBlock):
+class ISCPinblock(PlainISO0Pinblock):
 
     def __init__(self, tokenid: bytes, length=4):
         partone = frombytes(tokenid[:8])
@@ -53,7 +53,7 @@ class ISCPinBlock(PlainISO0PinBlock):
         self.pan = frombytes(binascii.unhexlify(self.pan))
 
 
-class PouyaPinBlock(PlainISO0PinBlock):
+class PouyaPinblock(PlainISO0Pinblock):
 
     def __init__(self, pan, key):
         self.pan = int(f'0000{pan.decode()[3:15]}', 16)

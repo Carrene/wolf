@@ -255,12 +255,12 @@ class MiniToken:
         self.final = not primitive
 
         if settings.pinblock.algorithm == 'isc':
-            pinblock = cryptoutil.ISCPinBlock(
+            pinblock = cryptoutil.ISCPinblock(
                 tokenid=self.id.bytes,
             )
 
         else:
-            pinblock = cryptoutil.PouyaPinBlock(
+            pinblock = cryptoutil.PouyaPinblock(
                 pan=pan,
                 key=binascii.unhexlify(settings.pinblock[bankid].key)
             )

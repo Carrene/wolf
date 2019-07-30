@@ -9,7 +9,7 @@ from iso8583.models import Envelope
 from nanohttp import settings
 import redis
 
-from wolf.cryptoutil import PouyaPinBlock
+from wolf.cryptoutil import PouyaPinblock
 from wolf.models import Cryptomodule, Token, MiniToken
 from wolf.iso8583 import ISOFIELD_PAN, ISOFIELD_FUNCTION_CODE, \
     ISOFIELD_RESPONSECODE, ISOFIELD_ADDITIONAL_DATA, ISOFIELD_PIN_BLOCK, \
@@ -89,7 +89,7 @@ class TestTCPServerVerify(LocalApplicationTestCase):
         session.add(deactivated_token)
         session.commit()
 
-        cls.pinblock = PouyaPinBlock(
+        cls.pinblock = PouyaPinblock(
             pan=card_number.encode(),
             key=binascii.unhexlify(settings.pinblock[active_token.bank_id].key)
         )
