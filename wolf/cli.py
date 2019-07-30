@@ -1,12 +1,14 @@
 import sys
 import time
+import uuid
+import binascii
 
 from nanohttp import settings
 from restfulpy.cli import Launcher, RequireSubCommand
 from restfulpy.orm import DBSession
 from oathcy.otp import TOTP
 
-from wolf.cryptoutil import ISCPinBlock
+from wolf.cryptoutil import ISCPinBlock, PouyaPinBlock
 from wolf.models import Token
 
 
@@ -56,10 +58,11 @@ class PinBlockEncodeLauncher(Launcher):
         if not code:
             code = sys.stdin.read().strip()
 
-        token = DBSession.query(Token) \
-            .filter(Token.id == self.args.token_id) \
-            .one_or_none()
+        tokenid = uuid.UUID(self.args.token_id) \
+            if settings.pinblock.algorithm == 'isc' \
+            else uuid.UUID(bytes=self.args.token_id.encode())
 
+        token = DBSession.query(Token).get(tokenid)
         if not token:
             print(
                 f'Token with id: {self.args.token_id} has not found',
@@ -67,9 +70,16 @@ class PinBlockEncodeLauncher(Launcher):
             )
             return 1
 
-        print(ISCPinBlock(
-            token.id.bytes,
-        ).encode(code).decode())
+        if settings.pinblock.algorithm == 'isc':
+            pinblock = ISCPinBlock(token.id.bytes)
+
+        else:
+            pinblock = PouyaPinBlock(
+                pan=f'6{self.args.token_id[1:]}'.encode(),
+                key=binascii.unhexlify(settings.pinblock[8].key)
+            )
+
+        print(pinblock.encode(code).decode())
 
 
 class PinBlockDecodeLauncher(Launcher):
@@ -94,10 +104,11 @@ class PinBlockDecodeLauncher(Launcher):
         if not code:
             code = sys.stdin.read().strip()
 
-        token = DBSession.query(Token) \
-            .filter(Token.id == self.args.token_id) \
-            .one_or_none()
+        tokenid = uuid.UUID(self.args.token_id) \
+            if settings.pinblock.algorithm == 'isc' \
+            else uuid.UUID(bytes=self.args.token_id.encode())
 
+        token = DBSession.query(Token).get(tokenid)
         if not token:
             print(
                 f'Token with id: {self.args.token_id} has not found',
@@ -105,9 +116,16 @@ class PinBlockDecodeLauncher(Launcher):
             )
             return 1
 
-        print(ISCPinBlock(
-            token.id.bytes,
-        ).decode(code).decode())
+        if settings.pinblock.algorithm == 'isc':
+            pinblock = ISCPinBlock(token.id.bytes)
+
+        else:
+            pinblock = PouyaPinBlock(
+                pan=f'6{self.args.token_id[1:]}'.encode(),
+                key=binascii.unhexlify(settings.pinblock[8].key)
+            )
+
+        print(pinblock.decode(code).decode())
 
 
 class OTPLauncher(Launcher, RequireSubCommand):
@@ -152,10 +170,13 @@ class OTPGenerateLauncher(Launcher):
         return parser
 
     def launch(self):  # pragma: no cover
-        token = DBSession.query(Token) \
-            .filter(Token.id == self.args.token_id) \
-            .one_or_none()
+        if settings.pinblock.algorithm == 'isc':
+            tokenid = uuid.UUID(self.args.token_id)
 
+        else:
+            tokenid = uuid.UUID(bytes=self.args.token_id.encode())
+
+        token = DBSession.query(Token).get(tokenid)
         if token is None:
             print(
                 f'Token with id: {self.args.token_id} was not found',
